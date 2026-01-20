@@ -1,14 +1,22 @@
 <mat-toolbar color="primary" class="topbar">
   <div class="brand">
     <span class="material-icons">savings</span>
-    <span class="brand-title">Mesada em Casa</span>
+    <span class="brand-title">{{ 'app.title' | translate }}</span>
   </div>
   <div class="spacer"></div>
-  <button mat-icon-button (click)="openSettings()" aria-label="Configurações">
+  <button
+    mat-icon-button
+    (click)="openSettings()"
+    [attr.aria-label]="'app.settings' | translate"
+  >
     <span class="material-icons">settings</span>
   </button>
+  <div class="lang-switch">
+    <button mat-button (click)="setLanguage('en')">EN</button>
+    <button mat-button (click)="setLanguage('pt')">PT</button>
+  </div>
   <div class="balance">
-    <span class="label">XP disponível</span>
+    <span class="label">{{ 'summary.xpAvailable' | translate }}</span>
     <span class="value">{{ balance() }} XP</span>
   </div>
 </mat-toolbar>
@@ -16,11 +24,10 @@
 <main class="page">
   <section class="hero">
     <div>
-      <p class="eyebrow">Controle de mesada</p>
-      <h1>Transforme tarefas em conquistas.</h1>
+      <p class="eyebrow">{{ 'app.eyebrow' | translate }}</p>
+      <h1>{{ 'app.hero' | translate }}</h1>
       <p class="subtitle">
-        Cadastre atividades, defina recompensas e acompanhe o XP de forma simples.
-        Tudo fica salvo no seu navegador.
+        {{ 'app.subtitle' | translate }}
       </p>
     </div>
     <mat-card class="summary-card">
@@ -30,14 +37,14 @@
         </div>
         <div class="summary-content">
           <div class="level-row">
-            <div>
-              <p class="summary-label">Nível atual</p>
-              <p class="summary-value">Nível {{ level() }}</p>
-            </div>
-            <div class="level-meta">
-              <p class="summary-label">Próximo nível</p>
-              <p class="summary-value">{{ xpToNext() }} XP</p>
-            </div>
+          <div>
+            <p class="summary-label">{{ 'summary.level' | translate }}</p>
+            <p class="summary-value">{{ 'summary.levelValue' | translate: { level: level() } }}</p>
+          </div>
+          <div class="level-meta">
+            <p class="summary-label">{{ 'summary.nextLevel' | translate }}</p>
+            <p class="summary-value">{{ xpToNext() }} XP</p>
+          </div>
           </div>
           <mat-progress-bar
             color="primary"
@@ -46,22 +53,24 @@
           ></mat-progress-bar>
           <div class="summary-row">
             <div>
-              <p class="summary-label">XP acumulado</p>
+              <p class="summary-label">{{ 'summary.xpEarned' | translate }}</p>
               <p class="summary-value">{{ earned() }} XP</p>
             </div>
             <div>
-              <p class="summary-label">XP gasto</p>
+              <p class="summary-label">{{ 'summary.xpSpent' | translate }}</p>
               <p class="summary-value">{{ spent() }} XP</p>
             </div>
           </div>
           <mat-divider></mat-divider>
           <div class="summary-row">
             <div>
-              <p class="summary-label">XP no ciclo {{ cycleLabel() }}</p>
+              <p class="summary-label">
+                {{ 'summary.cycleXp' | translate: { cycle: cycleLabel() } }}
+              </p>
               <p class="summary-value">{{ cycleEarned() }} XP</p>
             </div>
             <div>
-              <p class="summary-label">Período atual</p>
+              <p class="summary-label">{{ 'summary.cycleRange' | translate }}</p>
               <p class="summary-value small">{{ cycleRangeLabel() }}</p>
             </div>
           </div>
@@ -69,11 +78,11 @@
             <mat-divider></mat-divider>
             <div class="summary-row">
               <div>
-                <p class="summary-label">XP ciclo anterior</p>
+                <p class="summary-label">{{ 'summary.previousXp' | translate }}</p>
                 <p class="summary-value">{{ previousCycleEarned() }} XP</p>
               </div>
               <div>
-                <p class="summary-label">Período anterior</p>
+                <p class="summary-label">{{ 'summary.previousRange' | translate }}</p>
                 <p class="summary-value small">{{ previousCycleLabel() }}</p>
               </div>
             </div>
@@ -85,28 +94,28 @@
 
   <section class="grid">
     <mat-card class="panel">
-      <h2>Tarefas</h2>
+      <h2>{{ 'tasks.title' | translate }}</h2>
       <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="form-grid">
         <mat-form-field appearance="outline">
-          <mat-label>Descrição da tarefa</mat-label>
-          <input matInput formControlName="title" placeholder="Arrumar a cama" />
+          <mat-label>{{ 'tasks.description' | translate }}</mat-label>
+          <input matInput formControlName="title" [placeholder]="'tasks.placeholder' | translate" />
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>XP da tarefa</mat-label>
+          <mat-label>{{ 'tasks.points' | translate }}</mat-label>
           <input matInput type="number" formControlName="points" min="1" />
         </mat-form-field>
         <button mat-flat-button color="primary" type="submit" [disabled]="taskForm.invalid">
-          Adicionar tarefa
+          {{ 'tasks.add' | translate }}
         </button>
       </form>
 
       <div class="list-header">
-        <span>Atividade</span>
-        <span>XP</span>
-        <span>Status</span>
+        <span>{{ 'tasks.activity' | translate }}</span>
+        <span>{{ 'tasks.xp' | translate }}</span>
+        <span>{{ 'tasks.status' | translate }}</span>
       </div>
       @if (tasks().length === 0) {
-        <p class="empty-state">Nenhuma tarefa cadastrada ainda.</p>
+        <p class="empty-state">{{ 'tasks.empty' | translate }}</p>
       }
       @for (task of tasks(); track task.id) {
         <div class="item-row">
@@ -120,7 +129,7 @@
           </div>
           <span>{{ task.points }} XP</span>
           <span class="status" [class.done]="todayDoneIds().has(task.id)">
-            {{ todayDoneIds().has(task.id) ? 'Concluída hoje' : 'Disponível hoje' }}
+            {{ todayDoneIds().has(task.id) ? ('tasks.done' | translate) : ('tasks.available' | translate) }}
           </span>
           <button mat-icon-button class="danger" (click)="removeTask(task)">
             <span class="material-icons">delete</span>
@@ -130,28 +139,28 @@
     </mat-card>
 
     <mat-card class="panel">
-      <h2>Recompensas</h2>
+      <h2>{{ 'rewards.title' | translate }}</h2>
       <form [formGroup]="rewardForm" (ngSubmit)="addReward()" class="form-grid">
         <mat-form-field appearance="outline">
-          <mat-label>Recompensa</mat-label>
-          <input matInput formControlName="title" placeholder="Cinema" />
+          <mat-label>{{ 'rewards.name' | translate }}</mat-label>
+          <input matInput formControlName="title" [placeholder]="'rewards.placeholder' | translate" />
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>Custo em XP</mat-label>
+          <mat-label>{{ 'rewards.cost' | translate }}</mat-label>
           <input matInput type="number" formControlName="cost" min="1" />
         </mat-form-field>
         <button mat-flat-button color="primary" type="submit" [disabled]="rewardForm.invalid">
-          Adicionar recompensa
+          {{ 'rewards.add' | translate }}
         </button>
       </form>
 
       <div class="list-header">
-        <span>Recompensa</span>
-        <span>XP</span>
-        <span>Status</span>
+        <span>{{ 'rewards.name' | translate }}</span>
+        <span>{{ 'tasks.xp' | translate }}</span>
+        <span>{{ 'tasks.status' | translate }}</span>
       </div>
       @if (rewards().length === 0) {
-        <p class="empty-state">Nenhuma recompensa cadastrada ainda.</p>
+        <p class="empty-state">{{ 'rewards.empty' | translate }}</p>
       }
       @for (reward of rewards(); track reward.id) {
         <div class="item-row">
@@ -168,7 +177,7 @@
           </div>
           <span>{{ reward.cost }} XP</span>
           <span class="status" [class.done]="reward.redeemedAt">
-            {{ reward.redeemedAt ? 'Resgatada' : 'Disponível' }}
+            {{ reward.redeemedAt ? ('rewards.redeemed' | translate) : ('rewards.available' | translate) }}
           </span>
           <button mat-icon-button class="danger" (click)="removeReward(reward)">
             <span class="material-icons">delete</span>

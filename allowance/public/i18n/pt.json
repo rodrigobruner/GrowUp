@@ -1,0 +1,57 @@
+{
+  "app": {
+    "title": "Mesada em Casa",
+    "eyebrow": "Controle de mesada",
+    "hero": "Transforme tarefas em conquistas.",
+    "subtitle": "Cadastre atividades, defina recompensas e acompanhe o XP de forma simples. Tudo fica salvo no seu navegador.",
+    "settings": "Configurações"
+  },
+  "summary": {
+    "level": "Nível atual",
+    "levelValue": "Nível {{ level }}",
+    "nextLevel": "Próximo nível",
+    "xpAvailable": "XP disponível",
+    "xpEarned": "XP acumulado",
+    "xpSpent": "XP gasto",
+    "cycleXp": "XP no ciclo {{ cycle }}",
+    "cycleRange": "Período atual",
+    "previousXp": "XP ciclo anterior",
+    "previousRange": "Período anterior"
+  },
+  "tasks": {
+    "title": "Tarefas",
+    "description": "Descrição da tarefa",
+    "placeholder": "Arrumar a cama",
+    "points": "XP da tarefa",
+    "add": "Adicionar tarefa",
+    "activity": "Atividade",
+    "xp": "XP",
+    "status": "Status",
+    "empty": "Nenhuma tarefa cadastrada ainda.",
+    "done": "Concluída hoje",
+    "available": "Disponível hoje"
+  },
+  "rewards": {
+    "title": "Recompensas",
+    "name": "Recompensa",
+    "placeholder": "Cinema",
+    "cost": "Custo em XP",
+    "add": "Adicionar recompensa",
+    "empty": "Nenhuma recompensa cadastrada ainda.",
+    "available": "Disponível",
+    "redeemed": "Resgatada"
+  },
+  "settingsDialog": {
+    "title": "Configurar ciclo",
+    "cycle": "Ciclo",
+    "start": "Início do ciclo",
+    "cancel": "Cancelar",
+    "save": "Salvar"
+  },
+  "cycle": {
+    "weekly": "Semanal",
+    "biweekly": "Bi-semanal",
+    "monthly": "Mensal",
+    "yearly": "Anual"
+  }
+}

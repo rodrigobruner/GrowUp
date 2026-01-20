@@ -13,6 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AllowanceDbService, Completion, Reward, Settings, Task } from './allowance-db.service';
 import { SettingsDialogComponent } from './settings-dialog';
 import { firstValueFrom } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 const currentDateKey = (): string => {
   const now = new Date();
@@ -35,7 +36,8 @@ const currentDateKey = (): string => {
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    TranslateModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -84,7 +86,7 @@ export class App implements OnInit {
   progressPercent = computed(() => (this.xpIntoLevel() / 100) * 100);
   avatarSrc = computed(() => {
     const avatarNumber = '01';
-    return `/avatar/${avatarNumber}/level-${this.level()}.svg`;
+    return `/avatar/${avatarNumber}/level-${this.level()}.png`;
   });
 
   completedCount = computed(() => this.completions().filter((completion) => completion.date === this.today()).length);
@@ -106,8 +108,12 @@ export class App implements OnInit {
 
   constructor(
     private readonly db: AllowanceDbService,
-    private readonly dialog: MatDialog
-  ) {}
+    private readonly dialog: MatDialog,
+    private readonly translate: TranslateService
+  ) {
+    this.translate.setDefaultLang('en');
+    this.translate.use('en');
+  }
 
   async ngOnInit(): Promise<void> {
     const [tasks, rewards, completions, settings] = await Promise.all([
@@ -223,18 +229,22 @@ export class App implements OnInit {
   }
 
   cycleLabel(): string {
-    const labels: Record<Settings['cycleType'], string> = {
-      weekly: 'Semanal',
-      biweekly: 'Bi-semanal',
-      monthly: 'Mensal',
-      yearly: 'Anual'
+    const keyMap: Record<Settings['cycleType'], string> = {
+      weekly: 'cycle.weekly',
+      biweekly: 'cycle.biweekly',
+      monthly: 'cycle.monthly',
+      yearly: 'cycle.yearly'
     };
-    return labels[this.settings().cycleType];
+    return this.translate.instant(keyMap[this.settings().cycleType]);
   }
 
   cycleRangeLabel(): string {
     const { start, end } = this.getCycleRange();
     return `${this.formatDate(start)} - ${this.formatDate(end)}`;
+  }
+
+  setLanguage(language: 'en' | 'pt'): void {
+    this.translate.use(language);
   }
 
   private sortTasks(items: Task[]): Task[] {

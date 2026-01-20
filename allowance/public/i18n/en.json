@@ -1,0 +1,57 @@
+{
+  "app": {
+    "title": "Home Allowance",
+    "eyebrow": "Allowance tracker",
+    "hero": "Turn tasks into achievements.",
+    "subtitle": "Create tasks, set rewards, and track XP easily. Everything stays in your browser.",
+    "settings": "Settings"
+  },
+  "summary": {
+    "level": "Current level",
+    "levelValue": "Level {{ level }}",
+    "nextLevel": "Next level",
+    "xpAvailable": "XP available",
+    "xpEarned": "Total XP",
+    "xpSpent": "XP spent",
+    "cycleXp": "XP in {{ cycle }} cycle",
+    "cycleRange": "Current period",
+    "previousXp": "Previous cycle XP",
+    "previousRange": "Previous period"
+  },
+  "tasks": {
+    "title": "Tasks",
+    "description": "Task description",
+    "placeholder": "Make the bed",
+    "points": "Task XP",
+    "add": "Add task",
+    "activity": "Activity",
+    "xp": "XP",
+    "status": "Status",
+    "empty": "No tasks yet.",
+    "done": "Completed today",
+    "available": "Available today"
+  },
+  "rewards": {
+    "title": "Rewards",
+    "name": "Reward",
+    "placeholder": "Movie night",
+    "cost": "Cost in XP",
+    "add": "Add reward",
+    "empty": "No rewards yet.",
+    "available": "Available",
+    "redeemed": "Redeemed"
+  },
+  "settingsDialog": {
+    "title": "Cycle settings",
+    "cycle": "Cycle",
+    "start": "Cycle start date",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "cycle": {
+    "weekly": "Weekly",
+    "biweekly": "Bi-weekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
+  }
+}
