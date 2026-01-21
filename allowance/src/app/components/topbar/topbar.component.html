@@ -11,10 +11,6 @@
   >
     <span class="material-icons">settings</span>
   </button>
-  <div class="lang-switch">
-    <button mat-button (click)="languageChange.emit('en')">EN</button>
-    <button mat-button (click)="languageChange.emit('pt')">PT</button>
-  </div>
   <div class="balance">
     <span class="label">{{ 'summary.xpAvailable' | translate }}</span>
     <span class="value">{{ balance }} XP</span>

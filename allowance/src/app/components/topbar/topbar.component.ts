@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
@@ -7,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, TranslateModule],
+  imports: [MatToolbarModule, MatIconModule, TranslateModule],
   templateUrl: './topbar.component.html',
   styles: [
     `
@@ -60,21 +59,10 @@ import { TranslateModule } from '@ngx-translate/core';
         color: var(--app-cream);
       }
 
-      .lang-switch {
-        display: flex;
-        gap: 0.25rem;
-        margin-right: 0.5rem;
-      }
-
-      .lang-switch button {
-        min-width: 40px;
-        color: var(--app-cream);
-      }
     `
   ]
 })
 export class TopbarComponent {
   @Input({ required: true }) balance = 0;
   @Output() settingsClick = new EventEmitter<void>();
-  @Output() languageChange = new EventEmitter<'en' | 'pt'>();
 }

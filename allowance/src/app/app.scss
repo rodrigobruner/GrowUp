@@ -3,65 +3,6 @@
   min-height: 100%;
 }
 
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--app-primary);
-  color: var(--app-cream);
-  box-shadow: 0 6px 24px var(--app-shadow);
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: 600;
-}
-
-.brand-title {
-  font-family: 'Baloo 2', 'Comic Sans MS', cursive;
-  font-size: 1.2rem;
-  letter-spacing: 0.02em;
-}
-
-.spacer {
-  flex: 1;
-}
-
-.balance {
-  text-align: right;
-  display: grid;
-  gap: 0.1rem;
-}
-
-.topbar button {
-  margin-right: 0.5rem;
-  color: var(--app-cream);
-}
-
-.lang-switch {
-  display: flex;
-  gap: 0.25rem;
-  margin-right: 0.5rem;
-}
-
-.lang-switch button {
-  min-width: 40px;
-  color: var(--app-cream);
-}
-
-.balance .label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  opacity: 0.7;
-}
-
-.balance .value {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
 
 .page {
   padding: 2.5rem clamp(1.5rem, 3vw, 4rem) 3.5rem;

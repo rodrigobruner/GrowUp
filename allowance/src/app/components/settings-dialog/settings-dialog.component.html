@@ -14,6 +14,13 @@
       <mat-label>{{ 'settingsDialog.start' | translate }}</mat-label>
       <input matInput type="date" formControlName="cycleStartDate" />
     </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'settingsDialog.language' | translate }}</mat-label>
+      <mat-select formControlName="language">
+        <mat-option value="en">English</mat-option>
+        <mat-option value="pt">Português</mat-option>
+      </mat-select>
+    </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

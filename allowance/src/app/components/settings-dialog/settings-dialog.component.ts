@@ -40,7 +40,8 @@ export class SettingsDialogComponent {
 
   form = this.formBuilder.group({
     cycleType: ['weekly', Validators.required],
-    cycleStartDate: [this.today(), Validators.required]
+    cycleStartDate: [this.today(), Validators.required],
+    language: ['en', Validators.required]
   });
 
   setSettings(settings: Settings): void {

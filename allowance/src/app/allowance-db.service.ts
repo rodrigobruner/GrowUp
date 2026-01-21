@@ -29,6 +29,7 @@ export type Settings = {
   id: 'global';
   cycleType: 'weekly' | 'biweekly' | 'monthly' | 'yearly';
   cycleStartDate: string;
+  language: 'en' | 'pt';
 };
 
 @Injectable({

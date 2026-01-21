@@ -45,6 +45,7 @@
     "title": "Cycle settings",
     "cycle": "Cycle",
     "start": "Cycle start date",
+    "language": "Language",
     "cancel": "Cancel",
     "save": "Save"
   },
@@ -53,5 +54,10 @@
     "biweekly": "Bi-weekly",
     "monthly": "Monthly",
     "yearly": "Yearly"
+  },
+  "levelUp": {
+    "title": "Level up!",
+    "subtitle": "Great job! Keep going to earn more XP.",
+    "close": "Close"
   }
 }

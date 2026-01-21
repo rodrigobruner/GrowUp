@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AllowanceDbService, Completion, Reward, Settings, Task } from './allowance-db.service';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
@@ -10,6 +10,7 @@ import { TopbarComponent } from './components/topbar/topbar.component';
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
 import { TasksPanelComponent } from './components/tasks-panel/tasks-panel.component';
 import { RewardsPanelComponent } from './components/rewards-panel/rewards-panel.component';
+import { LevelupDialogComponent } from './components/levelup-dialog/levelup-dialog.component';
 
 const currentDateKey = (): string => {
   const now = new Date();
@@ -38,7 +39,8 @@ export class App implements OnInit {
   settings = signal<Settings>({
     id: 'global',
     cycleType: 'weekly',
-    cycleStartDate: currentDateKey()
+    cycleStartDate: currentDateKey(),
+    language: 'en'
   });
 
   earned = computed(() => this.completions().reduce((sum, completion) => sum + completion.points, 0));
@@ -77,6 +79,7 @@ export class App implements OnInit {
     const avatarNumber = '01';
     return `avatar/${avatarNumber}/level-${this.level()}.png`;
   });
+  private lastLevel = signal<number | null>(null);
 
   completedCount = computed(() => this.completions().filter((completion) => completion.date === this.today()).length);
   redeemedCount = computed(() => this.rewards().filter((reward) => reward.redeemedAt).length);
@@ -113,8 +116,28 @@ export class App implements OnInit {
     }
     this.completions.set(completions);
     if (settings) {
-      this.settings.set(settings);
+      this.settings.set({
+        ...settings,
+        language: settings.language ?? 'en'
+      });
     }
+    this.translate.use(this.settings().language);
+    this.lastLevel.set(this.level());
+
+    effect(() => {
+      const currentLevel = this.level();
+      const previousLevel = this.lastLevel();
+      if (previousLevel === null) {
+        this.lastLevel.set(currentLevel);
+        return;
+      }
+      if (currentLevel > previousLevel) {
+        this.showLevelUp();
+      }
+      if (currentLevel !== previousLevel) {
+        this.lastLevel.set(currentLevel);
+      }
+    });
   }
 
   async addTask(): Promise<void> {
@@ -232,6 +255,14 @@ export class App implements OnInit {
     const settings: Settings = { id: 'global', ...result };
     await this.db.saveSettings(settings);
     this.settings.set(settings);
+    this.translate.use(settings.language);
+  }
+
+  private showLevelUp(): void {
+    this.dialog.open(LevelupDialogComponent, {
+      panelClass: 'levelup-dialog',
+      disableClose: true
+    });
   }
 
   cycleLabel(): string {
@@ -249,9 +280,6 @@ export class App implements OnInit {
     return `${this.formatDate(start)} - ${this.formatDate(end)}`;
   }
 
-  setLanguage(language: 'en' | 'pt'): void {
-    this.translate.use(language);
-  }
 
   private sortTasks(items: Task[]): Task[] {
     return [...items].sort((a, b) => b.points - a.points);

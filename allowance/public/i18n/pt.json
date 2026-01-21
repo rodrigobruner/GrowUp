@@ -45,6 +45,7 @@
     "title": "Configurar ciclo",
     "cycle": "Ciclo",
     "start": "Início do ciclo",
+    "language": "Idioma",
     "cancel": "Cancelar",
     "save": "Salvar"
   },
@@ -53,5 +54,10 @@
     "biweekly": "Bi-semanal",
     "monthly": "Mensal",
     "yearly": "Anual"
+  },
+  "levelUp": {
+    "title": "Subiu de nível!",
+    "subtitle": "Muito bem! Continue para ganhar mais XP.",
+    "close": "Fechar"
   }
 }
