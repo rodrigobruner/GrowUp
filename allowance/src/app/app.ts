@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -12,6 +11,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AllowanceDbService, Completion, Reward, Settings, Task } from './allowance-db.service';
 import { SettingsDialogComponent } from './settings-dialog';
+import { TaskDialogComponent, TaskDialogResult } from './task-dialog';
+import { RewardDialogComponent, RewardDialogResult } from './reward-dialog';
 import { firstValueFrom } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -27,7 +28,6 @@ const currentDateKey = (): string => {
   selector: 'app-root',
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
@@ -94,18 +94,6 @@ export class App implements OnInit {
   todayDoneIds = computed(() => new Set(this.completions().filter((completion) => completion.date === this.today())
     .map((completion) => completion.taskId)));
 
-  private readonly formBuilder = inject(NonNullableFormBuilder);
-
-  taskForm = this.formBuilder.group({
-    title: ['', [Validators.required, Validators.minLength(3)]],
-    points: [5, [Validators.required, Validators.min(1)]]
-  });
-
-  rewardForm = this.formBuilder.group({
-    title: ['', [Validators.required, Validators.minLength(3)]],
-    cost: [10, [Validators.required, Validators.min(1)]]
-  });
-
   constructor(
     private readonly db: AllowanceDbService,
     private readonly dialog: MatDialog,
@@ -128,7 +116,12 @@ export class App implements OnInit {
     } else {
       this.tasks.set(this.sortTasks(tasks));
     }
-    this.rewards.set(this.sortRewards(rewards));
+    if (rewards.length === 0) {
+      const seededRewards = await this.seedDefaultRewards();
+      this.rewards.set(this.sortRewards(seededRewards));
+    } else {
+      this.rewards.set(this.sortRewards(rewards));
+    }
     this.completions.set(completions);
     if (settings) {
       this.settings.set(settings);
@@ -136,25 +129,31 @@ export class App implements OnInit {
   }
 
   async addTask(): Promise<void> {
-    if (this.taskForm.invalid) {
+    await this.openTaskDialog();
+  }
+
+  async openTaskDialog(): Promise<void> {
+    const dialogRef = this.dialog.open(TaskDialogComponent);
+    const result = await firstValueFrom<TaskDialogResult | undefined>(dialogRef.afterClosed());
+    if (!result) {
       return;
     }
+    await this.addTaskFromDialog(result);
+  }
 
-    const rawTitle = this.taskForm.getRawValue().title.trim();
-    const points = this.taskForm.getRawValue().points;
+  private async addTaskFromDialog(result: TaskDialogResult): Promise<void> {
+    const rawTitle = result.title.trim();
     if (!rawTitle) {
       return;
     }
     const task: Task = {
       id: this.db.createId(),
       title: rawTitle,
-      points: Number(points),
+      points: Number(result.points),
       createdAt: Date.now()
     };
-
     await this.db.addTask(task);
     this.tasks.update((items) => this.sortTasks([task, ...items]));
-    this.taskForm.reset({ title: '', points: 5 });
   }
 
   async toggleTask(task: Task): Promise<void> {
@@ -185,29 +184,42 @@ export class App implements OnInit {
   }
 
   async addReward(): Promise<void> {
-    if (this.rewardForm.invalid) {
+    await this.openRewardDialog();
+  }
+
+  async openRewardDialog(): Promise<void> {
+    const dialogRef = this.dialog.open(RewardDialogComponent);
+    const result = await firstValueFrom<RewardDialogResult | undefined>(dialogRef.afterClosed());
+    if (!result) {
       return;
     }
+    await this.addRewardFromDialog(result);
+  }
 
-    const rawTitle = this.rewardForm.getRawValue().title.trim();
-    const cost = this.rewardForm.getRawValue().cost;
+  private async addRewardFromDialog(result: RewardDialogResult): Promise<void> {
+    const rawTitle = result.title.trim();
     if (!rawTitle) {
       return;
     }
     const reward: Reward = {
       id: this.db.createId(),
       title: rawTitle,
-      cost: Number(cost),
+      cost: Number(result.cost),
       createdAt: Date.now()
     };
-
     await this.db.addReward(reward);
     this.rewards.update((items) => this.sortRewards([reward, ...items]));
-    this.rewardForm.reset({ title: '', cost: 10 });
   }
 
   async redeemReward(reward: Reward): Promise<void> {
-    if (reward.redeemedAt || this.balance() < reward.cost) {
+    if (reward.redeemedAt) {
+      const updated: Reward = { ...reward, redeemedAt: undefined };
+      await this.db.updateReward(updated);
+      this.rewards.update((items) => items.map((item) => (item.id === reward.id ? updated : item)));
+      return;
+    }
+
+    if (this.balance() < reward.cost) {
       return;
     }
 
@@ -273,6 +285,18 @@ export class App implements OnInit {
     return seeded;
   }
 
+  private async seedDefaultRewards(): Promise<Reward[]> {
+    const defaults = this.defaultRewardsEn();
+    const seeded = defaults.map((entry) => ({
+      id: this.db.createId(),
+      title: entry.title,
+      cost: entry.cost,
+      createdAt: Date.now()
+    }));
+    await Promise.all(seeded.map((reward) => this.db.addReward(reward)));
+    return seeded;
+  }
+
   private defaultTasksPt(): Array<{ title: string; points: number }> {
     return [
       { title: '🎒 Organizar o material escolar e mochila', points: 1 },
@@ -300,6 +324,19 @@ export class App implements OnInit {
       { title: '😴 Go to bed on time', points: 1 },
       { title: '👍 Other house chores', points: 1 },
       { title: '🍉 I tried a new food', points: 4 }
+    ];
+  }
+
+  private defaultRewardsEn(): Array<{ title: string; cost: number }> {
+    return [
+      { title: '🎶 Choose the music in the car', cost: 10 },
+      { title: '📚 Visit the library or bookstore', cost: 15 },
+      { title: '♟️ Family game time', cost: 20 },
+      { title: '🍿 Family movie night', cost: 20 },
+      { title: '🎮 Extra video game time', cost: 30 },
+      { title: '🍕 Special coffee/lunch/dinner', cost: 35 },
+      { title: '🎥 Movie theater', cost: 50 },
+      { title: '🍔 Eat out', cost: 50 }
     ];
   }
 
