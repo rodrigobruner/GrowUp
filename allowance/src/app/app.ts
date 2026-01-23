@@ -87,10 +87,19 @@ export class App implements OnInit {
     return `assets/avatar/${avatarNumber}/level-${this.level()}.png`;
   });
 
-  completedCount = computed(() => this.completions().filter((completion) => completion.date === this.today()).length);
+  selectedDate = signal(this.today());
+  todayKey = computed(() => this.today());
+  completedCount = computed(() =>
+    this.completions().filter((completion) => completion.date === this.selectedDate()).length
+  );
   redeemedCount = computed(() => this.rewards().filter((reward) => reward.redeemedAt).length);
-  todayDoneIds = computed(() => new Set(this.completions().filter((completion) => completion.date === this.today())
-    .map((completion) => completion.taskId)));
+  todayDoneIds = computed(() =>
+    new Set(
+      this.completions()
+        .filter((completion) => completion.date === this.selectedDate())
+        .map((completion) => completion.taskId)
+    )
+  );
 
   private resetDialogOpen = false;
   private errorDialogOpen = false;
@@ -203,7 +212,7 @@ export class App implements OnInit {
   }
 
   async toggleTask(task: Task): Promise<void> {
-    const date = this.today();
+    const date = this.selectedDate();
     const completionId = `${task.id}-${date}`;
     const alreadyDone = this.todayDoneIds().has(task.id);
     if (alreadyDone) {
@@ -323,6 +332,14 @@ export class App implements OnInit {
       height: '100vh',
       maxWidth: '100vw'
     });
+  }
+
+  setSelectedDate(dateKey: string): void {
+    this.selectedDate.set(dateKey);
+  }
+
+  goToToday(): void {
+    this.selectedDate.set(this.today());
   }
 
   private maybeSync(): void {

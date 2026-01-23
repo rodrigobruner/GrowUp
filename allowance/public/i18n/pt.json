@@ -20,6 +20,9 @@
   },
   "tasks": {
     "title": "Tarefas",
+    "date": "Data",
+    "today": "Hoje",
+    "prevDay": "Dia anterior",
     "description": "Descrição da tarefa",
     "placeholder": "Arrumar a cama",
     "points": "XP da tarefa",
@@ -33,13 +36,17 @@
   },
   "rewards": {
     "title": "Recompensas",
+    "tabAvailable": "Disponíveis",
+    "tabRedeemed": "Resgatadas",
     "name": "Recompensa",
     "placeholder": "Cinema",
     "cost": "Custo em XP",
     "add": "Adicionar recompensa",
     "empty": "Nenhuma recompensa cadastrada ainda.",
     "available": "Disponível",
-    "redeemed": "Resgatada"
+    "redeemed": "Resgatada",
+    "redeemedAt": "Resgatada em",
+    "redeemedEmpty": "Nenhuma recompensa resgatada ainda."
   },
   "settingsDialog": {
     "title": "Configurações",

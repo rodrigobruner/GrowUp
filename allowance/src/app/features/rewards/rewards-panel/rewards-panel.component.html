@@ -1,41 +1,80 @@
 <mat-card class="panel">
   <div class="panel-header">
     <h2>{{ 'rewards.title' | translate }}</h2>
-    <button mat-fab color="primary" class="add-fab" (click)="addReward.emit()">
-      <span class="material-icons">add</span>
-    </button>
   </div>
 
-  <div class="list-header">
-    <span>{{ 'rewards.name' | translate }}</span>
-    <span>{{ 'tasks.xp' | translate }}</span>
-    <span>{{ 'tasks.status' | translate }}</span>
-  </div>
-  @if (rewards.length === 0) {
-    <p class="empty-state">{{ 'rewards.empty' | translate }}</p>
-  }
-  @for (reward of rewards; track reward.id) {
-    <div class="item-row">
-      <div class="item-main">
-        <button class="item-title" type="button" (click)="redeemReward.emit(reward)">
-          {{ reward.title }}
-        </button>
-        <button
-          mat-icon-button
-          color="primary"
-          (click)="redeemReward.emit(reward)"
-          [disabled]="!reward.redeemedAt && balance < reward.cost"
-        >
-          <span class="material-icons">redeem</span>
+  <mat-tab-group>
+    <mat-tab label="{{ 'rewards.tabAvailable' | translate }}">
+      <div class="tab-header">
+        <span></span>
+        <button mat-fab color="primary" class="add-fab" (click)="addReward.emit()">
+          <span class="material-icons">add</span>
         </button>
       </div>
-      <span>{{ reward.cost }} XP</span>
-      <span class="status" [class.done]="reward.redeemedAt">
-        {{ reward.redeemedAt ? ('rewards.redeemed' | translate) : ('rewards.available' | translate) }}
-      </span>
-      <button mat-icon-button class="danger" (click)="removeReward.emit(reward)">
-        <span class="material-icons">delete</span>
-      </button>
-    </div>
-  }
+      <div class="list-header">
+        <span>{{ 'rewards.name' | translate }}</span>
+        <span>{{ 'tasks.xp' | translate }}</span>
+        <span>{{ 'tasks.status' | translate }}</span>
+      </div>
+      @if (availableRewards.length === 0) {
+        <p class="empty-state">{{ 'rewards.empty' | translate }}</p>
+      }
+      @for (reward of availableRewards; track reward.id) {
+        <div class="item-row">
+          <div class="item-main">
+            <button class="item-title" type="button" (click)="redeemReward.emit(reward)">
+              {{ reward.title }}
+            </button>
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="redeemReward.emit(reward)"
+              [disabled]="balance < reward.cost"
+            >
+              <span class="material-icons">redeem</span>
+            </button>
+          </div>
+          <span>{{ reward.cost }} XP</span>
+          <span class="status">
+            {{ 'rewards.available' | translate }}
+          </span>
+          <button mat-icon-button class="danger" (click)="removeReward.emit(reward)">
+            <span class="material-icons">delete</span>
+          </button>
+        </div>
+      }
+    </mat-tab>
+    <mat-tab label="{{ 'rewards.tabRedeemed' | translate }}">
+      <div class="list-header">
+        <span>{{ 'rewards.name' | translate }}</span>
+        <span>{{ 'rewards.redeemedAt' | translate }}</span>
+        <span>{{ 'tasks.xp' | translate }}</span>
+      </div>
+      @if (redeemedRewards.length === 0) {
+        <p class="empty-state">{{ 'rewards.redeemedEmpty' | translate }}</p>
+      }
+      @for (reward of pagedRedeemedRewards; track reward.id) {
+        <div class="item-row">
+          <div class="item-main">
+            <span class="item-title">{{ reward.title }}</span>
+          </div>
+          <span class="redeemed-date">
+            {{ reward.redeemedAt ? (reward.redeemedAt | date:'shortDate') : '-' }}
+          </span>
+          <span>{{ reward.cost }} XP</span>
+          <button mat-icon-button class="danger" (click)="removeReward.emit(reward)">
+            <span class="material-icons">delete</span>
+          </button>
+        </div>
+      }
+      <mat-paginator
+        class="paginator"
+        [length]="redeemedRewards.length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)"
+      ></mat-paginator>
+    </mat-tab>
+  </mat-tab-group>
 </mat-card>

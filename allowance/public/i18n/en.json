@@ -20,6 +20,9 @@
   },
   "tasks": {
     "title": "Tasks",
+    "date": "Date",
+    "today": "Today",
+    "prevDay": "Previous day",
     "description": "Task description",
     "placeholder": "Make the bed",
     "points": "Task XP",
@@ -33,13 +36,17 @@
   },
   "rewards": {
     "title": "Rewards",
+    "tabAvailable": "Available",
+    "tabRedeemed": "Redeemed",
     "name": "Reward",
     "placeholder": "Movie night",
     "cost": "Cost in XP",
     "add": "Add reward",
     "empty": "No rewards yet.",
     "available": "Available",
-    "redeemed": "Redeemed"
+    "redeemed": "Redeemed",
+    "redeemedAt": "Redeemed on",
+    "redeemedEmpty": "No redeemed rewards yet."
   },
   "settingsDialog": {
     "title": "Settings",

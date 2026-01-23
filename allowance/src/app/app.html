@@ -37,6 +37,9 @@
     <app-tasks-panel
       [tasks]="tasks()"
       [todayDoneIds]="todayDoneIds()"
+      [selectedDate]="selectedDate()"
+      [todayKey]="todayKey()"
+      (selectedDateChange)="setSelectedDate($event)"
       (addTask)="openTaskDialog()"
       (toggleTask)="toggleTask($event)"
       (removeTask)="removeTask($event)"

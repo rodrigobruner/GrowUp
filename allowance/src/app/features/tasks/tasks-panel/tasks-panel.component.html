@@ -1,6 +1,32 @@
 <mat-card class="panel">
   <div class="panel-header">
     <h2>{{ 'tasks.title' | translate }}</h2>
+    <div class="date-controls">
+      <button mat-icon-button type="button" (click)="goPreviousDay()" [attr.aria-label]="'tasks.prevDay' | translate">
+        <span class="material-icons">chevron_left</span>
+      </button>
+      <mat-form-field appearance="outline" class="date-field">
+        <mat-label>{{ 'tasks.date' | translate }}</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [max]="maxDate"
+          [value]="selectedDateValue"
+          (dateChange)="onDateChange($event.value)"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <button
+        mat-stroked-button
+        class="today-button"
+        type="button"
+        (click)="goToday()"
+        [disabled]="selectedDate === todayKey"
+      >
+        {{ 'tasks.today' | translate }}
+      </button>
+    </div>
     <button mat-fab color="primary" class="add-fab" (click)="addTask.emit()">
       <span class="material-icons">add</span>
     </button>

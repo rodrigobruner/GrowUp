@@ -1,14 +1,25 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { TranslateModule } from '@ngx-translate/core';
 import { Reward } from '../../../core/services/allowance-db.service';
 
 @Component({
   selector: 'app-rewards-panel',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIconModule, TranslateModule],
+  imports: [
+    DatePipe,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
+    MatPaginatorModule,
+    TranslateModule
+  ],
   templateUrl: './rewards-panel.component.html',
   styles: [
     `
@@ -26,6 +37,19 @@ import { Reward } from '../../../core/services/allowance-db.service';
         margin-bottom: 1rem;
       }
 
+      .panel-header h2 {
+        margin-bottom: 0;
+        align-self: center;
+      }
+
+      .tab-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: 1rem 0 0.75rem;
+      }
+
       .panel h2 {
         margin-top: 0;
         font-size: 1.4rem;
@@ -35,6 +59,7 @@ import { Reward } from '../../../core/services/allowance-db.service';
       .add-fab {
         background: var(--app-gold);
         color: var(--app-ink);
+        align-self: center;
       }
 
       .list-header {
@@ -88,6 +113,15 @@ import { Reward } from '../../../core/services/allowance-db.service';
         color: var(--app-coral);
       }
 
+      .redeemed-date {
+        font-size: 0.85rem;
+        color: rgba(19, 70, 134, 0.7);
+      }
+
+      .paginator {
+        margin-top: 0.75rem;
+      }
+
       .empty-state {
         padding: 1rem 0;
         margin: 0;
@@ -117,4 +151,28 @@ export class RewardsPanelComponent {
   @Output() addReward = new EventEmitter<void>();
   @Output() redeemReward = new EventEmitter<Reward>();
   @Output() removeReward = new EventEmitter<Reward>();
+
+  pageIndex = 0;
+  pageSize = 10;
+  pageSizeOptions = [10, 20, 50];
+
+  get availableRewards(): Reward[] {
+    return this.rewards.filter((reward) => !reward.redeemedAt);
+  }
+
+  get redeemedRewards(): Reward[] {
+    return [...this.rewards]
+      .filter((reward) => reward.redeemedAt)
+      .sort((a, b) => (b.redeemedAt ?? 0) - (a.redeemedAt ?? 0));
+  }
+
+  get pagedRedeemedRewards(): Reward[] {
+    const start = this.pageIndex * this.pageSize;
+    return this.redeemedRewards.slice(start, start + this.pageSize);
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
 }
