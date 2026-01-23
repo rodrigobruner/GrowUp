@@ -23,6 +23,16 @@ jobs:
         run: npm ci
         working-directory: growup
 
+      - name: Write production environment
+        run: |
+          cat <<'EOF' > growup/src/environments/environment.prod.ts
+          export const environment = {
+            production: true,
+            supabaseUrl: '${{ secrets.SUPABASE_URL }}',
+            supabaseAnonKey: '${{ secrets.SUPABASE_ANON_KEY }}',
+          };
+          EOF
+
       - name: Build
         run: npm run build
         working-directory: growup
