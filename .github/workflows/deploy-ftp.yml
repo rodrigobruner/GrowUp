@@ -70,7 +70,7 @@ jobs:
         run: test -f growup/src/environments/environment.prod.ts
 
       - name: Build
-        run: npm run build -- --configuration production --base-href /grow-up/
+        run: npm run build -- --configuration production --base-href /
         working-directory: growup
 
       - name: Verify environment.prod.ts has Supabase URL
