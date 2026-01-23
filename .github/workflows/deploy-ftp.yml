@@ -41,6 +41,14 @@ jobs:
               ;;
           esac
 
+      - name: Debug secret lengths
+        run: |
+          echo "SUPABASE_URL length: ${#SUPABASE_URL}"
+          echo "SUPABASE_ANON_KEY length: ${#SUPABASE_ANON_KEY}"
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
       - name: Write production environment
         run: |
           cat <<'EOF' > growup/src/environments/environment.prod.ts
