@@ -1,4 +1,5 @@
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import {
   Completion,
@@ -181,6 +182,15 @@ export class App implements OnInit {
       this.db.setUser(user?.id ?? null);
       void this.refreshFromDb(!user);
     });
+
+    const swUpdate = inject(SwUpdate, { optional: true });
+    if (swUpdate?.isEnabled) {
+      swUpdate.versionUpdates.subscribe((event) => {
+        if (event.type === 'VERSION_READY') {
+          void swUpdate.activateUpdate().then(() => window.location.reload());
+        }
+      });
+    }
   }
 
   async ngOnInit(): Promise<void> {
