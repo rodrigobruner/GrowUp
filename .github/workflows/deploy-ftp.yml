@@ -27,12 +27,12 @@ jobs:
         run: npm run build
         working-directory: growup
 
-      - name: Deploy (SFTP)
-        uses: appleboy/scp-action@v0.1.7
+      - name: Deploy (FTP)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          host: ${{ secrets.FTP_HOST }}
+          server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           port: ${{ secrets.FTP_PORT }}
-          source: "growup/dist/growup/browser/*"
-          target: "/home/wisefire/growup.bruner.app/grow-up"
+          local-dir: growup/dist/growup/browser/
+          server-dir: ./
