@@ -8,7 +8,7 @@
 - **Encourages routine** through daily task availability.
 - **Gives parents clarity** on earned XP, spending, and cycle results.
 
-Demo: https://rodrigobruner.github.io/Allowance/
+Demo: https://allowance.bruner.app
 
 ---
 
