@@ -11,8 +11,66 @@
   >
     <span class="material-icons">settings</span>
   </button>
-  <div class="balance">
-    <span class="label">{{ 'summary.xpAvailable' | translate }}</span>
-    <span class="value">{{ balance }} XP</span>
+  <ng-container *ngIf="isLoggedIn(); else loggedOutAvatar">
+    <button
+      mat-icon-button
+      class="avatar-button"
+      [matMenuTriggerFor]="authMenu"
+      [attr.aria-label]="'auth.account' | translate"
+    >
+      <ng-container *ngIf="userAvatarUrl() && !avatarLoadFailed(); else localAvatar">
+        <img
+          class="avatar-image"
+          [src]="userAvatarUrl()"
+          alt=""
+          (error)="handleAvatarError()"
+        />
+      </ng-container>
+      <ng-template #localAvatar>
+        <img class="avatar-image" [src]="avatarSrc" alt="" />
+      </ng-template>
+    </button>
+  </ng-container>
+  <ng-template #loggedOutAvatar>
+    <button
+      mat-icon-button
+      class="avatar-button"
+      (click)="openAuthDialog()"
+      [attr.aria-label]="'auth.signIn' | translate"
+    >
+      <span class="material-icons avatar-icon">account_circle</span>
+    </button>
+  </ng-template>
+  <div class="sync-status">
+    <span
+      *ngIf="!isOnline || syncError"
+      class="status offline"
+      [attr.title]="syncError || null"
+      (click)="openSyncStatus()"
+      role="button"
+      tabindex="0"
+    >
+      <span class="dot"></span>
+      {{ 'sync.offline' | translate }}
+    </span>
+    <span *ngIf="isOnline && isSyncing" class="status syncing">
+      <span class="dot"></span>
+      {{ 'sync.syncing' | translate }}
+    </span>
+    <span *ngIf="isOnline && !isSyncing && lastSyncAt && !syncError" class="status synced">
+      <span class="dot"></span>
+      {{ 'sync.syncedAt' | translate:{ time: (lastSyncAt | date:'shortTime') } }}
+    </span>
   </div>
 </mat-toolbar>
+
+<mat-menu #authMenu="matMenu">
+  <button mat-menu-item (click)="openResetPassword()">
+    <span class="material-icons">lock_reset</span>
+    <span>{{ 'auth.changePassword' | translate }}</span>
+  </button>
+  <button mat-menu-item (click)="logout()">
+    <span class="material-icons">logout</span>
+    <span>{{ 'auth.logout' | translate }}</span>
+  </button>
+</mat-menu>

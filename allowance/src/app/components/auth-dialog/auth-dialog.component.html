@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>{{ 'auth.title' | translate }}</h2>
+
+<mat-dialog-content class="auth-dialog">
+  <mat-tab-group>
+    <mat-tab label="{{ 'auth.signIn' | translate }}">
+      <div class="auth-form">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'auth.email' | translate }}</mat-label>
+          <input matInput type="email" [(ngModel)]="email" autocomplete="email" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'auth.password' | translate }}</mat-label>
+          <input matInput type="password" [(ngModel)]="password" autocomplete="current-password" />
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="signIn()" [disabled]="busy()">
+          {{ 'auth.signIn' | translate }}
+        </button>
+        <button mat-stroked-button color="primary" (click)="signInWithGoogle()" [disabled]="busy()">
+          {{ 'auth.signInGoogle' | translate }}
+        </button>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="{{ 'auth.signUp' | translate }}">
+      <div class="auth-form">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'auth.fullName' | translate }}</mat-label>
+          <input matInput type="text" [(ngModel)]="fullName" autocomplete="name" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'auth.email' | translate }}</mat-label>
+          <input matInput type="email" [(ngModel)]="email" autocomplete="email" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'auth.password' | translate }}</mat-label>
+          <input matInput type="password" [(ngModel)]="password" autocomplete="new-password" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'auth.confirmPassword' | translate }}</mat-label>
+          <input matInput type="password" [(ngModel)]="confirmPassword" autocomplete="new-password" />
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="signUp()" [disabled]="busy()">
+          {{ 'auth.signUp' | translate }}
+        </button>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="{{ 'auth.reset' | translate }}">
+      <div class="auth-form">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'auth.email' | translate }}</mat-label>
+          <input matInput type="email" [(ngModel)]="email" autocomplete="email" />
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="resetPassword()" [disabled]="busy()">
+          {{ 'auth.sendReset' | translate }}
+        </button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <p class="auth-message error" *ngIf="error()">{{ error() }}</p>
+  <p class="auth-message info" *ngIf="info()">{{ info() }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{ 'auth.close' | translate }}</button>
+</mat-dialog-actions>

@@ -1,6 +1,10 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AllowanceDbService, Completion, Reward, Settings, Task } from './allowance-db.service';
+import { AuthService } from './auth.service';
+import { SyncService } from './sync.service';
+import { ResetPasswordDialogComponent } from './components/reset-password-dialog/reset-password-dialog.component';
+import { AuthErrorDialogComponent } from './components/auth-error-dialog/auth-error-dialog.component';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 import { TaskDialogComponent, TaskDialogResult } from './components/task-dialog/task-dialog.component';
 import { RewardDialogComponent, RewardDialogResult } from './components/reward-dialog/reward-dialog.component';
@@ -42,7 +46,8 @@ export class App implements OnInit {
     cycleType: 'weekly',
     cycleStartDate: currentDateKey(),
     language: 'en',
-    levelUpPoints: 100
+    levelUpPoints: 100,
+    avatarId: '01'
   });
 
   earned = computed(() => this.completions().reduce((sum, completion) => sum + completion.points, 0));
@@ -78,7 +83,7 @@ export class App implements OnInit {
   xpToNext = computed(() => this.settings().levelUpPoints - this.xpIntoLevel());
   progressPercent = computed(() => (this.xpIntoLevel() / this.settings().levelUpPoints) * 100);
   avatarSrc = computed(() => {
-    const avatarNumber = '01';
+    const avatarNumber = this.settings().avatarId || '01';
     return `avatar/${avatarNumber}/level-${this.level()}.png`;
   });
 
@@ -87,13 +92,57 @@ export class App implements OnInit {
   todayDoneIds = computed(() => new Set(this.completions().filter((completion) => completion.date === this.today())
     .map((completion) => completion.taskId)));
 
+  private resetDialogOpen = false;
+  private errorDialogOpen = false;
+  readonly isOnline = signal(navigator.onLine);
+
   constructor(
     private readonly db: AllowanceDbService,
     private readonly dialog: MatDialog,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    private readonly auth: AuthService,
+    public readonly sync: SyncService
   ) {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
+    window.addEventListener('online', () => this.isOnline.set(true));
+    window.addEventListener('offline', () => this.isOnline.set(false));
+    effect(() => {
+      if (this.auth.needsPasswordReset() && !this.resetDialogOpen) {
+        this.resetDialogOpen = true;
+        this.dialog.open(ResetPasswordDialogComponent, {
+          disableClose: true
+        });
+      }
+    });
+    effect(() => {
+      const error = this.auth.authError();
+      if (error && !this.errorDialogOpen) {
+        this.errorDialogOpen = true;
+        const ref = this.dialog.open(AuthErrorDialogComponent, {
+          data: error
+        });
+        ref.afterClosed().subscribe(() => {
+          this.errorDialogOpen = false;
+          this.auth.clearAuthError();
+        });
+      }
+    });
+    effect(() => {
+      if (this.auth.isLoggedIn()) {
+        this.sync.start();
+        if (this.isOnline()) {
+          this.sync.syncAll();
+        }
+      } else {
+        this.sync.stop();
+      }
+    });
+    effect(() => {
+      if (this.auth.isLoggedIn() && this.isOnline()) {
+        this.sync.syncAll();
+      }
+    });
   }
 
   async ngOnInit(): Promise<void> {
@@ -120,7 +169,8 @@ export class App implements OnInit {
       this.settings.set({
         ...settings,
         language: settings.language ?? 'en',
-        levelUpPoints: settings.levelUpPoints ?? 100
+        levelUpPoints: settings.levelUpPoints ?? 100,
+        avatarId: settings.avatarId ?? '01'
       });
     }
     this.translate.use(this.settings().language);
@@ -297,7 +347,8 @@ export class App implements OnInit {
   }
 
   private async seedDefaultRewards(): Promise<Reward[]> {
-    const defaults = this.defaultRewardsEn();
+    const language = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
+    const defaults = language.startsWith('pt') ? this.defaultRewardsPt() : this.defaultRewardsEn();
     const seeded = defaults.map((entry) => ({
       id: this.db.createId(),
       title: entry.title,
@@ -348,6 +399,19 @@ export class App implements OnInit {
       { title: '🍕 Special coffee/lunch/dinner', cost: 35 },
       { title: '🎥 Movie theater', cost: 50 },
       { title: '🍔 Eat out', cost: 50 }
+    ];
+  }
+
+  private defaultRewardsPt(): Array<{ title: string; cost: number }> {
+    return [
+      { title: '🎶 Escolher a música no carro', cost: 10 },
+      { title: '📚 Visitar a biblioteca ou livraria', cost: 15 },
+      { title: '♟️ Jogo em família', cost: 20 },
+      { title: '🍿 Cinema em família', cost: 20 },
+      { title: '🎮 Tempo extra de videogame', cost: 30 },
+      { title: '🍕 Café/lanche/jantar especial', cost: 35 },
+      { title: '🎥 Cinema', cost: 50 },
+      { title: '🍔 Comer fora', cost: 50 }
     ];
   }
 

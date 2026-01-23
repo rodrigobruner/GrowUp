@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import Dexie, { Table } from 'dexie';
 
 type StoreName = 'tasks' | 'rewards' | 'completions' | 'settings';
 
@@ -10,12 +11,14 @@ type BaseRecord = {
 export type Task = BaseRecord & {
   points: number;
   createdAt: number;
+  updatedAt?: number;
 };
 
 export type Reward = BaseRecord & {
   cost: number;
   createdAt: number;
   redeemedAt?: number;
+  updatedAt?: number;
 };
 
 export type Completion = {
@@ -23,6 +26,7 @@ export type Completion = {
   taskId: string;
   date: string;
   points: number;
+  updatedAt?: number;
 };
 
 export type Settings = {
@@ -31,14 +35,46 @@ export type Settings = {
   cycleStartDate: string;
   language: 'en' | 'pt';
   levelUpPoints: number;
+  avatarId?: string;
+  updatedAt?: number;
 };
+
+type OutboxEntity = StoreName;
+type OutboxAction = 'upsert' | 'delete';
+
+export type OutboxEntry = {
+  seq?: number;
+  entity: OutboxEntity;
+  action: OutboxAction;
+  recordId: string;
+  payload?: Task | Reward | Completion | Settings;
+  createdAt: number;
+};
+
+class AllowanceDexie extends Dexie {
+  tasks!: Table<Task, string>;
+  rewards!: Table<Reward, string>;
+  completions!: Table<Completion, string>;
+  settings!: Table<Settings, string>;
+  outbox!: Table<OutboxEntry, number>;
+
+  constructor() {
+    super('allowance-db');
+    this.version(1).stores({
+      tasks: 'id,createdAt',
+      rewards: 'id,createdAt,redeemedAt',
+      completions: 'id,taskId,date',
+      settings: 'id',
+      outbox: '++seq,createdAt,entity,action,recordId'
+    });
+  }
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AllowanceDbService {
-  private readonly dbName = 'allowance-db';
-  private readonly dbVersion = 1;
+  private readonly db = new AllowanceDexie();
 
   async getTasks(): Promise<Task[]> {
     return this.getAll<Task>('tasks');
@@ -49,15 +85,20 @@ export class AllowanceDbService {
   }
 
   async addTask(task: Task): Promise<void> {
-    await this.add('tasks', task);
+    const next = { ...task, updatedAt: Date.now() };
+    await this.add('tasks', next);
+    await this.enqueueOutbox('tasks', 'upsert', next.id, next);
   }
 
   async updateTask(task: Task): Promise<void> {
-    await this.put('tasks', task);
+    const next = { ...task, updatedAt: Date.now() };
+    await this.put('tasks', next);
+    await this.enqueueOutbox('tasks', 'upsert', next.id, next);
   }
 
   async removeTask(id: string): Promise<void> {
     await this.remove('tasks', id);
+    await this.enqueueOutbox('tasks', 'delete', id);
   }
 
   async getCompletions(): Promise<Completion[]> {
@@ -65,11 +106,14 @@ export class AllowanceDbService {
   }
 
   async addCompletion(completion: Completion): Promise<void> {
-    await this.put('completions', completion);
+    const next = { ...completion, updatedAt: Date.now() };
+    await this.put('completions', next);
+    await this.enqueueOutbox('completions', 'upsert', next.id, next);
   }
 
   async removeCompletion(id: string): Promise<void> {
     await this.remove('completions', id);
+    await this.enqueueOutbox('completions', 'delete', id);
   }
 
   async removeCompletionsForTask(taskId: string): Promise<void> {
@@ -79,25 +123,30 @@ export class AllowanceDbService {
   }
 
   async addReward(reward: Reward): Promise<void> {
-    await this.add('rewards', reward);
+    const next = { ...reward, updatedAt: Date.now() };
+    await this.add('rewards', next);
+    await this.enqueueOutbox('rewards', 'upsert', next.id, next);
   }
 
   async updateReward(reward: Reward): Promise<void> {
-    await this.put('rewards', reward);
+    const next = { ...reward, updatedAt: Date.now() };
+    await this.put('rewards', next);
+    await this.enqueueOutbox('rewards', 'upsert', next.id, next);
   }
 
   async removeReward(id: string): Promise<void> {
     await this.remove('rewards', id);
+    await this.enqueueOutbox('rewards', 'delete', id);
   }
 
   async getSettings(): Promise<Settings | undefined> {
-    const store = await this.getStore('settings', 'readonly');
-    const request = store.get('global');
-    return this.requestToPromise<Settings | undefined>(request);
+    return this.db.settings.get('global');
   }
 
   async saveSettings(settings: Settings): Promise<void> {
-    await this.put('settings', settings);
+    const next = { ...settings, updatedAt: Date.now() };
+    await this.put('settings', next);
+    await this.enqueueOutbox('settings', 'upsert', next.id, next);
   }
 
   createId(): string {
@@ -105,60 +154,57 @@ export class AllowanceDbService {
   }
 
   private async getAll<T>(storeName: StoreName): Promise<T[]> {
-    const store = await this.getStore(storeName, 'readonly');
-    const request = store.getAll();
-    return this.requestToPromise<T[]>(request);
+    return this.db.table(storeName).toArray() as Promise<T[]>;
   }
 
   private async add<T>(storeName: StoreName, value: T): Promise<void> {
-    const store = await this.getStore(storeName, 'readwrite');
-    await this.requestToPromise(store.add(value));
+    await this.db.table(storeName).add(value);
   }
 
   private async put<T>(storeName: StoreName, value: T): Promise<void> {
-    const store = await this.getStore(storeName, 'readwrite');
-    await this.requestToPromise(store.put(value));
+    await this.db.table(storeName).put(value);
   }
 
   private async remove(storeName: StoreName, key: string): Promise<void> {
-    const store = await this.getStore(storeName, 'readwrite');
-    await this.requestToPromise(store.delete(key));
+    await this.db.table(storeName).delete(key);
   }
 
-  private async getStore(storeName: StoreName, mode: IDBTransactionMode): Promise<IDBObjectStore> {
-    const db = await this.openDb();
-    return db.transaction(storeName, mode).objectStore(storeName);
+  async getOutbox(): Promise<OutboxEntry[]> {
+    return this.db.outbox.orderBy('createdAt').toArray();
   }
 
-  private openDb(): Promise<IDBDatabase> {
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.open(this.dbName, this.dbVersion);
-
-      request.onupgradeneeded = () => {
-        const db = request.result;
-        if (!db.objectStoreNames.contains('tasks')) {
-          db.createObjectStore('tasks', { keyPath: 'id' });
-        }
-        if (!db.objectStoreNames.contains('rewards')) {
-          db.createObjectStore('rewards', { keyPath: 'id' });
-        }
-        if (!db.objectStoreNames.contains('completions')) {
-          db.createObjectStore('completions', { keyPath: 'id' });
-        }
-        if (!db.objectStoreNames.contains('settings')) {
-          db.createObjectStore('settings', { keyPath: 'id' });
-        }
-      };
-
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
+  async removeOutboxEntry(seq: number): Promise<void> {
+    await this.db.outbox.delete(seq);
   }
 
-  private requestToPromise<T>(request: IDBRequest<T>): Promise<T> {
-    return new Promise((resolve, reject) => {
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
+  async clearOutbox(): Promise<void> {
+    await this.db.outbox.clear();
+  }
+
+  async saveRemoteRecord<T>(storeName: StoreName, value: T): Promise<void> {
+    await this.db.table(storeName).put(value);
+  }
+
+  async deleteRemoteRecord(storeName: StoreName, key: string): Promise<void> {
+    await this.db.table(storeName).delete(key);
+  }
+
+  async getRecord<T>(storeName: StoreName, key: string): Promise<T | undefined> {
+    return this.db.table(storeName).get(key) as Promise<T | undefined>;
+  }
+
+  private async enqueueOutbox(
+    entity: OutboxEntity,
+    action: OutboxAction,
+    recordId: string,
+    payload?: Task | Reward | Completion | Settings
+  ): Promise<void> {
+    await this.db.outbox.add({
+      entity,
+      action,
+      recordId,
+      payload,
+      createdAt: Date.now()
     });
   }
 }

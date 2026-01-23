@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>{{ 'sync.detailsTitle' | translate }}</h2>
+
+<mat-dialog-content>
+  <p>
+    <strong>{{ 'sync.detailsOnline' | translate }}:</strong>
+    {{ data.isOnline ? ('sync.statusOnline' | translate) : ('sync.statusOffline' | translate) }}
+  </p>
+  <p>
+    <strong>{{ 'sync.detailsSyncing' | translate }}:</strong>
+    {{ data.isSyncing ? ('sync.statusSyncing' | translate) : ('sync.statusIdle' | translate) }}
+  </p>
+  <p>
+    <strong>{{ 'sync.detailsLastSync' | translate }}:</strong>
+    <span *ngIf="data.lastSyncAt; else noSync">
+      {{ data.lastSyncAt | date:'medium' }}
+    </span>
+    <ng-template #noSync>{{ 'sync.never' | translate }}</ng-template>
+  </p>
+  <p *ngIf="data.lastError">
+    <strong>{{ 'sync.detailsLastError' | translate }}:</strong>
+    {{ data.lastError }}
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{ 'auth.close' | translate }}</button>
+</mat-dialog-actions>

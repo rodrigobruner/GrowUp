@@ -1,5 +1,10 @@
 <app-topbar
   [balance]="balance()"
+  [isOnline]="isOnline()"
+  [isSyncing]="sync.isSyncing()"
+  [lastSyncAt]="sync.lastSyncAt()"
+  [syncError]="sync.lastError()"
+  [avatarSrc]="avatarSrc()"
   (settingsClick)="openSettings()"
 />
 
@@ -19,6 +24,7 @@
       [progressPercent]="progressPercent()"
       [earned]="earned()"
       [spent]="spent()"
+      [available]="balance()"
       [cycleLabel]="cycleLabel()"
       [cycleEarned]="cycleEarned()"
       [cycleRangeLabel]="cycleRangeLabel()"

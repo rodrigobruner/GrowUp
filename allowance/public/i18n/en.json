@@ -43,13 +43,17 @@
   },
   "settingsDialog": {
     "title": "Settings",
+    "tabPreferences": "Preferences",
+    "tabSettings": "Settings",
     "languageSection": "Language",
     "cycleSection": "Cycle",
     "levelupSection": "Level-up",
+    "avatarSection": "Avatar",
     "cycle": "Cycle",
     "start": "Cycle start date",
     "language": "Language",
     "levelUpPoints": "Points per level",
+    "avatar": "Avatar",
     "cancel": "Cancel",
     "save": "Save"
   },
@@ -62,6 +66,45 @@
   "levelUp": {
     "title": "Level up!",
     "subtitle": "Great job! Keep going to earn more XP.",
+    "close": "Close"
+  },
+  "sync": {
+    "offline": "Offline",
+    "syncing": "Syncing",
+    "syncedAt": "Synced {{ time }}",
+    "detailsTitle": "Sync details",
+    "detailsOnline": "Connectivity",
+    "detailsSyncing": "Status",
+    "detailsLastSync": "Last sync",
+    "detailsLastError": "Last error",
+    "statusOnline": "Online",
+    "statusOffline": "Offline",
+    "statusSyncing": "Syncing",
+    "statusIdle": "Idle",
+    "never": "Never"
+  },
+  "auth": {
+    "title": "Account",
+    "account": "Account",
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "reset": "Forgot password",
+    "sendReset": "Send reset email",
+    "email": "Email",
+    "fullName": "Full name",
+    "password": "Password",
+    "checkEmail": "Check your email to confirm your account.",
+    "resetTitle": "Reset password",
+    "errorTitle": "Authentication error",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "changePassword": "Change password",
+    "resetSent": "Password reset email sent.",
+    "passwordMismatch": "Passwords do not match.",
+    "passwordUpdated": "Password updated successfully.",
+    "updatePassword": "Update password",
+    "signInGoogle": "Continue with Google",
+    "logout": "Logout",
     "close": "Close"
   }
 }

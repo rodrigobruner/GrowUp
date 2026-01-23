@@ -15,7 +15,7 @@
         </div>
       </div>
       <mat-progress-bar color="primary" mode="determinate" [value]="progressPercent"></mat-progress-bar>
-      <div class="summary-row">
+      <div class="summary-row three">
         <div>
           <p class="summary-label">{{ 'summary.xpEarned' | translate }}</p>
           <p class="summary-value">{{ earned }} XP</p>
@@ -23,6 +23,10 @@
         <div>
           <p class="summary-label">{{ 'summary.xpSpent' | translate }}</p>
           <p class="summary-value">{{ spent }} XP</p>
+        </div>
+        <div>
+          <p class="summary-label">{{ 'summary.xpAvailable' | translate }}</p>
+          <p class="summary-value">{{ available }} XP</p>
         </div>
       </div>
       <mat-divider></mat-divider>

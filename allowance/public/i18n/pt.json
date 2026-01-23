@@ -43,13 +43,17 @@
   },
   "settingsDialog": {
     "title": "Configurações",
+    "tabPreferences": "Preferências",
+    "tabSettings": "Configurações",
     "languageSection": "Idioma",
     "cycleSection": "Ciclo",
     "levelupSection": "Level-up",
+    "avatarSection": "Avatar",
     "cycle": "Ciclo",
     "start": "Início do ciclo",
     "language": "Idioma",
     "levelUpPoints": "Pontos por nível",
+    "avatar": "Avatar",
     "cancel": "Cancelar",
     "save": "Salvar"
   },
@@ -62,6 +66,45 @@
   "levelUp": {
     "title": "Subiu de nível!",
     "subtitle": "Muito bem! Continue para ganhar mais XP.",
+    "close": "Fechar"
+  },
+  "sync": {
+    "offline": "Offline",
+    "syncing": "Sincronizando",
+    "syncedAt": "Sincronizado {{ time }}",
+    "detailsTitle": "Detalhes da sincronizacao",
+    "detailsOnline": "Conectividade",
+    "detailsSyncing": "Status",
+    "detailsLastSync": "Ultima sincronizacao",
+    "detailsLastError": "Ultimo erro",
+    "statusOnline": "Online",
+    "statusOffline": "Offline",
+    "statusSyncing": "Sincronizando",
+    "statusIdle": "Parado",
+    "never": "Nunca"
+  },
+  "auth": {
+    "title": "Conta",
+    "account": "Conta",
+    "signIn": "Entrar",
+    "signUp": "Criar conta",
+    "reset": "Esqueci a senha",
+    "sendReset": "Enviar email de recuperação",
+    "email": "Email",
+    "fullName": "Nome completo",
+    "password": "Senha",
+    "checkEmail": "Verifique seu email para confirmar a conta.",
+    "resetTitle": "Redefinir senha",
+    "errorTitle": "Erro de autenticacao",
+    "newPassword": "Nova senha",
+    "confirmPassword": "Confirmar senha",
+    "changePassword": "Trocar senha",
+    "resetSent": "Email de recuperação enviado.",
+    "passwordMismatch": "As senhas não conferem.",
+    "passwordUpdated": "Senha atualizada com sucesso.",
+    "updatePassword": "Atualizar senha",
+    "signInGoogle": "Continuar com Google",
+    "logout": "Sair",
     "close": "Fechar"
   }
 }

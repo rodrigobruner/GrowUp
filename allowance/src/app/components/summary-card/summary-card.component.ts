@@ -38,6 +38,10 @@ import { TranslateModule } from '@ngx-translate/core';
         padding: 0.75rem 0;
       }
 
+      .summary-row.three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .level-row {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -113,6 +117,7 @@ export class SummaryCardComponent {
   @Input({ required: true }) progressPercent = 0;
   @Input({ required: true }) earned = 0;
   @Input({ required: true }) spent = 0;
+  @Input({ required: true }) available = 0;
   @Input({ required: true }) cycleLabel = '';
   @Input({ required: true }) cycleEarned = 0;
   @Input({ required: true }) cycleRangeLabel = '';
