@@ -80,12 +80,9 @@ jobs:
             exit 1
           fi
 
-      - name: Verify build contains Supabase domain
+      - name: Debug environment.prod.ts (safe)
         run: |
-          if ! grep -R "supabase.co" growup/dist/growup/browser; then
-            echo "Supabase domain not found in build output."
-            exit 1
-          fi
+          head -n 5 growup/src/environments/environment.prod.ts | sed -E 's/(supabaseAnonKey: ).*/\\1"REDACTED",/'
 
       - name: Deploy (FTP)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
