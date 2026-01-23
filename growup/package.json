@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "prestart": "node scripts/write-env.js",
     "start": "ng serve",
     "build": "ng build",
     "build:gh": "ng build --configuration production --base-href /GrowUp/",
