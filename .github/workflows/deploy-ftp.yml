@@ -51,6 +51,13 @@ jobs:
         run: npm run build
         working-directory: growup
 
+      - name: Verify build uses production values
+        run: |
+          if rg -n "CHANGE_ME_SUPABASE_URL" growup/dist -g "*.js"; then
+            echo "Placeholder supabase URL found in build output."
+            exit 1
+          fi
+
       - name: Deploy (FTP)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
