@@ -36,4 +36,4 @@ jobs:
           port: ${{ secrets.FTP_PORT }}
           protocol: ftps
           local-dir: growup/dist/growup/browser/
-          server-dir: /home/wisefire/growup.bruner.app/grow-up/
+          server-dir: /home/wisefire/growup.bruner.app/
