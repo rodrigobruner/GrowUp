@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, computed, signal } from '@angular/core';
 import { createClient, type SupabaseClient, type User } from '@supabase/supabase-js';
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from '../config/supabase-config';
+import { environment } from '../../../environments/environment';
 
 type AuthError = {
   message: string;
@@ -18,7 +18,7 @@ export class AuthService {
   readonly authError = signal<string | null>(null);
 
   constructor(@Inject(DOCUMENT) private readonly document: Document) {
-    this.supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
     this.initSession();
   }
 
