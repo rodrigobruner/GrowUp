@@ -66,10 +66,17 @@ jobs:
         run: npm run build
         working-directory: growup
 
-      - name: Verify build contains Supabase URL
+      - name: Verify environment.prod.ts has Supabase URL
         run: |
-          if ! grep -R "${{ secrets.SUPABASE_URL }}" growup/dist; then
-            echo "Supabase URL not found in build output."
+          if ! grep -q "supabase.co" growup/src/environments/environment.prod.ts; then
+            echo "Supabase URL not written to environment.prod.ts."
+            exit 1
+          fi
+
+      - name: Verify build contains Supabase domain
+        run: |
+          if ! grep -R "supabase.co" growup/dist; then
+            echo "Supabase domain not found in build output."
             exit 1
           fi
 
