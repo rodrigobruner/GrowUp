@@ -66,10 +66,10 @@ jobs:
         run: npm run build
         working-directory: growup
 
-      - name: Verify build uses production values
+      - name: Verify build contains Supabase URL
         run: |
-          if grep -R "CHANGE_ME_SUPABASE_URL" growup/dist; then
-            echo "Placeholder supabase URL found in build output."
+          if ! grep -R "${{ secrets.SUPABASE_URL }}" growup/dist; then
+            echo "Supabase URL not found in build output."
             exit 1
           fi
 
