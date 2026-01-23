@@ -72,7 +72,7 @@ export class LevelupDialogComponent implements OnInit {
     const baseHref = this.document.querySelector('base')?.getAttribute('href') ?? '/';
     const normalized = baseHref.endsWith('/') ? baseHref : `${baseHref}/`;
     const avatarId = this.data?.avatarId ?? '01';
-    return `${normalized}avatar/${avatarId}/levelup.mov`;
+    return `${normalized}assets/avatar/${avatarId}/levelup.mov`;
   }
 
   close(): void {

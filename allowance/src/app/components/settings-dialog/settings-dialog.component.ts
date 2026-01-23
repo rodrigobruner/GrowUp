@@ -124,7 +124,7 @@ export class SettingsDialogComponent implements OnInit {
   }
 
   avatarOptionSrc(avatarId: string): string {
-    return `avatar/${avatarId}/avatar.png`;
+    return `assets/avatar/${avatarId}/avatar.png`;
   }
 
   private today(): string {

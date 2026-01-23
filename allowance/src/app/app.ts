@@ -84,7 +84,7 @@ export class App implements OnInit {
   progressPercent = computed(() => (this.xpIntoLevel() / this.settings().levelUpPoints) * 100);
   avatarSrc = computed(() => {
     const avatarNumber = this.settings().avatarId || '01';
-    return `avatar/${avatarNumber}/level-${this.level()}.png`;
+    return `assets/avatar/${avatarNumber}/level-${this.level()}.png`;
   });
 
   completedCount = computed(() => this.completions().filter((completion) => completion.date === this.today()).length);
