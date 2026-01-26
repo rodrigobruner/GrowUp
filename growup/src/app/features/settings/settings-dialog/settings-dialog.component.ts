@@ -1,18 +1,18 @@
-import { Component, computed, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, computed, EventEmitter, inject, Input, OnChanges, Output, signal, SimpleChanges } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { AccountSettings } from '../../../core/services/growup-db.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
+import { AccountSettings, Profile, Settings } from '../../../core/services/growup-db.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { DeleteAccountDialogComponent } from '../delete-account-dialog/delete-account-dialog.component';
 import { AuthErrorDialogComponent } from '../../auth/auth-error-dialog/auth-error-dialog.component';
-import { firstValueFrom } from 'rxjs';
-import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -30,25 +30,64 @@ import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confi
   styleUrl: './settings-dialog.component.scss'
 })
 export class SettingsDialogComponent implements OnChanges {
-  @Input() settings: AccountSettings | null = null;
+  @Input() accountSettings: AccountSettings | null = null;
+  @Input() profileSettings: Settings | null = null;
+  @Input() profiles: Profile[] = [];
+  @Input() activeProfileId: string | null = null;
   @Output() closeSettings = new EventEmitter<void>();
-  @Output() saveSettings = new EventEmitter<{ language: AccountSettings['language'] }>();
+  @Output() saveSettings = new EventEmitter<{
+    language: AccountSettings['language'];
+    profile: Pick<Settings, 'avatarId' | 'displayName' | 'cycleType' | 'cycleStartDate' | 'levelUpPoints'>;
+  }>();
+  @Output() selectProfile = new EventEmitter<string>();
+  @Output() deleteProfile = new EventEmitter<string>();
 
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly document = inject(DOCUMENT);
   private readonly dialog = inject(MatDialog);
   private readonly auth = inject(AuthService);
   private readonly translateService = inject(TranslateService);
   readonly isLoggedIn = computed(() => this.auth.isLoggedIn());
+  avatars = signal<Array<{ id: string; name: string; description?: string }>>([]);
 
   form = this.formBuilder.group({
-    language: this.formBuilder.control<AccountSettings['language']>('en', { validators: [Validators.required] })
+    language: this.formBuilder.control<AccountSettings['language']>('en', { validators: [Validators.required] }),
+    displayName: this.formBuilder.control<string>('', {
+      validators: [Validators.required, Validators.maxLength(40)]
+    }),
+    avatarId: this.formBuilder.control<Settings['avatarId']>('01', { validators: [Validators.required] }),
+    cycleType: this.formBuilder.control<Settings['cycleType']>('weekly', { validators: [Validators.required] }),
+    cycleStartDate: this.formBuilder.control<Settings['cycleStartDate']>(this.today(), {
+      validators: [Validators.required]
+    }),
+    levelUpPoints: this.formBuilder.control<Settings['levelUpPoints']>(100, {
+      validators: [Validators.required, Validators.min(10)]
+    })
   });
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['settings'] && this.settings) {
+    if (changes['accountSettings'] && this.accountSettings) {
       this.form.reset({
-        language: this.settings.language
+        language: this.accountSettings.language,
+        displayName: this.form.get('displayName')?.value ?? '',
+        avatarId: this.form.get('avatarId')?.value ?? '01',
+        cycleType: this.form.get('cycleType')?.value ?? 'weekly',
+        cycleStartDate: this.form.get('cycleStartDate')?.value ?? this.today(),
+        levelUpPoints: this.form.get('levelUpPoints')?.value ?? 100
       });
+    }
+    if (changes['profileSettings'] && this.profileSettings) {
+      this.form.reset({
+        language: this.form.get('language')?.value ?? 'en',
+        displayName: this.profileSettings.displayName ?? '',
+        avatarId: this.profileSettings.avatarId ?? '01',
+        cycleType: this.profileSettings.cycleType,
+        cycleStartDate: this.profileSettings.cycleStartDate,
+        levelUpPoints: this.profileSettings.levelUpPoints
+      });
+    }
+    if (changes['accountSettings'] || changes['profileSettings']) {
+      this.loadAvatars();
     }
   }
 
@@ -56,7 +95,17 @@ export class SettingsDialogComponent implements OnChanges {
     if (this.form.invalid) {
       return;
     }
-    this.saveSettings.emit(this.form.getRawValue());
+    const value = this.form.getRawValue();
+    this.saveSettings.emit({
+      language: value.language,
+      profile: {
+        displayName: value.displayName,
+        avatarId: value.avatarId ?? '01',
+        cycleType: value.cycleType,
+        cycleStartDate: value.cycleStartDate,
+        levelUpPoints: value.levelUpPoints
+      }
+    });
   }
 
   close(): void {
@@ -136,5 +185,107 @@ export class SettingsDialogComponent implements OnChanges {
     this.closeSettings.emit();
   }
 
-  
+  onSelectProfile(profileId: string): void {
+    this.selectProfile.emit(profileId);
+  }
+
+  onDeleteProfile(profileId: string, event: MouseEvent): void {
+    event.stopPropagation();
+    this.deleteProfile.emit(profileId);
+  }
+
+  avatarPreviewSrc(): string {
+    return this.avatarOptionSrc(this.form.get('avatarId')?.value ?? '01');
+  }
+
+  avatarOptionSrc(avatarId: string): string {
+    return `assets/avatar/${avatarId}/avatar.png`;
+  }
+
+  selectedAvatarDescription(): string | null {
+    const avatarId = this.form.get('avatarId')?.value ?? '01';
+    return this.avatars().find((avatar) => avatar.id === avatarId)?.description ?? null;
+  }
+
+  private today(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  private async loadAvatars(): Promise<void> {
+    const fallback = [{ id: '01', name: 'Default' }];
+    try {
+      const baseHref = this.document.querySelector('base')?.getAttribute('href') ?? '/';
+      const normalized = baseHref.endsWith('/') ? baseHref : `${baseHref}/`;
+      const response = await fetch(`${normalized}avatars.json`);
+      if (!response.ok) {
+        this.avatars.set(fallback);
+        return;
+      }
+      const data = (await response.json()) as Array<{
+        id: string;
+        name?: string | Record<string, string>;
+        description?: string | Record<string, string>;
+        'system-name'?: string;
+      }>;
+      if (Array.isArray(data)) {
+        const language = this.getLanguageKey();
+        this.avatars.set(
+          data
+            .filter((item) => item && typeof item.id === 'string')
+            .map((item) => ({
+              id: item.id,
+              name: this.resolveAvatarName(item, language),
+              description: this.resolveAvatarDescription(item, language)
+            }))
+        );
+      } else {
+        this.avatars.set(fallback);
+      }
+    } catch {
+      this.avatars.set(fallback);
+    }
+  }
+
+  private resolveAvatarName(
+    item: { id: string; name?: string | Record<string, string>; 'system-name'?: string },
+    language: string
+  ): string {
+    if (!item.name) {
+      return item['system-name'] ?? item.id;
+    }
+    if (typeof item.name === 'string') {
+      return item.name;
+    }
+    return item.name[language] ?? item.name['en'] ?? item['system-name'] ?? item.id;
+  }
+
+  private resolveAvatarDescription(
+    item: { description?: string | Record<string, string> },
+    language: string
+  ): string | undefined {
+    if (!item.description) {
+      return undefined;
+    }
+    if (typeof item.description === 'string') {
+      return item.description;
+    }
+    return item.description[language] ?? item.description['en'];
+  }
+
+  private getLanguageKey(): string {
+    const current = this.translateService.currentLang;
+    const fallback = this.translateService.getDefaultLang() ?? 'en';
+    const resolved = current ?? fallback;
+    if (resolved.startsWith('pt')) {
+      return 'pt';
+    }
+    if (resolved.startsWith('fr')) {
+      return 'fr';
+    }
+    return 'en';
+  }
 }

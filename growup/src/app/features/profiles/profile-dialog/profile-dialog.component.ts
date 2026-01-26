@@ -48,6 +48,7 @@ export class ProfileDialogComponent implements OnChanges {
     Pick<Settings, 'avatarId' | 'displayName' | 'cycleType' | 'cycleStartDate' | 'levelUpPoints'>
   >();
   @Output() selectProfile = new EventEmitter<string>();
+  @Output() deleteProfile = new EventEmitter<string>();
 
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly destroyRef = inject(DestroyRef);
@@ -120,6 +121,11 @@ export class ProfileDialogComponent implements OnChanges {
 
   onSelectProfile(profileId: string): void {
     this.selectProfile.emit(profileId);
+  }
+
+  onDeleteProfile(profileId: string, event: MouseEvent): void {
+    event.stopPropagation();
+    this.deleteProfile.emit(profileId);
   }
 
   avatarPreviewSrc(): string {

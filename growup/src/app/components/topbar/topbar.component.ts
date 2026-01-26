@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/auth.service';
+import { Profile } from '../../core/services/growup-db.service';
 import { AuthDialogComponent } from '../../features/auth/auth-dialog/auth-dialog.component';
 import { ResetPasswordDialogComponent } from '../../features/auth/reset-password-dialog/reset-password-dialog.component';
 import { SyncStatusDialogComponent } from '../sync-status-dialog/sync-status-dialog.component';
@@ -32,9 +33,12 @@ export class TopbarComponent {
   @Input() lastSyncAt: number | null = null;
   @Input() syncError: string | null = null;
   @Input() avatarSrc = '';
+  @Input() profiles: Profile[] = [];
+  @Input() activeProfileId: string | null = null;
   @Output() settingsClick = new EventEmitter<void>();
   @Output() profileCreate = new EventEmitter<void>();
   @Output() profileEdit = new EventEmitter<void>();
+  @Output() profileSelect = new EventEmitter<string>();
 
   private readonly dialog = inject(MatDialog);
   private readonly auth = inject(AuthService);
@@ -96,6 +100,15 @@ export class TopbarComponent {
 
   openEditProfile(): void {
     this.profileEdit.emit();
+  }
+
+  selectProfile(profileId: string): void {
+    this.profileSelect.emit(profileId);
+  }
+
+  profileAvatarSrc(avatarId?: string): string {
+    const resolved = avatarId ?? '01';
+    return `assets/avatar/${resolved}/avatar.png`;
   }
 
   async logout(): Promise<void> {

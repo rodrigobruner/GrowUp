@@ -6,8 +6,11 @@
   <app-profile-avatar
     class="center-avatar"
     [src]="avatarSrc"
+    [profiles]="profiles"
+    [activeProfileId]="activeProfileId"
     (createProfile)="openCreateProfile()"
     (editProfile)="openEditProfile()"
+    (profileSelect)="selectProfile($event)"
   />
   <div class="spacer"></div>
   <app-user-menu

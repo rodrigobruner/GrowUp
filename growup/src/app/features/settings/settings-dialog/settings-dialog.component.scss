@@ -41,6 +41,114 @@
   margin-top: 0.25rem;
 }
 
+.avatar-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.avatar-option-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(19, 70, 134, 0.25);
+  background: #f2f6fb;
+}
+
+.avatar-preview {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+.avatar-row {
+  display: grid;
+  grid-template-columns: 125px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+}
+
+.avatar-fields {
+  display: grid;
+  gap: 1.05rem;
+  align-self: center;
+  align-content: center;
+  transform: translateY(-10px);
+}
+
+.avatar-preview img {
+  width: 125px;
+  height: 125px;
+  border-radius: 18px;
+  object-fit: contain;
+  border: 1px solid rgba(19, 70, 134, 0.25);
+  background: #f2f6fb;
+}
+
+.avatar-description {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(46, 58, 89, 0.7);
+}
+
+.profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.profile-chip {
+  display: grid;
+  grid-template-columns: 36px 1fr auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(19, 70, 134, 0.2);
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+}
+
+.profile-chip .spacer {
+  flex: 1;
+}
+
+.profile-chip img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+}
+
+.profile-chip.active img {
+  border-color: #ffd24c;
+}
+
+.profile-chip.active {
+  border-color: #ffd24c;
+  box-shadow: 0 0 0 2px rgba(255, 210, 76, 0.2);
+}
+
+.profile-delete {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(211, 47, 47, 0.12);
+  color: #d32f2f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.profile-delete .material-icons {
+  font-size: 18px;
+}
+
 .danger-zone {
   display: grid;
   gap: 0.75rem;
@@ -112,6 +220,12 @@
   max-height: 70px;
 }
 
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
 .cache-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -129,6 +243,14 @@
 }
 
 @media (max-width: 720px) {
+  .avatar-row {
+    grid-template-columns: 1fr;
+  }
+
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+
   .cache-actions {
     grid-template-columns: 1fr;
   }

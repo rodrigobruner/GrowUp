@@ -9,21 +9,6 @@
   </div>
   <div class="drawer-scroll">
     <form [formGroup]="form" class="dialog-form">
-      <section class="settings-section" *ngIf="profiles.length">
-        <div class="section-title">{{ 'profiles.listTitle' | translate }}</div>
-        <div class="profiles-grid">
-          <button
-            type="button"
-            class="profile-chip"
-            *ngFor="let profile of profiles"
-            [class.active]="profile.id === activeProfileId"
-            (click)="onSelectProfile(profile.id)"
-          >
-            <img [src]="avatarOptionSrc(profile.avatarId)" alt="" />
-            <span>{{ profile.displayName }}</span>
-          </button>
-        </div>
-      </section>
       <section class="settings-section">
         <div class="section-title">{{ 'profiles.avatarSection' | translate }}</div>
         <div class="avatar-row">
