@@ -72,6 +72,19 @@
         </mat-form-field>
       </section>
 
+      <section class="settings-section">
+        <div class="section-title">{{ 'settingsDialog.cacheSection' | translate }}</div>
+        <div class="cache-actions">
+          <button mat-stroked-button type="button" (click)="clearCacheAndReload()">
+            {{ 'settingsDialog.clearCache' | translate }}
+          </button>
+          <button mat-stroked-button class="delete-account-button" type="button" (click)="clearAllDataAndReload()">
+            {{ 'settingsDialog.clearAll' | translate }}
+          </button>
+        </div>
+        <p class="cache-warning">{{ 'settingsDialog.clearAllWarning' | translate }}</p>
+      </section>
+
       <section class="settings-section danger-zone">
         <div class="section-title danger-title">{{ 'settingsDialog.deleteAccount' | translate }}</div>
         <button

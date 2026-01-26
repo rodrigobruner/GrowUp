@@ -85,7 +85,10 @@ export class SyncService {
       try {
         if (entry.entity === 'settings') {
           if (entry.action === 'upsert' && entry.payload) {
-            const payload = this.toRemoteSettings(entry.payload as Settings, user.id);
+            const payload = {
+              ...this.toRemoteSettings(entry.payload as Settings, user.id),
+              owner_id: user.id
+            };
             const { error } = await supabase.from('settings').upsert(payload, { onConflict: 'id' });
             if (error) {
               throw error;
@@ -108,7 +111,10 @@ export class SyncService {
             const completion = entry.payload as Completion;
             const task = await this.db.getRecord<Task>('tasks', completion.taskId);
             if (task) {
-              const taskPayload = this.toRemotePayload('tasks', task, user.id);
+              const taskPayload = {
+                ...this.toRemotePayload('tasks', task, user.id),
+                owner_id: user.id
+              };
               const { error: taskError } = await supabase
                 .from('tasks')
                 .upsert(taskPayload, { onConflict: 'id' });
@@ -117,7 +123,10 @@ export class SyncService {
               }
             }
           }
-          const payload = this.toRemotePayload(table, entry.payload as Task | Reward | Completion, user.id);
+          const payload = {
+            ...this.toRemotePayload(table, entry.payload as Task | Reward | Completion, user.id),
+            owner_id: user.id
+          };
           const { error } = await supabase.from(table).upsert(payload, { onConflict: 'id' });
           if (error) {
             throw error;

@@ -119,26 +119,6 @@ button[mat-icon-button] {
   padding: 0;
 }
 
-.avatar-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-}
-
-.avatar-icon {
-  font-size: 2rem;
-}
-
-.avatar-image {
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.15);
-}
-
 .mat-mdc-icon-button {
   background: transparent;
   box-shadow: none;
@@ -169,7 +149,9 @@ button[mat-icon-button] {
   }
 
   .sync-status {
-    display: none;
+    display: flex;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
   }
 }
 
