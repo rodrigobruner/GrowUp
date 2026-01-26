@@ -585,7 +585,7 @@ export class App implements OnInit {
     return 'Super Buddy';
   }
 
-  private async hasRemoteProfiles(): Promise<boolean> {
+  private async hasRemoteProfiles(): Promise<boolean | null> {
     const user = this.auth.user();
     if (!user) {
       return false;
@@ -596,7 +596,7 @@ export class App implements OnInit {
       .select('id', { count: 'exact', head: true })
       .eq('owner_id', user.id);
     if (error) {
-      return false;
+      return null;
     }
     return (count ?? 0) > 0;
   }
@@ -612,6 +612,7 @@ export class App implements OnInit {
     try {
       await this.db.migrateDefaultIds();
       await this.db.migrateLegacyRewardRedemptions();
+      const allowProfileSeed = seedIfEmpty && !this.auth.isLoggedIn();
 
       let [profiles, accountSettings] = await Promise.all([
         this.db.getProfiles(),
@@ -636,16 +637,18 @@ export class App implements OnInit {
 
       if (!profiles.length && seedIfEmpty && this.auth.isLoggedIn() && this.isOnline()) {
         const hasRemote = await this.hasRemoteProfiles();
-        if (hasRemote) {
+        if (hasRemote === true) {
           await this.sync.syncAll();
           [profiles, accountSettings] = await Promise.all([
             this.db.getProfiles(),
             this.db.getAccountSettings()
           ]);
+        } else if (hasRemote === null) {
+          seedIfEmpty = false;
         }
       }
 
-      if (!profiles.length && seedIfEmpty) {
+      if (!profiles.length && allowProfileSeed) {
         const fallbackLanguage = accountSettings?.language ?? 'en';
         const profileId = this.db.createId();
         const displayName = this.defaultProfileName(fallbackLanguage);
