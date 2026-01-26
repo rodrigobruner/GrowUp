@@ -1,13 +1,15 @@
-<div class="profile-avatar-wrap" *ngIf="src">
-  <button
-    type="button"
-    class="profile-avatar"
-    [matTooltip]="'profiles.editTooltip' | translate"
-    aria-label="Editar perfil"
-    (click)="onEditProfile()"
-  >
-    <img [src]="src" alt="Profile avatar" />
-  </button>
+<div class="profile-avatar-wrap">
+  <div class="profile-strip" *ngIf="profiles.length">
+    <button
+      type="button"
+      class="profile-strip-item"
+      *ngFor="let profile of profiles"
+      [class.active]="profile.id === activeProfileId"
+      (click)="selectProfile(profile.id)"
+    >
+      <img [src]="profileAvatarSrc(profile.avatarId)" alt="" />
+    </button>
+  </div>
   <button
     type="button"
     class="profile-avatar-add"

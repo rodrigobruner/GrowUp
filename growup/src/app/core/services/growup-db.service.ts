@@ -169,6 +169,16 @@ export class GrowUpDbService {
     await this.enqueueOutbox('profiles', 'delete', id);
   }
 
+  async removeProfileData(profileId: string): Promise<void> {
+    await Promise.all([
+      this.db.table('tasks').where('profileId').equals(profileId).delete(),
+      this.db.table('rewards').where('profileId').equals(profileId).delete(),
+      this.db.table('redemptions').where('profileId').equals(profileId).delete(),
+      this.db.table('completions').where('profileId').equals(profileId).delete(),
+      this.db.table('settings').where('profileId').equals(profileId).delete()
+    ]);
+  }
+
   async getTasks(profileId?: string): Promise<Task[]> {
     return this.getAllForProfile<Task>('tasks', profileId);
   }

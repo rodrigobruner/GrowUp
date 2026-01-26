@@ -413,11 +413,35 @@ export class App implements OnInit {
     this.settingsOpen.set(false);
   }
 
-  async saveSettings(result: { language: AccountSettings['language'] }): Promise<void> {
-    const accountSettings: AccountSettings = { ...this.accountSettings(), ...result, id: 'account' };
+  async saveSettings(result: {
+    language: AccountSettings['language'];
+    profile: Pick<Settings, 'avatarId' | 'displayName' | 'cycleType' | 'cycleStartDate' | 'levelUpPoints'>;
+  }): Promise<void> {
+    const accountSettings: AccountSettings = { ...this.accountSettings(), language: result.language, id: 'account' };
     await this.db.saveAccountSettings(accountSettings);
     this.accountSettings.set(accountSettings);
     this.translate.use(accountSettings.language);
+
+    const profileId = this.activeProfileId();
+    if (profileId) {
+      const profile: Profile = {
+        id: profileId,
+        displayName: result.profile.displayName ?? '',
+        avatarId: result.profile.avatarId ?? '01',
+        createdAt: this.profiles().find((item) => item.id === profileId)?.createdAt ?? Date.now()
+      };
+      await this.db.updateProfile(profile);
+      this.profiles.update((items) => items.map((item) => (item.id === profileId ? { ...item, ...profile } : item)));
+
+      const settings: Settings = {
+        ...this.settings(),
+        ...result.profile,
+        id: profileId,
+        profileId
+      };
+      await this.db.saveSettings(settings);
+      this.settings.set(settings);
+    }
     this.maybeSync();
     this.settingsOpen.set(false);
   }
@@ -447,9 +471,25 @@ export class App implements OnInit {
       return;
     }
 
+    const rawName = (result.displayName ?? '').trim();
+    const nameKey = rawName.toLowerCase();
+    if (mode === 'create') {
+      const exists = this.profiles().some((profile) => profile.displayName.trim().toLowerCase() === nameKey);
+      if (exists) {
+        this.dialog.open(ConfirmDialogComponent, {
+          data: {
+            title: this.translate.instant('profiles.duplicateTitle'),
+            message: this.translate.instant('profiles.duplicateMessage'),
+            confirmLabel: this.translate.instant('profiles.ok')
+          }
+        });
+        return;
+      }
+    }
+
     const profile: Profile = {
       id: profileId,
-      displayName: result.displayName ?? '',
+      displayName: rawName,
       avatarId: result.avatarId ?? '01',
       createdAt: mode === 'create' ? Date.now() : (this.profiles().find((p) => p.id === profileId)?.createdAt ?? Date.now())
     };
@@ -481,6 +521,45 @@ export class App implements OnInit {
     this.db.setActiveProfile(profileId);
     await this.refreshFromDb(this.lastRefreshSeed);
     this.profileOpen.set(false);
+  }
+
+  async deleteProfile(profileId: string): Promise<void> {
+    if (this.profiles().length <= 1) {
+      return;
+    }
+    const profile = this.profiles().find((item) => item.id === profileId);
+    if (!profile) {
+      return;
+    }
+    const confirmed = await firstValueFrom(
+      this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: this.translate.instant('confirm.deleteProfileTitle'),
+          message: this.translate.instant('confirm.deleteProfileMessage', { name: profile.displayName }),
+          confirmLabel: this.translate.instant('confirm.confirm'),
+          cancelLabel: this.translate.instant('confirm.cancel')
+        }
+      }).afterClosed()
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    await this.db.removeProfileData(profileId);
+    await this.db.removeProfile(profileId);
+    this.profiles.update((items) => items.filter((item) => item.id !== profileId));
+
+    if (this.activeProfileId() === profileId) {
+      const next = this.profiles()[0]?.id ?? null;
+      this.activeProfileId.set(next);
+      this.db.setActiveProfile(next);
+      if (next) {
+        localStorage.setItem('activeProfileId', next);
+      } else {
+        localStorage.removeItem('activeProfileId');
+      }
+      await this.refreshFromDb(this.lastRefreshSeed);
+    }
   }
 
   private showLevelUp(): void {
