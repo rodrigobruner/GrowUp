@@ -5,6 +5,7 @@
       class="profile-strip-item"
       *ngFor="let profile of profiles"
       [class.active]="profile.id === activeProfileId"
+      [matTooltip]="profile.displayName"
       (click)="selectProfile(profile.id)"
     >
       <img [src]="profileAvatarSrc(profile.avatarId)" alt="" />
