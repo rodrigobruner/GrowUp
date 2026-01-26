@@ -61,12 +61,6 @@ create table if not exists public.settings (
   updated_at timestamptz not null default now()
 );
 
-alter table public.settings
-add column if not exists avatar_id text not null default '01';
-
-alter table public.settings
-add column if not exists display_name text;
-
 create unique index if not exists settings_owner_unique on public.settings (owner_id);
 
 create or replace function public.touch_updated_at()
@@ -141,6 +135,7 @@ with check (auth.uid() = owner_id);
 
 create policy "redemptions_delete_own" on public.redemptions
 for delete using (auth.uid() = owner_id);
+
 create policy "completions_read_own" on public.completions
 for select using (auth.uid() = owner_id);
 

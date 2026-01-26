@@ -2,14 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, computed, effect, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/auth.service';
 import { AuthDialogComponent } from '../../features/auth/auth-dialog/auth-dialog.component';
 import { ResetPasswordDialogComponent } from '../../features/auth/reset-password-dialog/reset-password-dialog.component';
 import { SyncStatusDialogComponent } from '../sync-status-dialog/sync-status-dialog.component';
+import { UserMenuComponent } from '../user-menu/user-menu.component';
 
 @Component({
   selector: 'app-topbar',
@@ -17,10 +16,9 @@ import { SyncStatusDialogComponent } from '../sync-status-dialog/sync-status-dia
   imports: [
     CommonModule,
     MatToolbarModule,
-    MatIconModule,
-    MatMenuModule,
     MatButtonModule,
-    TranslateModule
+    TranslateModule,
+    UserMenuComponent
   ],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss'
@@ -53,6 +51,7 @@ export class TopbarComponent {
     }
     return null;
   });
+  readonly authProvider = computed(() => this.auth.user()?.app_metadata?.provider ?? null);
 
   constructor() {
     effect(() => {

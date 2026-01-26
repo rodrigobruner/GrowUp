@@ -1,0 +1,118 @@
+.avatar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  margin-right: 0.5rem;
+}
+
+.avatar-icon {
+  font-size: 2rem;
+}
+
+.avatar-image {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.user-menu-actions {
+  display: inline-flex;
+  align-items: center;
+}
+
+.settings-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-right: 0.5rem;
+}
+
+.settings-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.avatar-menu {
+  --menu-arrow-size: 10px;
+}
+
+:host ::ng-deep .mat-mdc-menu-panel.avatar-menu {
+  margin-top: calc(var(--menu-arrow-size) + 6px);
+  margin-left: 8px;
+  margin-right: 8px;
+  border-radius: 14px;
+  position: relative;
+  overflow: visible;
+  background: #fff7e7;
+  border: 1px solid rgba(255, 197, 90, 0.45);
+  box-shadow: 0 16px 30px rgba(19, 70, 134, 0.18);
+}
+
+:host ::ng-deep .mat-mdc-menu-panel.avatar-menu::before {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--menu-arrow-size));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: var(--menu-arrow-size) solid transparent;
+  border-right: var(--menu-arrow-size) solid transparent;
+  border-bottom: var(--menu-arrow-size) solid #fff7e7;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.08));
+}
+
+:host ::ng-deep .mat-mdc-menu-panel.avatar-menu .mat-mdc-menu-content {
+  margin: 0;
+  padding: 8px;
+  outline: 0;
+}
+
+:host ::ng-deep .mat-mdc-menu-panel.avatar-menu .menu-list {
+  margin: 10px;
+}
+
+:host ::ng-deep .mat-mdc-menu-panel.avatar-menu .menu-item {
+  min-height: 44px;
+  border-radius: 0;
+  margin: 0.25rem 5px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  width: calc(100% - 10px);
+}
+
+:host ::ng-deep .mat-mdc-menu-panel.avatar-menu .menu-item-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 197, 90, 0.25);
+  color: #1b3b69;
+  font-size: 18px;
+  line-height: 1;
+}
+
+:host ::ng-deep .mat-mdc-menu-panel.avatar-menu .menu-item-text {
+  color: #1b3b69;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+:host ::ng-deep .mat-mdc-menu-panel.avatar-menu mat-divider {
+  margin: 0.25rem 0;
+  border-top-color: rgba(255, 197, 90, 0.4);
+}
+
+@media (max-width: 840px) {
+  .avatar-image {
+    width: 32px;
+    height: 32px;
+  }
+}

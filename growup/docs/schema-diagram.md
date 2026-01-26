@@ -1,5 +1,6 @@
 ```mermaid
 erDiagram
+  %% language: en, pt, fr
   USERS ||--o{ TASKS : owns
   USERS ||--o{ REWARDS : owns
   USERS ||--o{ REDEMPTIONS : owns

@@ -4,43 +4,17 @@
     <span class="brand-title">{{ 'app.title' | translate }}</span>
   </div>
   <div class="spacer"></div>
-  <button
-    mat-icon-button
-    (click)="settingsClick.emit()"
-    [attr.aria-label]="'app.settings' | translate"
-  >
-    <span class="material-icons">settings</span>
-  </button>
-  <ng-container *ngIf="isLoggedIn(); else loggedOutAvatar">
-    <button
-      mat-icon-button
-      class="avatar-button"
-      [matMenuTriggerFor]="authMenu"
-      [attr.aria-label]="'auth.account' | translate"
-    >
-      <ng-container *ngIf="userAvatarUrl() && !avatarLoadFailed(); else localAvatar">
-        <img
-          class="avatar-image"
-          [src]="userAvatarUrl()"
-          alt=""
-          (error)="handleAvatarError()"
-        />
-      </ng-container>
-      <ng-template #localAvatar>
-        <img class="avatar-image" [src]="avatarSrc" alt="" />
-      </ng-template>
-    </button>
-  </ng-container>
-  <ng-template #loggedOutAvatar>
-    <button
-      mat-icon-button
-      class="avatar-button"
-      (click)="openAuthDialog()"
-      [attr.aria-label]="'auth.signIn' | translate"
-    >
-      <span class="material-icons avatar-icon">account_circle</span>
-    </button>
-  </ng-template>
+  <app-user-menu
+    [isLoggedIn]="isLoggedIn()"
+    [avatarSrc]="avatarSrc"
+    [userAvatarUrl]="userAvatarUrl()"
+    [avatarLoadFailed]="avatarLoadFailed()"
+    [authProvider]="authProvider()"
+    (settingsClick)="settingsClick.emit()"
+    (openAuthDialog)="openAuthDialog()"
+    (openResetPassword)="openResetPassword()"
+    (logout)="logout()"
+  />
   <div class="sync-status" *ngIf="isLoggedIn()">
     <span
       *ngIf="!isOnline || syncError"
@@ -67,14 +41,3 @@
     </span>
   </div>
 </mat-toolbar>
-
-<mat-menu #authMenu="matMenu">
-  <button mat-menu-item (click)="openResetPassword()">
-    <span class="material-icons">lock_reset</span>
-    <span>{{ 'auth.changePassword' | translate }}</span>
-  </button>
-  <button mat-menu-item (click)="logout()">
-    <span class="material-icons">logout</span>
-    <span>{{ 'auth.logout' | translate }}</span>
-  </button>
-</mat-menu>
