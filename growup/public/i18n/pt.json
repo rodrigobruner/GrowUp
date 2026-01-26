@@ -126,5 +126,16 @@
     "developedBy": "Desenvolvido por:",
     "site": "bruner.app",
     "builtAt": "Build em"
+  },
+  "confirm": {
+    "deleteTaskTitle": "Excluir tarefa",
+    "deleteTaskMessage": "Tem certeza que deseja excluir \"{{ title }}\"?",
+    "deleteRewardTitle": "Excluir recompensa",
+    "deleteRewardMessage": "Tem certeza que deseja excluir \"{{ title }}\"?",
+    "useRedemptionTitle": "Usar recompensa",
+    "useRedemptionMessage": "Deseja usar \"{{ title }}\" agora?",
+    "cancel": "Cancelar",
+    "confirm": "Excluir",
+    "use": "Usar"
   }
 }

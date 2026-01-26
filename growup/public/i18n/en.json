@@ -126,5 +126,16 @@
     "developedBy": "Developed by:",
     "site": "bruner.app",
     "builtAt": "Built at"
+  },
+  "confirm": {
+    "deleteTaskTitle": "Delete task",
+    "deleteTaskMessage": "Are you sure you want to delete \"{{ title }}\"?",
+    "deleteRewardTitle": "Delete reward",
+    "deleteRewardMessage": "Are you sure you want to delete \"{{ title }}\"?",
+    "useRedemptionTitle": "Use reward",
+    "useRedemptionMessage": "Do you want to use \"{{ title }}\" now?",
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "use": "Use"
   }
 }

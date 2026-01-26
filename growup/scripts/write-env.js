@@ -21,6 +21,8 @@ const contents = `export const environment = {
   production: false,
   supabaseUrl: '${supabaseUrl}',
   supabaseAnonKey: '${supabaseAnonKey}',
+  buildTime: 'local',
+  buildTimestamp: 'local',
 };
 `;
 
