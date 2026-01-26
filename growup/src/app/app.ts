@@ -23,6 +23,7 @@ import { SummaryCardComponent } from './features/summary/summary-card/summary-ca
 import { TasksPanelComponent } from './features/tasks/tasks-panel/tasks-panel.component';
 import { RewardsPanelComponent } from './features/rewards/rewards-panel/rewards-panel.component';
 import { LevelupDialogComponent } from './features/levelup/levelup-dialog/levelup-dialog.component';
+import { environment } from '../environments/environment';
 
 const currentDateKey = (): string => {
   const now = new Date();
@@ -94,6 +95,7 @@ export class App implements OnInit {
     return `assets/avatar/${avatarNumber}/level-${this.level()}.png`;
   });
   currentYear = new Date().getFullYear();
+  buildTime = environment.buildTime;
 
   selectedDate = signal(this.today());
   todayKey = computed(() => this.today());

@@ -124,6 +124,7 @@
   },
   "footer": {
     "developedBy": "Desenvolvido por:",
-    "site": "bruner.app"
+    "site": "bruner.app",
+    "builtAt": "Build em"
   }
 }

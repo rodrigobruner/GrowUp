@@ -56,6 +56,8 @@ jobs:
             production: true,
             supabaseUrl: '${{ secrets.SUPABASE_URL }}',
             supabaseAnonKey: '${{ secrets.SUPABASE_ANON_KEY }}',
+            buildTimestamp: '${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}',
+            buildTime: '${{ github.event.head_commit.timestamp }}',
           };
           EOF
 
