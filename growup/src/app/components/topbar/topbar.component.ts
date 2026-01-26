@@ -9,6 +9,7 @@ import { AuthDialogComponent } from '../../features/auth/auth-dialog/auth-dialog
 import { ResetPasswordDialogComponent } from '../../features/auth/reset-password-dialog/reset-password-dialog.component';
 import { SyncStatusDialogComponent } from '../sync-status-dialog/sync-status-dialog.component';
 import { UserMenuComponent } from '../user-menu/user-menu.component';
+import { ProfileAvatarComponent } from '../profile-avatar/profile-avatar.component';
 
 @Component({
   selector: 'app-topbar',
@@ -18,6 +19,7 @@ import { UserMenuComponent } from '../user-menu/user-menu.component';
     MatToolbarModule,
     MatButtonModule,
     TranslateModule,
+    ProfileAvatarComponent,
     UserMenuComponent
   ],
   templateUrl: './topbar.component.html',
@@ -31,6 +33,8 @@ export class TopbarComponent {
   @Input() syncError: string | null = null;
   @Input() avatarSrc = '';
   @Output() settingsClick = new EventEmitter<void>();
+  @Output() profileCreate = new EventEmitter<void>();
+  @Output() profileEdit = new EventEmitter<void>();
 
   private readonly dialog = inject(MatDialog);
   private readonly auth = inject(AuthService);
@@ -84,6 +88,14 @@ export class TopbarComponent {
         lastError: this.syncError
       }
     });
+  }
+
+  openCreateProfile(): void {
+    this.profileCreate.emit();
+  }
+
+  openEditProfile(): void {
+    this.profileEdit.emit();
   }
 
   async logout(): Promise<void> {

@@ -1,7 +1,16 @@
 [
   {
     "id": "01",
-    "name": "Default Avatar",
-    "description": "The Super Ben, a friendly and adventurous character."
+    "system-name": "default_boy",
+    "name": {
+      "en": "Super Buddy",
+      "pt": "Super Amigo",
+      "fr": "Super Copain"
+    },
+    "description": {
+      "en": "The Super Buddy, a friendly and adventurous character.",
+      "pt": "O Super Amigo, um personagem amigavel e aventureiro.",
+      "fr": "Le Super Copain, un personnage amical et aventureux."
+    }
   }
 ]

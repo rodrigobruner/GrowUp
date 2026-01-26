@@ -1,67 +1,103 @@
-<app-topbar
-  [balance]="balance()"
-  [isOnline]="isOnline()"
-  [isSyncing]="sync.isSyncing()"
-  [lastSyncAt]="sync.lastSyncAt()"
-  [syncError]="sync.lastError()"
-  [avatarSrc]="avatarSrc()"
-  (settingsClick)="openSettings()"
-/>
-
-<main class="page">
-  <section class="hero">
-    <div>
-      <p class="eyebrow">{{ 'app.eyebrow' | translate }}</p>
-      <h1>{{ 'app.hero' | translate }}</h1>
-      <p class="subtitle">
-        {{ 'app.subtitle' | translate }}
-      </p>
-    </div>
-    <app-summary-card
-      [avatarSrc]="avatarSrc()"
-      [level]="level()"
-      [xpToNext]="xpToNext()"
-      [progressPercent]="progressPercent()"
-      [earned]="earned()"
-      [spent]="spent()"
-      [available]="balance()"
-      [cycleLabel]="cycleLabel()"
-      [cycleEarned]="cycleEarned()"
-      [cycleRangeLabel]="cycleRangeLabel()"
-      [previousCycleEarned]="previousCycleEarned()"
-      [previousCycleLabel]="previousCycleLabel()"
+<mat-drawer-container class="app-shell">
+  <mat-drawer
+    class="settings-drawer"
+    position="end"
+    mode="over"
+    [opened]="settingsOpen()"
+    (closedStart)="closeSettings()"
+  >
+    <app-settings-dialog
+      [settings]="accountSettings()"
+      (closeSettings)="closeSettings()"
+      (saveSettings)="saveSettings($event)"
     />
-  </section>
-
-  <section class="grid">
-    <app-tasks-panel
-      [tasks]="tasks()"
-      [todayDoneIds]="todayDoneIds()"
-      [selectedDate]="selectedDate()"
-      [todayKey]="todayKey()"
-      (selectedDateChange)="setSelectedDate($event)"
-      (addTask)="openTaskDialog()"
-      (toggleTask)="toggleTask($event)"
-      (removeTask)="removeTask($event)"
+  </mat-drawer>
+  <mat-drawer
+    class="profile-drawer"
+    position="end"
+    mode="over"
+    [opened]="profileOpen()"
+    (closedStart)="closeProfile()"
+  >
+    <app-profile-dialog
+      [settings]="settings()"
+      [profiles]="profiles()"
+      [activeProfileId]="activeProfileId()"
+      [mode]="profileMode()"
+      (closeProfile)="closeProfile()"
+      (saveProfile)="saveProfile($event)"
+      (selectProfile)="selectProfile($event)"
     />
-
-    <app-rewards-panel
-      [rewards]="rewards()"
+  </mat-drawer>
+  <mat-drawer-content class="app-content">
+    <app-topbar
       [balance]="balance()"
-      [redemptions]="redemptions()"
-      [cycleStart]="currentCycleRange().start"
-      [cycleEnd]="currentCycleRange().end"
-      (addReward)="openRewardDialog()"
-      (redeemReward)="redeemReward($event)"
-      (consumeReward)="consumeReward($event)"
-      (removeReward)="removeReward($event)"
+      [isOnline]="isOnline()"
+      [isSyncing]="sync.isSyncing()"
+      [lastSyncAt]="sync.lastSyncAt()"
+      [syncError]="sync.lastError()"
+      [avatarSrc]="avatarSrc()"
+      (settingsClick)="openSettings()"
+      (profileCreate)="openCreateProfile()"
+      (profileEdit)="openProfile()"
     />
-  </section>
 
-  <footer class="app-footer">
-    <span>{{ 'footer.developedBy' | translate }} Rodrigo Bruner - </span>
-    <a href="https://bruner.app" target="_blank" rel="noopener">{{ 'footer.site' | translate }}</a>
-    <span> © {{ currentYear }}</span>
-    <span class="footer-build"> • {{ 'footer.builtAt' | translate }} {{ buildTime }}</span>
-  </footer>
-</main>
+    <main class="page">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">{{ 'app.eyebrow' | translate }}</p>
+          <h1>{{ 'app.hero' | translate }}</h1>
+          <p class="subtitle">
+            {{ 'app.subtitle' | translate }}
+          </p>
+        </div>
+        <app-summary-card
+          [avatarSrc]="avatarSrc()"
+          [level]="level()"
+          [xpToNext]="xpToNext()"
+          [progressPercent]="progressPercent()"
+          [earned]="earned()"
+          [spent]="spent()"
+          [available]="balance()"
+          [cycleLabel]="cycleLabel()"
+          [cycleEarned]="cycleEarned()"
+          [cycleRangeLabel]="cycleRangeLabel()"
+          [previousCycleEarned]="previousCycleEarned()"
+          [previousCycleLabel]="previousCycleLabel()"
+        />
+      </section>
+
+      <section class="grid">
+        <app-tasks-panel
+          [tasks]="tasks()"
+          [todayDoneIds]="todayDoneIds()"
+          [selectedDate]="selectedDate()"
+          [todayKey]="todayKey()"
+          (selectedDateChange)="setSelectedDate($event)"
+          (addTask)="openTaskDialog()"
+          (toggleTask)="toggleTask($event)"
+          (removeTask)="removeTask($event)"
+        />
+
+        <app-rewards-panel
+          [rewards]="rewards()"
+          [balance]="balance()"
+          [redemptions]="redemptions()"
+          [cycleStart]="currentCycleRange().start"
+          [cycleEnd]="currentCycleRange().end"
+          (addReward)="openRewardDialog()"
+          (redeemReward)="redeemReward($event)"
+          (consumeReward)="consumeReward($event)"
+          (removeReward)="removeReward($event)"
+        />
+      </section>
+
+      <footer class="app-footer">
+        <span>{{ 'footer.developedBy' | translate }} Rodrigo Bruner - </span>
+        <a href="https://bruner.app" target="_blank" rel="noopener">{{ 'footer.site' | translate }}</a>
+        <span> © {{ currentYear }}</span>
+        <span class="footer-build"> • {{ 'footer.builtAt' | translate }} {{ buildTime }}</span>
+      </footer>
+    </main>
+  </mat-drawer-content>
+</mat-drawer-container>

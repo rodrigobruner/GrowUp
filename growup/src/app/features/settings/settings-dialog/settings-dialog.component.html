@@ -20,59 +20,6 @@
       </section>
 
       <section class="settings-section">
-        <div class="section-title">{{ 'settingsDialog.avatarSection' | translate }}</div>
-        <div class="avatar-row">
-          <div class="avatar-preview" aria-live="polite">
-            <img [src]="avatarPreviewSrc()" alt="Avatar selecionado" />
-          </div>
-          <div class="avatar-fields">
-            <mat-form-field appearance="outline">
-              <mat-label>{{ 'settingsDialog.avatar' | translate }}</mat-label>
-              <mat-select formControlName="avatarId">
-                <mat-option *ngFor="let avatar of avatars()" [value]="avatar.id">
-                  <span class="avatar-option">
-                    <img class="avatar-option-img" [src]="avatarOptionSrc(avatar.id)" alt="" />
-                    {{ avatar.name }}
-                  </span>
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>{{ 'settingsDialog.displayName' | translate }}</mat-label>
-              <input matInput formControlName="displayName" maxlength="40" />
-            </mat-form-field>
-          </div>
-        </div>
-      </section>
-
-      <section class="settings-section">
-        <div class="section-title">{{ 'settingsDialog.cycleSection' | translate }}</div>
-        <div class="section-grid">
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'settingsDialog.cycle' | translate }}</mat-label>
-            <mat-select formControlName="cycleType">
-              <mat-option value="weekly">{{ 'cycle.weekly' | translate }}</mat-option>
-              <mat-option value="biweekly">{{ 'cycle.biweekly' | translate }}</mat-option>
-              <mat-option value="monthly">{{ 'cycle.monthly' | translate }}</mat-option>
-              <mat-option value="yearly">{{ 'cycle.yearly' | translate }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'settingsDialog.start' | translate }}</mat-label>
-            <input matInput type="date" formControlName="cycleStartDate" />
-          </mat-form-field>
-        </div>
-      </section>
-
-      <section class="settings-section">
-        <div class="section-title">{{ 'settingsDialog.levelupSection' | translate }}</div>
-        <mat-form-field appearance="outline">
-          <mat-label>{{ 'settingsDialog.levelUpPoints' | translate }}</mat-label>
-          <input matInput type="number" min="10" formControlName="levelUpPoints" />
-        </mat-form-field>
-      </section>
-
-      <section class="settings-section">
         <div class="section-title">{{ 'settingsDialog.cacheSection' | translate }}</div>
         <div class="cache-actions">
           <button mat-stroked-button type="button" (click)="clearCacheAndReload()">
@@ -99,10 +46,10 @@
       </section>
     </form>
   </div>
-  <mat-dialog-actions align="end">
+  <div class="drawer-actions">
     <button mat-button (click)="close()">{{ 'settingsDialog.cancel' | translate }}</button>
     <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid">
       {{ 'settingsDialog.save' | translate }}
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

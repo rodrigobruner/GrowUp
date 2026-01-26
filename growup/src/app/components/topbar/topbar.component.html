@@ -3,6 +3,12 @@
     <span class="material-icons">rocket_launch</span>
     <span class="brand-title">{{ 'app.title' | translate }}</span>
   </div>
+  <app-profile-avatar
+    class="center-avatar"
+    [src]="avatarSrc"
+    (createProfile)="openCreateProfile()"
+    (editProfile)="openEditProfile()"
+  />
   <div class="spacer"></div>
   <app-user-menu
     [isLoggedIn]="isLoggedIn()"

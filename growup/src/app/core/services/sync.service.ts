@@ -1,9 +1,18 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { type RealtimeChannel } from '@supabase/supabase-js';
-import { Completion, GrowUpDbService, Reward, RewardRedemption, Settings, Task } from './growup-db.service';
+import {
+  AccountSettings,
+  Completion,
+  GrowUpDbService,
+  Profile,
+  Reward,
+  RewardRedemption,
+  Settings,
+  Task
+} from './growup-db.service';
 import { AuthService } from './auth.service';
 
-type SyncTable = 'tasks' | 'rewards' | 'completions' | 'settings' | 'redemptions';
+type SyncTable = 'profiles' | 'tasks' | 'rewards' | 'completions' | 'settings' | 'redemptions' | 'accountSettings';
 
 @Injectable({
   providedIn: 'root'
@@ -69,32 +78,31 @@ export class SyncService {
     const entries = await this.db.getOutbox();
     const ordered = [...entries].sort((a, b) => {
       const priority = (entity: string) =>
-        entity === 'tasks'
+        entity === 'profiles'
           ? 0
-          : entity === 'rewards'
+          : entity === 'tasks'
             ? 1
-            : entity === 'redemptions'
+            : entity === 'rewards'
               ? 2
-              : entity === 'settings'
+              : entity === 'redemptions'
                 ? 3
-                : 4;
+                : entity === 'settings'
+                  ? 4
+                  : 5;
       return priority(a.entity) - priority(b.entity);
     });
 
     for (const entry of ordered) {
       try {
-        if (entry.entity === 'settings') {
-          if (entry.action === 'upsert' && entry.payload) {
+        if (entry.entity === 'accountSettings') {
+          if (entry.action === 'upsert' && entry.payload && this.isAccountSettings(entry.payload)) {
             const payload = {
-              ...this.toRemoteSettings(entry.payload as Settings, user.id),
+              ...this.toRemoteAccountSettings(entry.payload, user.id),
               owner_id: user.id
             };
-            const { error } = await supabase.from('settings').upsert(payload, { onConflict: 'id' });
-            if (error) {
-              throw error;
-            }
-          } else if (entry.action === 'delete') {
-            const { error } = await supabase.from('settings').delete().eq('id', user.id);
+            const { error } = await supabase
+              .from('account_settings')
+              .upsert(payload, { onConflict: 'owner_id' });
             if (error) {
               throw error;
             }
@@ -105,7 +113,33 @@ export class SyncService {
           continue;
         }
 
-        const table = entry.entity;
+        if (entry.entity === 'profiles') {
+          if (entry.action === 'upsert' && entry.payload && this.isProfile(entry.payload)) {
+            const payload = {
+              ...this.toRemoteProfile(entry.payload, user.id),
+              owner_id: user.id
+            };
+            const { error } = await supabase.from('profiles').upsert(payload, { onConflict: 'owner_id,id' });
+            if (error) {
+              throw error;
+            }
+          } else if (entry.action === 'delete') {
+            const { error } = await supabase
+              .from('profiles')
+              .delete()
+              .eq('id', entry.recordId)
+              .eq('owner_id', user.id);
+            if (error) {
+              throw error;
+            }
+          }
+          if (entry.seq !== undefined) {
+            await this.db.removeOutboxEntry(entry.seq);
+          }
+          continue;
+        }
+
+        const table = entry.entity as Exclude<SyncTable, 'accountSettings' | 'profiles'>;
         if (entry.action === 'upsert' && entry.payload) {
           if (table === 'completions') {
             const completion = entry.payload as Completion;
@@ -117,26 +151,34 @@ export class SyncService {
               };
               const { error: taskError } = await supabase
                 .from('tasks')
-                .upsert(taskPayload, { onConflict: 'id' });
+                .upsert(taskPayload, { onConflict: 'owner_id,profile_id,id' });
               if (taskError) {
                 throw taskError;
               }
             }
           }
           const payload = {
-            ...this.toRemotePayload(table, entry.payload as Task | Reward | Completion, user.id),
+            ...this.toRemotePayload(table, entry.payload as Task | Reward | Completion | Settings | RewardRedemption, user.id),
             owner_id: user.id
           };
-          const { error } = await supabase.from(table).upsert(payload, { onConflict: 'id' });
+          const { error } = await supabase
+            .from(table)
+            .upsert(payload, {
+              onConflict: table === 'redemptions' ? 'id' : 'owner_id,profile_id,id'
+            });
           if (error) {
             throw error;
           }
         } else if (entry.action === 'delete') {
-          const { error } = await supabase
+          let query = supabase
             .from(table)
             .update({ deleted_at: new Date().toISOString() })
             .eq('id', entry.recordId)
             .eq('owner_id', user.id);
+          if (entry.profileId) {
+            query = query.eq('profile_id', entry.profileId);
+          }
+          const { error } = await query;
           if (error) {
             throw error;
           }
@@ -153,11 +195,13 @@ export class SyncService {
 
   async pullAll(): Promise<void> {
     await Promise.all([
+      this.pullTable('profiles'),
       this.pullTable('tasks'),
       this.pullTable('rewards'),
       this.pullTable('completions'),
       this.pullTable('settings'),
-      this.pullTable('redemptions')
+      this.pullTable('redemptions'),
+      this.pullTable('accountSettings')
     ]);
   }
 
@@ -168,16 +212,20 @@ export class SyncService {
     }
     const supabase = this.auth.getClient();
     let didUpdate = false;
-    if (table === 'settings') {
-      const { data, error } = await supabase.from('settings').select('*').eq('owner_id', user.id).maybeSingle();
+    if (table === 'accountSettings') {
+      const { data, error } = await supabase
+        .from('account_settings')
+        .select('*')
+        .eq('owner_id', user.id)
+        .maybeSingle();
       if (error) {
         throw error;
       }
       if (!data) {
         return;
       }
-      const local = this.toLocalSettings(data);
-      await this.db.saveRemoteRecord('settings', local);
+      const local = this.toLocalAccountSettings(data);
+      await this.db.saveRemoteRecord('accountSettings', local);
       didUpdate = true;
       if (didUpdate) {
         this.lastSyncAt.set(Date.now());
@@ -200,7 +248,10 @@ export class SyncService {
         didUpdate = true;
         continue;
       }
-      const localRecord = await this.db.getRecord<Task | Reward | Completion | RewardRedemption>(table, row.id);
+      const localRecord = await this.db.getRecord<Task | Reward | Completion | RewardRedemption | Settings | Profile>(
+        table,
+        row.id
+      );
       const localUpdatedAt = localRecord?.updatedAt ?? 0;
       const remoteUpdatedAt = row.updated_at ? new Date(row.updated_at).getTime() : 0;
       if (remoteUpdatedAt >= localUpdatedAt) {
@@ -223,6 +274,11 @@ export class SyncService {
     const supabase = this.auth.getClient();
     this.channel = supabase
       .channel('growup-sync')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'profiles', filter: `owner_id=eq.${user.id}` },
+        () => this.pullTable('profiles')
+      )
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'tasks', filter: `owner_id=eq.${user.id}` },
@@ -248,6 +304,11 @@ export class SyncService {
         { event: '*', schema: 'public', table: 'redemptions', filter: `owner_id=eq.${user.id}` },
         () => this.pullTable('redemptions')
       )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'account_settings', filter: `owner_id=eq.${user.id}` },
+        () => this.pullTable('accountSettings')
+      )
       .subscribe();
   }
 
@@ -269,8 +330,8 @@ export class SyncService {
   }
 
   private toRemotePayload(
-    table: Exclude<SyncTable, 'settings'>,
-    payload: Task | Reward | Completion | RewardRedemption,
+    table: Exclude<SyncTable, 'accountSettings' | 'profiles'>,
+    payload: Task | Reward | Completion | RewardRedemption | Settings,
     ownerId: string
   ): Record<string, unknown> {
     if (table === 'tasks') {
@@ -278,6 +339,7 @@ export class SyncService {
       return {
         id: task.id,
         owner_id: ownerId,
+        profile_id: task.profileId,
         title: task.title,
         points: task.points,
         created_at: new Date(task.createdAt).toISOString(),
@@ -289,6 +351,7 @@ export class SyncService {
       return {
         id: reward.id,
         owner_id: ownerId,
+        profile_id: reward.profileId,
         title: reward.title,
         cost: reward.cost,
         limit_per_cycle: reward.limitPerCycle ?? 1,
@@ -302,6 +365,7 @@ export class SyncService {
       return {
         id: redemption.id,
         owner_id: ownerId,
+        profile_id: redemption.profileId,
         reward_id: redemption.rewardId,
         reward_title: redemption.rewardTitle,
         cost: redemption.cost,
@@ -310,10 +374,24 @@ export class SyncService {
         deleted_at: null
       };
     }
+    if (table === 'settings') {
+      const settings = payload as Settings;
+      return {
+        id: settings.id,
+        owner_id: ownerId,
+        profile_id: settings.profileId,
+        cycle_type: settings.cycleType,
+        cycle_start_date: settings.cycleStartDate,
+        level_up_points: settings.levelUpPoints,
+        avatar_id: settings.avatarId ?? '01',
+        display_name: settings.displayName ?? null
+      };
+    }
     const completion = payload as Completion;
     return {
       id: completion.id,
       owner_id: ownerId,
+      profile_id: completion.profileId,
       task_id: completion.taskId,
       date: completion.date,
       points: completion.points,
@@ -321,26 +399,57 @@ export class SyncService {
     };
   }
 
-  private toRemoteSettings(settings: Settings, ownerId: string): Record<string, unknown> {
+  private toRemoteAccountSettings(settings: AccountSettings, ownerId: string): Record<string, unknown> {
     return {
-      id: ownerId,
       owner_id: ownerId,
-      cycle_type: settings.cycleType,
-      cycle_start_date: settings.cycleStartDate,
-      language: settings.language,
-      level_up_points: settings.levelUpPoints,
-      avatar_id: settings.avatarId ?? '01',
-      display_name: settings.displayName ?? null
+      language: settings.language
     };
   }
 
+  private toRemoteProfile(profile: Profile, ownerId: string): Record<string, unknown> {
+    return {
+      id: profile.id,
+      owner_id: ownerId,
+      display_name: profile.displayName,
+      avatar_id: profile.avatarId ?? '01'
+    };
+  }
+
+  private isAccountSettings(payload: unknown): payload is AccountSettings {
+    return (
+      typeof payload === 'object' &&
+      payload !== null &&
+      'language' in payload &&
+      typeof (payload as { language?: unknown }).language === 'string'
+    );
+  }
+
+  private isProfile(payload: unknown): payload is Profile {
+    return (
+      typeof payload === 'object' &&
+      payload !== null &&
+      'displayName' in payload &&
+      'avatarId' in payload
+    );
+  }
+
   private toLocalRecord(
-    table: Exclude<SyncTable, 'settings'>,
+    table: Exclude<SyncTable, 'accountSettings'>,
     row: any
-  ): Task | Reward | Completion | RewardRedemption {
+  ): Task | Reward | Completion | RewardRedemption | Settings | Profile {
+    if (table === 'profiles') {
+      return {
+        id: row.id,
+        displayName: row.display_name,
+        avatarId: row.avatar_id ?? '01',
+        createdAt: new Date(row.created_at).getTime(),
+        updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
+      };
+    }
     if (table === 'tasks') {
       return {
         id: row.id,
+        profileId: row.profile_id,
         title: row.title,
         points: row.points,
         createdAt: new Date(row.created_at).getTime(),
@@ -350,6 +459,7 @@ export class SyncService {
     if (table === 'rewards') {
       return {
         id: row.id,
+        profileId: row.profile_id,
         title: row.title,
         cost: row.cost,
         limitPerCycle: row.limit_per_cycle ?? 1,
@@ -361,6 +471,7 @@ export class SyncService {
     if (table === 'redemptions') {
       return {
         id: row.id,
+        profileId: row.profile_id,
         rewardId: row.reward_id,
         rewardTitle: row.reward_title,
         cost: row.cost,
@@ -369,8 +480,21 @@ export class SyncService {
         updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
       } as RewardRedemption;
     }
+    if (table === 'settings') {
+      return {
+        id: row.id,
+        profileId: row.profile_id,
+        cycleType: row.cycle_type,
+        cycleStartDate: row.cycle_start_date,
+        levelUpPoints: row.level_up_points,
+        avatarId: row.avatar_id ?? '01',
+        displayName: row.display_name ?? '',
+        updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
+      };
+    }
     return {
       id: row.id,
+      profileId: row.profile_id,
       taskId: row.task_id,
       date: row.date,
       points: row.points,
@@ -378,15 +502,10 @@ export class SyncService {
     };
   }
 
-  private toLocalSettings(row: any): Settings {
+  private toLocalAccountSettings(row: any): AccountSettings {
     return {
-      id: 'global',
-      cycleType: row.cycle_type,
-      cycleStartDate: row.cycle_start_date,
+      id: 'account',
       language: row.language,
-      levelUpPoints: row.level_up_points,
-      avatarId: row.avatar_id ?? '01',
-      displayName: row.display_name ?? '',
       updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
     };
   }

@@ -8,6 +8,10 @@
   padding: 0 1rem;
 }
 
+.topbar .mat-mdc-toolbar-row {
+  position: relative;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -23,6 +27,12 @@
 
 .spacer {
   flex: 1;
+}
+
+.center-avatar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .balance {

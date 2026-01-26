@@ -1,0 +1,20 @@
+<div class="profile-avatar-wrap" *ngIf="src">
+  <button
+    type="button"
+    class="profile-avatar"
+    [matTooltip]="'profiles.editTooltip' | translate"
+    aria-label="Editar perfil"
+    (click)="onEditProfile()"
+  >
+    <img [src]="src" alt="Profile avatar" />
+  </button>
+  <button
+    type="button"
+    class="profile-avatar-add"
+    aria-label="Adicionar novo perfil"
+    [matTooltip]="'profiles.addTooltip' | translate"
+    (click)="onCreateProfile()"
+  >
+    <span class="material-icons">add</span>
+  </button>
+</div>

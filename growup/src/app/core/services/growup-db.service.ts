@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
 
-type StoreName = 'tasks' | 'rewards' | 'completions' | 'settings' | 'redemptions';
+type StoreName = 'profiles' | 'tasks' | 'rewards' | 'completions' | 'settings' | 'redemptions' | 'accountSettings';
 
 type BaseRecord = {
   id: string;
   title: string;
+  profileId: string;
 };
 
 export type Task = BaseRecord & {
@@ -24,6 +25,7 @@ export type Reward = BaseRecord & {
 
 export type RewardRedemption = {
   id: string;
+  profileId: string;
   rewardId: string;
   rewardTitle: string;
   cost: number;
@@ -34,20 +36,35 @@ export type RewardRedemption = {
 
 export type Completion = {
   id: string;
+  profileId: string;
   taskId: string;
   date: string;
   points: number;
   updatedAt?: number;
 };
 
+export type Profile = {
+  id: string;
+  displayName: string;
+  avatarId: string;
+  createdAt: number;
+  updatedAt?: number;
+};
+
 export type Settings = {
-  id: 'global';
+  id: string;
+  profileId: string;
   cycleType: 'weekly' | 'biweekly' | 'monthly' | 'yearly';
   cycleStartDate: string;
-  language: 'en' | 'pt' | 'fr';
   levelUpPoints: number;
   avatarId?: string;
   displayName?: string;
+  updatedAt?: number;
+};
+
+export type AccountSettings = {
+  id: 'account';
+  language: 'en' | 'pt' | 'fr';
   updatedAt?: number;
 };
 
@@ -59,35 +76,52 @@ export type OutboxEntry = {
   entity: OutboxEntity;
   action: OutboxAction;
   recordId: string;
-  payload?: Task | Reward | Completion | Settings | RewardRedemption;
+  profileId?: string;
+  payload?: Task | Reward | Completion | Settings | RewardRedemption | Profile | AccountSettings;
   createdAt: number;
 };
 
 class GrowUpDexie extends Dexie {
+  profiles!: Table<Profile, string>;
   tasks!: Table<Task, string>;
   rewards!: Table<Reward, string>;
   redemptions!: Table<RewardRedemption, string>;
   completions!: Table<Completion, string>;
   settings!: Table<Settings, string>;
+  accountSettings!: Table<AccountSettings, string>;
   outbox!: Table<OutboxEntry, number>;
 
   constructor(name: string) {
     super(name);
     this.version(1).stores({
-      tasks: 'id,createdAt',
-      rewards: 'id,createdAt,redeemedAt',
-      redemptions: 'id,rewardId,redeemedAt,date',
-      completions: 'id,taskId,date',
-      settings: 'id',
-      outbox: '++seq,createdAt,entity,action,recordId'
+      profiles: 'id,createdAt',
+      tasks: 'id,createdAt,profileId',
+      rewards: 'id,createdAt,redeemedAt,profileId',
+      redemptions: 'id,rewardId,redeemedAt,date,profileId',
+      completions: 'id,taskId,date,profileId',
+      settings: 'id,profileId',
+      accountSettings: 'id',
+      outbox: '++seq,createdAt,entity,action,recordId,profileId'
     });
     this.version(2).stores({
-      tasks: 'id,createdAt',
-      rewards: 'id,createdAt,redeemedAt',
-      redemptions: 'id,rewardId,redeemedAt,date',
-      completions: 'id,taskId,date',
-      settings: 'id',
-      outbox: '++seq,createdAt,entity,action,recordId'
+      profiles: 'id,createdAt',
+      tasks: 'id,createdAt,profileId',
+      rewards: 'id,createdAt,redeemedAt,profileId',
+      redemptions: 'id,rewardId,redeemedAt,date,profileId',
+      completions: 'id,taskId,date,profileId',
+      settings: 'id,profileId',
+      accountSettings: 'id',
+      outbox: '++seq,createdAt,entity,action,recordId,profileId'
+    });
+    this.version(3).stores({
+      profiles: 'id,createdAt',
+      tasks: 'id,createdAt,profileId',
+      rewards: 'id,createdAt,redeemedAt,profileId',
+      redemptions: 'id,rewardId,redeemedAt,date,profileId',
+      completions: 'id,taskId,date,profileId',
+      settings: 'id,profileId',
+      accountSettings: 'id',
+      outbox: '++seq,createdAt,entity,action,recordId,profileId'
     });
   }
 }
@@ -98,6 +132,7 @@ class GrowUpDexie extends Dexie {
 export class GrowUpDbService {
   private db = this.createDb('growup-db-anon');
   private currentUserKey = 'anon';
+  private currentProfileId: string | null = null;
 
   setUser(userId: string | null): void {
     const nextKey = userId ?? 'anon';
@@ -109,92 +144,127 @@ export class GrowUpDbService {
     this.db = this.createDb(`growup-db-${nextKey}`);
   }
 
-  async getTasks(): Promise<Task[]> {
-    return this.getAll<Task>('tasks');
+  setActiveProfile(profileId: string | null): void {
+    this.currentProfileId = profileId;
   }
 
-  async getRewards(): Promise<Reward[]> {
-    return this.getAll<Reward>('rewards');
+  async getProfiles(): Promise<Profile[]> {
+    return this.getAll<Profile>('profiles');
+  }
+
+  async addProfile(profile: Profile): Promise<void> {
+    const next = { ...profile, updatedAt: Date.now() };
+    await this.add('profiles', next);
+    await this.enqueueOutbox('profiles', 'upsert', next.id, next);
+  }
+
+  async updateProfile(profile: Profile): Promise<void> {
+    const next = { ...profile, updatedAt: Date.now() };
+    await this.put('profiles', next);
+    await this.enqueueOutbox('profiles', 'upsert', next.id, next);
+  }
+
+  async removeProfile(id: string): Promise<void> {
+    await this.remove('profiles', id);
+    await this.enqueueOutbox('profiles', 'delete', id);
+  }
+
+  async getTasks(profileId?: string): Promise<Task[]> {
+    return this.getAllForProfile<Task>('tasks', profileId);
+  }
+
+  async getRewards(profileId?: string): Promise<Reward[]> {
+    return this.getAllForProfile<Reward>('rewards', profileId);
   }
 
   async addTask(task: Task): Promise<void> {
     const next = { ...task, updatedAt: Date.now() };
     await this.add('tasks', next);
-    await this.enqueueOutbox('tasks', 'upsert', next.id, next);
+    await this.enqueueOutbox('tasks', 'upsert', next.id, next, next.profileId);
   }
 
   async updateTask(task: Task): Promise<void> {
     const next = { ...task, updatedAt: Date.now() };
     await this.put('tasks', next);
-    await this.enqueueOutbox('tasks', 'upsert', next.id, next);
+    await this.enqueueOutbox('tasks', 'upsert', next.id, next, next.profileId);
   }
 
-  async removeTask(id: string): Promise<void> {
+  async removeTask(id: string, profileId: string): Promise<void> {
     await this.remove('tasks', id);
-    await this.enqueueOutbox('tasks', 'delete', id);
+    await this.enqueueOutbox('tasks', 'delete', id, undefined, profileId);
   }
 
-  async getCompletions(): Promise<Completion[]> {
-    return this.getAll<Completion>('completions');
+  async getCompletions(profileId?: string): Promise<Completion[]> {
+    return this.getAllForProfile<Completion>('completions', profileId);
   }
 
   async addCompletion(completion: Completion): Promise<void> {
     const next = { ...completion, updatedAt: Date.now() };
     await this.put('completions', next);
-    await this.enqueueOutbox('completions', 'upsert', next.id, next);
+    await this.enqueueOutbox('completions', 'upsert', next.id, next, next.profileId);
   }
 
-  async removeCompletion(id: string): Promise<void> {
+  async removeCompletion(id: string, profileId: string): Promise<void> {
     await this.remove('completions', id);
-    await this.enqueueOutbox('completions', 'delete', id);
+    await this.enqueueOutbox('completions', 'delete', id, undefined, profileId);
   }
 
-  async removeCompletionsForTask(taskId: string): Promise<void> {
-    const completions = await this.getCompletions();
+  async removeCompletionsForTask(taskId: string, profileId: string): Promise<void> {
+    const completions = await this.getCompletions(profileId);
     const toRemove = completions.filter((completion) => completion.taskId === taskId);
-    await Promise.all(toRemove.map((completion) => this.removeCompletion(completion.id)));
+    await Promise.all(toRemove.map((completion) => this.removeCompletion(completion.id, profileId)));
   }
 
   async addReward(reward: Reward): Promise<void> {
     const next = { ...reward, updatedAt: Date.now() };
     await this.add('rewards', next);
-    await this.enqueueOutbox('rewards', 'upsert', next.id, next);
+    await this.enqueueOutbox('rewards', 'upsert', next.id, next, next.profileId);
   }
 
   async updateReward(reward: Reward): Promise<void> {
     const next = { ...reward, updatedAt: Date.now() };
     await this.put('rewards', next);
-    await this.enqueueOutbox('rewards', 'upsert', next.id, next);
+    await this.enqueueOutbox('rewards', 'upsert', next.id, next, next.profileId);
   }
 
-  async removeReward(id: string): Promise<void> {
+  async removeReward(id: string, profileId: string): Promise<void> {
     await this.remove('rewards', id);
-    await this.enqueueOutbox('rewards', 'delete', id);
+    await this.enqueueOutbox('rewards', 'delete', id, undefined, profileId);
   }
 
-  async getRedemptions(): Promise<RewardRedemption[]> {
-    return this.getAll<RewardRedemption>('redemptions');
+  async getRedemptions(profileId?: string): Promise<RewardRedemption[]> {
+    return this.getAllForProfile<RewardRedemption>('redemptions', profileId);
   }
 
   async addRedemption(redemption: RewardRedemption): Promise<void> {
     const next = { ...redemption, updatedAt: Date.now() };
     await this.add('redemptions', next);
-    await this.enqueueOutbox('redemptions', 'upsert', next.id, next);
+    await this.enqueueOutbox('redemptions', 'upsert', next.id, next, next.profileId);
   }
 
-  async removeRedemption(id: string): Promise<void> {
+  async removeRedemption(id: string, profileId: string): Promise<void> {
     await this.remove('redemptions', id);
-    await this.enqueueOutbox('redemptions', 'delete', id);
+    await this.enqueueOutbox('redemptions', 'delete', id, undefined, profileId);
   }
 
-  async getSettings(): Promise<Settings | undefined> {
-    return this.db.settings.get('global');
+  async getSettings(profileId: string): Promise<Settings | undefined> {
+    return this.db.settings.get(profileId);
   }
 
   async saveSettings(settings: Settings): Promise<void> {
     const next = { ...settings, updatedAt: Date.now() };
     await this.put('settings', next);
-    await this.enqueueOutbox('settings', 'upsert', next.id, next);
+    await this.enqueueOutbox('settings', 'upsert', next.id, next, next.profileId);
+  }
+
+  async getAccountSettings(): Promise<AccountSettings | undefined> {
+    return this.db.accountSettings.get('account');
+  }
+
+  async saveAccountSettings(settings: AccountSettings): Promise<void> {
+    const next = { ...settings, updatedAt: Date.now() };
+    await this.put('accountSettings', next);
+    await this.enqueueOutbox('accountSettings', 'upsert', next.id, next);
   }
 
   createId(): string {
@@ -203,6 +273,17 @@ export class GrowUpDbService {
 
   private async getAll<T>(storeName: StoreName): Promise<T[]> {
     return this.db.table(storeName).toArray() as Promise<T[]>;
+  }
+
+  private async getAllForProfile<T extends { profileId: string }>(
+    storeName: StoreName,
+    profileId?: string
+  ): Promise<T[]> {
+    const resolved = profileId ?? this.currentProfileId;
+    if (!resolved) {
+      return [];
+    }
+    return this.db.table(storeName).where('profileId').equals(resolved).toArray() as Promise<T[]>;
   }
 
   private async add<T>(storeName: StoreName, value: T): Promise<void> {
@@ -347,12 +428,12 @@ export class GrowUpDbService {
   async migrateLegacyRewardRedemptions(): Promise<void> {
     const rewards = await this.getAll<Reward>('rewards');
     const redemptions = await this.getAll<RewardRedemption>('redemptions');
-    const existing = new Set(redemptions.map((entry) => `${entry.rewardId}-${entry.redeemedAt}`));
+    const existing = new Set(redemptions.map((entry) => `${entry.profileId}-${entry.rewardId}-${entry.redeemedAt}`));
     for (const reward of rewards) {
       if (!reward.redeemedAt) {
         continue;
       }
-      const key = `${reward.id}-${reward.redeemedAt}`;
+      const key = `${reward.profileId}-${reward.id}-${reward.redeemedAt}`;
       if (existing.has(key)) {
         continue;
       }
@@ -360,6 +441,7 @@ export class GrowUpDbService {
       const date = new Date(redeemedAt);
       const redemption: RewardRedemption = {
         id: this.createId(),
+        profileId: reward.profileId,
         rewardId: reward.id,
         rewardTitle: reward.title,
         cost: reward.cost,
@@ -377,12 +459,14 @@ export class GrowUpDbService {
     entity: OutboxEntity,
     action: OutboxAction,
     recordId: string,
-    payload?: Task | Reward | Completion | Settings | RewardRedemption
+    payload?: Task | Reward | Completion | Settings | RewardRedemption | Profile | AccountSettings,
+    profileId?: string
   ): Promise<void> {
     await this.db.outbox.add({
       entity,
       action,
       recordId,
+      profileId,
       payload,
       createdAt: Date.now()
     });

@@ -78,6 +78,20 @@
     "save": "Salvar",
     "close": "Fechar"
   },
+  "profiles": {
+    "addTooltip": "Cadastrar novo perfil",
+    "editTooltip": "Clique aqui para editar as informações do perfil",
+    "dialogTitle": "Novo perfil",
+    "editTitle": "Editar perfil",
+    "avatarSection": "Avatar",
+    "avatarLabel": "Avatar",
+    "nameLabel": "Nome",
+    "listTitle": "Perfis",
+    "use": "Usar esse perfil",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "close": "Fechar"
+  },
   "cycle": {
     "weekly": "Semanal",
     "biweekly": "Bi-semanal",

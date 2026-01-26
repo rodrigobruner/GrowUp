@@ -1,9 +1,12 @@
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import {
+  AccountSettings,
   Completion,
   GrowUpDbService,
+  Profile,
   Reward,
   RewardRedemption,
   Settings,
@@ -25,6 +28,7 @@ import { RewardsPanelComponent } from './features/rewards/rewards-panel/rewards-
 import { LevelupDialogComponent } from './features/levelup/levelup-dialog/levelup-dialog.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { environment } from '../environments/environment';
+import { ProfileDialogComponent } from './features/profiles/profile-dialog/profile-dialog.component';
 
 const currentDateKey = (): string => {
   const now = new Date();
@@ -38,10 +42,13 @@ const currentDateKey = (): string => {
   selector: 'app-root',
   imports: [
     MatDialogModule,
+    MatSidenavModule,
     TopbarComponent,
     SummaryCardComponent,
     TasksPanelComponent,
     RewardsPanelComponent,
+    SettingsDialogComponent,
+    ProfileDialogComponent,
     TranslateModule
   ],
   templateUrl: './app.html',
@@ -53,14 +60,20 @@ export class App implements OnInit {
   completions = signal<Completion[]>([]);
   redemptions = signal<RewardRedemption[]>([]);
   settings = signal<Settings>({
-    id: 'global',
+    id: 'profile',
+    profileId: 'profile',
     cycleType: 'weekly',
     cycleStartDate: currentDateKey(),
-    language: 'en',
     levelUpPoints: 100,
     avatarId: '01',
     displayName: ''
   });
+  accountSettings = signal<AccountSettings>({
+    id: 'account',
+    language: 'en'
+  });
+  profiles = signal<Profile[]>([]);
+  activeProfileId = signal<string | null>(null);
 
   earned = computed(() => this.completions().reduce((sum, completion) => sum + completion.points, 0));
   spent = computed(() => this.redemptions().reduce((sum, redemption) => sum + redemption.cost, 0));
@@ -114,10 +127,13 @@ export class App implements OnInit {
 
   private resetDialogOpen = false;
   private errorDialogOpen = false;
-  private tasksSeeded = false;
-  private rewardsSeeded = false;
+  private tasksSeeded = new Set<string>();
+  private rewardsSeeded = new Set<string>();
   private isRefreshing = false;
   private pendingRefresh = false;
+  settingsOpen = signal(false);
+  profileOpen = signal(false);
+  profileMode = signal<'create' | 'edit'>('edit');
   private lastRefreshSeed = false;
   readonly isOnline = signal(navigator.onLine);
 
@@ -220,8 +236,13 @@ export class App implements OnInit {
     if (!rawTitle) {
       return;
     }
+    const profileId = this.activeProfileId();
+    if (!profileId) {
+      return;
+    }
     const task: Task = {
       id: this.db.createId(),
+      profileId,
       title: rawTitle,
       points: Number(result.points),
       createdAt: Date.now()
@@ -233,10 +254,10 @@ export class App implements OnInit {
 
   async toggleTask(task: Task): Promise<void> {
     const date = this.selectedDate();
-    const completionId = `${task.id}-${date}`;
+    const completionId = `${task.profileId}-${task.id}-${date}`;
     const alreadyDone = this.todayDoneIds().has(task.id);
     if (alreadyDone) {
-      await this.db.removeCompletion(completionId);
+      await this.db.removeCompletion(completionId, task.profileId);
       this.completions.update((items) => items.filter((item) => item.id !== completionId));
       this.maybeSync();
       return;
@@ -246,6 +267,7 @@ export class App implements OnInit {
     const previousLevel = this.level();
     const completion: Completion = {
       id: completionId,
+      profileId: task.profileId,
       taskId: task.id,
       date,
       points: task.points
@@ -273,8 +295,8 @@ export class App implements OnInit {
     if (!confirmed) {
       return;
     }
-    await this.db.removeTask(task.id);
-    await this.db.removeCompletionsForTask(task.id);
+    await this.db.removeTask(task.id, task.profileId);
+    await this.db.removeCompletionsForTask(task.id, task.profileId);
     this.tasks.update((items) => items.filter((item) => item.id !== task.id));
     this.completions.update((items) => items.filter((item) => item.taskId !== task.id));
     this.maybeSync();
@@ -298,8 +320,13 @@ export class App implements OnInit {
     if (!rawTitle) {
       return;
     }
+    const profileId = this.activeProfileId();
+    if (!profileId) {
+      return;
+    }
     const reward: Reward = {
       id: this.db.createId(),
+      profileId,
       title: rawTitle,
       cost: Number(result.cost),
       limitPerCycle: Number(result.limitPerCycle),
@@ -327,6 +354,7 @@ export class App implements OnInit {
 
     const redemption: RewardRedemption = {
       id: this.db.createId(),
+      profileId: reward.profileId,
       rewardId: reward.id,
       rewardTitle: reward.title,
       cost: reward.cost,
@@ -352,7 +380,7 @@ export class App implements OnInit {
     if (!confirmed) {
       return;
     }
-    await this.db.removeRedemption(redemption.id);
+    await this.db.removeRedemption(redemption.id, redemption.profileId);
     this.redemptions.update((items) => items.filter((item) => item.id !== redemption.id));
     this.maybeSync();
   }
@@ -371,31 +399,88 @@ export class App implements OnInit {
     if (!confirmed) {
       return;
     }
-    await this.db.removeReward(reward.id);
+    await this.db.removeReward(reward.id, reward.profileId);
     this.rewards.update((items) => items.filter((item) => item.id !== reward.id));
     this.maybeSync();
   }
 
-  async openSettings(): Promise<void> {
-    const isCompact = window.innerWidth <= 800;
-    const dialogRef = this.dialog.open(SettingsDialogComponent, {
-      panelClass: 'settings-drawer',
-      width: isCompact ? '100vw' : '40vw',
-      maxWidth: isCompact ? '100vw' : '40vw',
-      height: '100vh',
-      maxHeight: '100vh',
-      position: { right: '0' }
-    });
-    dialogRef.componentInstance.setSettings(this.settings());
-    const result = await firstValueFrom(dialogRef.afterClosed());
-    if (!result) {
+  openSettings(): void {
+    this.profileOpen.set(false);
+    this.settingsOpen.set(true);
+  }
+
+  closeSettings(): void {
+    this.settingsOpen.set(false);
+  }
+
+  async saveSettings(result: { language: AccountSettings['language'] }): Promise<void> {
+    const accountSettings: AccountSettings = { ...this.accountSettings(), ...result, id: 'account' };
+    await this.db.saveAccountSettings(accountSettings);
+    this.accountSettings.set(accountSettings);
+    this.translate.use(accountSettings.language);
+    this.maybeSync();
+    this.settingsOpen.set(false);
+  }
+
+  openProfile(): void {
+    this.profileMode.set('edit');
+    this.settingsOpen.set(false);
+    this.profileOpen.set(true);
+  }
+
+  openCreateProfile(): void {
+    this.profileMode.set('create');
+    this.settingsOpen.set(false);
+    this.profileOpen.set(true);
+  }
+
+  closeProfile(): void {
+    this.profileOpen.set(false);
+  }
+
+  async saveProfile(
+    result: Pick<Settings, 'avatarId' | 'displayName' | 'cycleType' | 'cycleStartDate' | 'levelUpPoints'>
+  ): Promise<void> {
+    const mode = this.profileMode();
+    const profileId = mode === 'create' ? this.db.createId() : this.activeProfileId();
+    if (!profileId) {
       return;
     }
-    const settings: Settings = { id: 'global', ...result };
+
+    const profile: Profile = {
+      id: profileId,
+      displayName: result.displayName ?? '',
+      avatarId: result.avatarId ?? '01',
+      createdAt: mode === 'create' ? Date.now() : (this.profiles().find((p) => p.id === profileId)?.createdAt ?? Date.now())
+    };
+
+    if (mode === 'create') {
+      await this.db.addProfile(profile);
+      this.profiles.update((items) => [...items, profile]);
+      this.activeProfileId.set(profileId);
+      this.db.setActiveProfile(profileId);
+    } else {
+      await this.db.updateProfile(profile);
+      this.profiles.update((items) => items.map((item) => (item.id === profileId ? { ...item, ...profile } : item)));
+    }
+
+    const settings: Settings = {
+      ...this.settings(),
+      ...result,
+      id: profileId,
+      profileId
+    };
     await this.db.saveSettings(settings);
     this.settings.set(settings);
-    this.translate.use(settings.language);
     this.maybeSync();
+    this.profileOpen.set(false);
+  }
+
+  async selectProfile(profileId: string): Promise<void> {
+    this.activeProfileId.set(profileId);
+    this.db.setActiveProfile(profileId);
+    await this.refreshFromDb(this.lastRefreshSeed);
+    this.profileOpen.set(false);
   }
 
   private showLevelUp(): void {
@@ -424,6 +509,16 @@ export class App implements OnInit {
     }
   }
 
+  private defaultProfileName(language: AccountSettings['language']): string {
+    if (language === 'pt') {
+      return 'Super Amigo';
+    }
+    if (language === 'fr') {
+      return 'Super Copain';
+    }
+    return 'Super Buddy';
+  }
+
   private async refreshFromDb(seedIfEmpty: boolean): Promise<void> {
     if (this.isRefreshing) {
       this.pendingRefresh = true;
@@ -435,26 +530,83 @@ export class App implements OnInit {
     try {
       await this.db.migrateDefaultIds();
       await this.db.migrateLegacyRewardRedemptions();
+
+      const [profiles, accountSettings] = await Promise.all([
+        this.db.getProfiles(),
+        this.db.getAccountSettings()
+      ]);
+
+      if (accountSettings) {
+        this.accountSettings.set(accountSettings);
+        this.translate.use(accountSettings.language);
+      } else if (seedIfEmpty) {
+        const nextAccount: AccountSettings = { id: 'account', language: 'en' };
+        await this.db.saveAccountSettings(nextAccount);
+        this.accountSettings.set(nextAccount);
+        this.translate.use(nextAccount.language);
+      }
+
+      let activeProfileId = this.activeProfileId();
+      const storedProfileId = localStorage.getItem('activeProfileId');
+      if (!activeProfileId && storedProfileId && profiles.some((profile) => profile.id === storedProfileId)) {
+        activeProfileId = storedProfileId;
+      }
+
+      if (!profiles.length && seedIfEmpty) {
+        const fallbackLanguage = accountSettings?.language ?? 'en';
+        const profileId = this.db.createId();
+        const displayName = this.defaultProfileName(fallbackLanguage);
+        const profile: Profile = {
+          id: profileId,
+          displayName,
+          avatarId: '01',
+          createdAt: Date.now()
+        };
+        await this.db.addProfile(profile);
+        const profileSettings: Settings = {
+          id: profileId,
+          profileId,
+          cycleType: 'weekly',
+          cycleStartDate: currentDateKey(),
+          levelUpPoints: 100,
+          avatarId: '01',
+          displayName
+        };
+        await this.db.saveSettings(profileSettings);
+        profiles.push(profile);
+        activeProfileId = profileId;
+      }
+
+      this.profiles.set(profiles);
+      if (!activeProfileId && profiles.length) {
+        activeProfileId = profiles[0].id;
+      }
+      this.activeProfileId.set(activeProfileId);
+      if (activeProfileId) {
+        this.db.setActiveProfile(activeProfileId);
+        localStorage.setItem('activeProfileId', activeProfileId);
+      }
+
       const [tasks, rewards, completions, settings, redemptions] = await Promise.all([
-        this.db.getTasks(),
-        this.db.getRewards(),
-        this.db.getCompletions(),
-        this.db.getSettings(),
-        this.db.getRedemptions()
+        this.db.getTasks(activeProfileId ?? undefined),
+        this.db.getRewards(activeProfileId ?? undefined),
+        this.db.getCompletions(activeProfileId ?? undefined),
+        activeProfileId ? this.db.getSettings(activeProfileId) : undefined,
+        this.db.getRedemptions(activeProfileId ?? undefined)
       ]);
       let didSeed = false;
-      if (tasks.length === 0 && seedIfEmpty && !this.tasksSeeded) {
+      if (tasks.length === 0 && seedIfEmpty && activeProfileId && !this.tasksSeeded.has(activeProfileId)) {
         const seeded = await this.seedDefaultTasks();
         this.tasks.set(this.sortTasks(seeded));
-        this.tasksSeeded = true;
+        this.tasksSeeded.add(activeProfileId);
         didSeed = true;
       } else {
         this.tasks.set(this.sortTasks(tasks));
       }
-      if (rewards.length === 0 && seedIfEmpty && !this.rewardsSeeded) {
+      if (rewards.length === 0 && seedIfEmpty && activeProfileId && !this.rewardsSeeded.has(activeProfileId)) {
         const seededRewards = await this.seedDefaultRewards();
         this.rewards.set(this.sortRewards(seededRewards));
-        this.rewardsSeeded = true;
+        this.rewardsSeeded.add(activeProfileId);
         didSeed = true;
       } else {
         this.rewards.set(this.sortRewards(rewards));
@@ -464,13 +616,11 @@ export class App implements OnInit {
       if (settings) {
         this.settings.set({
           ...settings,
-          language: settings.language ?? 'en',
           levelUpPoints: settings.levelUpPoints ?? 100,
           avatarId: settings.avatarId ?? '01',
           displayName: settings.displayName ?? ''
         });
       }
-      this.translate.use(this.settings().language);
       if (didSeed && this.auth.isLoggedIn() && this.isOnline()) {
         await this.sync.syncAll();
       }
@@ -512,8 +662,10 @@ export class App implements OnInit {
   private async seedDefaultTasks(): Promise<Task[]> {
     const language = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
     const defaults = language.startsWith('pt') ? this.defaultTasksPt() : this.defaultTasksEn();
+    const profileId = this.activeProfileId() ?? this.db.createId();
     const seeded = defaults.map((entry, index) => ({
-      id: this.defaultId('task', language, index),
+      id: this.defaultId('task', language, index, profileId),
+      profileId,
       title: entry.title,
       points: entry.points,
       createdAt: Date.now()
@@ -525,8 +677,10 @@ export class App implements OnInit {
   private async seedDefaultRewards(): Promise<Reward[]> {
     const language = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
     const defaults = language.startsWith('pt') ? this.defaultRewardsPt() : this.defaultRewardsEn();
+    const profileId = this.activeProfileId() ?? this.db.createId();
     const seeded = defaults.map((entry, index) => ({
-      id: this.defaultId('reward', language, index),
+      id: this.defaultId('reward', language, index, profileId),
+      profileId,
       title: entry.title,
       cost: entry.cost,
       limitPerCycle: entry.limitPerCycle,
@@ -536,9 +690,9 @@ export class App implements OnInit {
     return seeded;
   }
 
-  private defaultId(kind: 'task' | 'reward', language: string, index: number): string {
+  private defaultId(kind: 'task' | 'reward', language: string, index: number, profileId: string): string {
     const langKey = language.startsWith('pt') ? 'pt' : 'en';
-    const seed = `default-${kind}-${langKey}-${index + 1}`;
+    const seed = `default-${kind}-${langKey}-${index + 1}-${profileId}`;
     return this.uuidFromString(seed);
   }
 
