@@ -57,6 +57,7 @@ const currentDateKey = (): string => {
 })
 export class App implements OnInit {
   private readonly termsVersion = '2026-01-26';
+  private termsDialogOpen = false;
   tasks = signal<Task[]>([]);
   rewards = signal<Reward[]>([]);
   completions = signal<Completion[]>([]);
@@ -263,6 +264,10 @@ export class App implements OnInit {
       return true;
     }
 
+    if (this.termsDialogOpen) {
+      return false;
+    }
+    this.termsDialogOpen = true;
     const accepted = await firstValueFrom(
       this.dialog.open(TermsDialogComponent, {
         panelClass: 'terms-dialog',
@@ -271,6 +276,7 @@ export class App implements OnInit {
         maxWidth: '100vw'
       }).afterClosed()
     );
+    this.termsDialogOpen = false;
     if (!accepted) {
       return false;
     }
