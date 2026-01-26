@@ -222,6 +222,7 @@ export class App implements OnInit {
   }
 
   private async handleAuthChange(userId: string | null): Promise<void> {
+    this.sync.stop();
     if (userId && this.lastUserId !== userId) {
       await this.db.clearAnonymousDatabase();
       localStorage.removeItem('activeProfileId');
@@ -239,6 +240,9 @@ export class App implements OnInit {
       }
     }
     await this.refreshFromDb(!userId);
+    if (userId) {
+      await this.sync.start();
+    }
   }
 
   private async ensureTermsAccepted(userId: string): Promise<boolean> {
@@ -727,7 +731,7 @@ export class App implements OnInit {
         localStorage.removeItem('activeProfileId');
       }
 
-      if (!profiles.length && allowProfileSeed) {
+      if (!profiles.length && allowProfileSeed && !this.auth.isLoggedIn()) {
         const fallbackLanguage = accountSettings?.language ?? 'en';
         const profileId = this.db.createId();
         const displayName = this.defaultProfileName(fallbackLanguage);
