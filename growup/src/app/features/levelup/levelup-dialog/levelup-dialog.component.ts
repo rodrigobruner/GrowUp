@@ -29,7 +29,7 @@ export class LevelupDialogComponent implements OnInit, AfterViewInit {
     const baseHref = this.document.querySelector('base')?.getAttribute('href') ?? '/';
     const normalized = baseHref.endsWith('/') ? baseHref : `${baseHref}/`;
     const avatarId = this.data?.avatarId ?? '01';
-    return `${normalized}assets/avatar/${avatarId}/levelup.mov`;
+    return `${normalized}assets/avatar/${avatarId}/levelup.mp4`;
   }
 
   setMaxVolume(): void {
