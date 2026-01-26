@@ -142,6 +142,23 @@ mat-progress-bar {
   gap: 2rem;
 }
 
+.app-footer {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(46, 58, 89, 0.7);
+}
+
+.app-footer a {
+  color: var(--app-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
 .panel {
   padding: 1.5rem;
   background: #ffffffeb;
@@ -275,6 +292,25 @@ mat-progress-bar {
   }
 }
 
+@media (max-width: 840px) {
+  .page {
+    padding: 1.75rem clamp(1rem, 2.5vw, 2.5rem) 2.25rem;
+  }
+
+  .hero {
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+  }
+
+  .app-footer {
+    margin-top: 2rem;
+  }
+}
+
 @media (max-width: 720px) {
   .summary-layout {
     grid-template-columns: 1fr;
@@ -300,6 +336,26 @@ mat-progress-bar {
 
   .item-row span {
     margin-left: 2.5rem;
+  }
+}
+
+@media (max-height: 520px) {
+  .page {
+    padding: 1.25rem clamp(1rem, 2vw, 2rem) 1.75rem;
+  }
+
+  .hero {
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .cdk-overlay-pane.settings-drawer {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    right: 0;
+    left: 0;
   }
 }
 

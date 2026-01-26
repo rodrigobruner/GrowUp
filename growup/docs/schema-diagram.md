@@ -67,6 +67,7 @@ erDiagram
     text language
     int level_up_points
     text avatar_id
+    text display_name
     timestamptz created_at
     timestamptz updated_at
   }

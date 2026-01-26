@@ -35,135 +35,7 @@ type AvatarOption = {
     TranslateModule
   ],
   templateUrl: './settings-dialog.component.html',
-  styles: [
-    `
-      .dialog-form {
-        display: grid;
-        gap: 1rem;
-        margin-top: 0;
-        min-width: min(360px, 80vw);
-      }
-
-      .section-title {
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        font-size: 0.7rem;
-        color: rgba(19, 70, 134, 0.7);
-        margin-top: 0.25rem;
-      }
-
-      .avatar-option {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .avatar-option-img {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 1px solid rgba(19, 70, 134, 0.25);
-        background: #f2f6fb;
-      }
-
-      .avatar-preview {
-        display: flex;
-        justify-content: center;
-        padding: 0.5rem 0;
-      }
-
-      .avatar-preview img {
-        width: 120px;
-        height: 120px;
-        border-radius: 18px;
-        object-fit: contain;
-        border: 1px solid rgba(19, 70, 134, 0.25);
-        background: #f2f6fb;
-      }
-
-      .danger-zone {
-        display: grid;
-        gap: 0.75rem;
-        margin-top: 0.5rem;
-      }
-
-      .danger-title {
-        color: rgba(146, 16, 30, 0.75);
-      }
-
-      .delete-account-button {
-        color: #a33;
-        border-color: rgba(170, 51, 51, 0.35);
-        background: rgba(255, 214, 214, 0.6);
-      }
-
-      .delete-account-button:hover {
-        background: rgba(255, 214, 214, 0.8);
-      }
-
-      .settings-drawer {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      }
-
-      .drawer-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        padding: 1rem 1.5rem 0.5rem;
-        min-height: 56px;
-      }
-
-      .drawer-title {
-        margin: 0;
-        font-size: 1.6rem;
-        font-family: 'Baloo 2', 'Comic Sans MS', cursive;
-        color: var(--app-primary);
-      }
-
-      :host ::ng-deep .mat-mdc-dialog-content {
-        width: 100%;
-        flex: 1 1 auto;
-        min-height: 0;
-        overflow-y: auto;
-        padding: 0 1.5rem;
-      }
-
-      :host ::ng-deep .mat-mdc-dialog-actions {
-        margin: 0;
-        padding: 0.5rem 1.5rem 1rem;
-        min-height: 56px;
-      }
-
-      .settings-section {
-        display: grid;
-        gap: 0.75rem;
-        padding: 0.75rem 0 1.25rem;
-        border-bottom: 1px solid rgba(19, 70, 134, 0.08);
-      }
-
-      .settings-section:last-of-type {
-        border-bottom: none;
-        padding-bottom: 0;
-      }
-
-      .section-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1rem;
-      }
-
-      @media (max-width: 720px) {
-        .section-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-    `
-  ]
+  styleUrl: './settings-dialog.component.scss'
 })
 export class SettingsDialogComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<SettingsDialogComponent>);
@@ -179,7 +51,8 @@ export class SettingsDialogComponent implements OnInit {
     cycleStartDate: [this.today(), Validators.required],
     language: ['en', Validators.required],
     levelUpPoints: [100, [Validators.required, Validators.min(10)]],
-    avatarId: ['01', Validators.required]
+    avatarId: ['01', Validators.required],
+    displayName: ['', [Validators.maxLength(40)]]
   });
 
   ngOnInit(): void {
@@ -189,7 +62,8 @@ export class SettingsDialogComponent implements OnInit {
   setSettings(settings: Settings): void {
     this.form.reset({
       ...settings,
-      avatarId: settings.avatarId ?? '01'
+      avatarId: settings.avatarId ?? '01',
+      displayName: settings.displayName ?? ''
     });
   }
 
