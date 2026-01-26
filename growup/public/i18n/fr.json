@@ -126,5 +126,16 @@
     "developedBy": "Développé par :",
     "site": "bruner.app",
     "builtAt": "Compilé le"
+  },
+  "confirm": {
+    "deleteTaskTitle": "Supprimer la tâche",
+    "deleteTaskMessage": "Voulez-vous vraiment supprimer \"{{ title }}\" ?",
+    "deleteRewardTitle": "Supprimer la récompense",
+    "deleteRewardMessage": "Voulez-vous vraiment supprimer \"{{ title }}\" ?",
+    "useRedemptionTitle": "Utiliser la récompense",
+    "useRedemptionMessage": "Voulez-vous utiliser \"{{ title }}\" maintenant ?",
+    "cancel": "Annuler",
+    "confirm": "Supprimer",
+    "use": "Utiliser"
   }
 }

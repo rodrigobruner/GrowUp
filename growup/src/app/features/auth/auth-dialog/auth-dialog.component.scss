@@ -10,6 +10,25 @@
   padding: 1rem 0 0.5rem;
 }
 
+.google-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+}
+
+.google-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .auth-message {
   margin: 0;
   font-size: 0.9rem;

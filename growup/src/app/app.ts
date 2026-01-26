@@ -23,6 +23,7 @@ import { SummaryCardComponent } from './features/summary/summary-card/summary-ca
 import { TasksPanelComponent } from './features/tasks/tasks-panel/tasks-panel.component';
 import { RewardsPanelComponent } from './features/rewards/rewards-panel/rewards-panel.component';
 import { LevelupDialogComponent } from './features/levelup/levelup-dialog/levelup-dialog.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { environment } from '../environments/environment';
 
 const currentDateKey = (): string => {
@@ -259,6 +260,19 @@ export class App implements OnInit {
   }
 
   async removeTask(task: Task): Promise<void> {
+    const confirmed = await firstValueFrom(
+      this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: this.translate.instant('confirm.deleteTaskTitle'),
+          message: this.translate.instant('confirm.deleteTaskMessage', { title: task.title }),
+          confirmLabel: this.translate.instant('confirm.confirm'),
+          cancelLabel: this.translate.instant('confirm.cancel')
+        }
+      }).afterClosed()
+    );
+    if (!confirmed) {
+      return;
+    }
     await this.db.removeTask(task.id);
     await this.db.removeCompletionsForTask(task.id);
     this.tasks.update((items) => items.filter((item) => item.id !== task.id));
@@ -325,12 +339,38 @@ export class App implements OnInit {
   }
 
   async consumeReward(redemption: RewardRedemption): Promise<void> {
+    const confirmed = await firstValueFrom(
+      this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: this.translate.instant('confirm.useRedemptionTitle'),
+          message: this.translate.instant('confirm.useRedemptionMessage', { title: redemption.rewardTitle }),
+          confirmLabel: this.translate.instant('confirm.use'),
+          cancelLabel: this.translate.instant('confirm.cancel')
+        }
+      }).afterClosed()
+    );
+    if (!confirmed) {
+      return;
+    }
     await this.db.removeRedemption(redemption.id);
     this.redemptions.update((items) => items.filter((item) => item.id !== redemption.id));
     this.maybeSync();
   }
 
   async removeReward(reward: Reward): Promise<void> {
+    const confirmed = await firstValueFrom(
+      this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: this.translate.instant('confirm.deleteRewardTitle'),
+          message: this.translate.instant('confirm.deleteRewardMessage', { title: reward.title }),
+          confirmLabel: this.translate.instant('confirm.confirm'),
+          cancelLabel: this.translate.instant('confirm.cancel')
+        }
+      }).afterClosed()
+    );
+    if (!confirmed) {
+      return;
+    }
     await this.db.removeReward(reward.id);
     this.rewards.update((items) => items.filter((item) => item.id !== reward.id));
     this.maybeSync();
