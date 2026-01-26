@@ -585,6 +585,22 @@ export class App implements OnInit {
     return 'Super Buddy';
   }
 
+  private async hasRemoteProfiles(): Promise<boolean> {
+    const user = this.auth.user();
+    if (!user) {
+      return false;
+    }
+    const supabase = this.auth.getClient();
+    const { count, error } = await supabase
+      .from('profiles')
+      .select('id', { count: 'exact', head: true })
+      .eq('owner_id', user.id);
+    if (error) {
+      return false;
+    }
+    return (count ?? 0) > 0;
+  }
+
   private async refreshFromDb(seedIfEmpty: boolean): Promise<void> {
     if (this.isRefreshing) {
       this.pendingRefresh = true;
@@ -619,11 +635,14 @@ export class App implements OnInit {
       }
 
       if (!profiles.length && seedIfEmpty && this.auth.isLoggedIn() && this.isOnline()) {
-        await this.sync.syncAll();
-        [profiles, accountSettings] = await Promise.all([
-          this.db.getProfiles(),
-          this.db.getAccountSettings()
-        ]);
+        const hasRemote = await this.hasRemoteProfiles();
+        if (hasRemote) {
+          await this.sync.syncAll();
+          [profiles, accountSettings] = await Promise.all([
+            this.db.getProfiles(),
+            this.db.getAccountSettings()
+          ]);
+        }
       }
 
       if (!profiles.length && seedIfEmpty) {
