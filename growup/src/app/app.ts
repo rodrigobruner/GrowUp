@@ -134,6 +134,7 @@ export class App implements OnInit {
   settingsOpen = signal(false);
   profileOpen = signal(false);
   profileMode = signal<'create' | 'edit'>('edit');
+  private lastUserId: string | null = null;
   private lastRefreshSeed = false;
   readonly isOnline = signal(navigator.onLine);
 
@@ -200,8 +201,7 @@ export class App implements OnInit {
     });
     effect(() => {
       const user = this.auth.user();
-      this.db.setUser(user?.id ?? null);
-      void this.refreshFromDb(!user);
+      void this.handleAuthChange(user?.id ?? null);
     });
 
     const swUpdate = inject(SwUpdate, { optional: true });
@@ -216,6 +216,16 @@ export class App implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.refreshFromDb(!this.auth.isLoggedIn());
+  }
+
+  private async handleAuthChange(userId: string | null): Promise<void> {
+    if (userId && this.lastUserId !== userId) {
+      await this.db.clearAnonymousDatabase();
+      localStorage.removeItem('activeProfileId');
+    }
+    this.db.setUser(userId);
+    this.lastUserId = userId;
+    await this.refreshFromDb(!userId);
   }
 
   async addTask(): Promise<void> {
@@ -646,6 +656,10 @@ export class App implements OnInit {
         } else if (hasRemote === null) {
           seedIfEmpty = false;
         }
+      }
+
+      if (!profiles.length && this.auth.isLoggedIn()) {
+        localStorage.removeItem('activeProfileId');
       }
 
       if (!profiles.length && allowProfileSeed) {
