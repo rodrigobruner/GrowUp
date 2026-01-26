@@ -44,9 +44,10 @@ export type Settings = {
   id: 'global';
   cycleType: 'weekly' | 'biweekly' | 'monthly' | 'yearly';
   cycleStartDate: string;
-  language: 'en' | 'pt';
+  language: 'en' | 'pt' | 'fr';
   levelUpPoints: number;
   avatarId?: string;
+  displayName?: string;
   updatedAt?: number;
 };
 

@@ -1,0 +1,119 @@
+.panel {
+  padding: 1.5rem;
+  background: #ffffffeb;
+  animation: fade-up 700ms ease both;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.panel-header h2 {
+  margin-bottom: 0;
+  align-self: center;
+}
+
+.tab-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0 0.75rem;
+}
+
+.panel h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  font-family: 'Baloo 2', 'Comic Sans MS', cursive;
+}
+
+.add-fab {
+  background: var(--app-gold);
+  color: var(--app-ink);
+  align-self: center;
+}
+
+.list-header {
+  display: grid;
+  grid-template-columns: 1.4fr 0.5fr 0.6fr 40px;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(19, 70, 134, 0.6);
+  margin-bottom: 0.5rem;
+}
+
+.item-row {
+  display: grid;
+  grid-template-columns: 1.4fr 0.5fr 0.6fr 40px;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(19, 70, 134, 0.1);
+}
+
+.item-main {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.item-title {
+  font-weight: 600;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.status {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d28a05;
+}
+
+.status.done {
+  color: var(--app-primary);
+}
+
+.danger {
+  color: var(--app-coral);
+}
+
+.redeemed-date {
+  font-size: 0.85rem;
+  color: rgba(19, 70, 134, 0.7);
+}
+
+.paginator {
+  margin-top: 0.75rem;
+}
+
+.empty-state {
+  padding: 1rem 0;
+  margin: 0;
+  color: rgba(19, 70, 134, 0.6);
+}
+
+@media (max-width: 720px) {
+  .list-header {
+    display: none;
+  }
+
+  .item-row {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .item-row span {
+    margin-left: 2.5rem;
+  }
+}

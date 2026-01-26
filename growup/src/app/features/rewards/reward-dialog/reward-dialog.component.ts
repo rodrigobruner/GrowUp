@@ -24,16 +24,7 @@ export type RewardDialogResult = {
     TranslateModule
   ],
   templateUrl: './reward-dialog.component.html',
-  styles: [
-    `
-      .dialog-form {
-        display: grid;
-        gap: 1rem;
-        margin-top: 0.5rem;
-        min-width: min(360px, 80vw);
-      }
-    `
-  ]
+  styleUrl: './reward-dialog.component.scss'
 })
 export class RewardDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<RewardDialogComponent>);

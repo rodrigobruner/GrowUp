@@ -320,7 +320,8 @@ export class SyncService {
       cycle_start_date: settings.cycleStartDate,
       language: settings.language,
       level_up_points: settings.levelUpPoints,
-      avatar_id: settings.avatarId ?? '01'
+      avatar_id: settings.avatarId ?? '01',
+      display_name: settings.displayName ?? null
     };
   }
 
@@ -376,6 +377,7 @@ export class SyncService {
       language: row.language,
       levelUpPoints: row.level_up_points,
       avatarId: row.avatar_id ?? '01',
+      displayName: row.display_name ?? '',
       updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
     };
   }

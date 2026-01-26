@@ -62,6 +62,7 @@
     "language": "Language",
     "levelUpPoints": "Points per level",
     "avatar": "Avatar",
+    "displayName": "Name",
     "deleteAccount": "Delete account",
     "deleteAccountTitle": "Delete account",
     "deleteAccountWarning": "This will permanently delete your account and all associated data.",
@@ -120,5 +121,9 @@
     "signInGoogle": "Continue with Google",
     "logout": "Logout",
     "close": "Close"
+  },
+  "footer": {
+    "developedBy": "Developed by:",
+    "site": "bruner.app"
   }
 }

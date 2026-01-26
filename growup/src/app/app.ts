@@ -56,7 +56,8 @@ export class App implements OnInit {
     cycleStartDate: currentDateKey(),
     language: 'en',
     levelUpPoints: 100,
-    avatarId: '01'
+    avatarId: '01',
+    displayName: ''
   });
 
   earned = computed(() => this.completions().reduce((sum, completion) => sum + completion.points, 0));
@@ -92,6 +93,7 @@ export class App implements OnInit {
     const avatarNumber = this.settings().avatarId || '01';
     return `assets/avatar/${avatarNumber}/level-${this.level()}.png`;
   });
+  currentYear = new Date().getFullYear();
 
   selectedDate = signal(this.today());
   todayKey = computed(() => this.today());
@@ -333,10 +335,11 @@ export class App implements OnInit {
   }
 
   async openSettings(): Promise<void> {
+    const isCompact = window.innerWidth <= 800;
     const dialogRef = this.dialog.open(SettingsDialogComponent, {
       panelClass: 'settings-drawer',
-      width: '40vw',
-      maxWidth: '40vw',
+      width: isCompact ? '100vw' : '40vw',
+      maxWidth: isCompact ? '100vw' : '40vw',
       height: '100vh',
       maxHeight: '100vh',
       position: { right: '0' }
@@ -421,7 +424,8 @@ export class App implements OnInit {
           ...settings,
           language: settings.language ?? 'en',
           levelUpPoints: settings.levelUpPoints ?? 100,
-          avatarId: settings.avatarId ?? '01'
+          avatarId: settings.avatarId ?? '01',
+          displayName: settings.displayName ?? ''
         });
       }
       this.translate.use(this.settings().language);

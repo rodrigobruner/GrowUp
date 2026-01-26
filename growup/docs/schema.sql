@@ -53,15 +53,19 @@ create table if not exists public.settings (
   owner_id uuid not null references auth.users (id) on delete cascade,
   cycle_type text not null check (cycle_type in ('weekly', 'biweekly', 'monthly', 'yearly')),
   cycle_start_date date not null,
-  language text not null check (language in ('en', 'pt')),
+  language text not null check (language in ('en', 'pt', 'fr')),
   level_up_points integer not null,
   avatar_id text not null default '01',
+  display_name text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
 alter table public.settings
 add column if not exists avatar_id text not null default '01';
+
+alter table public.settings
+add column if not exists display_name text;
 
 create unique index if not exists settings_owner_unique on public.settings (owner_id);
 
