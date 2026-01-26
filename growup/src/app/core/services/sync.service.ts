@@ -55,6 +55,10 @@ export class SyncService {
     if (!navigator.onLine) {
       return;
     }
+    const session = await this.auth.getClient().auth.getSession();
+    if (!session.data.session) {
+      return;
+    }
     this.isSyncing.set(true);
     this.lastError.set(null);
     try {
@@ -72,6 +76,10 @@ export class SyncService {
   async pushOutbox(): Promise<void> {
     const user = this.auth.user();
     if (!user) {
+      return;
+    }
+    const session = await this.auth.getClient().auth.getSession();
+    if (!session.data.session) {
       return;
     }
     const supabase = this.auth.getClient();

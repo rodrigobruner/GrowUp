@@ -102,6 +102,11 @@
     </div>
   </div>
   <div class="terms-actions">
-    <button mat-flat-button color="primary" [mat-dialog-close]="true">{{ 'terms.accept' | translate }}</button>
+    <button mat-stroked-button type="button" [mat-dialog-close]="false">
+      {{ 'terms.decline' | translate }}
+    </button>
+    <button mat-flat-button color="primary" [mat-dialog-close]="true">
+      {{ 'terms.accept' | translate }}
+    </button>
   </div>
 </div>

@@ -57,7 +57,7 @@ const currentDateKey = (): string => {
 })
 export class App implements OnInit {
   private readonly termsVersion = '2026-01-26';
-  private termsDialogOpen = false;
+  private termsDialogPromise: Promise<boolean> | null = null;
   tasks = signal<Task[]>([]);
   rewards = signal<Reward[]>([]);
   completions = signal<Completion[]>([]);
@@ -228,6 +228,9 @@ export class App implements OnInit {
     }
     this.db.setUser(userId);
     this.lastUserId = userId;
+    if (!userId) {
+      this.sync.stop();
+    }
     if (userId) {
       const accepted = await this.ensureTermsAccepted(userId);
       if (!accepted) {
@@ -264,19 +267,18 @@ export class App implements OnInit {
       return true;
     }
 
-    if (this.termsDialogOpen) {
-      return false;
+    if (!this.termsDialogPromise) {
+      this.termsDialogPromise = firstValueFrom(
+        this.dialog.open(TermsDialogComponent, {
+          panelClass: 'terms-dialog',
+          width: '100vw',
+          height: '100vh',
+          maxWidth: '100vw'
+        }).afterClosed()
+      ).then((value) => Boolean(value));
     }
-    this.termsDialogOpen = true;
-    const accepted = await firstValueFrom(
-      this.dialog.open(TermsDialogComponent, {
-        panelClass: 'terms-dialog',
-        width: '100vw',
-        height: '100vh',
-        maxWidth: '100vw'
-      }).afterClosed()
-    );
-    this.termsDialogOpen = false;
+    const accepted = await this.termsDialogPromise;
+    this.termsDialogPromise = null;
     if (!accepted) {
       return false;
     }
