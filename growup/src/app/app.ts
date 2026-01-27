@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, effect, inject, OnInit } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -37,6 +38,7 @@ import { ProfileDialogComponent } from './features/profiles/profile-dialog/profi
 @Component({
   selector: 'app-root',
   imports: [
+    CommonModule,
     MatDialogModule,
     MatSidenavModule,
     TopbarComponent,
