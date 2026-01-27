@@ -52,12 +52,25 @@ jobs:
       - name: Write production environment
         run: |
           cat <<'EOF' > growup/src/environments/environment.prod.ts
-          export const environment = {
+          import type { Environment } from './environment.model';
+
+          export const environment: Environment = {
             production: true,
             supabaseUrl: '${{ secrets.SUPABASE_URL }}',
             supabaseAnonKey: '${{ secrets.SUPABASE_ANON_KEY }}',
             buildTimestamp: '${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}',
             buildTime: '${{ github.event.head_commit.timestamp }}',
+            logging: {
+              minLevel: 'warn',
+              saveDebounceMs: 1000,
+              persistLevel: 'warn',
+              consoleLevel: 'warn'
+            },
+            sync: {
+              backoffBaseMs: 10000,
+              maxBackoffMs: 300000,
+              pollIntervalMs: 60000
+            }
           };
           EOF
 
@@ -65,6 +78,14 @@ jobs:
         run: |
           if grep -q "CHANGE_ME_SUPABASE_URL" growup/src/environments/environment.prod.ts; then
             echo "environment.prod.ts still has placeholder values."
+            exit 1
+          fi
+          if ! grep -q "logging" growup/src/environments/environment.prod.ts; then
+            echo "environment.prod.ts missing logging config."
+            exit 1
+          fi
+          if ! grep -q "sync" growup/src/environments/environment.prod.ts; then
+            echo "environment.prod.ts missing sync config."
             exit 1
           fi
 
