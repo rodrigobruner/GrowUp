@@ -8,7 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-import { Profile, Settings } from '../../../core/services/growup-db.service';
+import { Profile } from '../../../core/models/profile';
+import { Settings } from '../../../core/models/settings';
 
 type AvatarOption = {
   id: string;
@@ -61,7 +62,7 @@ export class ProfileDialogComponent implements OnChanges {
       validators: [Validators.required, Validators.maxLength(40)]
     }),
     avatarId: this.formBuilder.control<Settings['avatarId']>('01', { validators: [Validators.required] }),
-    cycleType: this.formBuilder.control<Settings['cycleType']>('weekly', { validators: [Validators.required] }),
+    cycleType: this.formBuilder.control<Settings['cycleType']>('biweekly', { validators: [Validators.required] }),
     cycleStartDate: this.formBuilder.control<Settings['cycleStartDate']>(this.today(), {
       validators: [Validators.required]
     }),
@@ -83,7 +84,7 @@ export class ProfileDialogComponent implements OnChanges {
       this.form.reset({
         displayName: '',
         avatarId: '01',
-        cycleType: 'weekly',
+        cycleType: 'biweekly',
         cycleStartDate: this.today(),
         levelUpPoints: 100
       });

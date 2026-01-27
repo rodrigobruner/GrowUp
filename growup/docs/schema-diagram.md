@@ -96,4 +96,6 @@ erDiagram
     timestamptz created_at
     timestamptz updated_at
   }
+
+  %% NOTE: settings.id == settings.profile_id (enforced by constraint)
 ```

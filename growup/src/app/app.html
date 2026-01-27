@@ -39,9 +39,9 @@
     <app-topbar
       [balance]="balance()"
       [isOnline]="isOnline()"
-      [isSyncing]="sync.isSyncing()"
-      [lastSyncAt]="sync.lastSyncAt()"
-      [syncError]="sync.lastError()"
+      [isSyncing]="appStatus.isSyncing()"
+      [lastSyncAt]="appStatus.lastSyncAt()"
+      [syncError]="appStatus.syncError()"
       [avatarSrc]="avatarSrc()"
       [profiles]="profiles()"
       [activeProfileId]="activeProfileId()"
@@ -61,6 +61,7 @@
           </p>
         </div>
         <app-summary-card
+          *ngIf="profiles().length"
           [avatarSrc]="avatarSrc()"
           [level]="level()"
           [xpToNext]="xpToNext()"
@@ -76,7 +77,7 @@
         />
       </section>
 
-      <section class="grid">
+      <section class="grid" *ngIf="profiles().length">
         <app-tasks-panel
           [tasks]="tasks()"
           [todayDoneIds]="todayDoneIds()"

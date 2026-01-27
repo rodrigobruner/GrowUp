@@ -1,6 +1,9 @@
+@use '../../../styles/form-theme' as form-theme;
+
 .dialog-form {
-  display: grid;
-  gap: 1rem;
   margin-top: 0.5rem;
   min-width: min(360px, 80vw);
 }
+
+@include form-theme.compact-form-fields();
+@include form-theme.form-layout();

@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { Task } from '../../../core/services/growup-db.service';
+import { Task } from '../../../core/models/task';
 
 @Component({
   selector: 'app-tasks-panel',

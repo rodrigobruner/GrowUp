@@ -1,0 +1,85 @@
+import { inject, Injectable } from '@angular/core';
+import { RewardDialogResult } from '../../features/rewards/reward-dialog/reward-dialog.component';
+import { Reward } from '../models/reward';
+import { RewardRedemption } from '../models/redemption';
+import { GrowUpDbService } from './growup-db.service';
+import { ProfileService } from './profile.service';
+import { SessionStateService } from './session-state.service';
+import { SyncService } from './sync.service';
+
+@Injectable({ providedIn: 'root' })
+export class RewardService {
+  private readonly db = inject(GrowUpDbService);
+  private readonly profileService = inject(ProfileService);
+  private readonly state = inject(SessionStateService);
+  private readonly sync = inject(SyncService);
+
+  async addFromDialog(result: RewardDialogResult): Promise<Reward | null> {
+    const rawTitle = result.title.trim();
+    if (!rawTitle) {
+      return null;
+    }
+    const profileId = this.profileService.activeProfileId();
+    if (!profileId) {
+      return null;
+    }
+    const reward: Reward = {
+      id: this.db.createId(),
+      profileId,
+      title: rawTitle,
+      cost: Number(result.cost),
+      limitPerCycle: Number(result.limitPerCycle),
+      createdAt: Date.now()
+    };
+    await this.db.addReward(reward);
+    this.state.rewards.update((items) => this.sortRewards([reward, ...items]));
+    this.sync.notifyLocalChange();
+    return reward;
+  }
+
+  async redeem(reward: Reward, balance: number, range: { start: string; end: string }): Promise<boolean> {
+    if (balance < reward.cost) {
+      return false;
+    }
+    const redeemedInCycle = this.state.redemptions().filter(
+      (redemption) =>
+        redemption.rewardId === reward.id && redemption.date >= range.start && redemption.date <= range.end
+    ).length;
+    const limit = reward.limitPerCycle ?? 1;
+    if (redeemedInCycle >= limit) {
+      return false;
+    }
+
+    const redemption: RewardRedemption = {
+      id: this.db.createId(),
+      profileId: reward.profileId,
+      rewardId: reward.id,
+      rewardTitle: reward.title,
+      cost: reward.cost,
+      redeemedAt: Date.now(),
+      date: new Date().toISOString().slice(0, 10)
+    };
+    await this.db.addRedemption(redemption);
+    this.state.redemptions.update((items) => [redemption, ...items]);
+    this.sync.notifyLocalChange();
+    return true;
+  }
+
+  async consume(redemption: RewardRedemption): Promise<void> {
+    await this.db.removeRedemption(redemption.id, redemption.profileId);
+    this.state.redemptions.update((items) => items.filter((item) => item.id !== redemption.id));
+    this.sync.notifyLocalChange();
+  }
+
+  async remove(reward: Reward): Promise<void> {
+    await this.db.removeReward(reward.id, reward.profileId);
+    this.state.rewards.update((items) => items.filter((item) => item.id !== reward.id));
+    this.sync.notifyLocalChange();
+  }
+
+  private sortRewards(items: Reward[]): Reward[] {
+    return [...items]
+      .map((reward) => ({ ...reward, limitPerCycle: reward.limitPerCycle ?? 1 }))
+      .sort((a, b) => a.cost - b.cost);
+  }
+}

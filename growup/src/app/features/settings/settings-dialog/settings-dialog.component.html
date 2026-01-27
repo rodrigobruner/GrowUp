@@ -6,7 +6,7 @@
     </button>
   </div>
   <div class="drawer-scroll">
-    <form [formGroup]="form" class="dialog-form">
+    <form [formGroup]="form" class="dialog-form form-grid">
       <section class="settings-section">
         <div class="section-title">{{ 'settingsDialog.languageSection' | translate }}</div>
         <mat-form-field appearance="outline">
@@ -25,7 +25,7 @@
           <button
             type="button"
             class="profile-chip"
-            *ngFor="let profile of profiles"
+            *ngFor="let profile of profiles; trackBy: trackProfileById"
             [class.active]="profile.id === activeProfileId"
             (click)="onSelectProfile(profile.id)"
           >
@@ -110,6 +110,50 @@
         <p class="cache-warning">{{ 'settingsDialog.clearAllWarning' | translate }}</p>
       </section>
 
+
+      <section class="settings-section">
+        <button type="button" class="section-title log-toggle" (click)="toggleLogs()">
+          <span>{{ 'settingsDialog.debugSection' | translate }}</span>
+          <span class="material-icons">{{ logsOpen() ? 'expand_less' : 'expand_more' }}</span>
+        </button>
+        <div class="log-body" *ngIf="logsOpen()">
+          <div class="cache-actions">
+            <button mat-stroked-button type="button" (click)="refreshLogs()">
+              {{ 'settingsDialog.refreshLogs' | translate }}
+            </button>
+            <button mat-stroked-button type="button" (click)="clearLogs()">
+              {{ 'settingsDialog.clearLogs' | translate }}
+            </button>
+            <button mat-stroked-button type="button" (click)="exportLogs()">
+              {{ 'settingsDialog.exportLogs' | translate }}
+            </button>
+            <button mat-stroked-button type="button" (click)="toggleLogging()">
+              {{ loggingEnabled() ? ('settingsDialog.disableLogs' | translate) : ('settingsDialog.enableLogs' | translate) }}
+            </button>
+          </div>
+          <mat-form-field appearance="outline" class="log-filter">
+            <mat-label>{{ 'settingsDialog.logFilter' | translate }}</mat-label>
+            <mat-select [value]="logLevelFilter()" (selectionChange)="onLogFilterChange($event.value)">
+              <mat-option value="all">{{ 'settingsDialog.logFilterAll' | translate }}</mat-option>
+              <mat-option value="debug">{{ 'settingsDialog.logFilterDebug' | translate }}</mat-option>
+              <mat-option value="info">{{ 'settingsDialog.logFilterInfo' | translate }}</mat-option>
+              <mat-option value="warn">{{ 'settingsDialog.logFilterWarn' | translate }}</mat-option>
+              <mat-option value="error">{{ 'settingsDialog.logFilterError' | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="debug-log" *ngIf="logEntriesView().length; else noLogs">
+            <div class="debug-log-item" *ngFor="let entry of logEntriesView()">
+              <span class="debug-log-time">{{ entry.timestamp | date:'short' }}</span>
+              <span class="debug-log-level">{{ entry.level }}</span>
+              <span class="debug-log-message">{{ entry.message }}</span>
+              <span class="debug-log-context" *ngIf="entry.context">{{ entry.context | json }}</span>
+            </div>
+          </div>
+          <ng-template #noLogs>
+            <p class="cache-warning">{{ 'settingsDialog.noLogs' | translate }}</p>
+          </ng-template>
+        </div>
+      </section>
       <section class="settings-section danger-zone" *ngIf="isLoggedIn()">
         <div class="section-title danger-title">{{ 'settingsDialog.deleteAccount' | translate }}</div>
         <button

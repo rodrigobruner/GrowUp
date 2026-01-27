@@ -12,6 +12,9 @@ create table if not exists public.profiles (
   primary key (owner_id, id)
 );
 
+create unique index if not exists profiles_owner_display_name_unique
+  on public.profiles (owner_id, lower(display_name));
+
 create table if not exists public.tasks (
   id uuid not null,
   owner_id uuid not null references auth.users (id) on delete cascade,
@@ -73,7 +76,7 @@ create table if not exists public.settings (
   id uuid not null,
   owner_id uuid not null references auth.users (id) on delete cascade,
   profile_id uuid not null,
-  cycle_type text not null check (cycle_type in ('weekly', 'biweekly', 'monthly', 'yearly')),
+  cycle_type text not null default 'biweekly' check (cycle_type in ('weekly', 'biweekly', 'monthly', 'yearly')),
   cycle_start_date date not null,
   level_up_points integer not null,
   avatar_id text not null default '01',
@@ -81,6 +84,7 @@ create table if not exists public.settings (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   primary key (owner_id, profile_id, id),
+  constraint settings_id_matches_profile check (id = profile_id),
   foreign key (owner_id, profile_id) references public.profiles (owner_id, id) on delete cascade
 );
 
@@ -221,6 +225,9 @@ for insert with check (auth.uid() = owner_id);
 create policy "account_settings_update_own" on public.account_settings
 for update using (auth.uid() = owner_id)
 with check (auth.uid() = owner_id);
+
+create policy "account_settings_delete_own" on public.account_settings
+for delete using (auth.uid() = owner_id);
 
 create policy "settings_delete_own" on public.settings
 for delete using (auth.uid() = owner_id);

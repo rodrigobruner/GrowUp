@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>{{ 'tasks.add' | translate }}</h2>
 <mat-dialog-content>
-  <form [formGroup]="form" class="dialog-form">
+  <form [formGroup]="form" class="dialog-form form-grid">
     <mat-form-field appearance="outline">
       <mat-label>{{ 'tasks.description' | translate }}</mat-label>
       <input matInput formControlName="title" [placeholder]="'tasks.placeholder' | translate" />

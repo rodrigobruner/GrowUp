@@ -3,7 +3,7 @@
     <button
       type="button"
       class="profile-strip-item"
-      *ngFor="let profile of profiles"
+      *ngFor="let profile of profiles; trackBy: trackProfileId"
       [class.active]="profile.id === activeProfileId"
       [matTooltip]="profile.displayName"
       (click)="selectProfile(profile.id)"
@@ -15,7 +15,7 @@
     type="button"
     class="profile-avatar-add"
     aria-label="Adicionar novo perfil"
-    [matTooltip]="'profiles.addTooltip' | translate"
+    [matTooltip]="profiles.length ? ('profiles.addTooltip' | translate) : ('profiles.firstProfileTooltip' | translate)"
     (click)="onCreateProfile()"
   >
     <span class="material-icons">add</span>

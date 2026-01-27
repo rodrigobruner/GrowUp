@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Profile } from '../../core/services/growup-db.service';
+import { Profile } from '../../core/models/profile';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -34,5 +34,9 @@ export class ProfileAvatarComponent {
   profileAvatarSrc(avatarId?: string): string {
     const resolved = avatarId ?? '01';
     return `assets/avatar/${resolved}/avatar.png`;
+  }
+
+  trackProfileId(_: number, profile: Profile): string {
+    return profile.id;
   }
 }

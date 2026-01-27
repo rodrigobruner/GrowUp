@@ -6,7 +6,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { TranslateModule } from '@ngx-translate/core';
-import { Reward, RewardRedemption } from '../../../core/services/growup-db.service';
+import { Reward } from '../../../core/models/reward';
+import { RewardRedemption } from '../../../core/models/redemption';
 
 @Component({
   selector: 'app-rewards-panel',

@@ -1,74 +1,14 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
+import { AccountSettings } from '../models/account-settings';
+import { Completion } from '../models/completion';
+import { Profile } from '../models/profile';
+import { Reward } from '../models/reward';
+import { RewardRedemption } from '../models/redemption';
+import { Settings } from '../models/settings';
+import { Task } from '../models/task';
 
 type StoreName = 'profiles' | 'tasks' | 'rewards' | 'completions' | 'settings' | 'redemptions' | 'accountSettings';
-
-type BaseRecord = {
-  id: string;
-  title: string;
-  profileId: string;
-};
-
-export type Task = BaseRecord & {
-  points: number;
-  createdAt: number;
-  updatedAt?: number;
-};
-
-export type Reward = BaseRecord & {
-  cost: number;
-  limitPerCycle: number;
-  createdAt: number;
-  redeemedAt?: number;
-  updatedAt?: number;
-};
-
-export type RewardRedemption = {
-  id: string;
-  profileId: string;
-  rewardId: string;
-  rewardTitle: string;
-  cost: number;
-  redeemedAt: number;
-  date: string;
-  updatedAt?: number;
-};
-
-export type Completion = {
-  id: string;
-  profileId: string;
-  taskId: string;
-  date: string;
-  points: number;
-  updatedAt?: number;
-};
-
-export type Profile = {
-  id: string;
-  displayName: string;
-  avatarId: string;
-  createdAt: number;
-  updatedAt?: number;
-};
-
-export type Settings = {
-  id: string;
-  profileId: string;
-  cycleType: 'weekly' | 'biweekly' | 'monthly' | 'yearly';
-  cycleStartDate: string;
-  levelUpPoints: number;
-  avatarId?: string;
-  displayName?: string;
-  updatedAt?: number;
-};
-
-export type AccountSettings = {
-  id: 'account';
-  language: 'en' | 'pt' | 'fr';
-  termsVersion?: string;
-  termsAcceptedAt?: number;
-  updatedAt?: number;
-};
 
 type OutboxEntity = StoreName;
 type OutboxAction = 'upsert' | 'delete';

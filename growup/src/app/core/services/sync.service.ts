@@ -1,16 +1,19 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { type RealtimeChannel } from '@supabase/supabase-js';
-import {
-  AccountSettings,
-  Completion,
-  GrowUpDbService,
-  Profile,
-  Reward,
-  RewardRedemption,
-  Settings,
-  Task
-} from './growup-db.service';
+import { GrowUpDbService } from './growup-db.service';
+import { SyncMapperService } from './sync-mapper.service';
+import { LoggerService } from './logger.service';
+import { AccountSettings } from '../models/account-settings';
+import { Completion } from '../models/completion';
+import { Profile } from '../models/profile';
+import { Reward } from '../models/reward';
+import { RewardRedemption } from '../models/redemption';
+import { Settings } from '../models/settings';
+import { Task } from '../models/task';
 import { AuthService } from './auth.service';
+import { AccountSettingsRow, CompletionRow, ProfileRow, RedemptionRow, RewardRow, SettingsRow, TaskRow } from '../models/supabase';
+import { isValidAccountSettingsRow, isValidSyncRow } from '../validators/supabase-validators';
+import { environment } from '../../../environments/environment';
 
 type SyncTable = 'profiles' | 'tasks' | 'rewards' | 'completions' | 'settings' | 'redemptions' | 'accountSettings';
 
@@ -20,6 +23,15 @@ type SyncTable = 'profiles' | 'tasks' | 'rewards' | 'completions' | 'settings' |
 export class SyncService {
   private channel: RealtimeChannel | null = null;
   private pollHandle: number | null = null;
+  private started = false;
+  private syncRequested = false;
+  private syncTimer: number | null = null;
+  private readonly minSyncIntervalMs = 60000;
+  private readonly backoffBaseMs = environment.sync?.backoffBaseMs ?? 5000;
+  private readonly maxBackoffMs = environment.sync?.maxBackoffMs ?? 300000;
+  private readonly pollIntervalMs = environment.sync?.pollIntervalMs ?? 30000;
+  private consecutiveErrors = 0;
+  private nextSyncAllowedAt: number | null = null;
   readonly isSyncing = signal(false);
   readonly lastSyncAt = signal<number | null>(null);
   readonly lastError = signal<string | null>(null);
@@ -28,27 +40,113 @@ export class SyncService {
 
   constructor(
     private readonly auth: AuthService,
-    private readonly db: GrowUpDbService
+    private readonly db: GrowUpDbService,
+    private readonly mapper: SyncMapperService,
+    private readonly logger: LoggerService
   ) {}
 
   async start(): Promise<void> {
-    if (!this.auth.user()) {
+    if (this.started) {
+      await this.requestSync(true);
       return;
     }
-    await this.syncAll();
+    this.started = true;
     this.subscribeRealtime();
     this.startPolling();
+    await this.requestSync(true);
   }
 
   stop(): void {
+    if (!this.started) {
+      return;
+    }
     if (this.channel) {
       this.channel.unsubscribe();
       this.channel = null;
     }
     this.stopPolling();
+    if (this.syncTimer !== null) {
+      window.clearTimeout(this.syncTimer);
+      this.syncTimer = null;
+    }
+    this.started = false;
+    this.syncRequested = false;
+  }
+
+  isStarted(): boolean {
+    return this.started;
+  }
+
+  // Test-only hook to avoid accessing private state in specs.
+  setStartedForTest(value: boolean): void {
+    this.started = value;
+  }
+
+  notifyLocalChange(): void {
+    void this.requestSync(false);
+  }
+
+  async requestSync(awaitCompletion: boolean): Promise<void> {
+    this.syncRequested = true;
+    if (!this.started) {
+      return;
+    }
+    if (awaitCompletion) {
+      await this.runSyncGate();
+      return;
+    }
+    void this.runSyncGate();
+  }
+
+  private async runSyncGate(): Promise<void> {
+    if (!this.syncRequested || !this.started) {
+      return;
+    }
+    if (!this.auth.user()) {
+      return;
+    }
+    if (!navigator.onLine) {
+      return;
+    }
+    if (this.isSyncing()) {
+      return;
+    }
+    const session = await this.auth.getClient().auth.getSession();
+    if (!session.data.session) {
+      return;
+    }
+    const now = Date.now();
+    if (this.nextSyncAllowedAt && now < this.nextSyncAllowedAt) {
+      this.scheduleSync(this.nextSyncAllowedAt - now);
+      return;
+    }
+    const lastSyncAt = this.lastSyncAt();
+    if (lastSyncAt) {
+      const elapsed = now - lastSyncAt;
+      if (elapsed < this.minSyncIntervalMs) {
+        this.scheduleSync(this.minSyncIntervalMs - elapsed);
+        return;
+      }
+    }
+    this.syncRequested = false;
+    await this.syncAll();
+    if (this.syncRequested) {
+      await this.runSyncGate();
+    }
+  }
+
+  private scheduleSync(delayMs: number): void {
+    if (this.syncTimer !== null) {
+      return;
+    }
+    this.syncTimer = window.setTimeout(() => {
+      this.syncTimer = null;
+      void this.runSyncGate();
+    }, delayMs);
   }
 
   async syncAll(): Promise<void> {
+    const startedAt = Date.now();
     if (!this.auth.user()) {
       return;
     }
@@ -62,28 +160,43 @@ export class SyncService {
     this.isSyncing.set(true);
     this.lastError.set(null);
     try {
-      await this.pushOutbox();
-      await this.pullAll();
+      this.logger.info('sync.start');
+      const pushCount = await this.pushOutbox();
+      const pullCounts = await this.pullAll();
       this.lastSyncAt.set(Date.now());
       this.refreshTick.update((value) => value + 1);
+      this.consecutiveErrors = 0;
+      this.nextSyncAllowedAt = null;
+      this.logger.info('sync.complete', {
+        durationMs: Date.now() - startedAt,
+        pushCount,
+        pullCounts
+      });
     } catch (error) {
       this.lastError.set(this.errorToMessage(error));
+      this.consecutiveErrors += 1;
+      const backoffMs = Math.min(this.maxBackoffMs, this.backoffBaseMs * 2 ** (this.consecutiveErrors - 1));
+      this.nextSyncAllowedAt = Date.now() + backoffMs;
+      this.syncRequested = true;
+      this.scheduleSync(backoffMs);
+      this.logger.error('sync.error', { error: this.lastError() });
     } finally {
       this.isSyncing.set(false);
     }
   }
 
-  async pushOutbox(): Promise<void> {
+  async pushOutbox(): Promise<number> {
     const user = this.auth.user();
     if (!user) {
-      return;
+      return 0;
     }
     const session = await this.auth.getClient().auth.getSession();
     if (!session.data.session) {
-      return;
+      return 0;
     }
     const supabase = this.auth.getClient();
     const entries = await this.db.getOutbox();
+    this.logger.info('sync.outbox', { count: entries.length });
     const ordered = [...entries].sort((a, b) => {
       const priority = (entity: string) =>
         entity === 'profiles'
@@ -100,14 +213,12 @@ export class SyncService {
       return priority(a.entity) - priority(b.entity);
     });
 
+    let pushed = 0;
     for (const entry of ordered) {
       try {
         if (entry.entity === 'accountSettings') {
           if (entry.action === 'upsert' && entry.payload && this.isAccountSettings(entry.payload)) {
-            const payload = {
-              ...this.toRemoteAccountSettings(entry.payload, user.id),
-              owner_id: user.id
-            };
+            const payload = this.mapper.toRemoteAccountSettings(entry.payload, user.id);
             const { error } = await supabase
               .from('account_settings')
               .upsert(payload, { onConflict: 'owner_id' });
@@ -118,15 +229,13 @@ export class SyncService {
           if (entry.seq !== undefined) {
             await this.db.removeOutboxEntry(entry.seq);
           }
+          pushed += 1;
           continue;
         }
 
         if (entry.entity === 'profiles') {
           if (entry.action === 'upsert' && entry.payload && this.isProfile(entry.payload)) {
-            const payload = {
-              ...this.toRemoteProfile(entry.payload, user.id),
-              owner_id: user.id
-            };
+            const payload = this.mapper.toRemoteProfile(entry.payload, user.id);
             const { error } = await supabase.from('profiles').upsert(payload, { onConflict: 'owner_id,id' });
             if (error) {
               throw error;
@@ -144,6 +253,7 @@ export class SyncService {
           if (entry.seq !== undefined) {
             await this.db.removeOutboxEntry(entry.seq);
           }
+          pushed += 1;
           continue;
         }
 
@@ -153,10 +263,7 @@ export class SyncService {
             const completion = entry.payload as Completion;
             const task = await this.db.getRecord<Task>('tasks', completion.taskId);
             if (task) {
-              const taskPayload = {
-                ...this.toRemotePayload('tasks', task, user.id),
-                owner_id: user.id
-              };
+              const taskPayload = this.mapper.toRemotePayload('tasks', task, user.id);
               const { error: taskError } = await supabase
                 .from('tasks')
                 .upsert(taskPayload, { onConflict: 'owner_id,profile_id,id' });
@@ -165,10 +272,7 @@ export class SyncService {
               }
             }
           }
-          const payload = {
-            ...this.toRemotePayload(table, entry.payload as Task | Reward | Completion | Settings | RewardRedemption, user.id),
-            owner_id: user.id
-          };
+          const payload = this.mapper.toRemotePayload(table, entry.payload as Task | Reward | Completion | Settings | RewardRedemption, user.id);
           const { error } = await supabase
             .from(table)
             .upsert(payload, {
@@ -194,15 +298,18 @@ export class SyncService {
         if (entry.seq !== undefined) {
           await this.db.removeOutboxEntry(entry.seq);
         }
+        pushed += 1;
       } catch (error) {
         this.lastError.set(this.errorToMessage(error));
+        this.logger.error('sync.push.error', { error: this.lastError(), entity: entry.entity });
         throw error;
       }
     }
+    return pushed;
   }
 
-  async pullAll(): Promise<void> {
-    await Promise.all([
+  async pullAll(): Promise<Record<SyncTable, number>> {
+    const results = await Promise.all([
       this.pullTable('profiles'),
       this.pullTable('tasks'),
       this.pullTable('rewards'),
@@ -211,15 +318,25 @@ export class SyncService {
       this.pullTable('redemptions'),
       this.pullTable('accountSettings')
     ]);
+    return {
+      profiles: results[0],
+      tasks: results[1],
+      rewards: results[2],
+      completions: results[3],
+      settings: results[4],
+      redemptions: results[5],
+      accountSettings: results[6]
+    };
   }
 
-  private async pullTable(table: SyncTable): Promise<void> {
+  private async pullTable(table: SyncTable): Promise<number> {
     const user = this.auth.user();
     if (!user) {
-      return;
+      return 0;
     }
     const supabase = this.auth.getClient();
     let didUpdate = false;
+    let pulled = 0;
     if (table === 'accountSettings') {
       const { data, error } = await supabase
         .from('account_settings')
@@ -230,16 +347,21 @@ export class SyncService {
         throw error;
       }
       if (!data) {
-        return;
+        return 0;
       }
-      const local = this.toLocalAccountSettings(data);
+      if (!isValidAccountSettingsRow(data)) {
+        this.lastError.set('Invalid account_settings payload');
+        return 0;
+      }
+      const local = this.mapper.toLocalAccountSettings(data);
       await this.db.saveRemoteRecord('accountSettings', local);
       didUpdate = true;
+      pulled = 1;
       if (didUpdate) {
         this.lastSyncAt.set(Date.now());
         this.refreshTick.update((value) => value + 1);
       }
-      return;
+      return pulled;
     }
 
     const { data, error } = await supabase.from(table).select('*').eq('owner_id', user.id);
@@ -247,13 +369,19 @@ export class SyncService {
       throw error;
     }
     if (!data) {
-      return;
+      return 0;
     }
 
     for (const row of data) {
       if (row.deleted_at) {
         await this.db.deleteRemoteRecord(table, row.id);
         didUpdate = true;
+        pulled += 1;
+        continue;
+      }
+      if (!isValidSyncRow(table, row)) {
+        this.lastError.set(`Invalid ${table} payload`);
+        this.logger.warn('sync.pull.invalid', { table });
         continue;
       }
       const localRecord = await this.db.getRecord<Task | Reward | Completion | RewardRedemption | Settings | Profile>(
@@ -263,15 +391,17 @@ export class SyncService {
       const localUpdatedAt = localRecord?.updatedAt ?? 0;
       const remoteUpdatedAt = row.updated_at ? new Date(row.updated_at).getTime() : 0;
       if (remoteUpdatedAt >= localUpdatedAt) {
-        const local = this.toLocalRecord(table, row);
+        const local = this.mapper.toLocalRecord(table, row);
         await this.db.saveRemoteRecord(table, local);
         didUpdate = true;
+        pulled += 1;
       }
     }
     if (didUpdate) {
       this.lastSyncAt.set(Date.now());
       this.refreshTick.update((value) => value + 1);
     }
+    return pulled;
   }
 
   private subscribeRealtime(): void {
@@ -325,8 +455,8 @@ export class SyncService {
       return;
     }
     this.pollHandle = window.setInterval(() => {
-      void this.syncAll();
-    }, 30000);
+      void this.requestSync(false);
+    }, this.pollIntervalMs);
   }
 
   private stopPolling(): void {
@@ -337,93 +467,9 @@ export class SyncService {
     this.pollHandle = null;
   }
 
-  private toRemotePayload(
-    table: Exclude<SyncTable, 'accountSettings' | 'profiles'>,
-    payload: Task | Reward | Completion | RewardRedemption | Settings,
-    ownerId: string
-  ): Record<string, unknown> {
-    if (table === 'tasks') {
-      const task = payload as Task;
-      return {
-        id: task.id,
-        owner_id: ownerId,
-        profile_id: task.profileId,
-        title: task.title,
-        points: task.points,
-        created_at: new Date(task.createdAt).toISOString(),
-        deleted_at: null
-      };
-    }
-    if (table === 'rewards') {
-      const reward = payload as Reward;
-      return {
-        id: reward.id,
-        owner_id: ownerId,
-        profile_id: reward.profileId,
-        title: reward.title,
-        cost: reward.cost,
-        limit_per_cycle: reward.limitPerCycle ?? 1,
-        created_at: new Date(reward.createdAt).toISOString(),
-        redeemed_at: reward.redeemedAt ? new Date(reward.redeemedAt).toISOString() : null,
-        deleted_at: null
-      };
-    }
-    if (table === 'redemptions') {
-      const redemption = payload as RewardRedemption;
-      return {
-        id: redemption.id,
-        owner_id: ownerId,
-        profile_id: redemption.profileId,
-        reward_id: redemption.rewardId,
-        reward_title: redemption.rewardTitle,
-        cost: redemption.cost,
-        redeemed_at: new Date(redemption.redeemedAt).toISOString(),
-        date: redemption.date,
-        deleted_at: null
-      };
-    }
-    if (table === 'settings') {
-      const settings = payload as Settings;
-      return {
-        id: settings.id,
-        owner_id: ownerId,
-        profile_id: settings.profileId,
-        cycle_type: settings.cycleType,
-        cycle_start_date: settings.cycleStartDate,
-        level_up_points: settings.levelUpPoints,
-        avatar_id: settings.avatarId ?? '01',
-        display_name: settings.displayName ?? null
-      };
-    }
-    const completion = payload as Completion;
-    return {
-      id: completion.id,
-      owner_id: ownerId,
-      profile_id: completion.profileId,
-      task_id: completion.taskId,
-      date: completion.date,
-      points: completion.points,
-      deleted_at: null
-    };
-  }
 
-  private toRemoteAccountSettings(settings: AccountSettings, ownerId: string): Record<string, unknown> {
-    return {
-      owner_id: ownerId,
-      language: settings.language,
-      terms_version: settings.termsVersion ?? null,
-      terms_accepted_at: settings.termsAcceptedAt ? new Date(settings.termsAcceptedAt).toISOString() : null
-    };
-  }
 
-  private toRemoteProfile(profile: Profile, ownerId: string): Record<string, unknown> {
-    return {
-      id: profile.id,
-      owner_id: ownerId,
-      display_name: profile.displayName,
-      avatar_id: profile.avatarId ?? '01'
-    };
-  }
+
 
   private isAccountSettings(payload: unknown): payload is AccountSettings {
     return (
@@ -443,84 +489,7 @@ export class SyncService {
     );
   }
 
-  private toLocalRecord(
-    table: Exclude<SyncTable, 'accountSettings'>,
-    row: any
-  ): Task | Reward | Completion | RewardRedemption | Settings | Profile {
-    if (table === 'profiles') {
-      return {
-        id: row.id,
-        displayName: row.display_name,
-        avatarId: row.avatar_id ?? '01',
-        createdAt: new Date(row.created_at).getTime(),
-        updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
-      };
-    }
-    if (table === 'tasks') {
-      return {
-        id: row.id,
-        profileId: row.profile_id,
-        title: row.title,
-        points: row.points,
-        createdAt: new Date(row.created_at).getTime(),
-        updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
-      };
-    }
-    if (table === 'rewards') {
-      return {
-        id: row.id,
-        profileId: row.profile_id,
-        title: row.title,
-        cost: row.cost,
-        limitPerCycle: row.limit_per_cycle ?? 1,
-        createdAt: new Date(row.created_at).getTime(),
-        redeemedAt: row.redeemed_at ? new Date(row.redeemed_at).getTime() : undefined,
-        updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
-      };
-    }
-    if (table === 'redemptions') {
-      return {
-        id: row.id,
-        profileId: row.profile_id,
-        rewardId: row.reward_id,
-        rewardTitle: row.reward_title,
-        cost: row.cost,
-        redeemedAt: row.redeemed_at ? new Date(row.redeemed_at).getTime() : Date.now(),
-        date: row.date,
-        updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
-      } as RewardRedemption;
-    }
-    if (table === 'settings') {
-      return {
-        id: row.id,
-        profileId: row.profile_id,
-        cycleType: row.cycle_type,
-        cycleStartDate: row.cycle_start_date,
-        levelUpPoints: row.level_up_points,
-        avatarId: row.avatar_id ?? '01',
-        displayName: row.display_name ?? '',
-        updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
-      };
-    }
-    return {
-      id: row.id,
-      profileId: row.profile_id,
-      taskId: row.task_id,
-      date: row.date,
-      points: row.points,
-      updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
-    };
-  }
 
-  private toLocalAccountSettings(row: any): AccountSettings {
-    return {
-      id: 'account',
-      language: row.language,
-      termsVersion: row.terms_version ?? undefined,
-      termsAcceptedAt: row.terms_accepted_at ? new Date(row.terms_accepted_at).getTime() : undefined,
-      updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined
-    };
-  }
 
   private errorToMessage(error: unknown): string {
     if (error instanceof Error) {
