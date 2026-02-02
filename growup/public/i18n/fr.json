@@ -38,6 +38,7 @@
     "title": "Récompenses",
     "tabAvailable": "Disponibles",
     "tabRedeemed": "Utilisées",
+    "tabUsed": "Consommées",
     "name": "Récompense",
     "placeholder": "Soirée cinéma",
     "cost": "Coût en XP",
@@ -47,7 +48,15 @@
     "availableWithCount": "Disponibles ({{ count }} restantes)",
     "redeemedAt": "Utilisée le",
     "redeemedEmpty": "Aucune récompense utilisée pour le moment.",
-    "use": "Utiliser la récompense"
+    "usedAt": "Consommée le",
+    "usedEmpty": "Aucune récompense consommée pour le moment.",
+    "use": "Utiliser la récompense",
+    "return": "Rendre",
+    "tooltipAdd": "Ajouter une récompense",
+    "tooltipRedeem": "Utiliser la récompense",
+    "tooltipDelete": "Supprimer la récompense",
+    "tooltipUse": "Consommer la récompense",
+    "tooltipReturn": "Rendre au stock"
   },
   "settingsDialog": {
     "title": "Paramètres",

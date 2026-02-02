@@ -77,6 +77,7 @@ export class App implements OnInit {
   readonly rewards = this.state.rewards;
   readonly completions = this.state.completions;
   readonly redemptions = this.state.redemptions;
+  readonly rewardUses = this.state.rewardUses;
   readonly settings = this.state.settings;
   readonly accountSettings = this.state.accountSettings;
   readonly profiles = this.profileService.profiles;
@@ -244,6 +245,10 @@ export class App implements OnInit {
       return;
     }
     await this.rewardService.consume(redemption);
+  }
+
+  async returnRedemption(redemption: RewardRedemption): Promise<void> {
+    await this.rewardService.returnRedemption(redemption);
   }
 
   async removeReward(reward: Reward): Promise<void> {

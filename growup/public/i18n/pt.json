@@ -38,6 +38,7 @@
     "title": "Recompensas",
     "tabAvailable": "Disponíveis",
     "tabRedeemed": "Resgatadas",
+    "tabUsed": "Usadas",
     "name": "Recompensa",
     "placeholder": "Cinema",
     "cost": "Custo em XP",
@@ -47,7 +48,15 @@
     "availableWithCount": "Disponível ({{ count }} restantes)",
     "redeemedAt": "Resgatada em",
     "redeemedEmpty": "Nenhuma recompensa resgatada ainda.",
-    "use": "Usar recompensa"
+    "usedAt": "Usada em",
+    "usedEmpty": "Nenhuma recompensa usada ainda.",
+    "use": "Usar recompensa",
+    "return": "Devolver",
+    "tooltipAdd": "Adicionar nova recompensa",
+    "tooltipRedeem": "Resgatar recompensa",
+    "tooltipDelete": "Excluir recompensa",
+    "tooltipUse": "Consumir recompensa",
+    "tooltipReturn": "Devolver para o estoque"
   },
   "settingsDialog": {
     "title": "Configurações",

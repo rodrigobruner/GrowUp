@@ -48,6 +48,7 @@ export const appTestProviders = [
       rewards: signal([]),
       completions: signal([]),
       redemptions: signal([]),
+      rewardUses: signal([]),
       settings: signal({
         id: 'profile',
         profileId: 'profile',

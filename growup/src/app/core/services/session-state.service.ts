@@ -3,6 +3,7 @@ import { AccountSettings } from '../models/account-settings';
 import { Completion } from '../models/completion';
 import { Reward } from '../models/reward';
 import { RewardRedemption } from '../models/redemption';
+import { RewardUse } from '../models/reward-use';
 import { Settings } from '../models/settings';
 import { Task } from '../models/task';
 import { GrowUpDbService } from './growup-db.service';
@@ -18,6 +19,7 @@ export class SessionStateService {
   rewards = signal<Reward[]>([]);
   completions = signal<Completion[]>([]);
   redemptions = signal<RewardRedemption[]>([]);
+  rewardUses = signal<RewardUse[]>([]);
   settings = signal<Settings>({
     id: 'profile',
     profileId: 'profile',
@@ -84,12 +86,13 @@ export class SessionStateService {
         this.sync.notifyLocalChange();
       }
 
-      const [tasks, rewards, completions, settings, redemptions] = await Promise.all([
+      const [tasks, rewards, completions, settings, redemptions, rewardUses] = await Promise.all([
         this.db.getTasks(activeProfileId ?? undefined),
         this.db.getRewards(activeProfileId ?? undefined),
         this.db.getCompletions(activeProfileId ?? undefined),
         activeProfileId ? this.db.getSettings(activeProfileId) : undefined,
-        this.db.getRedemptions(activeProfileId ?? undefined)
+        this.db.getRedemptions(activeProfileId ?? undefined),
+        this.db.getRewardUses(activeProfileId ?? undefined)
       ]);
 
       let didSeed = false;
@@ -113,6 +116,7 @@ export class SessionStateService {
 
       this.completions.set(completions);
       this.redemptions.set(redemptions);
+      this.rewardUses.set(rewardUses);
       if (settings) {
         this.settings.set({
           ...settings,

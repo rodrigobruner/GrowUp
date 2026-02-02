@@ -38,6 +38,7 @@
     "title": "Rewards",
     "tabAvailable": "Available",
     "tabRedeemed": "Redeemed",
+    "tabUsed": "Used",
     "name": "Reward",
     "placeholder": "Movie night",
     "cost": "Cost in XP",
@@ -47,7 +48,15 @@
     "availableWithCount": "Available ({{ count }} left)",
     "redeemedAt": "Redeemed on",
     "redeemedEmpty": "No redeemed rewards yet.",
-    "use": "Use reward"
+    "usedAt": "Used on",
+    "usedEmpty": "No used rewards yet.",
+    "use": "Use reward",
+    "return": "Return",
+    "tooltipAdd": "Add new reward",
+    "tooltipRedeem": "Redeem reward",
+    "tooltipDelete": "Delete reward",
+    "tooltipUse": "Consume reward",
+    "tooltipReturn": "Return to stock"
   },
   "settingsDialog": {
     "title": "Settings",

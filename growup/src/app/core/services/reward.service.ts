@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { RewardDialogResult } from '../../features/rewards/reward-dialog/reward-dialog.component';
 import { Reward } from '../models/reward';
 import { RewardRedemption } from '../models/redemption';
+import { RewardUse } from '../models/reward-use';
 import { GrowUpDbService } from './growup-db.service';
 import { ProfileService } from './profile.service';
 import { SessionStateService } from './session-state.service';
@@ -66,8 +67,34 @@ export class RewardService {
   }
 
   async consume(redemption: RewardRedemption): Promise<void> {
+    const profileId = this.profileService.activeProfileId();
+    if (!profileId) {
+      return;
+    }
+    const alreadyUsed = this.state.rewardUses().some((use) => use.redemptionId === redemption.id);
+    if (alreadyUsed) {
+      return;
+    }
+    const rewardUse: RewardUse = {
+      id: this.db.createId(),
+      profileId,
+      redemptionId: redemption.id,
+      usedAt: Date.now()
+    };
+    await this.db.addRewardUse(rewardUse);
+    this.state.rewardUses.update((items) => [rewardUse, ...items]);
+    this.sync.notifyLocalChange();
+  }
+
+  async returnRedemption(redemption: RewardRedemption): Promise<void> {
+    const isUsed = this.state.rewardUses().some((use) => use.redemptionId === redemption.id);
+    if (isUsed) {
+      return;
+    }
     await this.db.removeRedemption(redemption.id, redemption.profileId);
     this.state.redemptions.update((items) => items.filter((item) => item.id !== redemption.id));
+    await this.db.removeRewardUseByRedemption(redemption.id);
+    this.state.rewardUses.update((items) => items.filter((item) => item.redemptionId !== redemption.id));
     this.sync.notifyLocalChange();
   }
 

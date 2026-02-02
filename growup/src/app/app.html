@@ -93,11 +93,13 @@
           [rewards]="rewards()"
           [balance]="balance()"
           [redemptions]="redemptions()"
+          [rewardUses]="rewardUses()"
           [cycleStart]="currentCycleRange().start"
           [cycleEnd]="currentCycleRange().end"
           (addReward)="openRewardDialog()"
           (redeemReward)="redeemReward($event)"
           (consumeReward)="consumeReward($event)"
+          (returnRedemption)="returnRedemption($event)"
           (removeReward)="removeReward($event)"
         />
       </section>
