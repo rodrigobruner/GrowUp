@@ -1,0 +1,15 @@
+<label class="ui-toggle" [class.ui-toggle--disabled]="disabled">
+  <span class="ui-toggle__text">
+    <span class="ui-toggle__label">{{ label }}</span>
+    <span class="ui-toggle__hint" *ngIf="hint">{{ hint }}</span>
+  </span>
+  <span class="ui-toggle__control">
+    <input
+      type="checkbox"
+      [checked]="checked"
+      [disabled]="disabled"
+      (change)="handleChange($event)"
+    />
+    <span class="ui-toggle__track" aria-hidden="true"></span>
+  </span>
+</label>

@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>{{ 'rewards.add' | translate }}</h2>
-<mat-dialog-content>
+<mat-dialog-content class="ds-scope">
   <form [formGroup]="form" class="dialog-form form-grid">
     <mat-form-field appearance="outline">
       <mat-label>{{ 'rewards.name' | translate }}</mat-label>
@@ -15,7 +15,7 @@
     </mat-form-field>
   </form>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
+<mat-dialog-actions align="end" class="ds-scope">
   <button mat-button (click)="close()">{{ 'settingsDialog.cancel' | translate }}</button>
   <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid">
     {{ 'rewards.add' | translate }}

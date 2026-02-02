@@ -1,0 +1,37 @@
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(19, 70, 134, 0.08);
+  color: var(--app-ink);
+}
+
+.ui-badge--sm {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.7rem;
+}
+
+.ui-badge--sun {
+  background: rgba(254, 178, 26, 0.2);
+  color: #8a4a00;
+}
+
+.ui-badge--ocean {
+  background: rgba(19, 70, 134, 0.15);
+  color: #0d3a70;
+}
+
+.ui-badge--coral {
+  background: rgba(237, 63, 39, 0.15);
+  color: #9b1e10;
+}
+
+.ui-badge--neutral {
+  background: rgba(19, 70, 134, 0.08);
+  color: var(--app-ink);
+}

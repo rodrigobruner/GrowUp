@@ -1,0 +1,20 @@
+<div class="ui-stat">
+  <p class="ui-stat__label">{{ label }}</p>
+  <div class="ui-stat__row">
+    <h4 class="ui-stat__value">{{ value }}</h4>
+    <span
+      class="ui-stat__delta"
+      [class.ui-stat__delta--up]="trend === 'up'"
+      [class.ui-stat__delta--down]="trend === 'down'"
+      [class.ui-stat__delta--flat]="trend === 'flat'"
+      *ngIf="delta"
+    >
+      <span class="ui-stat__arrow" aria-hidden="true">
+        <span *ngIf="trend === 'up'">▲</span>
+        <span *ngIf="trend === 'down'">▼</span>
+        <span *ngIf="trend === 'flat'">◆</span>
+      </span>
+      {{ delta }}
+    </span>
+  </div>
+</div>

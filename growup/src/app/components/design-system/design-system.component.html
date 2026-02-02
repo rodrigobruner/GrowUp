@@ -1,0 +1,161 @@
+<section class="design-system">
+  <div class="design-system__header">
+    <div>
+      <p class="design-system__eyebrow">Design system</p>
+      <h2>Componentes vivos</h2>
+      <p class="design-system__subtitle">
+        Um kit coeso para cartões, badges, campos e elementos visuais.
+      </p>
+    </div>
+    <mat-chip-set class="design-system__badges">
+      <mat-chip color="primary" selected>Nova coleção</mat-chip>
+      <mat-chip color="primary" selected>Em foco</mat-chip>
+      <mat-chip color="warn" selected>Alerta</mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <div class="design-system__grid">
+    <mat-card class="design-system__card">
+      <mat-card-header>
+        <mat-card-subtitle>Resumo</mat-card-subtitle>
+        <mat-card-title>Ciclos de energia</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="design-system__card-subtitle">Visão do seu ritmo</p>
+        <div class="design-system__stats">
+          <div class="design-system__stat">
+            <p class="design-system__stat-label">Progresso</p>
+            <p class="design-system__stat-value">68%</p>
+            <mat-progress-bar mode="determinate" value="68"></mat-progress-bar>
+          </div>
+          <div class="design-system__stat">
+            <p class="design-system__stat-label">Constância</p>
+            <p class="design-system__stat-value">5/7</p>
+            <mat-progress-bar mode="determinate" value="72"></mat-progress-bar>
+          </div>
+          <div class="design-system__stat">
+            <p class="design-system__stat-label">Impacto</p>
+            <p class="design-system__stat-value">42</p>
+            <mat-progress-bar mode="determinate" value="42"></mat-progress-bar>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="design-system__card">
+      <mat-card-header>
+        <mat-card-subtitle>Ações</mat-card-subtitle>
+        <mat-card-title>Botões</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="design-system__card-subtitle">Chamadas com personalidade</p>
+        <div class="design-system__buttons">
+          <button mat-raised-button color="primary">Começar ciclo</button>
+          <button mat-stroked-button color="primary">Explorar metas</button>
+          <button mat-button>Salvar rascunho</button>
+          <button mat-raised-button class="design-system__danger-button">Cancelar tudo</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="design-system__card">
+      <mat-card-header>
+        <mat-card-subtitle>Elementos</mat-card-subtitle>
+        <mat-card-title>Badges & Chips</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="design-system__card-subtitle">Tags rápidas</p>
+        <mat-chip-set class="design-system__badges">
+          <mat-chip color="primary" selected>Foco</mat-chip>
+          <mat-chip color="primary" selected>Rotina</mat-chip>
+          <mat-chip color="warn" selected>Prioridade</mat-chip>
+          <mat-chip>Neutro</mat-chip>
+        </mat-chip-set>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="design-system__forms">
+    <mat-card class="design-system__card">
+      <mat-card-header>
+        <mat-card-subtitle>Campos</mat-card-subtitle>
+        <mat-card-title>Formulários</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="design-system__card-subtitle">Inputs consistentes</p>
+        <div class="design-system__form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome do ciclo</mat-label>
+            <input matInput placeholder="Ex: Ritmo da manhã" [ngModel]="name()" (ngModelChange)="name.set($event)" />
+            <mat-hint>Use algo curto e inspirador</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Persona</mat-label>
+            <mat-select [ngModel]="persona()" (ngModelChange)="persona.set($event)">
+              <mat-option *ngFor="let option of personaOptions" [value]="option.value">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <label class="design-system__textarea-field" [class.design-system__textarea-field--filled]="notes().length">
+            <span class="design-system__textarea-label">Notas</span>
+            <textarea
+              rows="3"
+              placeholder="O que você quer sentir ao final do ciclo?"
+              [ngModel]="notes()"
+              (ngModelChange)="notes.set($event)"
+            ></textarea>
+          </label>
+
+          <div class="design-system__choices">
+            <mat-slide-toggle [ngModel]="notifications()" (ngModelChange)="notifications.set($event)">
+              Notificações inteligentes
+            </mat-slide-toggle>
+            <span class="design-system__hint">Sugerir novos horários</span>
+
+            <mat-checkbox [ngModel]="shareProgress()" (ngModelChange)="shareProgress.set($event)">
+              Compartilhar progresso
+            </mat-checkbox>
+            <span class="design-system__hint">Enviar resumo semanal</span>
+
+            <div>
+              <p class="design-system__radio-label">Clima do ciclo</p>
+              <mat-radio-group [ngModel]="mood()" (ngModelChange)="mood.set($event)">
+                <mat-radio-button *ngFor="let option of moodOptions" [value]="option.value">
+                  <span class="design-system__radio-text">{{ option.label }}</span>
+                  <span class="design-system__hint">{{ option.hint }}</span>
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="design-system__visuals">
+    <mat-card class="design-system__card">
+      <mat-card-header>
+        <mat-card-subtitle>Visuais</mat-card-subtitle>
+        <mat-card-title>Elementos decorativos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="design-system__card-subtitle">Texturas e ritmo</p>
+        <div class="design-system__visual-grid">
+          <div class="design-system__visual-block">
+            <p class="design-system__stat-label">Ritmo de foco</p>
+            <mat-progress-bar mode="determinate" value="78"></mat-progress-bar>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="design-system__visual-block">
+            <p class="design-system__stat-label">Separadores</p>
+            <mat-divider></mat-divider>
+            <mat-divider></mat-divider>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>

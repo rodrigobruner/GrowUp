@@ -1,0 +1,64 @@
+.ui-card {
+  position: relative;
+  border-radius: 24px;
+  padding: 1.5rem;
+  background: var(--app-surface);
+  border: 1px solid rgba(19, 70, 134, 0.12);
+  box-shadow: 0 16px 30px rgba(19, 70, 134, 0.15);
+  overflow: hidden;
+  color: var(--app-ink);
+}
+
+.ui-card__glow {
+  position: absolute;
+  inset: -40% auto auto -20%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent 70%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.ui-card__header {
+  margin-bottom: 1rem;
+}
+
+.ui-card__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  margin: 0 0 0.35rem;
+  color: rgba(19, 70, 134, 0.6);
+}
+
+.ui-card__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.25rem;
+}
+
+.ui-card__subtitle {
+  margin: 0;
+  color: rgba(19, 70, 134, 0.7);
+}
+
+.ui-card__body {
+  position: relative;
+  z-index: 1;
+}
+
+.ui-card--sun {
+  background: linear-gradient(140deg, rgba(255, 246, 223, 0.95), rgba(255, 255, 255, 0.85));
+}
+
+.ui-card--ocean {
+  background: linear-gradient(140deg, rgba(217, 236, 255, 0.8), rgba(255, 255, 255, 0.92));
+}
+
+.ui-card--coral {
+  background: linear-gradient(140deg, rgba(255, 228, 223, 0.9), rgba(255, 255, 255, 0.95));
+}
+
+.ui-card--sand {
+  background: linear-gradient(140deg, rgba(253, 231, 182, 0.6), rgba(255, 255, 255, 0.95));
+}

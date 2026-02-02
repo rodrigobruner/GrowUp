@@ -1,0 +1,11 @@
+<span
+  class="ui-badge"
+  [class.ui-badge--sun]="tone === 'sun'"
+  [class.ui-badge--ocean]="tone === 'ocean'"
+  [class.ui-badge--coral]="tone === 'coral'"
+  [class.ui-badge--neutral]="tone === 'neutral'"
+  [class.ui-badge--sm]="size === 'sm'"
+>
+  <ng-content></ng-content>
+  <span *ngIf="label">{{ label }}</span>
+</span>

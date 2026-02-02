@@ -51,7 +51,7 @@
       (profileSelect)="selectProfile($event)"
     />
 
-    <main class="page">
+    <main class="page ds-scope" *ngIf="!isDevui()">
       <section class="hero">
         <div>
           <p class="eyebrow">{{ 'app.eyebrow' | translate }}</p>
@@ -109,5 +109,7 @@
         <span class="footer-build"> • {{ 'footer.builtAt' | translate }} {{ buildTime }}</span>
       </footer>
     </main>
+
+    <router-outlet />
   </mat-drawer-content>
 </mat-drawer-container>

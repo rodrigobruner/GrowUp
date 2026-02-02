@@ -34,6 +34,7 @@ import { TasksPanelComponent } from './features/tasks/tasks-panel/tasks-panel.co
 import { RewardsPanelComponent } from './features/rewards/rewards-panel/rewards-panel.component';
 import { environment } from '../environments/environment';
 import { ProfileDialogComponent } from './features/profiles/profile-dialog/profile-dialog.component';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -41,6 +42,7 @@ import { ProfileDialogComponent } from './features/profiles/profile-dialog/profi
     CommonModule,
     MatDialogModule,
     MatSidenavModule,
+    RouterOutlet,
     TopbarComponent,
     SummaryCardComponent,
     TasksPanelComponent,
@@ -65,6 +67,7 @@ export class App implements OnInit {
   private readonly levelupDialogs = inject(LevelupDialogService);
   private readonly drawer = inject(SettingsDrawerService);
   private readonly sync = inject(SyncService);
+  private readonly router = inject(Router);
   readonly appStatus = inject(AppStatusService);
   private readonly summary = inject(SummaryService);
   private readonly calendar = inject(CalendarStateService);
@@ -108,6 +111,10 @@ export class App implements OnInit {
   readonly profileOpen = this.drawer.profileOpen;
   readonly profileMode = this.drawer.profileMode;
   readonly isOnline = this.appStatus.isOnline;
+
+  isDevui(): boolean {
+    return this.router.url.startsWith('/devui');
+  }
 
   constructor() {
     effect(() => {

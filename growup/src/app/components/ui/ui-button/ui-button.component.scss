@@ -1,0 +1,82 @@
+:host {
+  display: inline-flex;
+}
+
+.ui-button {
+  position: relative;
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.4rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  background: var(--app-primary);
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(19, 70, 134, 0.2);
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  overflow: hidden;
+}
+
+.ui-button__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.35), transparent 55%);
+  opacity: 0.7;
+}
+
+.ui-button__content {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ui-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+.ui-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 32px rgba(19, 70, 134, 0.25);
+}
+
+.ui-button--outline {
+  background: transparent;
+  color: var(--app-primary);
+  border: 2px solid rgba(19, 70, 134, 0.2);
+  box-shadow: none;
+}
+
+.ui-button--outline .ui-button__glow {
+  opacity: 0.25;
+}
+
+.ui-button--ghost {
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--app-ink);
+  border: 1px solid rgba(19, 70, 134, 0.1);
+  box-shadow: none;
+}
+
+.ui-button--ghost .ui-button__glow {
+  opacity: 0.4;
+}
+
+.ui-button--danger {
+  background: var(--app-coral);
+  color: #fff;
+}
+
+.ui-button--sm {
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+}
+
+.ui-button--lg {
+  padding: 0.95rem 1.8rem;
+  font-size: 1.05rem;
+}

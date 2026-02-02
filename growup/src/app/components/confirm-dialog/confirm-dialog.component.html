@@ -1,10 +1,10 @@
 <h2 mat-dialog-title>{{ data.title }}</h2>
 
-<mat-dialog-content>
+<mat-dialog-content class="ds-scope">
   <p class="confirm-message">{{ data.message }}</p>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end" class="confirm-actions">
+<mat-dialog-actions align="end" class="confirm-actions ds-scope">
   <button mat-button [mat-dialog-close]="false">{{ data.cancelLabel }}</button>
   <button
     mat-flat-button

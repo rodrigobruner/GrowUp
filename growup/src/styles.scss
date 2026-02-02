@@ -8,6 +8,7 @@
 
 :root {
   --app-ink: #134686;
+  --app-ink-soft: rgba(19, 70, 134, 0.7);
   --app-cream: #fdf4e3;
   --app-sand: #fde7b6;
   --app-gold: #feb21a;
@@ -15,6 +16,8 @@
   --app-primary: #134686;
   --app-shadow: rgba(19, 70, 134, 0.18);
   --app-gradient: linear-gradient(160deg, #feb21a 0%, #fdf4e3 48%, #d9ecff 100%);
+  --app-surface: rgba(255, 255, 255, 0.9);
+  --app-border: rgba(19, 70, 134, 0.12);
 }
 
 html {
@@ -78,4 +81,52 @@ app-root {
   height: 100%;
   max-height: 100vh;
   border-radius: 0;
+}
+
+.ds-scope .mat-mdc-form-field {
+  --mdc-outlined-text-field-container-height: 48px;
+}
+
+.ds-scope .mat-mdc-text-field-wrapper {
+  min-height: 48px;
+  max-height: 48px;
+  background: #fff;
+}
+
+.ds-scope .mat-mdc-form-field-infix {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 28px;
+  max-height: 28px;
+}
+
+.ds-scope .mat-mdc-form-field .mdc-notched-outline__leading,
+.ds-scope .mat-mdc-form-field .mdc-notched-outline__notch,
+.ds-scope .mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: rgba(0, 0, 0, 0.6);
+}
+
+.ds-scope .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.ds-scope .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.ds-scope .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #134686;
+}
+
+.ds-scope .mat-mdc-raised-button.mat-primary,
+.ds-scope .mat-mdc-unelevated-button.mat-primary {
+  background: #134686;
+}
+
+.ds-scope .mat-mdc-raised-button.mat-primary:hover,
+.ds-scope .mat-mdc-unelevated-button.mat-primary:hover {
+  background: #1c5194;
+}
+
+.ds-scope .mat-mdc-outlined-button,
+.ds-scope .mat-mdc-button {
+  color: #134686;
+}
+
+.ds-scope .mat-mdc-outlined-button {
+  border-color: rgba(19, 70, 134, 0.35);
 }

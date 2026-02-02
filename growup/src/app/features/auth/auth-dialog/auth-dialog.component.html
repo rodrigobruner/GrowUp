@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>{{ 'auth.title' | translate }}</h2>
 
-<mat-dialog-content class="auth-dialog">
+<mat-dialog-content class="auth-dialog ds-scope">
   <mat-tab-group>
     <mat-tab label="{{ 'auth.signIn' | translate }}">
       <div class="auth-form form-grid">
@@ -76,6 +76,6 @@
   <p class="auth-message info" *ngIf="info()">{{ info() }}</p>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
+<mat-dialog-actions align="end" class="ds-scope">
   <button mat-button mat-dialog-close>{{ 'auth.close' | translate }}</button>
 </mat-dialog-actions>
