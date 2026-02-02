@@ -1,75 +1,75 @@
-# GrowUp - Documentacao da Solucao
+# GrowUp - Solution Overview
 
-## Objetivo
-GrowUp e um sistema de gamificacao para rotinas, com tarefas, recompensas e ciclos. O objetivo e ajudar o usuario a manter consistencia ao longo do tempo, oferecendo pontos (XP) e recompensas como incentivo.
+## Goal
+GrowUp is a gamification system for routines, with tasks, rewards, and cycles. The goal is to help users stay consistent over time by offering points (XP) and rewards as incentives.
 
-## Conceitos Principais
-- **Perfil**: contexto ativo do usuario (avatar, nome, preferencia de ciclo).
-- **Ciclo**: periodo usado para medir progresso e limitar recompensas (semanal, quinzenal, mensal, anual).
-- **Tarefas**: atividades que geram XP quando concluidas.
-- **Recompensas**: itens que podem ser resgatados com XP, com limite por ciclo.
-- **Resgate (Redeemed)**: recompensa comprada, ainda nao consumida.
-- **Consumo (Used)**: recompensa usada; status definitivo.
+## Key Concepts
+- **Profile**: the active user context (avatar, name, cycle preference).
+- **Cycle**: the period used to measure progress and limit rewards (weekly, biweekly, monthly, yearly).
+- **Tasks**: activities that grant XP when completed.
+- **Rewards**: items that can be redeemed with XP, with a per-cycle limit.
+- **Redemption (Redeemed)**: a reward that was purchased and not yet consumed.
+- **Consumption (Used)**: a reward that was used; final status.
 
-## Fluxo Geral da Aplicacao
-1. O usuario seleciona um perfil ativo.
-2. Tarefas concluidas geram XP.
-3. O saldo de XP fica disponivel para resgatar recompensas.
-4. Recompensas sao controladas por limite por ciclo.
-5. Recompensas resgatadas ficam em **Redeemed** ate serem consumidas ou devolvidas.
+## Application Flow
+1. The user selects an active profile.
+2. Completed tasks generate XP.
+3. XP balance is available to redeem rewards.
+4. Rewards are controlled by a per-cycle limit.
+5. Redeemed rewards stay in **Redeemed** until they are consumed or returned.
 
-## Logica de Tarefas
-- Cada tarefa tem uma pontuacao.
-- Ao concluir, e criada uma **Completion** vinculada a uma data.
-- O total de XP acumulado depende das completions do ciclo/periodo exibido.
+## Task Logic
+- Each task has a points value.
+- When completed, a **Completion** record is created for a date.
+- Total XP depends on completions within the displayed cycle/period.
 
-## Logica de Recompensas (Loja)
-A sessao Rewards funciona como uma loja com estoque por ciclo:
-- **Available**: produtos disponiveis (estoque restante > 0).
-- **Redeemed**: produtos comprados e ainda nao consumidos.
-- **Used**: produtos consumidos (nao voltam ao estoque).
+## Rewards Logic (Store)
+The Rewards section behaves like a store with per-cycle inventory:
+- **Available**: items in stock (remaining stock > 0).
+- **Redeemed**: items purchased and not yet consumed.
+- **Used**: items consumed (do not return to stock).
 
-### Regras de Resgate
-- Cada item possui **limit per cycle**.
-- Ao resgatar:
-  - gera uma linha individual em **Redeemed**.
-  - reduz 1 unidade do estoque no ciclo.
-  - se atingir 0, o item fica indisponivel em **Available**.
+### Redemption Rules
+- Each item has a **limit per cycle**.
+- When redeeming:
+  - a single line is created in **Redeemed**.
+  - 1 unit is subtracted from the cycle stock.
+  - if it reaches 0, the item becomes unavailable in **Available**.
 
-### Regras de Uso e Devolucao
+### Use and Return Rules
 - **Consume**:
-  - marca o item como usado.
-  - move para **Used**.
-  - definitivo, nao pode ser removido nem devolvido.
+  - marks the item as used.
+  - moves it to **Used**.
+  - final, cannot be removed or returned.
 - **Return**:
-  - remove de **Redeemed**.
-  - devolve 1 unidade ao estoque do ciclo.
-  - somente permitido se ainda nao consumido.
+  - removes the item from **Redeemed**.
+  - restores 1 unit to the cycle stock.
+  - only allowed if it has not been consumed.
 
-## Persistencia e Sincronizacao
-- Dados principais sao salvos localmente (IndexedDB via Dexie) e sincronizados com o Supabase.
-- Entidades sincronizadas: profiles, tasks, rewards, completions, settings, redemptions.
-- **Used (rewardUses)** e local apenas (nao sincroniza). Se precisar sincronizar, e necessario criar tabela/coluna no backend.
+## Persistence and Sync
+- Main data is stored locally (IndexedDB via Dexie) and synced to Supabase.
+- Synced entities: profiles, tasks, rewards, completions, settings, redemptions.
+- **Used (rewardUses)** is local only (not synced). To sync it, add a table/column on the backend.
 
-## Interfaces Principais
-- **Home**: resumo do ciclo, tarefas e recompensas.
-- **Dialogs**: criacao/edicao de tarefas e recompensas, configuracoes e autenticacao.
-- **DevUI**: vitrine do Design System.
+## Main Interfaces
+- **Home**: cycle summary, tasks, and rewards.
+- **Dialogs**: create/edit tasks and rewards, settings, and authentication.
+- **DevUI**: design system showcase.
 
-## Como Usar
-1. Crie ou selecione um perfil.
-2. Cadastre tarefas e recompensas.
-3. Conclua tarefas para ganhar XP.
-4. Resgate recompensas na aba Available.
-5. Consuma ou devolva recompensas na aba Redeemed.
+## How to Use
+1. Create or select a profile.
+2. Register tasks and rewards.
+3. Complete tasks to earn XP.
+4. Redeem rewards in the Available tab.
+5. Consume or return rewards in the Redeemed tab.
 
-## Regras Importantes
-- Limite por ciclo e estritamente respeitado.
-- Cada resgate gera uma linha individual.
-- Itens consumidos sao definitivos.
-- Retorno so e permitido antes do consumo.
+## Important Rules
+- Per-cycle limits are strictly enforced.
+- Each redemption creates a single line.
+- Consumed items are final.
+- Returns are only allowed before consumption.
 
-## Observacoes de Design System
-- Componentes seguem o tema visual principal (azul/creme/dourado).
-- Campos usam estilo de Material com alturas compactas e fundo branco.
-- Tooltips orientam acoes em Rewards.
+## Design System Notes
+- Components follow the main visual theme (blue/cream/gold).
+- Fields use a compact Material style with white backgrounds.
+- Tooltips guide actions in Rewards.

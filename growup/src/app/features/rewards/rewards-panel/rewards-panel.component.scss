@@ -125,6 +125,58 @@
   color: rgba(19, 70, 134, 0.6);
 }
 
+.rewards-skeleton .tab-header {
+  align-items: center;
+}
+
+.skeleton-line,
+.skeleton-circle,
+.skeleton-row {
+  background: linear-gradient(90deg, rgba(19, 70, 134, 0.08), rgba(19, 70, 134, 0.18), rgba(19, 70, 134, 0.08));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 999px;
+}
+
+.skeleton-line {
+  height: 10px;
+  width: 100%;
+}
+
+.skeleton-line--title {
+  width: 160px;
+  height: 14px;
+}
+
+.skeleton-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.list-header--skeleton span {
+  height: 10px;
+}
+
+.skeleton-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.skeleton-row {
+  height: 44px;
+  border-radius: 14px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 @media (max-width: 720px) {
   .list-header {
     display: none;

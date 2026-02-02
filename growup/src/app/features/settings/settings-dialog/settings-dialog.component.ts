@@ -208,6 +208,7 @@ export class SettingsDialogComponent implements OnChanges {
     if (!confirmed) {
       return;
     }
+    this.closeSettings.emit();
 
     await this.clearCache();
     localStorage.clear();

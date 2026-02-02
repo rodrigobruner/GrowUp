@@ -1,67 +1,89 @@
 <mat-card class="panel">
-  <div class="panel-header">
-    <h2>{{ 'tasks.title' | translate }}</h2>
-    <div class="date-controls">
-      <button mat-icon-button type="button" (click)="goPreviousDay()" [attr.aria-label]="'tasks.prevDay' | translate">
-        <span class="material-icons">chevron_left</span>
-      </button>
-      <mat-form-field appearance="outline" class="date-field">
-        <mat-label>{{ 'tasks.date' | translate }}</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          [max]="maxDate"
-          [value]="selectedDateValue"
-          (dateChange)="onDateChange($event.value)"
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <button
-        mat-stroked-button
-        class="today-button"
-        type="button"
-        (click)="goToday()"
-        [disabled]="selectedDate === todayKey"
-      >
-        {{ 'tasks.today' | translate }}
-      </button>
-    </div>
-    <button mat-fab color="primary" class="add-fab" (click)="addTask.emit()">
-      <span class="material-icons">add</span>
-    </button>
-  </div>
-
-  <div class="list-header">
-    <span>{{ 'tasks.activity' | translate }}</span>
-    <span>{{ 'tasks.xp' | translate }}</span>
-    <span>{{ 'tasks.status' | translate }}</span>
-  </div>
-  @if (tasks.length === 0) {
-    <p class="empty-state">{{ 'tasks.empty' | translate }}</p>
-  }
-  @for (task of tasks; track task.id) {
-    <div class="item-row">
-      <div class="item-main">
-        <button class="item-title" type="button" (click)="toggleTask.emit(task)">
-          {{ task.title }}
+  @if (!loading) {
+    <div class="panel-header">
+      <h2>{{ 'tasks.title' | translate }}</h2>
+      <div class="date-controls">
+        <button mat-icon-button type="button" (click)="goPreviousDay()" [attr.aria-label]="'tasks.prevDay' | translate">
+          <span class="material-icons">chevron_left</span>
         </button>
+        <mat-form-field appearance="outline" class="date-field">
+          <mat-label>{{ 'tasks.date' | translate }}</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [max]="maxDate"
+            [value]="selectedDateValue"
+            (dateChange)="onDateChange($event.value)"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
         <button
-          class="check-toggle"
-          [class.done]="todayDoneIds.has(task.id)"
-          (click)="toggleTask.emit(task)"
+          mat-stroked-button
+          class="today-button"
           type="button"
+          (click)="goToday()"
+          [disabled]="selectedDate === todayKey"
         >
-          <span class="material-icons">check</span>
+          {{ 'tasks.today' | translate }}
         </button>
       </div>
-      <span>{{ task.points }} XP</span>
-      <span class="status" [class.done]="todayDoneIds.has(task.id)">
-        {{ todayDoneIds.has(task.id) ? ('tasks.done' | translate) : ('tasks.available' | translate) }}
-      </span>
-      <button mat-icon-button class="danger" (click)="removeTask.emit(task)">
-        <span class="material-icons">delete</span>
+      <button mat-fab color="primary" class="add-fab" (click)="addTask.emit()">
+        <span class="material-icons">add</span>
       </button>
+    </div>
+
+    <div class="list-header">
+      <span>{{ 'tasks.activity' | translate }}</span>
+      <span>{{ 'tasks.xp' | translate }}</span>
+      <span>{{ 'tasks.status' | translate }}</span>
+    </div>
+    @if (tasks.length === 0) {
+      <p class="empty-state">{{ 'tasks.empty' | translate }}</p>
+    }
+    @for (task of tasks; track task.id) {
+      <div class="item-row">
+        <div class="item-main">
+          <button class="item-title" type="button" (click)="toggleTask.emit(task)">
+            {{ task.title }}
+          </button>
+          <button
+            class="check-toggle"
+            [class.done]="todayDoneIds.has(task.id)"
+            (click)="toggleTask.emit(task)"
+            type="button"
+          >
+            <span class="material-icons">check</span>
+          </button>
+        </div>
+        <span>{{ task.points }} XP</span>
+        <span class="status" [class.done]="todayDoneIds.has(task.id)">
+          {{ todayDoneIds.has(task.id) ? ('tasks.done' | translate) : ('tasks.available' | translate) }}
+        </span>
+        <button mat-icon-button class="danger" (click)="removeTask.emit(task)">
+          <span class="material-icons">delete</span>
+        </button>
+      </div>
+    }
+  } @else {
+    <div class="panel-header panel-header--skeleton">
+      <div class="skeleton-line skeleton-line--title"></div>
+      <div class="skeleton-controls">
+        <div class="skeleton-pill"></div>
+        <div class="skeleton-pill"></div>
+        <div class="skeleton-pill"></div>
+      </div>
+      <div class="skeleton-circle"></div>
+    </div>
+    <div class="list-header list-header--skeleton">
+      <span class="skeleton-line"></span>
+      <span class="skeleton-line"></span>
+      <span class="skeleton-line"></span>
+    </div>
+    <div class="skeleton-list">
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
     </div>
   }
 </mat-card>

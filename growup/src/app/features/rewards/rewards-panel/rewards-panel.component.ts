@@ -32,6 +32,7 @@ export class RewardsPanelComponent {
   @Input({ required: true }) balance = 0;
   @Input({ required: true }) redemptions: RewardRedemption[] = [];
   @Input({ required: true }) rewardUses: RewardUse[] = [];
+  @Input() loading = false;
   @Input({ required: true }) cycleStart = '';
   @Input({ required: true }) cycleEnd = '';
   @Output() addReward = new EventEmitter<void>();

@@ -39,7 +39,7 @@
   </ng-template>
 </div>
 
-<mat-menu #authMenu="matMenu" panelClass="avatar-menu">
+<mat-menu #authMenu="matMenu" panelClass="avatar-menu" [overlapTrigger]="false" xPosition="after" yPosition="below">
   <mat-nav-list class="menu-list" aria-label="user menu">
     @if (canChangePassword) {
       <mat-list-item class="menu-item" (click)="openResetPassword.emit()">

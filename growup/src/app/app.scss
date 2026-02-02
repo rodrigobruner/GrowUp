@@ -79,6 +79,45 @@
   animation: fade-up 700ms ease both;
 }
 
+.onboarding {
+  margin-bottom: 2.5rem;
+  animation: fade-up 700ms ease both;
+}
+
+.onboarding-card {
+  padding: 1.75rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(19, 70, 134, 0.12);
+}
+
+.onboarding-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.onboarding-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  color: rgba(46, 58, 89, 0.7);
+  margin: 0 0 0.6rem;
+}
+
+.onboarding-text {
+  margin: 0;
+  color: rgba(19, 70, 134, 0.7);
+}
+
+@media (max-width: 900px) {
+  .onboarding-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.2em;

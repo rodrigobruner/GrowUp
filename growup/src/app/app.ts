@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AccountSettings } from './core/models/account-settings';
 import { Reward } from './core/models/reward';
@@ -42,6 +43,7 @@ import { Router, RouterOutlet } from '@angular/router';
     CommonModule,
     MatDialogModule,
     MatSidenavModule,
+    MatCardModule,
     RouterOutlet,
     TopbarComponent,
     SummaryCardComponent,
@@ -112,6 +114,19 @@ export class App implements OnInit {
   readonly profileOpen = this.drawer.profileOpen;
   readonly profileMode = this.drawer.profileMode;
   readonly isOnline = this.appStatus.isOnline;
+  readonly showProfileOnboarding = computed(() => {
+    const profiles = this.profiles();
+    if (profiles.length === 0) {
+      return true;
+    }
+    const key = this.onboardingKey();
+    return key ? localStorage.getItem(key) !== '1' : true;
+  });
+
+  private onboardingKey(): string | null {
+    const userId = this.auth.user()?.id ?? 'anon';
+    return `growup.onboarding.profileCreated.${userId}`;
+  }
 
   isDevui(): boolean {
     return this.router.url.startsWith('/devui');

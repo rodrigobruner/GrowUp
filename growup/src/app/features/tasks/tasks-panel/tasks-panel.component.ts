@@ -30,6 +30,7 @@ export class TasksPanelComponent {
   @Input({ required: true }) todayDoneIds = new Set<string>();
   @Input({ required: true }) selectedDate = '';
   @Input({ required: true }) todayKey = '';
+  @Input() loading = false;
   @Output() addTask = new EventEmitter<void>();
   @Output() toggleTask = new EventEmitter<Task>();
   @Output() removeTask = new EventEmitter<Task>();

@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AccountSettings } from '../models/account-settings';
 import { Profile } from '../models/profile';
 import { Settings } from '../models/settings';
+import { AuthService } from './auth.service';
 import { GrowUpDbService } from './growup-db.service';
 import { ProfileService } from './profile.service';
 import { SessionStateService } from './session-state.service';
@@ -14,6 +15,7 @@ export class ProfileManagementService {
   private readonly profileService = inject(ProfileService);
   private readonly state = inject(SessionStateService);
   private readonly translate = inject(TranslateService);
+  private readonly auth = inject(AuthService);
   private readonly sync = inject(SyncService);
 
   async saveSettings(result: {
@@ -88,6 +90,7 @@ export class ProfileManagementService {
     };
 
     if (mode === 'create') {
+      this.markProfileCreated();
       await this.db.addProfile(profile);
       this.profileService.setProfiles([...this.profileService.profiles(), profile]);
       this.profileService.setActiveProfile(profileId);
@@ -109,6 +112,11 @@ export class ProfileManagementService {
 
     this.sync.notifyLocalChange();
     return 'ok';
+  }
+
+  private markProfileCreated(): void {
+    const userId = this.auth.user()?.id ?? 'anon';
+    localStorage.setItem(`growup.onboarding.profileCreated.${userId}`, '1');
   }
 
   async selectProfile(profileId: string): Promise<void> {

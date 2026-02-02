@@ -62,6 +62,7 @@
         </div>
         <app-summary-card
           *ngIf="profiles().length"
+          [loading]="appStatus.isSyncing()"
           [avatarSrc]="avatarSrc()"
           [level]="level()"
           [xpToNext]="xpToNext()"
@@ -77,12 +78,30 @@
         />
       </section>
 
+      <section class="onboarding" *ngIf="showProfileOnboarding()">
+        <mat-card class="onboarding-card">
+          <div class="onboarding-content">
+            <div>
+              <p class="onboarding-eyebrow">{{ 'profiles.firstProfileTooltip' | translate }}</p>
+              <h2>{{ 'profiles.dialogTitle' | translate }}</h2>
+              <p class="onboarding-text">
+                {{ 'app.subtitle' | translate }}
+              </p>
+            </div>
+            <button mat-flat-button color="primary" type="button" (click)="openCreateProfile()">
+              {{ 'profiles.addTooltip' | translate }}
+            </button>
+          </div>
+        </mat-card>
+      </section>
+
       <section class="grid" *ngIf="profiles().length">
         <app-tasks-panel
           [tasks]="tasks()"
           [todayDoneIds]="todayDoneIds()"
           [selectedDate]="selectedDate()"
           [todayKey]="todayKey()"
+          [loading]="appStatus.isSyncing()"
           (selectedDateChange)="setSelectedDate($event)"
           (addTask)="openTaskDialog()"
           (toggleTask)="toggleTask($event)"
@@ -96,6 +115,7 @@
           [rewardUses]="rewardUses()"
           [cycleStart]="currentCycleRange().start"
           [cycleEnd]="currentCycleRange().end"
+          [loading]="appStatus.isSyncing()"
           (addReward)="openRewardDialog()"
           (redeemReward)="redeemReward($event)"
           (consumeReward)="consumeReward($event)"

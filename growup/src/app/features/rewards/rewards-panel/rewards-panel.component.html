@@ -3,6 +3,7 @@
     <h2>{{ 'rewards.title' | translate }}</h2>
   </div>
 
+  @if (!loading) {
   <mat-tab-group>
     <mat-tab label="{{ 'rewards.tabAvailable' | translate }}">
       <div class="tab-header">
@@ -127,4 +128,22 @@
       }
     </mat-tab>
   </mat-tab-group>
+  } @else {
+    <div class="rewards-skeleton">
+      <div class="tab-header">
+        <span class="skeleton-line skeleton-line--title"></span>
+        <div class="skeleton-circle"></div>
+      </div>
+      <div class="list-header list-header--skeleton">
+        <span class="skeleton-line"></span>
+        <span class="skeleton-line"></span>
+        <span class="skeleton-line"></span>
+      </div>
+      <div class="skeleton-list">
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+      </div>
+    </div>
+  }
 </mat-card>
