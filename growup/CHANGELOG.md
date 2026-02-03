@@ -3,6 +3,8 @@
 ## [Unreleased]
 ### Summary
 - Refresh the onboarding layout with a three-column structure and a supporting illustration.
+- Move authentication from a modal to a dedicated `/signin` page with a home return action.
+- Place the settings icon to the right of the account avatar.
 - Clear session UI state immediately on auth changes to avoid showing stale level, tasks, and rewards.
 - Clear local data and reload after account deletion to avoid stale UI.
 - Default the cycle selector to biweekly when missing settings data.
@@ -17,6 +19,8 @@
 
 ### Impact
 - The onboarding card now shows the Create New Profile action alongside an illustration, with a stacked layout on smaller screens.
+- Login and signup now happen on `/signin`, and the auth button returns users to the home page instead of closing a dialog.
+- The settings icon now sits between the account avatar and the sync status indicator.
 - After login or logout, the home panels are hidden until the new session state loads, preventing stale data from flashing.
 - After deleting an account, the app clears cached data and reloads so the UI resets immediately.
 - Settings now fall back to the biweekly cycle when the stored cycle is missing, keeping the select prefilled.
@@ -31,6 +35,9 @@
 
 ### Validation
 - Open the app with no profiles and confirm the onboarding card shows text, button, and image in three columns on desktop.
+- Open `/signin` while logged out and confirm the tabs render and the home button returns to `/`.
+- Log in or sign up on `/signin` and confirm navigation to `/dashboard`.
+- Log in, open the topbar, and confirm the settings icon appears to the right of the avatar and before the sync status.
 - Resize to a mobile width and confirm the same elements stack vertically and the button spans full width.
 - Log in with a new user and confirm the onboarding card is shown while level, tasks, and rewards remain hidden until data loads.
 - Delete an account and confirm the app clears local data and reloads to the initial state.
@@ -48,6 +55,8 @@
 
 ### Changed
 - Make the onboarding "Create New Profile" button large, with a max width of 400px, and use the app gold theme color.
+- Replace the auth dialog with a `/signin` page and route the login CTA to it.
+- Move the settings icon to render after the avatar button.
 - Add a right-side onboarding illustration and convert the layout to three responsive columns.
 - Center the Create New Profile button within its onboarding column on desktop.
 - Align the onboarding copy to the left while keeping equal column widths on desktop.

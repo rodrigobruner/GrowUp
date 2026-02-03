@@ -1,13 +1,4 @@
 <div class="user-menu-actions">
-  <button
-    *ngIf="showSettings"
-    mat-icon-button
-    class="settings-button"
-    (click)="settingsClick.emit()"
-    [attr.aria-label]="'app.settings' | translate"
-  >
-    <span class="material-icons settings-icon">settings</span>
-  </button>
   <ng-container *ngIf="isLoggedIn; else loggedOutAvatar">
     <button
       mat-icon-button
@@ -38,6 +29,15 @@
       <span class="material-icons avatar-icon">account_circle</span>
     </button>
   </ng-template>
+  <button
+    *ngIf="showSettings"
+    mat-icon-button
+    class="settings-button"
+    (click)="settingsClick.emit()"
+    [attr.aria-label]="'app.settings' | translate"
+  >
+    <span class="material-icons settings-icon">settings</span>
+  </button>
 </div>
 
 <mat-menu #authMenu="matMenu" panelClass="avatar-menu" [overlapTrigger]="false" xPosition="after" yPosition="below">

@@ -1,20 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import { TranslateModule } from '@ngx-translate/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { AuthService } from '../../../core/services/auth.service';
-import { TermsDialogComponent } from '../terms-dialog/terms-dialog.component';
+import { TopbarComponent } from '../../components/topbar/topbar.component';
+import { AuthService } from '../../core/services/auth.service';
+import { AvatarService } from '../../core/services/avatar.service';
+import { TermsDialogComponent } from '../../features/auth/terms-dialog/terms-dialog.component';
 
 @Component({
-  selector: 'app-auth-dialog',
+  selector: 'app-signin-page',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,13 +27,21 @@ import { TermsDialogComponent } from '../terms-dialog/terms-dialog.component';
     MatFormFieldModule,
     MatInputModule,
     MatTabsModule,
-    TranslateModule
+    TranslateModule,
+    TopbarComponent
   ],
-  templateUrl: './auth-dialog.component.html',
-  styleUrl: './auth-dialog.component.scss'
+  templateUrl: './signin-page.component.html',
+  styleUrl: './signin-page.component.scss'
 })
-export class AuthDialogComponent {
+export class SigninPageComponent {
   private readonly termsVersion = '2026-01-26';
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly dialog = inject(MatDialog);
+  private readonly translate = inject(TranslateService);
+  private readonly avatar = inject(AvatarService);
+
+  readonly avatarSrc = this.avatar.avatarSrc;
   fullName = '';
   email = '';
   password = '';
@@ -41,12 +51,13 @@ export class AuthDialogComponent {
   error = signal<string | null>(null);
   info = signal<string | null>(null);
 
-  constructor(
-    private readonly auth: AuthService,
-    private readonly dialogRef: MatDialogRef<AuthDialogComponent>,
-    private readonly dialog: MatDialog,
-    private readonly translate: TranslateService
-  ) {}
+  constructor() {
+    effect(() => {
+      if (this.auth.isLoggedIn()) {
+        void this.router.navigate(['/dashboard']);
+      }
+    });
+  }
 
   async signIn(): Promise<void> {
     this.clearMessages();
@@ -57,7 +68,7 @@ export class AuthDialogComponent {
       this.error.set(error.message);
       return;
     }
-    this.dialogRef.close();
+    void this.router.navigate(['/dashboard']);
   }
 
   async signUp(): Promise<void> {
@@ -108,11 +119,6 @@ export class AuthDialogComponent {
     this.info.set(this.translate.instant('auth.resetSent'));
   }
 
-  private clearMessages(): void {
-    this.error.set(null);
-    this.info.set(null);
-  }
-
   async openTerms(): Promise<void> {
     const accepted = await firstValueFrom(this.dialog.open(TermsDialogComponent, {
       panelClass: 'terms-dialog',
@@ -123,5 +129,18 @@ export class AuthDialogComponent {
     if (accepted) {
       this.acceptTerms = true;
     }
+  }
+
+  goHome(): void {
+    void this.router.navigate(['/']);
+  }
+
+  goSignin(): void {
+    void this.router.navigate(['/signin']);
+  }
+
+  private clearMessages(): void {
+    this.error.set(null);
+    this.info.set(null);
   }
 }

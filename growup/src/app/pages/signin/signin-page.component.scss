@@ -1,0 +1,106 @@
+@use '../../styles/form-theme' as form-theme;
+
+.signin-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at top, rgba(255, 244, 220, 0.9), rgba(207, 233, 255, 0.3));
+}
+
+.signin-content {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 2.5rem 1.5rem 3rem;
+}
+
+.signin-card {
+  width: min(92vw, 520px);
+  background: #fff7e7;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 197, 90, 0.35);
+  box-shadow: 0 24px 60px rgba(19, 70, 134, 0.16);
+  padding: 2rem 2rem 1.5rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.signin-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #1b3b69;
+}
+
+.auth-form {
+  padding: 1rem 0 0.5rem;
+}
+
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.terms-link {
+  background: none;
+  border: none;
+  color: var(--app-primary);
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.google-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+}
+
+.google-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.auth-message {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.auth-message.error {
+  color: #b01a1a;
+}
+
+.auth-message.info {
+  color: #1f5c3b;
+}
+
+.signin-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@include form-theme.compact-form-fields();
+@include form-theme.form-layout();
+
+@media (max-width: 720px) {
+  .signin-content {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .signin-card {
+    padding: 1.5rem;
+  }
+
+  .signin-header h1 {
+    font-size: 1.6rem;
+  }
+}

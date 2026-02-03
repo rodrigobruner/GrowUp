@@ -280,7 +280,8 @@
     "updatePassword": "Mettre à jour le mot de passe",
     "signInGoogle": "Continuer avec Google",
     "logout": "Se déconnecter",
-    "close": "Fermer"
+    "close": "Fermer",
+    "backToHome": "Retour a l'accueil"
   },
   "terms": {
     "title": "Conditions d'utilisation – GrowUp",

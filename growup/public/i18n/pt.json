@@ -280,7 +280,8 @@
     "updatePassword": "Atualizar senha",
     "signInGoogle": "Continuar com Google",
     "logout": "Sair",
-    "close": "Fechar"
+    "close": "Fechar",
+    "backToHome": "Voltar para o inicio"
   },
   "terms": {
     "title": "Termos de Uso – GrowUp",

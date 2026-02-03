@@ -55,11 +55,6 @@ app-root {
   box-sizing: border-box;
 }
 
-.cdk-overlay-backdrop.auth-backdrop {
-  background: linear-gradient(160deg, #feb21a 0%, #fdf4e3 48%, #d9ecff 100%);
-  opacity: 1;
-}
-
 @keyframes fade-up {
   from {
     opacity: 0;

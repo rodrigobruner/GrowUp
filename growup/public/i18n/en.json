@@ -280,7 +280,8 @@
     "updatePassword": "Update password",
     "signInGoogle": "Continue with Google",
     "logout": "Logout",
-    "close": "Close"
+    "close": "Close",
+    "backToHome": "Back to home"
   },
   "terms": {
     "title": "Terms of Use – GrowUp",

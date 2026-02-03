@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { DemoModeService } from '../../core/services/demo-mode.service';
@@ -14,7 +13,7 @@ import { AuthDialogsService } from '../../core/services/auth-dialogs.service';
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatDialogModule, TopbarComponent, AppFooterComponent, TranslateModule],
+  imports: [CommonModule, MatButtonModule, TopbarComponent, AppFooterComponent, TranslateModule],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss'
 })

@@ -32,8 +32,8 @@
 
 .language-select {
   width: 90px;
-  margin-right: 0.75rem;
-  margin-top: 12px;
+  margin-right: 0rem;
+  margin-top: 18px;
   --mdc-filled-text-field-container-color: #124686;
   --mdc-filled-text-field-active-indicator-color: #124686;
   --mdc-filled-text-field-hover-active-indicator-color: #124686;
@@ -114,13 +114,13 @@
 
 :host ::ng-deep .language-select .mat-mdc-select-value-text,
 :host ::ng-deep .language-select .mat-mdc-select-min-line {
-  font-size: 2.4rem;
+  font-size: 2.0rem;
   line-height: 1;
 }
 
 :host ::ng-deep .mat-mdc-option .mat-mdc-option-text {
-  font-size: 1.6rem;
-  line-height: 1;
+  font-size: 1.5rem;
+  line-height: 0.5;
 }
 
 .center-avatar {
