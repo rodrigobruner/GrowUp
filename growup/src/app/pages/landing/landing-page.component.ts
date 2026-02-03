@@ -7,13 +7,14 @@ import { AuthService } from '../../core/services/auth.service';
 import { DemoModeService } from '../../core/services/demo-mode.service';
 import { AvatarService } from '../../core/services/avatar.service';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
+import { AppFooterComponent } from '../../components/app-footer/app-footer.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthDialogsService } from '../../core/services/auth-dialogs.service';
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatDialogModule, TopbarComponent, TranslateModule],
+  imports: [CommonModule, MatButtonModule, MatDialogModule, TopbarComponent, AppFooterComponent, TranslateModule],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss'
 })

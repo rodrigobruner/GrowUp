@@ -6,6 +6,121 @@
     "subtitle": "Cadastre atividades, defina recompensas e acompanhe o XP de forma simples. Tudo fica salvo no seu navegador.",
     "settings": "Configurações"
   },
+  "topbar": {
+    "language": "Idioma"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "GrowUp",
+      "title": "GrowUp ajuda crianças a criar hábitos saudáveis por meio de motivação, não de pressão.",
+      "subtitle": "Um sistema lúdico que transforma tarefas diárias em crescimento, responsabilidade e aprendizado para a vida real.",
+      "cta": {
+        "getStarted": "Começar",
+        "tryDemo": "Testar a demo"
+      },
+      "imageAlt": "Prévia do GrowUp"
+    },
+    "problem": {
+      "title": "O problema que o GrowUp resolve",
+      "bullets": [
+        "Lembretes constantes não funcionam.",
+        "Punições geram resistência.",
+        "Crianças não veem valor nas responsabilidades diárias."
+      ],
+      "note": "O GrowUp foi criado para mudar essa dinâmica.",
+      "imageAlt": "Avatar do GrowUp"
+    },
+    "solution": {
+      "title": "O que é o GrowUp?",
+      "body": "O GrowUp é um sistema familiar e gamificado que ajuda crianças a desenvolver responsabilidade, consistência e autonomia.",
+      "features": [
+        "Projetado para famílias e educadores.",
+        "Baseado em reforço positivo.",
+        "Simples, visual e apropriado para a idade."
+      ],
+      "imageAlt": "Personagem do GrowUp"
+    },
+    "steps": {
+      "title": "Como funciona",
+      "items": [
+        {
+          "title": "Tarefas diárias",
+          "body": "Crianças completam tarefas diárias definidas por pais ou educadores."
+        },
+        {
+          "title": "Ganhe XP e evolua de nível",
+          "body": "As tarefas geram XP que desbloqueia níveis e progresso."
+        },
+        {
+          "title": "Loja e inventário",
+          "body": "O XP desbloqueia experiências em família, armazenadas em um inventário."
+        },
+        {
+          "title": "Continue a jornada",
+          "body": "As recompensas alimentam a motivação e reiniciam o ciclo de crescimento."
+        }
+      ],
+      "imageAlt": "Acompanhamento de tarefas"
+    },
+    "skills": {
+      "title": "O que as crianças aprendem",
+      "items": [
+        "Responsabilidade",
+        "Consistência",
+        "Planejamento e escolhas",
+        "Entender valor",
+        "Autonomia e confiança"
+      ],
+      "note": "O GrowUp transforma ações do dia a dia em habilidades para a vida.",
+      "imageAlt": "Resultados de aprendizado"
+    },
+    "difference": {
+      "title": "Por que o GrowUp é diferente",
+      "items": [
+        "Sem sistemas de punição.",
+        "Sem pressão ou vergonha.",
+        "Sem anúncios para crianças.",
+        "Sem transações com dinheiro real."
+      ],
+      "note": "O GrowUp foca no aprendizado, não no controle.",
+      "imageAlt": "Promessa do GrowUp"
+    },
+    "audience": {
+      "title": "Feito para todos que apoiam crianças",
+      "items": {
+        "parents": {
+          "label": "Para pais:",
+          "body": "Crie rotinas sem conflito."
+        },
+        "families": {
+          "label": "Para famílias:",
+          "body": "Crie momentos e experiências compartilhadas."
+        },
+        "educators": {
+          "label": "Para educadores:",
+          "body": "Apoie responsabilidade e construção de hábitos de forma lúdica."
+        }
+      },
+      "imageAlt": "Comunidade"
+    },
+    "privacy": {
+      "title": "Privacidade e confiança",
+      "items": [
+        "Alinhado à COPPA, GDPR e LGPD.",
+        "Consentimento dos responsáveis obrigatório.",
+        "Não vendemos dados pessoais.",
+        "Sem publicidade direcionada para crianças."
+      ],
+      "note": "Criado com privacidade e segurança das crianças em mente.",
+      "imageAlt": "Privacidade em primeiro lugar"
+    },
+    "cta": {
+      "title": "Comece a ajudar crianças a crescer — um dia de cada vez.",
+      "subtitle": "Participe da beta ou explore a experiência demo hoje.",
+      "button": "Entrar na Beta",
+      "imageAlt": "Demo do GrowUp"
+    }
+  },
   "summary": {
     "level": "Nível atual",
     "levelValue": "Nível {{ level }}",

@@ -14,6 +14,17 @@
     (profileSelect)="selectProfile($event)"
   />
   <div class="spacer"></div>
+  <mat-form-field class="language-select" appearance="fill">
+    <mat-select
+      [value]="language()"
+      (selectionChange)="changeLanguage($event.value)"
+      [attr.aria-label]="'topbar.language' | translate"
+    >
+      <mat-option *ngFor="let option of languageOptions" [value]="option.value">
+        <span class="language-flag" aria-hidden="true">{{ option.flag }}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <app-user-menu
     [isLoggedIn]="isLoggedIn()"
     [avatarSrc]="avatarSrc"

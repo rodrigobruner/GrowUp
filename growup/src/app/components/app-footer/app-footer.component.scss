@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  padding: 15px;
+  background: transparent;
+}
+
+.app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  color: rgba(46, 58, 89, 0.7);
+  font-size: 0.9rem;
+}
+
+.app-footer--default {
+  margin-top: 2rem;
+}
+
+.app-footer--landing {
+  background: transparent;
+}
+
+.footer-build {
+  white-space: nowrap;
+}

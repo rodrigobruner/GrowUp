@@ -6,6 +6,121 @@
     "subtitle": "Create tasks, set rewards, and track XP easily. Everything stays in your browser.",
     "settings": "Settings"
   },
+  "topbar": {
+    "language": "Language"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "GrowUp",
+      "title": "GrowUp helps children build healthy habits through motivation, not pressure.",
+      "subtitle": "A playful system that turns daily tasks into growth, responsibility, and real-life learning.",
+      "cta": {
+        "getStarted": "Get Started",
+        "tryDemo": "Try the Demo"
+      },
+      "imageAlt": "GrowUp preview"
+    },
+    "problem": {
+      "title": "The problem GrowUp solves",
+      "bullets": [
+        "Constant reminders don’t work.",
+        "Punishment creates resistance.",
+        "Kids don’t see the value of daily responsibilities."
+      ],
+      "note": "GrowUp was created to change this dynamic.",
+      "imageAlt": "GrowUp avatar"
+    },
+    "solution": {
+      "title": "What is GrowUp?",
+      "body": "GrowUp is a family-friendly, gamified system that helps children develop responsibility, consistency, and autonomy.",
+      "features": [
+        "Designed for families and educators.",
+        "Built around positive reinforcement.",
+        "Simple, visual, and age-appropriate."
+      ],
+      "imageAlt": "GrowUp character"
+    },
+    "steps": {
+      "title": "How it works",
+      "items": [
+        {
+          "title": "Daily Tasks",
+          "body": "Children complete daily tasks set by parents or educators."
+        },
+        {
+          "title": "Earn XP & Level Up",
+          "body": "Tasks generate XP that unlocks levels and progress."
+        },
+        {
+          "title": "Shop & Inventory",
+          "body": "XP unlock shared family experiences, stored in an inventory."
+        },
+        {
+          "title": "Keep the Journey Going",
+          "body": "Rewards fuel motivation and restart the growth cycle."
+        }
+      ],
+      "imageAlt": "Task tracking"
+    },
+    "skills": {
+      "title": "What children learn",
+      "items": [
+        "Responsibility",
+        "Consistency",
+        "Planning & choices",
+        "Understanding value",
+        "Autonomy and confidence"
+      ],
+      "note": "GrowUp turns everyday actions into lifelong skills.",
+      "imageAlt": "Learning outcomes"
+    },
+    "difference": {
+      "title": "Why GrowUp is different",
+      "items": [
+        "No punishment systems.",
+        "No pressure or shame.",
+        "No ads for children.",
+        "No real money transactions."
+      ],
+      "note": "GrowUp focuses on learning, not control.",
+      "imageAlt": "GrowUp promise"
+    },
+    "audience": {
+      "title": "Built for everyone who supports children",
+      "items": {
+        "parents": {
+          "label": "For Parents:",
+          "body": "Build routines without conflict."
+        },
+        "families": {
+          "label": "For Families:",
+          "body": "Create shared moments and experiences."
+        },
+        "educators": {
+          "label": "For Educators:",
+          "body": "Support responsibility and habit-building in a playful way."
+        }
+      },
+      "imageAlt": "Community"
+    },
+    "privacy": {
+      "title": "Privacy and trust",
+      "items": [
+        "COPPA, GDPR and LGPD aligned.",
+        "Parental consent required.",
+        "No selling of personal data.",
+        "No targeted advertising to children."
+      ],
+      "note": "Built with privacy and children’s safety in mind.",
+      "imageAlt": "Privacy first"
+    },
+    "cta": {
+      "title": "Start helping children grow — one day at a time.",
+      "subtitle": "Join the beta or explore the demo experience today.",
+      "button": "Join the Beta",
+      "imageAlt": "GrowUp demo"
+    }
+  },
   "summary": {
     "level": "Current level",
     "levelValue": "Level {{ level }}",

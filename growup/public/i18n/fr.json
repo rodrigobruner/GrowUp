@@ -6,6 +6,121 @@
     "subtitle": "Créez des tâches, définissez des récompenses et suivez l'XP facilement. Tout reste dans votre navigateur.",
     "settings": "Paramètres"
   },
+  "topbar": {
+    "language": "Langue"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "GrowUp",
+      "title": "GrowUp aide les enfants à construire des habitudes saines grâce à la motivation, pas la pression.",
+      "subtitle": "Un système ludique qui transforme les tâches quotidiennes en croissance, responsabilité et apprentissage pour la vie.",
+      "cta": {
+        "getStarted": "Commencer",
+        "tryDemo": "Essayer la démo"
+      },
+      "imageAlt": "Aperçu de GrowUp"
+    },
+    "problem": {
+      "title": "Le problème que GrowUp résout",
+      "bullets": [
+        "Les rappels constants ne fonctionnent pas.",
+        "La punition crée de la résistance.",
+        "Les enfants ne voient pas la valeur des responsabilités quotidiennes."
+      ],
+      "note": "GrowUp a été créé pour changer cette dynamique.",
+      "imageAlt": "Avatar GrowUp"
+    },
+    "solution": {
+      "title": "Qu'est-ce que GrowUp ?",
+      "body": "GrowUp est un système familial gamifié qui aide les enfants à développer la responsabilité, la régularité et l'autonomie.",
+      "features": [
+        "Conçu pour les familles et les éducateurs.",
+        "Basé sur le renforcement positif.",
+        "Simple, visuel et adapté à l'âge."
+      ],
+      "imageAlt": "Personnage GrowUp"
+    },
+    "steps": {
+      "title": "Comment ça marche",
+      "items": [
+        {
+          "title": "Tâches quotidiennes",
+          "body": "Les enfants accomplissent des tâches quotidiennes définies par les parents ou les éducateurs."
+        },
+        {
+          "title": "Gagnez de l'XP et montez de niveau",
+          "body": "Les tâches génèrent de l'XP qui débloque des niveaux et la progression."
+        },
+        {
+          "title": "Boutique et inventaire",
+          "body": "L'XP débloque des expériences familiales, stockées dans un inventaire."
+        },
+        {
+          "title": "Poursuivre le parcours",
+          "body": "Les récompenses nourrissent la motivation et relancent le cycle de croissance."
+        }
+      ],
+      "imageAlt": "Suivi des tâches"
+    },
+    "skills": {
+      "title": "Ce que les enfants apprennent",
+      "items": [
+        "Responsabilité",
+        "Régularité",
+        "Planification et choix",
+        "Comprendre la valeur",
+        "Autonomie et confiance"
+      ],
+      "note": "GrowUp transforme les actions quotidiennes en compétences pour la vie.",
+      "imageAlt": "Résultats d'apprentissage"
+    },
+    "difference": {
+      "title": "Pourquoi GrowUp est différent",
+      "items": [
+        "Sans systèmes de punition.",
+        "Sans pression ni honte.",
+        "Sans publicités pour enfants.",
+        "Sans transactions d'argent réel."
+      ],
+      "note": "GrowUp se concentre sur l'apprentissage, pas le contrôle.",
+      "imageAlt": "Promesse GrowUp"
+    },
+    "audience": {
+      "title": "Conçu pour tous ceux qui soutiennent les enfants",
+      "items": {
+        "parents": {
+          "label": "Pour les parents :",
+          "body": "Construire des routines sans conflit."
+        },
+        "families": {
+          "label": "Pour les familles :",
+          "body": "Créer des moments et des expériences partagés."
+        },
+        "educators": {
+          "label": "Pour les éducateurs :",
+          "body": "Soutenir la responsabilité et la construction d'habitudes de manière ludique."
+        }
+      },
+      "imageAlt": "Communauté"
+    },
+    "privacy": {
+      "title": "Confidentialité et confiance",
+      "items": [
+        "Conforme à la COPPA, au RGPD et à la LGPD.",
+        "Consentement parental requis.",
+        "Aucune vente de données personnelles.",
+        "Pas de publicité ciblée pour les enfants."
+      ],
+      "note": "Conçu avec la confidentialité et la sécurité des enfants à l'esprit.",
+      "imageAlt": "Priorité à la confidentialité"
+    },
+    "cta": {
+      "title": "Commencez à aider les enfants à grandir — un jour à la fois.",
+      "subtitle": "Rejoignez la bêta ou explorez la démo dès aujourd'hui.",
+      "button": "Rejoindre la bêta",
+      "imageAlt": "Démo GrowUp"
+    }
+  },
   "summary": {
     "level": "Niveau actuel",
     "levelValue": "Niveau {{ level }}",
