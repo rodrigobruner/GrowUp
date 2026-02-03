@@ -1,0 +1,193 @@
+<div class="landing-shell">
+  <app-topbar
+    [balance]="0"
+    [avatarSrc]="avatarSrc()"
+    [showProfiles]="false"
+    [showSettings]="false"
+    [showSyncStatus]="false"
+    (openAuthDialog)="openAuth()"
+  />
+
+  <main class="landing-content">
+    <section class="panel panel-hero">
+      <div class="panel-inner">
+        <div class="panel-copy">
+          <p class="eyebrow">GrowUp</p>
+          <h1>GrowUp helps children build healthy habits through motivation, not pressure.</h1>
+          <p class="subtitle">
+            A playful system that turns daily tasks into growth, responsibility, and real-life learning.
+          </p>
+          <div class="panel-actions">
+            <button class="cta-primary" mat-flat-button color="primary" type="button" (click)="openAuth()">Get Started</button>
+            <button class="cta-primary" mat-flat-button color="primary" type="button" (click)="startDemo()">Try the Demo</button>
+          </div>
+        </div>
+        <div class="panel-visual">
+          <img class="panel-image" src="assets/images/home/home_1.png" alt="GrowUp preview" />
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-problem">
+      <div class="panel-inner reverse">
+        <div class="panel-copy">
+          <h2>The problem GrowUp solves</h2>
+          <ul class="bullet-list">
+            <li>Constant reminders don’t work.</li>
+            <li>Punishment creates resistance.</li>
+            <li>Kids don’t see the value of daily responsibilities.</li>
+          </ul>
+          <p class="section-note">GrowUp was created to change this dynamic.</p>
+        </div>
+        <div class="panel-visual">
+          <img class="panel-image" src="assets/images/home/home_2.png" alt="GrowUp avatar" />
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-solution">
+      <div class="panel-inner">
+        <div class="panel-copy">
+          <h2>What is GrowUp?</h2>
+          <p>
+            GrowUp is a family-friendly, gamified system that helps children develop responsibility, consistency, and
+            autonomy.
+          </p>
+          <div class="feature-grid">
+            <div class="feature-card">Designed for families and educators.</div>
+            <div class="feature-card">Built around positive reinforcement.</div>
+            <div class="feature-card">Simple, visual, and age-appropriate.</div>
+          </div>
+        </div>
+        <div class="panel-visual">
+          <img class="panel-image" src="assets/images/home/home_3.png" alt="GrowUp character" />
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-steps">
+      <div class="panel-inner reverse">
+        <div class="panel-copy">
+          <h2>How it works</h2>
+          <div class="steps-grid">
+            <div class="step-card">
+              <span class="step-index">01</span>
+              <h3>Daily Tasks</h3>
+              <p>Children complete daily tasks set by parents or educators.</p>
+            </div>
+            <div class="step-card">
+              <span class="step-index">02</span>
+              <h3>Earn XP &amp; Level Up</h3>
+              <p>Tasks generate XP that unlocks levels and progress.</p>
+            </div>
+            <div class="step-card">
+              <span class="step-index">03</span>
+              <h3>XP → Allowance</h3>
+              <p>At the end of each cycle, XP is converted into allowance, helping kids understand effort and value.</p>
+            </div>
+            <div class="step-card">
+              <span class="step-index">04</span>
+              <h3>Shop &amp; Inventory</h3>
+              <p>XP and allowance unlock shared family experiences, stored in an inventory.</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel-visual">
+          <img class="panel-image panel-image--xlarge" src="assets/images/home/home_4.png" alt="Task tracking" />
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-skills">
+      <div class="panel-inner">
+        <div class="panel-copy">
+          <h2>What children learn</h2>
+          <ul class="bullet-list">
+            <li>Responsibility</li>
+            <li>Consistency</li>
+            <li>Planning &amp; choices</li>
+            <li>Understanding value</li>
+            <li>Autonomy and confidence</li>
+          </ul>
+          <p class="section-note">GrowUp turns everyday actions into lifelong skills.</p>
+        </div>
+        <div class="panel-visual">
+          <img class="panel-image" src="assets/images/home/home_5.png" alt="Learning outcomes" />
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-difference">
+      <div class="panel-inner reverse">
+        <div class="panel-copy">
+          <h2>Why GrowUp is different</h2>
+          <div class="difference-grid">
+            <div class="difference-card">No punishment systems.</div>
+            <div class="difference-card">No pressure or shame.</div>
+            <div class="difference-card">No ads for children.</div>
+            <div class="difference-card">No real money transactions.</div>
+          </div>
+          <p class="section-note">GrowUp focuses on learning, not control.</p>
+        </div>
+        <div class="panel-visual">
+          <img class="panel-image" src="assets/images/home/home_6.png" alt="GrowUp promise" />
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-audience">
+      <div class="panel-inner stacked">
+        <div class="panel-copy">
+          <h2>Built for everyone who supports children</h2>
+          <ul class="bullet-list">
+            <li><strong>For Parents:</strong> Build routines without conflict.</li>
+            <li><strong>For Families:</strong> Create shared moments and experiences.</li>
+            <li><strong>For Educators:</strong> Support responsibility and habit-building in a playful way.</li>
+          </ul>
+        </div>
+        <div class="panel-visual">
+          <img class="panel-image panel-image--xlarge" src="assets/images/home/home_7.png" alt="Community" />
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-privacy">
+      <div class="panel-inner reverse">
+        <div class="panel-copy">
+          <h2>Privacy and trust</h2>
+          <div class="privacy-grid">
+            <div class="privacy-card">COPPA, GDPR and LGPD aligned.</div>
+            <div class="privacy-card">Parental consent required.</div>
+            <div class="privacy-card">No selling of personal data.</div>
+            <div class="privacy-card">No targeted advertising to children.</div>
+          </div>
+          <p class="section-note section-note--privacy">Built with privacy and children’s safety in mind.</p>
+        </div>
+        <div class="panel-visual">
+          <img class="panel-image panel-image--xlarge" src="assets/images/home/home_8.png" alt="Privacy first" />
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-cta">
+      <div class="panel-inner">
+        <div class="panel-copy">
+          <h2>Start helping children grow — one day at a time.</h2>
+          <p>Join the beta or explore the demo experience today.</p>
+          <div class="panel-actions">
+            <button class="cta-primary" mat-flat-button color="primary" type="button" (click)="openAuth()">Join the Beta</button>
+          </div>
+        </div>
+        <div class="panel-visual">
+          <img class="panel-image panel-image--xlarge" src="assets/images/home/home_9.png" alt="GrowUp demo" />
+        </div>
+      </div>
+    </section>
+
+    <footer class="landing-footer">
+      <span>{{ 'footer.developedBy' | translate }} Rodrigo Bruner - </span>
+      <a href="https://bruner.app" target="_blank" rel="noopener">{{ 'footer.site' | translate }}</a>
+      <span> © {{ currentYear }}</span>
+    </footer>
+  </main>
+</div>

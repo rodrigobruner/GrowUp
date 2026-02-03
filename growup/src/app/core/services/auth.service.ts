@@ -113,7 +113,7 @@ export class AuthService {
     if (error) {
       return { message: error.message };
     }
-    await this.supabase.auth.signOut();
+    await this.supabase.auth.signOut().catch(() => undefined);
     return null;
   }
 

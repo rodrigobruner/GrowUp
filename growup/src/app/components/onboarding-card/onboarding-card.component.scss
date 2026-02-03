@@ -1,0 +1,105 @@
+.onboarding {
+  margin-bottom: 2.5rem;
+  animation: fade-up 700ms ease both;
+}
+
+.onboarding-card {
+  padding: 1.75rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(19, 70, 134, 0.12);
+}
+
+.onboarding-content {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 2rem;
+}
+
+.onboarding-copy {
+  text-align: left;
+  justify-self: start;
+}
+
+.onboarding-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.onboarding-visual {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.onboarding-image {
+  width: 100%;
+  max-width: 330px;
+  height: auto;
+  display: block;
+}
+
+.onboarding-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  color: rgba(46, 58, 89, 0.7);
+  margin: 0 0 0.6rem;
+}
+
+.onboarding-text {
+  margin: 0;
+  color: rgba(19, 70, 134, 0.7);
+}
+
+.onboarding-cta {
+  background: var(--app-gold);
+  color: var(--app-ink);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.85rem 2.6rem;
+  min-height: 3.25rem;
+  min-width: 220px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 999px;
+  box-shadow: 0 12px 24px rgba(254, 178, 26, 0.35);
+}
+
+.onboarding-cta:hover {
+  background: #f3a907;
+}
+
+.onboarding-cta:focus-visible {
+  outline: 3px solid rgba(19, 70, 134, 0.35);
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .onboarding-content {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  .onboarding-actions {
+    width: 100%;
+  }
+
+  .onboarding-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .onboarding-visual {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .onboarding-image {
+    max-width: 280px;
+  }
+}

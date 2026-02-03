@@ -106,8 +106,8 @@ export class SettingsDialogComponent implements OnChanges {
         language: this.form.get('language')?.value ?? 'en',
         displayName: this.profileSettings.displayName ?? '',
         avatarId: this.profileSettings.avatarId ?? '01',
-        cycleType: this.profileSettings.cycleType,
-        cycleStartDate: this.profileSettings.cycleStartDate,
+        cycleType: this.profileSettings.cycleType ?? 'biweekly',
+        cycleStartDate: this.profileSettings.cycleStartDate ?? this.today(),
         levelUpPoints: this.profileSettings.levelUpPoints
       });
     }
@@ -234,6 +234,34 @@ export class SettingsDialogComponent implements OnChanges {
     window.location.reload();
   }
 
+  private async clearAllDataAfterDelete(): Promise<void> {
+    try {
+      await this.clearCache();
+      localStorage.clear();
+      sessionStorage.clear();
+      if ('indexedDB' in window) {
+        const databases = await indexedDB.databases?.();
+        if (databases?.length) {
+          await Promise.all(
+            databases
+              .map((db) => db.name)
+              .filter((name): name is string => Boolean(name))
+              .map((name) => {
+                return new Promise<void>((resolve) => {
+                  const request = indexedDB.deleteDatabase(name);
+                  request.onsuccess = () => resolve();
+                  request.onerror = () => resolve();
+                  request.onblocked = () => resolve();
+                });
+              })
+          );
+        }
+      }
+    } finally {
+      window.location.reload();
+    }
+  }
+
   private async clearCache(): Promise<void> {
     if ('serviceWorker' in navigator) {
       const registrations = await navigator.serviceWorker.getRegistrations();
@@ -261,6 +289,7 @@ export class SettingsDialogComponent implements OnChanges {
       return;
     }
     this.closeSettings.emit();
+    await this.clearAllDataAfterDelete();
   }
 
   onSelectProfile(profileId: string): void {

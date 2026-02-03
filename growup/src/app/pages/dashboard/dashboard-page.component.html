@@ -1,0 +1,124 @@
+<mat-drawer-container class="app-shell">
+  <mat-drawer
+    class="settings-drawer"
+    position="end"
+    mode="over"
+    [opened]="settingsOpen()"
+    (closedStart)="closeSettings()"
+  >
+    <app-settings-dialog
+      [accountSettings]="accountSettings()"
+      [profileSettings]="settings()"
+      [profiles]="profiles()"
+      [activeProfileId]="activeProfileId()"
+      (closeSettings)="closeSettings()"
+      (saveSettings)="saveSettings($event)"
+      (selectProfile)="selectProfile($event)"
+      (deleteProfile)="deleteProfile($event)"
+    />
+  </mat-drawer>
+  <mat-drawer
+    class="profile-drawer"
+    position="end"
+    mode="over"
+    [opened]="profileOpen()"
+    (closedStart)="closeProfile()"
+  >
+    <app-profile-dialog
+      [settings]="settings()"
+      [profiles]="profiles()"
+      [activeProfileId]="activeProfileId()"
+      [mode]="profileMode()"
+      (closeProfile)="closeProfile()"
+      (saveProfile)="saveProfile($event)"
+      (selectProfile)="selectProfile($event)"
+      (deleteProfile)="deleteProfile($event)"
+    />
+  </mat-drawer>
+  <mat-drawer-content class="app-content">
+    <app-topbar
+      [balance]="balance()"
+      [isOnline]="isOnline()"
+      [isSyncing]="appStatus.isSyncing()"
+      [lastSyncAt]="appStatus.lastSyncAt()"
+      [syncError]="appStatus.syncError()"
+      [avatarSrc]="avatarSrc()"
+      [profiles]="profiles()"
+      [activeProfileId]="activeProfileId()"
+      (settingsClick)="openSettings()"
+      (profileCreate)="openCreateProfile()"
+      (profileEdit)="openSettings()"
+      (profileSelect)="selectProfile($event)"
+      (openAuthDialog)="openAuthDialog()"
+    />
+
+    <main class="page ds-scope">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">{{ 'app.eyebrow' | translate }}</p>
+          <h1>{{ 'app.hero' | translate }}</h1>
+          <p class="subtitle">
+            {{ 'app.subtitle' | translate }}
+          </p>
+        </div>
+        <app-summary-card
+          *ngIf="showDashboard()"
+          [loading]="appStatus.isSyncing()"
+          [avatarSrc]="avatarSrc()"
+          [level]="level()"
+          [xpToNext]="xpToNext()"
+          [progressPercent]="progressPercent()"
+          [earned]="earned()"
+          [spent]="spent()"
+          [available]="balance()"
+          [cycleLabel]="cycleLabel()"
+          [cycleEarned]="cycleEarned()"
+          [cycleRangeLabel]="cycleRangeLabel()"
+          [previousCycleEarned]="previousCycleEarned()"
+          [previousCycleLabel]="previousCycleLabel()"
+        />
+      </section>
+
+      <app-onboarding-card
+        *ngIf="showOnboarding() || showProfileOnboarding()"
+        (createProfile)="openCreateProfile()"
+      />
+
+      <section class="grid" *ngIf="showDashboard()">
+        <app-tasks-panel
+          [tasks]="tasks()"
+          [todayDoneIds]="todayDoneIds()"
+          [selectedDate]="selectedDate()"
+          [todayKey]="todayKey()"
+          [loading]="appStatus.isSyncing()"
+          (selectedDateChange)="setSelectedDate($event)"
+          (addTask)="openTaskDialog()"
+          (toggleTask)="toggleTask($event)"
+          (removeTask)="removeTask($event)"
+        />
+
+        <app-rewards-panel
+          [rewards]="rewards()"
+          [balance]="balance()"
+          [redemptions]="redemptions()"
+          [rewardUses]="rewardUses()"
+          [cycleStart]="currentCycleRange().start"
+          [cycleEnd]="currentCycleRange().end"
+          [loading]="appStatus.isSyncing()"
+          (addReward)="openRewardDialog()"
+          (redeemReward)="redeemReward($event)"
+          (consumeReward)="consumeReward($event)"
+          (returnRedemption)="returnRedemption($event)"
+          (removeReward)="removeReward($event)"
+        />
+      </section>
+
+      <footer class="app-footer">
+        <span>{{ 'footer.developedBy' | translate }} Rodrigo Bruner - </span>
+        <a href="https://bruner.app" target="_blank" rel="noopener">{{ 'footer.site' | translate }}</a>
+        <span> © {{ currentYear }}</span>
+        <span class="footer-build"> • {{ 'footer.builtAt' | translate }} {{ buildTime }}</span>
+      </footer>
+    </main>
+  </mat-drawer-content>
+</mat-drawer-container>

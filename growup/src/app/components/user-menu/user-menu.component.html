@@ -1,5 +1,6 @@
 <div class="user-menu-actions">
   <button
+    *ngIf="showSettings"
     mat-icon-button
     class="settings-button"
     (click)="settingsClick.emit()"

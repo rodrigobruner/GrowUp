@@ -6,7 +6,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Profile } from '../../core/models/profile';
-import { AuthDialogComponent } from '../../features/auth/auth-dialog/auth-dialog.component';
 import { ResetPasswordDialogComponent } from '../../features/auth/reset-password-dialog/reset-password-dialog.component';
 import { SyncStatusDialogComponent } from '../sync-status-dialog/sync-status-dialog.component';
 import { UserMenuComponent } from '../user-menu/user-menu.component';
@@ -35,10 +34,14 @@ export class TopbarComponent {
   @Input() avatarSrc = '';
   @Input() profiles: Profile[] = [];
   @Input() activeProfileId: string | null = null;
+  @Input() showProfiles = true;
+  @Input() showSettings = true;
+  @Input() showSyncStatus = true;
   @Output() settingsClick = new EventEmitter<void>();
   @Output() profileCreate = new EventEmitter<void>();
   @Output() profileEdit = new EventEmitter<void>();
   @Output() profileSelect = new EventEmitter<string>();
+  @Output() openAuthDialog = new EventEmitter<void>();
 
   private readonly dialog = inject(MatDialog);
   private readonly auth = inject(AuthService);
@@ -75,8 +78,8 @@ export class TopbarComponent {
     this.avatarLoadFailed.set(true);
   }
 
-  openAuthDialog(): void {
-    this.dialog.open(AuthDialogComponent);
+  emitOpenAuthDialog(): void {
+    this.openAuthDialog.emit();
   }
 
   openResetPassword(): void {

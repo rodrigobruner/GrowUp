@@ -4,6 +4,7 @@
     <span class="brand-title">{{ 'app.title' | translate }}</span>
   </div>
   <app-profile-avatar
+    *ngIf="showProfiles"
     class="center-avatar"
     [src]="avatarSrc"
     [profiles]="profiles"
@@ -19,12 +20,13 @@
     [userAvatarUrl]="userAvatarUrl()"
     [avatarLoadFailed]="avatarLoadFailed()"
     [authProvider]="authProvider()"
+    [showSettings]="showSettings"
     (settingsClick)="settingsClick.emit()"
-    (openAuthDialog)="openAuthDialog()"
+    (openAuthDialog)="emitOpenAuthDialog()"
     (openResetPassword)="openResetPassword()"
     (logout)="logout()"
   />
-  <div class="sync-status" *ngIf="isLoggedIn()">
+  <div class="sync-status" *ngIf="isLoggedIn() && showSyncStatus">
     <span
       *ngIf="!isOnline || syncError"
       class="status offline"

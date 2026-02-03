@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthDialogComponent } from '../../features/auth/auth-dialog/auth-dialog.component';
 import { AuthErrorDialogComponent } from '../../features/auth/auth-error-dialog/auth-error-dialog.component';
 import { ResetPasswordDialogComponent } from '../../features/auth/reset-password-dialog/reset-password-dialog.component';
 
@@ -10,6 +11,12 @@ export class AuthDialogsService {
   openResetPassword(): void {
     this.dialog.open(ResetPasswordDialogComponent, {
       disableClose: true
+    });
+  }
+
+  openAuth(): void {
+    this.dialog.open(AuthDialogComponent, {
+      backdropClass: 'auth-backdrop'
     });
   }
 
