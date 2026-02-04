@@ -22,6 +22,33 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Supabase migrations
+
+Migrations live in `supabase/migrations/` and are applied in order. We use the Supabase CLI for local and CI runs.
+
+### Local workflow
+
+```bash
+supabase migration new add_feature_name
+supabase db reset
+supabase db push
+```
+
+If you prefer npm scripts:
+
+```bash
+npm run supabase:reset
+npm run supabase:push
+```
+
+### CI workflow
+
+The GitHub Action `.github/workflows/supabase-migrate.yml` runs `supabase db push` on changes to `supabase/migrations/`.
+Provide the following repository secrets:
+
+- `SUPABASE_ACCESS_TOKEN` (Supabase access token)
+- `SUPABASE_PROJECT_REF` (Supabase project reference ID)
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:

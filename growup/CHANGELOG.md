@@ -20,6 +20,7 @@
 - Add a terms-of-use link to the privacy section of the landing page.
 - Add a terms-of-use link to the footer.
 - Show the language selector on the landing page even on mobile, while hiding it on the dashboard.
+- Add Supabase migration scaffolding, initial schema migration, and CI workflow.
 - Clear session UI state immediately on auth changes to avoid showing stale level, tasks, and rewards.
 - Clear local data and reload after account deletion to avoid stale UI.
 - Default the cycle selector to biweekly when missing settings data.
@@ -51,6 +52,7 @@
 - The landing privacy section now links to the terms of use.
 - The footer now links to the terms of use.
 - The landing topbar always shows the language selector, but the dashboard no longer does.
+- Supabase migrations can now be applied locally and via CI with an initial schema baseline.
 - After login or logout, the home panels are hidden until the new session state loads, preventing stale data from flashing.
 - After deleting an account, the app clears cached data and reloads so the UI resets immediately.
 - Settings now fall back to the biweekly cycle when the stored cycle is missing, keeping the select prefilled.
@@ -83,6 +85,7 @@
 - Click the terms link in the privacy section and confirm the terms dialog opens.
 - Click the footer terms link and confirm the terms dialog opens.
 - Open the landing page on mobile and confirm the language selector is visible while it is hidden on the dashboard.
+- Run `supabase db push` with `SUPABASE_DB_URL` configured and confirm the schema applies.
 - Resize to a mobile width and confirm the same elements stack vertically and the button spans full width.
 - Log in with a new user and confirm the onboarding card is shown while level, tasks, and rewards remain hidden until data loads.
 - Delete an account and confirm the app clears local data and reloads to the initial state.
@@ -117,6 +120,7 @@
 - Add a terms-of-use link to the landing privacy section.
 - Add a terms-of-use link to the footer.
 - Control topbar language selector visibility per page.
+- Add Supabase migration scaffolding, initial schema, and workflow configuration.
 - Add a right-side onboarding illustration and convert the layout to three responsive columns.
 - Center the Create New Profile button within its onboarding column on desktop.
 - Align the onboarding copy to the left while keeping equal column widths on desktop.

@@ -8,6 +8,8 @@
     "build": "ng build",
     "build:gh": "ng build --configuration production --base-href /GrowUp/",
     "deploy": "npm run build:gh && npx angular-cli-ghpages --dir=dist/growup/browser",
+    "supabase:push": "supabase db push",
+    "supabase:reset": "supabase db reset",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
