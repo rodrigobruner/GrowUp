@@ -63,7 +63,8 @@ export class TopbarComponent {
   readonly languageOptions: Array<{ value: AccountSettings['language']; flag: string }> = [
     { value: 'en', flag: '🇺🇸' },
     { value: 'pt', flag: '🇧🇷' },
-    { value: 'fr', flag: '🇫🇷' }
+    { value: 'fr', flag: '🇫🇷' },
+    { value: 'es', flag: '🇪🇸' }
   ];
   readonly userAvatarUrl = computed(() => {
     const user = this.auth.user();

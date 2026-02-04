@@ -154,6 +154,9 @@ export class SeedService {
     if (language === 'fr') {
       return 'Super Copain';
     }
+    if (language === 'es') {
+      return 'Super Amigo';
+    }
     return 'Super Buddy';
   }
 

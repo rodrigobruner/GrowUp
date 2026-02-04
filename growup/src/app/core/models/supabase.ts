@@ -55,7 +55,7 @@ export interface SettingsRow extends BaseRow {
 
 export interface AccountSettingsRow {
   owner_id: SupabaseUuid;
-  language: 'en' | 'pt' | 'fr';
+  language: 'en' | 'pt' | 'fr' | 'es';
   terms_version: string | null;
   terms_accepted_at: string | null;
   updated_at?: string | null;

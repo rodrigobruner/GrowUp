@@ -60,5 +60,8 @@ describe('supabase row guards', () => {
     expect(isAccountSettingsRow({ owner_id: '1', language: 'en', terms_version: null, terms_accepted_at: null })).toBe(
       true
     );
+    expect(isAccountSettingsRow({ owner_id: '1', language: 'es', terms_version: null, terms_accepted_at: null })).toBe(
+      true
+    );
   });
 });

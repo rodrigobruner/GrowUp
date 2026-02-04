@@ -414,6 +414,9 @@ export class SettingsDialogComponent implements OnChanges {
     if (resolved.startsWith('fr')) {
       return 'fr';
     }
+    if (resolved.startsWith('es')) {
+      return 'es';
+    }
     return 'en';
   }
 

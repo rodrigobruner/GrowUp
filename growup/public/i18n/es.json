@@ -1,0 +1,453 @@
+{
+  "app": {
+    "title": "GrowUp",
+    "eyebrow": "GrowUp tracker",
+    "hero": "Convierte tareas en logros.",
+    "subtitle": "Crea tareas, define recompensas y sigue el XP fácilmente. Todo queda en tu navegador.",
+    "settings": "Configuración"
+  },
+  "topbar": {
+    "language": "Idioma"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "GrowUp",
+      "title": "GrowUp ayuda a los niños a crear hábitos saludables con motivación, no presión.",
+      "subtitle": "Un sistema lúdico que transforma las tareas diarias en crecimiento, responsabilidad y aprendizaje real.",
+      "cta": {
+        "getStarted": "Comenzar",
+        "tryDemo": "Probar el demo"
+      },
+      "imageAlt": "Vista previa de GrowUp"
+    },
+    "problem": {
+      "title": "El problema que resuelve GrowUp",
+      "bullets": [
+        "Los recordatorios constantes no funcionan.",
+        "El castigo genera resistencia.",
+        "Los niños no ven el valor de las responsabilidades diarias."
+      ],
+      "note": "GrowUp fue creado para cambiar esta dinámica.",
+      "imageAlt": "Avatar de GrowUp"
+    },
+    "solution": {
+      "title": "¿Qué es GrowUp?",
+      "body": "GrowUp es un sistema familiar y gamificado que ayuda a los niños a desarrollar responsabilidad, constancia y autonomía.",
+      "features": [
+        "Diseñado para familias y educadores.",
+        "Basado en refuerzo positivo.",
+        "Simple, visual y apropiado para la edad."
+      ],
+      "imageAlt": "Personaje GrowUp"
+    },
+    "steps": {
+      "title": "Cómo funciona",
+      "items": [
+        {
+          "title": "Tareas diarias",
+          "body": "Los niños completan tareas diarias definidas por padres o educadores."
+        },
+        {
+          "title": "Gana XP y sube de nivel",
+          "body": "Las tareas generan XP que desbloquea niveles y progreso."
+        },
+        {
+          "title": "Tienda e inventario",
+          "body": "El XP desbloquea experiencias familiares, guardadas en un inventario."
+        },
+        {
+          "title": "Mantén el recorrido",
+          "body": "Las recompensas impulsan la motivación y reinician el ciclo de crecimiento."
+        }
+      ],
+      "imageAlt": "Seguimiento de tareas"
+    },
+    "skills": {
+      "title": "Lo que los niños aprenden",
+      "items": [
+        "Responsabilidad",
+        "Constancia",
+        "Planificación y elecciones",
+        "Comprender el valor",
+        "Autonomía y confianza"
+      ],
+      "note": "GrowUp convierte acciones cotidianas en habilidades para toda la vida.",
+      "imageAlt": "Resultados de aprendizaje"
+    },
+    "difference": {
+      "title": "Por qué GrowUp es diferente",
+      "items": [
+        "Sin sistemas de castigo.",
+        "Sin presión ni vergüenza.",
+        "Sin anuncios para niños.",
+        "Sin transacciones con dinero real."
+      ],
+      "note": "GrowUp se enfoca en el aprendizaje, no en el control.",
+      "imageAlt": "Promesa de GrowUp"
+    },
+    "audience": {
+      "title": "Hecho para todos los que apoyan a los niños",
+      "items": {
+        "parents": {
+          "label": "Para padres:",
+          "body": "Crear rutinas sin conflicto."
+        },
+        "families": {
+          "label": "Para familias:",
+          "body": "Crear momentos y experiencias compartidas."
+        },
+        "educators": {
+          "label": "Para educadores:",
+          "body": "Apoyar la responsabilidad y la creación de hábitos de forma lúdica."
+        }
+      },
+      "imageAlt": "Comunidad"
+    },
+    "privacy": {
+      "title": "Privacidad y confianza",
+      "items": [
+        "Cumple con COPPA, GDPR y LGPD.",
+        "Se requiere consentimiento parental.",
+        "No vendemos datos personales.",
+        "Sin publicidad dirigida a niños."
+      ],
+      "note": "Creado con privacidad y seguridad infantil en mente.",
+      "imageAlt": "Privacidad primero"
+    },
+    "cta": {
+      "title": "Empieza a ayudar a los niños a crecer — un día a la vez.",
+      "subtitle": "Únete a la beta o explora el demo hoy mismo.",
+      "button": "Unirse a la beta",
+      "imageAlt": "Demo de GrowUp"
+    }
+  },
+  "summary": {
+    "level": "Nivel actual",
+    "levelValue": "Nivel {{ level }}",
+    "nextLevel": "Próximo nivel",
+    "xpAvailable": "XP disponible",
+    "xpEarned": "XP total",
+    "xpSpent": "XP gastado",
+    "cycleXp": "XP en el ciclo {{ cycle }}",
+    "cycleRange": "Período actual",
+    "previousXp": "XP del ciclo anterior",
+    "previousRange": "Período anterior"
+  },
+  "tasks": {
+    "title": "Tareas",
+    "date": "Fecha",
+    "today": "Hoy",
+    "prevDay": "Día anterior",
+    "description": "Descripción de la tarea",
+    "placeholder": "Tender la cama",
+    "points": "XP de la tarea",
+    "add": "Agregar tarea",
+    "activity": "Actividad",
+    "xp": "XP",
+    "status": "Estado",
+    "empty": "Aún no hay tareas.",
+    "done": "Completadas hoy",
+    "available": "Disponibles hoy"
+  },
+  "rewards": {
+    "title": "Recompensas",
+    "tabAvailable": "Disponibles",
+    "tabRedeemed": "Canjeadas",
+    "tabUsed": "Usadas",
+    "name": "Recompensa",
+    "placeholder": "Noche de película",
+    "cost": "Costo en XP",
+    "limitPerCycle": "Límite por ciclo",
+    "add": "Agregar recompensa",
+    "empty": "Aún no hay recompensas.",
+    "availableWithCount": "Disponibles ({{ count }} restantes)",
+    "redeemedAt": "Canjeada el",
+    "redeemedEmpty": "Aún no hay recompensas canjeadas.",
+    "usedAt": "Usada el",
+    "usedEmpty": "Aún no hay recompensas usadas.",
+    "use": "Usar recompensa",
+    "return": "Devolver",
+    "tooltipAdd": "Agregar nueva recompensa",
+    "tooltipRedeem": "Canjear recompensa",
+    "tooltipDelete": "Eliminar recompensa",
+    "tooltipUse": "Consumir recompensa",
+    "tooltipReturn": "Devolver al stock"
+  },
+  "settingsDialog": {
+    "title": "Configuración",
+    "languageSection": "Idioma",
+    "cycleSection": "Ciclo",
+    "levelupSection": "Subir de nivel",
+    "cycle": "Ciclo",
+    "start": "Fecha de inicio del ciclo",
+    "language": "Idioma",
+    "levelUpPoints": "Puntos por nivel",
+    "avatar": "Avatar",
+    "cacheSection": "Caché",
+    "clearCache": "Limpiar caché y recargar",
+    "clearAll": "Borrar todos los datos",
+    "clearAllWarning": "Esto eliminará todos los datos guardados en este navegador. Es posible que se cierre la sesión. Solo los datos sincronizados en la nube se restaurarán al iniciar sesión.",
+    "clearAllConfirmTitle": "Borrar todos los datos",
+    "clearAllConfirmMessage": "Esto eliminará todos los datos guardados en este navegador. Es posible que se cierre la sesión. Solo los datos sincronizados en la nube se restaurarán al iniciar sesión.",
+    "clearAllConfirmAction": "Borrar todo",
+    "deleteAccount": "Eliminar cuenta",
+    "deleteAccountTitle": "Eliminar cuenta",
+    "deleteAccountWarning": "Esto eliminará permanentemente tu cuenta y todos los datos asociados.",
+    "deleteAccountConfirm": "Eliminar permanentemente",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "close": "Cerrar",
+    "debugSection": "Registros de depuración",
+    "refreshLogs": "Actualizar registros",
+    "clearLogs": "Borrar registros",
+    "exportLogs": "Exportar registros",
+    "disableLogs": "Desactivar registros",
+    "enableLogs": "Activar registros",
+    "logFilter": "Filtrar por nivel",
+    "logFilterAll": "Todos",
+    "logFilterDebug": "Depuración",
+    "logFilterInfo": "Información",
+    "logFilterWarn": "Advertencia",
+    "logFilterError": "Error",
+    "noLogs": "No hay registros.",
+    "logLimit": "Límite de registros",
+    "deleteAccountSuccess": "Cuenta eliminada.",
+    "deleteAccountError": "No se pudo eliminar la cuenta.",
+    "deleteAccountConfirmTitle": "Eliminar cuenta",
+    "deleteAccountConfirmMessage": "Esta acción es permanente. ¿Deseas continuar?"
+  },
+  "confirm": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "deleteTaskTitle": "Eliminar tarea",
+    "deleteTaskMessage": "¿Deseas eliminar la tarea '{{ title }}'?",
+    "deleteRewardTitle": "Eliminar recompensa",
+    "deleteRewardMessage": "¿Deseas eliminar la recompensa '{{ title }}'?",
+    "deleteProfileTitle": "Eliminar perfil",
+    "deleteProfileMessage": "¿Deseas eliminar el perfil '{{ name }}'?",
+    "deleteRedemptionTitle": "Eliminar canje",
+    "deleteRedemptionMessage": "¿Deseas eliminar el canje '{{ title }}'?"
+  },
+  "cycle": {
+    "weekly": "Semanal",
+    "biweekly": "Quincenal",
+    "monthly": "Mensual",
+    "yearly": "Anual"
+  },
+  "profiles": {
+    "title": "Perfiles",
+    "listTitle": "Perfiles",
+    "add": "Agregar perfil",
+    "create": "Crear perfil",
+    "edit": "Editar perfil",
+    "avatarLabel": "Avatar",
+    "nameLabel": "Nombre",
+    "save": "Guardar perfil",
+    "duplicate": "Ya existe un perfil con ese nombre.",
+    "deleteError": "No se puede eliminar el último perfil.",
+    "createTitle": "Crear perfil",
+    "editTitle": "Editar perfil"
+  },
+  "summaryCard": {
+    "levelLabel": "Nivel",
+    "xpAvailable": "XP disponible",
+    "xpToNext": "XP para el próximo nivel",
+    "levelUp": "Subir de nivel"
+  },
+  "tasksPanel": {
+    "empty": "Aún no hay tareas.",
+    "add": "Agregar tarea"
+  },
+  "rewardsPanel": {
+    "empty": "Aún no hay recompensas.",
+    "add": "Agregar recompensa"
+  },
+  "onboarding": {
+    "title": "Comienza con tu primer perfil",
+    "body": "Crea un perfil para empezar a registrar tareas y recompensas.",
+    "button": "Crear perfil"
+  },
+  "auth": {
+    "title": "Cuenta",
+    "account": "Cuenta",
+    "signIn": "Iniciar sesión",
+    "signUp": "Crear cuenta",
+    "reset": "Olvidé mi contraseña",
+    "sendReset": "Enviar correo de recuperación",
+    "email": "Correo electrónico",
+    "fullName": "Nombre completo",
+    "password": "Contraseña",
+    "checkEmail": "Revisa tu correo para confirmar la cuenta.",
+    "resetTitle": "Restablecer contraseña",
+    "errorTitle": "Error de autenticación",
+    "newPassword": "Nueva contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "acceptTermsPrefix": "He leído y acepto los",
+    "termsLink": "Términos de uso",
+    "acceptTermsRequired": "Debes aceptar los términos de uso para continuar.",
+    "changePassword": "Cambiar contraseña",
+    "resetSent": "Correo de recuperación enviado.",
+    "passwordMismatch": "Las contraseñas no coinciden.",
+    "passwordUpdated": "Contraseña actualizada con éxito.",
+    "updatePassword": "Actualizar contraseña",
+    "signInGoogle": "Continuar con Google",
+    "logout": "Cerrar sesión",
+    "close": "Cerrar",
+    "backToHome": "Volver al inicio",
+    "dashboard": "Panel"
+  },
+  "terms": {
+    "title": "Términos de uso – GrowUp",
+    "close": "Cerrar",
+    "accept": "Entendido",
+    "decline": "Rechazar",
+    "intro": "Al crear una cuenta o usar GrowUp, aceptas los términos y condiciones a continuación. Si no estás de acuerdo, no uses el servicio.",
+    "section1Title": "1. Sobre GrowUp",
+    "section1Body": "GrowUp es una herramienta educativa y organizativa diseñada para ayudar a familias y educadores a fomentar hábitos positivos, responsabilidad y autonomía en niños a través de tareas, recompensas y experiencias familiares. GrowUp no reemplaza la supervisión, orientación ni responsabilidad de padres, tutores legales o educadores.",
+    "section2Title": "2. Uso por niños y consentimiento parental",
+    "section2Body": "GrowUp está destinado a ser usado por niños solo con el consentimiento verificable de un padre o tutor legal, según las leyes aplicables, incluidas LGPD, GDPR y COPPA. Al crear una cuenta, el responsable legal declara que:",
+    "section2Item1": "Tiene autoridad legal para autorizar el uso de la app por el niño;",
+    "section2Item2": "Otorga consentimiento explícito para la recolección y uso de datos necesarios para operar GrowUp;",
+    "section2Item3": "Es responsable de supervisar el uso de la app por el niño;",
+    "section2Item4": "Puede revisar, gestionar o eliminar la información del niño en cualquier momento.",
+    "section3Title": "3. Cuenta e información proporcionada",
+    "section3Body": "Eres responsable de la exactitud y actualización de la información proporcionada durante el registro y del uso adecuado de la cuenta. GrowUp no se responsabiliza por:",
+    "section3Item1": "Información incorrecta, incompleta o desactualizada proporcionada por el usuario;",
+    "section3Item2": "Uso indebido de la cuenta por terceros con acceso autorizado.",
+    "section4Title": "4. XP, recompensas y asignación",
+    "section4Body": "El sistema de XP, niveles, recompensas y conversión a asignación tiene un objetivo únicamente educativo y motivacional. GrowUp:",
+    "section4Item1": "No proporciona asesoramiento financiero, educativo ni psicológico;",
+    "section4Item2": "No garantiza resultados específicos de comportamiento o aprendizaje;",
+    "section4Item3": "No realiza pagos, transferencias ni transacciones financieras reales;",
+    "section4Item4": "Cualquier valor financiero relacionado con la asignación es definido, gestionado y entregado exclusivamente por el responsable legal.",
+    "section5Title": "5. Tienda, inventario y experiencias",
+    "section5Body": "Los elementos disponibles en la tienda representan experiencias simbólicas o acuerdos familiares, sin valor financiero intrínseco. La entrega, ejecución, validez y condiciones de estas experiencias son responsabilidad exclusiva de la familia o institución usuaria de GrowUp.",
+    "section6Title": "6. Privacidad y protección de datos (LGPD, GDPR y COPPA)",
+    "section6Intro": "GrowUp aplica prácticas de privacy by design y data minimization, recopilando solo los datos estrictamente necesarios para el funcionamiento de la app.",
+    "section6_1Title": "6.1 Datos recopilados",
+    "section6_1Item1": "Información de la cuenta del responsable legal;",
+    "section6_1Item2": "Nombre o apodo del niño;",
+    "section6_1Item3": "Datos de progreso, tareas y recompensas;",
+    "section6_1Item4": "Información técnica necesaria para el funcionamiento del servicio. No recopilamos intencionalmente datos sensibles de niños.",
+    "section6_2Title": "6.2 Uso de los datos",
+    "section6_2Item1": "Operar y mejorar las funcionalidades de GrowUp;",
+    "section6_2Item2": "Personalizar la experiencia del usuario;",
+    "section6_2Item3": "Cumplir obligaciones legales. No vendemos datos personales ni mostramos publicidad dirigida a niños.",
+    "section6_3Title": "6.3 Compartición de datos",
+    "section6_3Item1": "Cuando lo exija la ley o una orden judicial;",
+    "section6_3Item2": "Con proveedores de servicio estrictamente necesarios para operar la app, bajo acuerdos de confidencialidad y protección de datos.",
+    "section6_4Title": "6.4 Derechos de los responsables",
+    "section6_4Item1": "Solicitar acceso a los datos del niño;",
+    "section6_4Item2": "Corregir o actualizar información;",
+    "section6_4Item3": "Solicitar eliminación de datos;",
+    "section6_4Item4": "Revocar el consentimiento, entendiendo que esto puede limitar el uso del servicio. Las solicitudes pueden hacerse a través de los canales de soporte de GrowUp.",
+    "section7Title": "7. Uso indebido y suspensión",
+    "section7Body": "GrowUp puede suspender o cerrar cuentas que:",
+    "section7Item1": "Utilicen el servicio de forma ilegal, abusiva o fraudulenta;",
+    "section7Item2": "Intenten violar la seguridad o integridad del sistema;",
+    "section7Item3": "Usen la app con fines incompatibles con su propuesta educativa.",
+    "section8Title": "8. Disponibilidad del servicio",
+    "section8Body": "GrowUp puede, en cualquier momento:",
+    "section8Item1": "Actualizar, modificar o eliminar funcionalidades;",
+    "section8Item2": "Realizar mantenimientos programados o de emergencia;",
+    "section8Item3": "Sufrir interrupciones temporales. No garantizamos disponibilidad continua, ininterrumpida o libre de errores.",
+    "section9Title": "9. Finalización del servicio",
+    "section9Body": "GrowUp puede descontinuar el servicio en cualquier momento. En caso de cierre definitivo, los usuarios serán notificados con antelación razonable.",
+    "section10Title": "10. Cambios en los términos",
+    "section10Body": "Podemos actualizar estos términos periódicamente. Al continuar usando GrowUp después de un cambio, aceptas los términos revisados.",
+    "section11Title": "11. Contacto",
+    "section11Body": "Si tienes dudas, contáctanos a través de los canales oficiales de soporte de GrowUp."
+  },
+  "sync": {
+    "syncedAt": "Sincronizado a las {{ time }}",
+    "updatedAt": "Actualizado a las {{ time }}",
+    "syncing": "Sincronizando",
+    "offline": "Sin conexión",
+    "close": "Cerrar",
+    "detailsTitle": "Estado de sincronización",
+    "detailsLastSync": "Última sincronización",
+    "detailsLastError": "Último error",
+    "statusOnline": "En línea",
+    "statusOffline": "Sin conexión",
+    "statusSyncing": "Sincronizando",
+    "statusIdle": "Inactivo",
+    "never": "Nunca"
+  },
+  "footer": {
+    "developedBy": "Desarrollado por",
+    "site": "sitio",
+    "builtAt": "Compilado el"
+  },
+  "levelup": {
+    "title": "¡Nivel alcanzado!",
+    "subtitle": "¡Increíble trabajo! ¡Sigue así!",
+    "newLevel": "Ahora estás en el nivel",
+    "continue": "Continuar"
+  },
+  "profileAvatar": {
+    "create": "Crear",
+    "edit": "Editar"
+  },
+  "rewardDialog": {
+    "title": "Nueva recompensa",
+    "editTitle": "Editar recompensa",
+    "name": "Nombre",
+    "cost": "Costo",
+    "limitPerCycle": "Límite por ciclo",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "taskDialog": {
+    "title": "Nueva tarea",
+    "editTitle": "Editar tarea",
+    "name": "Nombre",
+    "points": "Puntos",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "onboardingCard": {
+    "title": "Bienvenido a GrowUp",
+    "subtitle": "Crea tu primer perfil para empezar.",
+    "action": "Crear perfil"
+  },
+  "deleteAccount": {
+    "title": "Eliminar cuenta",
+    "body": "Esta acción es permanente. ¿Quieres continuar?",
+    "confirm": "Eliminar",
+    "cancel": "Cancelar"
+  },
+  "authError": {
+    "title": "Error de autenticación",
+    "message": "Ocurrió un error de autenticación. Inténtalo de nuevo."
+  },
+  "resetPassword": {
+    "title": "Restablecer contraseña",
+    "body": "Ingresa tu nueva contraseña para continuar.",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "profileDialog": {
+    "title": "Perfil",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "rewardPanel": {
+    "title": "Recompensas",
+    "add": "Agregar"
+  },
+  "taskPanel": {
+    "title": "Tareas",
+    "add": "Agregar"
+  },
+  "onboardingPanel": {
+    "title": "Comienza",
+    "subtitle": "Agrega tu primera tarea y recompensa."
+  },
+  "syncStatus": {
+    "title": "Sincronización"
+  },
+  "status": {
+    "loading": "Cargando",
+    "error": "Error"
+  }
+}
