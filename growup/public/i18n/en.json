@@ -281,7 +281,8 @@
     "signInGoogle": "Continue with Google",
     "logout": "Logout",
     "close": "Close",
-    "backToHome": "Back to home"
+    "backToHome": "Back to home",
+    "dashboard": "Dashboard"
   },
   "terms": {
     "title": "Terms of Use – GrowUp",

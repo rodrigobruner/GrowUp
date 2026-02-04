@@ -106,7 +106,12 @@ export class DashboardPageComponent implements OnInit {
   readonly profileMode = this.drawer.profileMode;
   readonly isOnline = this.appStatus.isOnline;
   readonly sessionStatus = this.state.status;
-  readonly showDashboard = computed(() => this.sessionStatus() === 'ready');
+  readonly showDashboard = computed(() => {
+    if (this.sessionStatus() === 'ready') {
+      return true;
+    }
+    return this.demoMode.isEnabled() && this.profiles().length > 0;
+  });
   readonly showOnboarding = computed(() => {
     if (!this.auth.isLoggedIn()) {
       return false;
@@ -125,8 +130,7 @@ export class DashboardPageComponent implements OnInit {
     if (profiles.length === 0) {
       return true;
     }
-    const key = this.onboardingKey();
-    return key ? localStorage.getItem(key) !== '1' : true;
+    return false;
   });
 
   constructor() {

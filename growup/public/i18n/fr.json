@@ -281,7 +281,8 @@
     "signInGoogle": "Continuer avec Google",
     "logout": "Se déconnecter",
     "close": "Fermer",
-    "backToHome": "Retour a l'accueil"
+    "backToHome": "Retour a l'accueil",
+    "dashboard": "Tableau de bord"
   },
   "terms": {
     "title": "Conditions d'utilisation – GrowUp",

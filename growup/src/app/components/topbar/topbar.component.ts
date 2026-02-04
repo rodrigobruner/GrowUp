@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { AccountSettings } from '../../core/models/account-settings';
 import { Profile } from '../../core/models/profile';
@@ -52,6 +53,7 @@ export class TopbarComponent {
 
   private readonly dialog = inject(MatDialog);
   private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
   private readonly accountSettingsService = inject(AccountSettingsService);
   private readonly state = inject(SessionStateService);
   readonly isLoggedIn = computed(() => this.auth.isLoggedIn());
@@ -136,5 +138,9 @@ export class TopbarComponent {
 
   async logout(): Promise<void> {
     await this.auth.signOut();
+  }
+
+  goHome(): void {
+    void this.router.navigate(['/']);
   }
 }

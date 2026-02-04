@@ -5,6 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -17,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatIconModule,
     MatListModule,
     MatMenuModule,
+    RouterModule,
     TranslateModule
   ],
   templateUrl: './user-menu.component.html',

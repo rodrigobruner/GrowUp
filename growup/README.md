@@ -1,3 +1,13 @@
+# AI-Assisted Development & Experimentation
+
+This project was intentionally developed with the assistance of AI tools.
+
+Its purpose is to experiment with and evaluate AI-powered development solutions — such as GitHub Copilot, Codex, Claude, Grok, Gemini and cloud-based AI services, analyzing their impact on productivity, code quality, accuracy, configuration workflows, and decision-making.
+
+AI is used as a productivity and exploration tool. All critical design choices, validations, and final code are reviewed and refined by the developer.
+
+---
+
 # GrowUp
 
 GrowUp was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.

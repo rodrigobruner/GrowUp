@@ -64,7 +64,8 @@ export class AuthService {
 
   async signInWithGoogle(): Promise<AuthError | null> {
     const baseHref = this.document.querySelector('base')?.getAttribute('href') ?? '/';
-    const redirectUrl = new URL(baseHref, window.location.origin).toString();
+    const baseUrl = new URL(baseHref, window.location.origin);
+    const redirectUrl = new URL('dashboard', baseUrl).toString();
     const { error } = await this.supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {

@@ -1,8 +1,8 @@
 <mat-toolbar color="primary" class="topbar">
-  <div class="brand">
+  <button type="button" class="brand" (click)="goHome()">
     <span class="material-icons">rocket_launch</span>
     <span class="brand-title">{{ 'app.title' | translate }}</span>
-  </div>
+  </button>
   <app-profile-avatar
     *ngIf="showProfiles"
     class="center-avatar"

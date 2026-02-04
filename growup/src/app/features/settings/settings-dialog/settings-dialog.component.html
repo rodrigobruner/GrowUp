@@ -7,18 +7,6 @@
   </div>
   <div class="drawer-scroll">
     <form [formGroup]="form" class="dialog-form form-grid">
-      <section class="settings-section">
-        <div class="section-title">{{ 'settingsDialog.languageSection' | translate }}</div>
-        <mat-form-field appearance="outline">
-          <mat-label>{{ 'settingsDialog.language' | translate }}</mat-label>
-          <mat-select formControlName="language">
-            <mat-option value="en">English</mat-option>
-            <mat-option value="pt">Português</mat-option>
-            <mat-option value="fr">Français</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </section>
-
       <section class="settings-section" *ngIf="profiles.length">
         <div class="section-title">{{ 'profiles.listTitle' | translate }}</div>
         <div class="profiles-grid">

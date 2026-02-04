@@ -5,6 +5,13 @@
 - Refresh the onboarding layout with a three-column structure and a supporting illustration.
 - Move authentication from a modal to a dedicated `/signin` page with a home return action.
 - Place the settings icon to the right of the account avatar.
+- Keep the landing page at `/` accessible even when already authenticated.
+- Add a dashboard shortcut inside the account menu.
+- Ensure demo mode seeds data before navigating to `/dashboard`.
+- Allow returning to `/` from the demo without an automatic redirect.
+- Redirect Google OAuth logins back to `/dashboard`.
+- Remove the language selector from the settings drawer.
+- Hide onboarding panels once at least one profile exists.
 - Clear session UI state immediately on auth changes to avoid showing stale level, tasks, and rewards.
 - Clear local data and reload after account deletion to avoid stale UI.
 - Default the cycle selector to biweekly when missing settings data.
@@ -21,6 +28,13 @@
 - The onboarding card now shows the Create New Profile action alongside an illustration, with a stacked layout on smaller screens.
 - Login and signup now happen on `/signin`, and the auth button returns users to the home page instead of closing a dialog.
 - The settings icon now sits between the account avatar and the sync status indicator.
+- Visiting `/` no longer redirects authenticated users to `/dashboard`.
+- The account menu now includes a Dashboard shortcut.
+- Demo mode now loads seeded data before opening the dashboard.
+- Visiting `/` in demo mode no longer forces a redirect to `/dashboard`.
+- Google sign-in now returns directly to `/dashboard` after authentication.
+- Settings no longer expose language selection.
+- The onboarding card no longer appears when profiles already exist.
 - After login or logout, the home panels are hidden until the new session state loads, preventing stale data from flashing.
 - After deleting an account, the app clears cached data and reloads so the UI resets immediately.
 - Settings now fall back to the biweekly cycle when the stored cycle is missing, keeping the select prefilled.
@@ -38,6 +52,13 @@
 - Open `/signin` while logged out and confirm the tabs render and the home button returns to `/`.
 - Log in or sign up on `/signin` and confirm navigation to `/dashboard`.
 - Log in, open the topbar, and confirm the settings icon appears to the right of the avatar and before the sync status.
+- Log in, visit `/`, and confirm the landing page remains visible without redirecting.
+- Open the account menu and confirm the Dashboard item navigates to `/dashboard`.
+- Click “Try the Demo” and confirm seeded tasks, rewards, and summary cards render.
+- Enter demo, go back to `/`, and confirm the landing page stays visible.
+- Sign in with Google and confirm redirect to `/dashboard`.
+- Open Settings and confirm the language selector is no longer present.
+- Open `/dashboard` with an existing profile and confirm onboarding is hidden.
 - Resize to a mobile width and confirm the same elements stack vertically and the button spans full width.
 - Log in with a new user and confirm the onboarding card is shown while level, tasks, and rewards remain hidden until data loads.
 - Delete an account and confirm the app clears local data and reloads to the initial state.
@@ -57,6 +78,13 @@
 - Make the onboarding "Create New Profile" button large, with a max width of 400px, and use the app gold theme color.
 - Replace the auth dialog with a `/signin` page and route the login CTA to it.
 - Move the settings icon to render after the avatar button.
+- Stop redirecting authenticated users away from `/`.
+- Add a Dashboard entry to the account menu.
+- Trigger demo seeding before navigation so the dashboard renders full content.
+- Remove the auto-redirect from `/` when demo mode is enabled.
+- Point Google OAuth redirects at `/dashboard`.
+- Remove the language selection UI from Settings.
+- Disable onboarding rendering when at least one profile is present.
 - Add a right-side onboarding illustration and convert the layout to three responsive columns.
 - Center the Create New Profile button within its onboarding column on desktop.
 - Align the onboarding copy to the left while keeping equal column widths on desktop.
