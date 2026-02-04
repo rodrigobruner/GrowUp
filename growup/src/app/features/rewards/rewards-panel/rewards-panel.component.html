@@ -27,30 +27,50 @@
         <p class="empty-state">{{ 'rewards.empty' | translate }}</p>
       }
       @for (reward of availableRewards; track reward.id) {
-        <div class="item-row">
-          <div class="item-main">
-            <button class="item-title" type="button" (click)="redeemReward.emit(reward)">
-              {{ reward.title }}
-            </button>
+        <div
+          class="item-row-shell"
+          [class.swipe-open]="swipeOffset(reward.id) < 0"
+          [style.--swipe-offset.px]="swipeOffset(reward.id)"
+          (touchstart)="onTouchStart(reward.id, $event)"
+          (touchmove)="onTouchMove(reward.id, $event)"
+          (touchend)="onTouchEnd(reward.id)"
+          (touchcancel)="onTouchEnd(reward.id)"
+        >
+          <div class="item-row item-row--available">
+            <div class="item-main">
+              <button class="item-title" type="button" (click)="redeemReward.emit(reward)">
+                {{ reward.title }}
+              </button>
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="redeemReward.emit(reward)"
+                [disabled]="balance < reward.cost"
+                [matTooltip]="'rewards.tooltipRedeem' | translate"
+              >
+                <span class="material-icons">redeem</span>
+              </button>
+            </div>
+            <div class="item-meta">
+              <span class="item-xp">{{ reward.cost }} XP</span>
+              <span class="status">
+                {{ 'rewards.availableWithCount' | translate:{ count: remainingForReward(reward) } }}
+              </span>
+            </div>
             <button
               mat-icon-button
-              color="primary"
-              (click)="redeemReward.emit(reward)"
-              [disabled]="balance < reward.cost"
-              [matTooltip]="'rewards.tooltipRedeem' | translate"
+              class="danger"
+              (click)="removeReward.emit(reward)"
+              [matTooltip]="'rewards.tooltipDelete' | translate"
             >
-              <span class="material-icons">redeem</span>
+              <span class="material-icons">delete</span>
             </button>
           </div>
-          <span>{{ reward.cost }} XP</span>
-          <span class="status">
-            {{ 'rewards.availableWithCount' | translate:{ count: remainingForReward(reward) } }}
-          </span>
           <button
-            mat-icon-button
-            class="danger"
-            (click)="removeReward.emit(reward)"
-            [matTooltip]="'rewards.tooltipDelete' | translate"
+            class="delete-swipe"
+            type="button"
+            (click)="clearSwipe(reward.id); removeReward.emit(reward)"
+            [attr.aria-label]="'confirm.deleteRewardTitle' | translate"
           >
             <span class="material-icons">delete</span>
           </button>

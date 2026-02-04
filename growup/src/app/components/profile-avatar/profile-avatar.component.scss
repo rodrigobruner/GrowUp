@@ -53,6 +53,10 @@
 }
 
 @media (max-width: 840px) {
+  .profile-avatar-wrap.max-profiles .profile-avatar-add {
+    display: none;
+  }
+
   .profile-avatar-add {
     width: 36px;
     height: 36px;

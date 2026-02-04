@@ -42,25 +42,45 @@
       <p class="empty-state">{{ 'tasks.empty' | translate }}</p>
     }
     @for (task of tasks; track task.id) {
-      <div class="item-row">
-        <div class="item-main">
-          <button class="item-title" type="button" (click)="toggleTask.emit(task)">
-            {{ task.title }}
-          </button>
-          <button
-            class="check-toggle"
-            [class.done]="todayDoneIds.has(task.id)"
-            (click)="toggleTask.emit(task)"
-            type="button"
-          >
-            <span class="material-icons">check</span>
+      <div
+        class="item-row-shell"
+        [class.swipe-open]="swipeOffset(task.id) < 0"
+        [style.--swipe-offset.px]="swipeOffset(task.id)"
+        (touchstart)="onTouchStart(task.id, $event)"
+        (touchmove)="onTouchMove(task.id, $event)"
+        (touchend)="onTouchEnd(task.id)"
+        (touchcancel)="onTouchEnd(task.id)"
+      >
+        <div class="item-row">
+          <div class="item-main">
+            <button class="item-title" type="button" (click)="toggleTask.emit(task)">
+              {{ task.title }}
+            </button>
+            <button
+              class="check-toggle"
+              [class.done]="todayDoneIds.has(task.id)"
+              (click)="toggleTask.emit(task)"
+              type="button"
+            >
+              <span class="material-icons">check</span>
+            </button>
+          </div>
+          <div class="item-meta">
+            <span class="item-xp">{{ task.points }} XP</span>
+            <span class="status" [class.done]="todayDoneIds.has(task.id)">
+              {{ todayDoneIds.has(task.id) ? ('tasks.done' | translate) : ('tasks.available' | translate) }}
+            </span>
+          </div>
+          <button mat-icon-button class="danger" (click)="removeTask.emit(task)">
+            <span class="material-icons">delete</span>
           </button>
         </div>
-        <span>{{ task.points }} XP</span>
-        <span class="status" [class.done]="todayDoneIds.has(task.id)">
-          {{ todayDoneIds.has(task.id) ? ('tasks.done' | translate) : ('tasks.available' | translate) }}
-        </span>
-        <button mat-icon-button class="danger" (click)="removeTask.emit(task)">
+        <button
+          class="delete-swipe"
+          type="button"
+          (click)="clearSwipe(task.id); removeTask.emit(task)"
+          [attr.aria-label]="'confirm.deleteTaskTitle' | translate"
+        >
           <span class="material-icons">delete</span>
         </button>
       </div>

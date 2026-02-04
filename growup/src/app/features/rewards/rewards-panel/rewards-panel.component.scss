@@ -65,6 +65,21 @@
   border-bottom: 1px solid rgba(19, 70, 134, 0.1);
 }
 
+.item-row-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.item-row-shell .item-row {
+  transform: translateX(var(--swipe-offset, 0px));
+  transition: transform 160ms ease;
+  background: transparent;
+}
+
+.item-meta {
+  display: contents;
+}
+
 .item-row--redeemed {
   grid-template-columns: 1.4fr 0.5fr 0.6fr 80px;
 }
@@ -102,6 +117,25 @@
 
 .danger {
   color: var(--app-coral);
+}
+
+.delete-swipe {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 64px;
+  border: none;
+  background: #ff5e5e;
+  color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.delete-swipe .material-icons {
+  font-size: 22px;
 }
 
 .redeemed-date {
@@ -182,12 +216,23 @@
     display: none;
   }
 
-  .item-row {
+  .item-row--available {
     grid-template-columns: 1fr;
     align-items: start;
   }
 
-  .item-row span {
+  .item-row--available .item-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     margin-left: 2.5rem;
+  }
+
+  .item-row--available .danger {
+    display: none;
+  }
+
+  .item-row-shell.swipe-open .delete-swipe {
+    display: inline-flex;
   }
 }

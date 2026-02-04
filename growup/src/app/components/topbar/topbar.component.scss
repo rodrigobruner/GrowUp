@@ -248,6 +248,21 @@ button[mat-icon-button] {
     padding: 0 0.5rem;
   }
 
+  .topbar.compact-brand .brand-title {
+    display: none;
+  }
+
+  .topbar.compact-brand .center-avatar {
+    position: static;
+    left: auto;
+    transform: none;
+    margin-left: 0.5rem;
+  }
+
+  .language-select {
+    display: none;
+  }
+
   .brand-title {
     font-size: 1.15rem;
   }
@@ -261,6 +276,15 @@ button[mat-icon-button] {
     display: flex;
     font-size: 0.6rem;
     letter-spacing: 0.06em;
+  }
+
+  .sync-status .status {
+    font-size: 0;
+  }
+
+  .sync-status .status .dot {
+    width: 0.6rem;
+    height: 0.6rem;
   }
 
 }

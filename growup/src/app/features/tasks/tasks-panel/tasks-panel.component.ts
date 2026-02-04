@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -35,6 +35,12 @@ export class TasksPanelComponent {
   @Output() toggleTask = new EventEmitter<Task>();
   @Output() removeTask = new EventEmitter<Task>();
   @Output() selectedDateChange = new EventEmitter<string>();
+  private swipeStartX = 0;
+  private swipeStartOffset = 0;
+  private swipeActiveId: string | null = null;
+  private swipeOffsets = signal<Record<string, number>>({});
+  private readonly swipeMax = 72;
+  private readonly swipeThreshold = 36;
 
   get selectedDateValue(): Date | null {
     return this.parseDateKey(this.selectedDate);
@@ -42,6 +48,48 @@ export class TasksPanelComponent {
 
   get maxDate(): Date | null {
     return this.parseDateKey(this.todayKey);
+  }
+
+  swipeOffset(taskId: string): number {
+    return this.swipeOffsets()[taskId] ?? 0;
+  }
+
+  onTouchStart(taskId: string, event: TouchEvent): void {
+    if (event.touches.length !== 1) {
+      return;
+    }
+    this.swipeStartX = event.touches[0].clientX;
+    this.swipeStartOffset = this.swipeOffsets()[taskId] ?? 0;
+    this.swipeActiveId = taskId;
+    const offsets = this.swipeOffsets();
+    const openId = Object.keys(offsets).find((id) => offsets[id] < 0 && id !== taskId);
+    if (openId) {
+      this.setSwipeOffset(openId, 0);
+    }
+  }
+
+  onTouchMove(taskId: string, event: TouchEvent): void {
+    if (this.swipeActiveId !== taskId || event.touches.length !== 1) {
+      return;
+    }
+    const delta = event.touches[0].clientX - this.swipeStartX;
+    const next = this.swipeStartOffset + delta;
+    const clamped = Math.min(0, Math.max(next, -this.swipeMax));
+    this.setSwipeOffset(taskId, clamped);
+  }
+
+  onTouchEnd(taskId: string): void {
+    if (this.swipeActiveId !== taskId) {
+      return;
+    }
+    const offset = this.swipeOffsets()[taskId] ?? 0;
+    const finalOffset = offset <= -this.swipeThreshold ? -this.swipeMax : 0;
+    this.setSwipeOffset(taskId, finalOffset);
+    this.swipeActiveId = null;
+  }
+
+  clearSwipe(taskId: string): void {
+    this.setSwipeOffset(taskId, 0);
   }
 
   goPreviousDay(): void {
@@ -73,6 +121,10 @@ export class TasksPanelComponent {
     if (key !== this.selectedDate) {
       this.selectedDateChange.emit(key);
     }
+  }
+
+  private setSwipeOffset(taskId: string, offset: number): void {
+    this.swipeOffsets.update((current) => ({ ...current, [taskId]: offset }));
   }
 
   private parseDateKey(value: string): Date | null {

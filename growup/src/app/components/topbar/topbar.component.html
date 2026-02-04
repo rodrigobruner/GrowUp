@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="topbar">
+<mat-toolbar color="primary" class="topbar" [class.compact-brand]="profiles.length > 3">
   <button type="button" class="brand" (click)="goHome()">
     <span class="material-icons">rocket_launch</span>
     <span class="brand-title">{{ 'app.title' | translate }}</span>
