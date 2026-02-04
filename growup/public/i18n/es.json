@@ -295,7 +295,10 @@
     "logout": "Cerrar sesión",
     "close": "Cerrar",
     "backToHome": "Volver al inicio",
-    "dashboard": "Panel"
+    "dashboard": "Panel",
+    "asideLine1": "Crea rutinas",
+    "asideLine2": "Recompensa el progreso",
+    "asideLine3": "Sigue el crecimiento"
   },
   "terms": {
     "title": "Términos de uso – GrowUp",

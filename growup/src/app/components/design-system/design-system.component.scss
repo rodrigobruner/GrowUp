@@ -1,24 +1,4 @@
 .design-system {
-  --design-ink: #1e293b;
-  --design-primary: #134686;
-  --design-primary-strong: #1c5194;
-  --design-muted: rgba(19, 70, 134, 0.7);
-  --design-muted-soft: rgba(19, 70, 134, 0.6);
-  --design-surface: rgba(253, 244, 227, 0.45);
-  --design-surface-strong: rgba(255, 255, 255, 0.92);
-  --design-border: rgba(19, 70, 134, 0.12);
-  --design-chip: rgba(19, 70, 134, 0.1);
-  --design-chip-primary: rgba(254, 178, 26, 0.22);
-  --design-chip-primary-text: #8a4a00;
-  --design-chip-warn: rgba(237, 63, 39, 0.18);
-  --design-chip-warn-text: #9b1e10;
-  --design-danger-text: #a33;
-  --design-danger-border: rgba(170, 51, 51, 0.35);
-  --design-danger-bg: rgba(255, 214, 214, 0.6);
-  --design-danger-bg-hover: rgba(255, 214, 214, 0.8);
-  --design-input-border: rgba(0, 0, 0, 0.6);
-  --design-input-surface: #fff;
-  --design-placeholder: rgba(46, 58, 89, 0.55);
   margin-top: 3rem;
   display: grid;
   gap: 2rem;
@@ -153,20 +133,20 @@
 
 // Compact heights for Material form fields inside the design system page.
 :host ::ng-deep .design-system__form-grid .mat-mdc-form-field {
-  --mdc-outlined-text-field-container-height: 48px;
+  --mdc-outlined-text-field-container-height: var(--app-form-field-height);
 }
 
 :host ::ng-deep .design-system__form-grid .mat-mdc-text-field-wrapper {
-  min-height: 48px;
-  max-height: 48px;
+  min-height: var(--app-form-field-height);
+  max-height: var(--app-form-field-height);
   background: var(--design-input-surface);
 }
 
 :host ::ng-deep .design-system__form-grid .mat-mdc-form-field-infix {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  min-height: 28px;
-  max-height: 28px;
+  padding-top: var(--app-form-field-infix-padding);
+  padding-bottom: var(--app-form-field-infix-padding);
+  min-height: var(--app-form-field-infix-height);
+  max-height: var(--app-form-field-infix-height);
 }
 
 :host ::ng-deep .design-system__form-grid .mat-mdc-form-field .mdc-notched-outline__leading,

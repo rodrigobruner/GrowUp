@@ -5,27 +5,7 @@
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
-
-:root {
-  --app-ink: #134686;
-  --app-ink-soft: rgba(19, 70, 134, 0.7);
-  --app-cream: #fdf4e3;
-  --app-sand: #fde7b6;
-  --app-gold: #feb21a;
-  --app-coral: #ed3f27;
-  --app-primary: #134686;
-  --app-shadow: rgba(19, 70, 134, 0.18);
-  --app-gradient: linear-gradient(160deg, #feb21a 0%, #fdf4e3 48%, #d9ecff 100%);
-  --app-surface: rgba(255, 255, 255, 0.9);
-  --app-border: rgba(19, 70, 134, 0.12);
-  --app-outline-strong: rgba(0, 0, 0, 0.6);
-  --app-outline-soft: rgba(19, 70, 134, 0.35);
-  --app-primary-hover: #1c5194;
-  --app-form-field-height: 48px;
-  --app-form-field-infix-height: 28px;
-  --app-form-field-infix-padding: 10px;
-  --app-form-field-background: #fff;
-}
+@import './styles/theme.css';
 
 html {
   height: 100%;
@@ -41,7 +21,7 @@ html {
 
 body {
   color-scheme: light;
-  background: var(--app-gradient);
+  background: var(--color-ink-08);
   background-attachment: fixed;
   color: var(--app-ink);
   font: var(--mat-sys-body-medium);

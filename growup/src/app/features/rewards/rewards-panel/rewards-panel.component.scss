@@ -1,12 +1,6 @@
 .panel {
-  --rewards-surface: #ffffffeb;
-  --rewards-border: rgba(19, 70, 134, 0.1);
-  --rewards-muted: rgba(19, 70, 134, 0.6);
-  --rewards-muted-strong: rgba(19, 70, 134, 0.7);
-  --rewards-accent: #d28a05;
-  --rewards-delete: #ff5e5e;
   padding: 1.5rem;
-  background: var(--rewards-surface);
+  background: var(--panel-surface);
   animation: fade-up 700ms ease both;
 }
 
@@ -50,7 +44,7 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--rewards-muted);
+  color: var(--panel-muted);
   margin-bottom: 0.5rem;
 }
 
@@ -68,7 +62,7 @@
   gap: 0.75rem;
   align-items: center;
   padding: 0.75rem 0;
-  border-bottom: 1px solid var(--rewards-border);
+  border-bottom: 1px solid var(--panel-border);
 }
 
 .item-row-shell {
@@ -114,7 +108,7 @@
 .status {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--rewards-accent);
+  color: var(--panel-accent);
 }
 
 .status.done {
@@ -132,7 +126,7 @@
   height: 100%;
   width: 64px;
   border: none;
-  background: var(--rewards-delete);
+  background: var(--panel-delete);
   color: #fff;
   display: none;
   align-items: center;
@@ -146,7 +140,7 @@
 
 .redeemed-date {
   font-size: 0.85rem;
-  color: var(--rewards-muted-strong);
+  color: var(--panel-muted-strong);
 }
 
 .item-actions {
@@ -162,7 +156,7 @@
 .empty-state {
   padding: 1rem 0;
   margin: 0;
-  color: var(--rewards-muted);
+  color: var(--panel-muted);
 }
 
 .rewards-skeleton .tab-header {

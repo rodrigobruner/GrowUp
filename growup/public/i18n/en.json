@@ -283,7 +283,10 @@
     "logout": "Logout",
     "close": "Close",
     "backToHome": "Back to home",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "asideLine1": "Create routines",
+    "asideLine2": "Reward progress",
+    "asideLine3": "Track growth"
   },
   "terms": {
     "title": "Terms of Use – GrowUp",

@@ -39,16 +39,6 @@
   line-height: 1;
 }
 
-.avatar-menu {
-  --menu-arrow-size: 10px;
-  --menu-surface: #fff7e7;
-  --menu-border: rgba(255, 197, 90, 0.45);
-  --menu-icon: #1b3b69;
-  --menu-icon-bg: rgba(255, 197, 90, 0.25);
-  --menu-divider: rgba(255, 197, 90, 0.4);
-  --menu-shadow: 0 16px 30px rgba(19, 70, 134, 0.18);
-}
-
 :host ::ng-deep .mat-mdc-menu-panel.avatar-menu {
   margin-top: calc(var(--menu-arrow-size) + 6px);
   margin-left: 8px;

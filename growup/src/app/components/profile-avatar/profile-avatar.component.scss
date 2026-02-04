@@ -1,9 +1,4 @@
 .profile-avatar-wrap {
-  --profile-avatar-border: rgba(255, 255, 255, 0.6);
-  --profile-avatar-bg: rgba(255, 255, 255, 0.15);
-  --profile-avatar-bg-strong: rgba(255, 255, 255, 0.2);
-  --profile-avatar-active: #ffd24c;
-  --profile-avatar-shadow: 0 4px 12px rgba(28, 33, 48, 0.2);
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -19,8 +14,8 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 2px solid var(--profile-avatar-border);
-  background: var(--profile-avatar-bg);
+  border: 2px solid var(--avatar-border);
+  background: var(--avatar-bg);
   padding: 0;
   display: inline-flex;
   align-items: center;
@@ -36,21 +31,21 @@
 }
 
 .profile-strip-item.active {
-  border-color: var(--profile-avatar-active);
+  border-color: var(--avatar-active);
 }
 
 .profile-avatar-add {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 2px solid var(--profile-avatar-border);
-  background: var(--profile-avatar-bg-strong);
+  border: 2px solid var(--avatar-border);
+  background: var(--avatar-bg-strong);
   color: var(--app-cream);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: var(--profile-avatar-shadow);
+  box-shadow: var(--avatar-shadow);
 }
 
 .profile-avatar-add .material-icons {

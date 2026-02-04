@@ -1,15 +1,6 @@
 @use '../../../styles/form-theme' as form-theme;
 
 .dialog-form {
-  --settings-surface: #fff7e7;
-  --settings-border: rgba(19, 70, 134, 0.15);
-  --settings-border-strong: rgba(19, 70, 134, 0.25);
-  --settings-muted: rgba(46, 58, 89, 0.7);
-  --settings-title: rgba(19, 70, 134, 0.7);
-  --settings-shadow: 0 20px 40px rgba(19, 70, 134, 0.18);
-  --settings-danger: #a33;
-  --settings-danger-bg: rgba(255, 214, 214, 0.6);
-  --settings-danger-bg-hover: rgba(255, 214, 214, 0.8);
   margin-top: 0;
   min-width: min(360px, 80vw);
   min-height: 0;
@@ -20,12 +11,12 @@
 
 :host ::ng-deep .mat-mdc-dialog-container {
   border-radius: 18px;
-  box-shadow: var(--settings-shadow);
+  box-shadow: var(--dialog-shadow);
 }
 
 :host ::ng-deep .mat-mdc-dialog-surface {
-  background: var(--settings-surface);
-  border: 1px solid var(--settings-border);
+  background: var(--dialog-surface);
+  border: 1px solid var(--dialog-border-cool);
 }
 
 .section-title {
@@ -33,7 +24,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   font-size: 0.7rem;
-  color: var(--settings-title);
+  color: var(--dialog-muted);
   margin-top: 0.25rem;
 }
 
@@ -68,7 +59,7 @@
   height: 28px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid var(--settings-border-strong);
+  border: 1px solid var(--dialog-border-strong);
   background: #f2f6fb;
 }
 
@@ -98,14 +89,14 @@
   height: 125px;
   border-radius: 18px;
   object-fit: contain;
-  border: 1px solid var(--settings-border-strong);
+  border: 1px solid var(--dialog-border-strong);
   background: #f2f6fb;
 }
 
 .avatar-description {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--settings-muted);
+  color: var(--dialog-muted);
 }
 
 .profiles-grid {
@@ -121,7 +112,7 @@
   gap: 0.5rem;
   padding: 0.4rem 0.6rem;
   border-radius: 999px;
-  border: 1px solid var(--settings-border);
+  border: 1px solid var(--dialog-border-cool);
   background: #fff;
   cursor: pointer;
   text-align: left;
@@ -176,13 +167,13 @@
 }
 
 .delete-account-button {
-  color: var(--settings-danger);
+  color: var(--dialog-danger);
   border-color: rgba(170, 51, 51, 0.35);
-  background: var(--settings-danger-bg);
+  background: var(--dialog-danger-bg);
 }
 
 .delete-account-button:hover {
-  background: var(--settings-danger-bg-hover);
+  background: var(--dialog-danger-bg-hover);
 }
 
 .settings-drawer {
@@ -219,7 +210,7 @@
   display: grid;
   gap: 0.5rem;
   padding: 0.5rem 0 0.75rem;
-  border-bottom: 1px solid var(--settings-border);
+  border-bottom: 1px solid var(--dialog-border-cool);
 }
 
 .settings-section:last-of-type {
@@ -255,7 +246,7 @@
 .cache-warning {
   margin: 0;
   font-size: 0.8rem;
-  color: var(--settings-muted);
+  color: var(--dialog-muted);
 }
 
 @media (max-width: 720px) {
@@ -278,7 +269,7 @@
   max-height: 200px;
   overflow: auto;
   padding: 0.5rem;
-  border: 1px solid var(--settings-border);
+  border: 1px solid var(--dialog-border-cool);
   border-radius: 12px;
   background: #f7f9fc;
 }
@@ -293,7 +284,7 @@
 
 .debug-log-time {
   font-variant-numeric: tabular-nums;
-  color: var(--settings-muted);
+  color: var(--dialog-muted);
 }
 
 .debug-log-level {
@@ -308,6 +299,6 @@
 
 .debug-log-context {
   grid-column: 1 / -1;
-  color: var(--settings-muted);
+  color: var(--dialog-muted);
   word-break: break-word;
 }

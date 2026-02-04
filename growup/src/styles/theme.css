@@ -1,0 +1,157 @@
+:root {
+  /* Brand + Neutral base */
+  --color-ink: #134686;
+  --color-ink-alt: #1e293b;
+  --color-ink-70: rgba(19, 70, 134, 0.7);
+  --color-ink-60: rgba(19, 70, 134, 0.6);
+  --color-ink-35: rgba(19, 70, 134, 0.35);
+  --color-ink-18: rgba(19, 70, 134, 0.18);
+  --color-ink-15: rgba(19, 70, 134, 0.15);
+  --color-ink-12: rgba(19, 70, 134, 0.12);
+  --color-ink-10: rgba(19, 70, 134, 0.1);
+  --color-ink-08: rgba(19, 70, 134, 0.08);
+  --color-white: #fff;
+  --color-white-92: rgba(255, 255, 255, 0.92);
+  --color-white-90: rgba(255, 255, 255, 0.9);
+  --color-white-85: rgba(255, 255, 255, 0.85);
+  --color-white-60: rgba(255, 255, 255, 0.6);
+  --color-white-50: rgba(255, 255, 255, 0.5);
+  --color-white-40: rgba(255, 255, 255, 0.4);
+  --color-white-30: rgba(255, 255, 255, 0.3);
+  --color-black-60: rgba(0, 0, 0, 0.6);
+  --color-cream: #fdf4e3;
+  --color-sand: #fde7b6;
+  --color-gold: #feb21a;
+  --color-gold-strong: #ffcc4d;
+  --color-gold-soft: rgba(254, 178, 26, 0.35);
+  --color-coral: #ed3f27;
+  --color-amber: #d28a05;
+  --color-success: #35b26b;
+  --color-danger: #a33;
+  --color-danger-bg: rgba(255, 214, 214, 0.6);
+  --color-danger-bg-hover: rgba(255, 214, 214, 0.8);
+
+  /* App tokens */
+  --app-ink: var(--color-ink);
+  --app-ink-soft: var(--color-ink-70);
+  --app-cream: var(--color-cream);
+  --app-sand: var(--color-sand);
+  --app-gold: var(--color-gold);
+  --app-coral: var(--color-coral);
+  --app-primary: var(--color-ink);
+  --app-shadow: var(--color-ink-18);
+  --app-gradient: linear-gradient(160deg, #feb21a 0%, #fdf4e3 48%, #d9ecff 100%);
+  --app-surface: var(--color-white-90);
+  --app-border: var(--color-ink-12);
+  --app-outline-strong: var(--color-black-60);
+  --app-outline-soft: var(--color-ink-35);
+  --app-primary-hover: #1c5194;
+  --app-form-field-height: 48px;
+  --app-form-field-infix-height: 28px;
+  --app-form-field-infix-padding: 10px;
+  --app-form-field-background: var(--color-white);
+
+  /* Dialogs */
+  --dialog-surface: #fff7e7;
+  --dialog-border-warm: rgba(255, 197, 90, 0.35);
+  --dialog-border-warm-strong: rgba(255, 197, 90, 0.45);
+  --dialog-border-cool: var(--color-ink-15);
+  --dialog-border-strong: rgba(19, 70, 134, 0.25);
+  --dialog-shadow: 0 20px 40px var(--color-ink-18);
+  --dialog-shadow-strong: 0 24px 60px rgba(19, 70, 134, 0.16);
+  --dialog-title: #1b3b69;
+  --dialog-text: #1f2a44;
+  --dialog-muted: rgba(46, 58, 89, 0.7);
+  --dialog-info: #1f5c3b;
+  --dialog-error: #b01a1a;
+  --dialog-danger: var(--color-danger);
+  --dialog-danger-bg: var(--color-danger-bg);
+  --dialog-danger-bg-hover: var(--color-danger-bg-hover);
+
+  /* Panels */
+  --panel-surface: #ffffffeb;
+  --panel-border: var(--color-ink-10);
+  --panel-muted: var(--color-ink-60);
+  --panel-muted-strong: var(--color-ink-70);
+  --panel-accent: var(--color-amber);
+  --panel-delete: #ff5e5e;
+  --panel-check: var(--color-success);
+  --panel-check-border: #c7ceda;
+
+  /* Cards (onboarding, etc.) */
+  --card-surface: var(--color-white-92);
+  --card-border: var(--color-ink-12);
+  --card-text-muted: var(--color-ink-70);
+  --card-cta-shadow: 0 12px 24px var(--color-gold-soft);
+  --card-cta-hover: #f3a907;
+  --focus-ring: var(--color-ink-35);
+
+  /* Avatares */
+  --avatar-border: var(--color-white-60);
+  --avatar-bg: rgba(255, 255, 255, 0.15);
+  --avatar-bg-strong: rgba(255, 255, 255, 0.2);
+  --avatar-active: #ffd24c;
+  --avatar-shadow: 0 4px 12px rgba(28, 33, 48, 0.2);
+
+  /* Menu do usuário */
+  --menu-arrow-size: 10px;
+  --menu-surface: var(--dialog-surface);
+  --menu-border: var(--dialog-border-warm-strong);
+  --menu-icon: var(--dialog-title);
+  --menu-icon-bg: rgba(255, 197, 90, 0.25);
+  --menu-divider: rgba(255, 197, 90, 0.4);
+  --menu-shadow: 0 16px 30px var(--color-ink-18);
+
+  /* Seletor de idioma */
+  --language-select-bg: #124686;
+  --language-select-fg: #ffffff;
+
+  /* Landing */
+  --landing-ink: var(--color-ink-alt);
+  --landing-surface: var(--color-white);
+  --landing-soft: var(--color-cream);
+  --landing-accent: #fbbf24;
+  --landing-accent-strong: var(--color-gold-strong);
+  --landing-ocean: var(--color-ink);
+  --landing-danger: var(--color-coral);
+  --landing-white: var(--color-white);
+  --landing-card: var(--color-white-90);
+  --landing-card-border: var(--color-white-60);
+  --landing-pill-bg: var(--color-white-85);
+  --landing-pill-border: var(--color-white-50);
+  --landing-float-bg: var(--color-white-90);
+  --landing-soft-border: var(--color-white-30);
+  --section-note-gap: 2rem;
+
+  /* Design system */
+  --design-ink: var(--color-ink-alt);
+  --design-primary: var(--color-ink);
+  --design-primary-strong: var(--app-primary-hover);
+  --design-muted: var(--color-ink-70);
+  --design-muted-soft: var(--color-ink-60);
+  --design-surface: rgba(253, 244, 227, 0.45);
+  --design-surface-strong: var(--color-white-92);
+  --design-border: var(--color-ink-12);
+  --design-chip: var(--color-ink-10);
+  --design-chip-primary: rgba(254, 178, 26, 0.22);
+  --design-chip-primary-text: #8a4a00;
+  --design-chip-warn: rgba(237, 63, 39, 0.18);
+  --design-chip-warn-text: #9b1e10;
+  --design-danger-text: var(--color-danger);
+  --design-danger-border: rgba(170, 51, 51, 0.35);
+  --design-danger-bg: var(--color-danger-bg);
+  --design-danger-bg-hover: var(--color-danger-bg-hover);
+  --design-input-border: var(--color-black-60);
+  --design-input-surface: var(--color-white);
+  --design-placeholder: rgba(46, 58, 89, 0.55);
+
+  /* Badges */
+  --badge-ink: var(--app-ink);
+  --badge-neutral-bg: var(--color-ink-08);
+  --badge-sun-bg: rgba(254, 178, 26, 0.2);
+  --badge-sun-text: #8a4a00;
+  --badge-ocean-bg: rgba(19, 70, 134, 0.15);
+  --badge-ocean-text: #0d3a70;
+  --badge-coral-bg: rgba(237, 63, 39, 0.15);
+  --badge-coral-text: #9b1e10;
+}

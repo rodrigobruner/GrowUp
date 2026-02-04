@@ -283,7 +283,10 @@
     "logout": "Se déconnecter",
     "close": "Fermer",
     "backToHome": "Retour a l'accueil",
-    "dashboard": "Tableau de bord"
+    "dashboard": "Tableau de bord",
+    "asideLine1": "Créez des routines",
+    "asideLine2": "Récompensez les progrès",
+    "asideLine3": "Suivez l'évolution"
   },
   "terms": {
     "title": "Conditions d'utilisation – GrowUp",

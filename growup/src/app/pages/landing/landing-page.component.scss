@@ -1,18 +1,5 @@
 
 .landing-shell {
-  --landing-ink: #1e293b;
-  --landing-surface: #ffffff;
-  --landing-soft: #fdf4e3;
-  --landing-accent: #fbbf24;
-  --landing-ocean: #134686;
-  --landing-danger: #ed3f27;
-  --landing-white: #fff;
-  --landing-card: rgba(255, 255, 255, 0.9);
-  --landing-card-border: rgba(255, 255, 255, 0.6);
-  --landing-pill-bg: rgba(255, 255, 255, 0.85);
-  --landing-pill-border: rgba(255, 255, 255, 0.5);
-  --landing-float-bg: rgba(255, 255, 255, 0.9);
-  --landing-soft-border: rgba(255, 255, 255, 0.3);
 }
 
 .panel-image.rounded {
@@ -129,10 +116,6 @@
   color: var(--landing-ink);
 }
 
-.panel-problem .section-note {
-  --section-note-gap: 2rem;
-}
-
 .panel-solution {
   background: var(--landing-accent);
   color: var(--landing-ink);
@@ -147,17 +130,9 @@
   background: var(--landing-soft);
   color: var(--landing-ink);
 }
-
-.panel-skills .section-note {
-  --section-note-gap: 2rem;
-}
 .panel-difference {
   background: var(--landing-danger);
   color: var(--landing-white);
-}
-
-.panel-difference .section-note {
-  --section-note-gap: 2rem;
 }
 .panel-audience {
   background: var(--landing-surface);
@@ -170,7 +145,6 @@
 }
 
 .panel-privacy .section-note {
-  --section-note-gap: 2rem;
   margin-bottom: 0.25rem;
 }
 
@@ -279,11 +253,11 @@
 
 :host ::ng-deep .cta-primary.mat-mdc-unelevated-button {
   --mdc-filled-button-container-color: var(--app-gold);
-  --mdc-filled-button-label-text-color: #1e293b;
+  --mdc-filled-button-label-text-color: var(--landing-ink);
 }
 
 :host ::ng-deep .cta-primary.mat-mdc-unelevated-button:hover {
-  --mdc-filled-button-container-color: #ffcc4d;
+  --mdc-filled-button-container-color: var(--landing-accent-strong);
 }
 
 .panel-visual {

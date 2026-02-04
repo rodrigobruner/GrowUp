@@ -9,7 +9,30 @@
   />
 
   <main class="signin-content">
-    <section class="signin-card ds-scope">
+    <section class="signin-panel">
+      <aside class="signin-aside" aria-hidden="true">
+        <div class="aside-brand">
+          <span class="material-icons">rocket_launch</span>
+          <span>GrowUp</span>
+        </div>
+        <div class="aside-orb aside-orb--gold"></div>
+        <div class="aside-orb aside-orb--ocean"></div>
+        <div class="aside-stack">
+          <div class="aside-item">
+            <span class="material-icons">auto_graph</span>
+            <span class="aside-item__text">{{ 'auth.asideLine1' | translate }}</span>
+          </div>
+          <div class="aside-item">
+            <span class="material-icons">stars</span>
+            <span class="aside-item__text">{{ 'auth.asideLine2' | translate }}</span>
+          </div>
+          <div class="aside-item">
+            <span class="material-icons">verified</span>
+            <span class="aside-item__text">{{ 'auth.asideLine3' | translate }}</span>
+          </div>
+        </div>
+      </aside>
+      <section class="signin-card ds-scope">
       <div class="signin-header">
         <h1>{{ 'auth.title' | translate }}</h1>
       </div>
@@ -91,6 +114,7 @@
       <div class="signin-actions">
         <button mat-button type="button" (click)="goHome()">{{ 'auth.backToHome' | translate }}</button>
       </div>
+      </section>
     </section>
   </main>
 </div>
