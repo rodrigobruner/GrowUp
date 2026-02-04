@@ -16,6 +16,10 @@
 - Update the mobile tasks list to show a two-line layout and swipe-to-delete behavior.
 - Apply the same mobile layout and swipe-to-delete affordance to rewards.
 - Restore the language selector inside the settings panel.
+- Align landing page sections to show title, image, then content on mobile with alternating image placement on desktop.
+- Add a terms-of-use link to the privacy section of the landing page.
+- Add a terms-of-use link to the footer.
+- Show the language selector on the landing page even on mobile, while hiding it on the dashboard.
 - Clear session UI state immediately on auth changes to avoid showing stale level, tasks, and rewards.
 - Clear local data and reload after account deletion to avoid stale UI.
 - Default the cycle selector to biweekly when missing settings data.
@@ -43,6 +47,10 @@
 - Mobile tasks now show title + toggle on the first line, with XP/status below and swipe delete.
 - Mobile rewards now show title + action on the first line, with XP/status below and swipe delete.
 - The settings panel once again includes the language selector.
+- Mobile landing sections now render title, image, then content with full-width imagery.
+- The landing privacy section now links to the terms of use.
+- The footer now links to the terms of use.
+- The landing topbar always shows the language selector, but the dashboard no longer does.
 - After login or logout, the home panels are hidden until the new session state loads, preventing stale data from flashing.
 - After deleting an account, the app clears cached data and reloads so the UI resets immediately.
 - Settings now fall back to the biweekly cycle when the stored cycle is missing, keeping the select prefilled.
@@ -71,6 +79,10 @@
 - On mobile, swipe a task left to reveal delete and confirm the delete dialog appears.
 - On mobile, swipe a reward left to reveal delete and confirm the delete dialog appears.
 - Open Settings and confirm the language selector appears with Spanish included.
+- Open the landing page on mobile and confirm each section shows title, image, then content.
+- Click the terms link in the privacy section and confirm the terms dialog opens.
+- Click the footer terms link and confirm the terms dialog opens.
+- Open the landing page on mobile and confirm the language selector is visible while it is hidden on the dashboard.
 - Resize to a mobile width and confirm the same elements stack vertically and the button spans full width.
 - Log in with a new user and confirm the onboarding card is shown while level, tasks, and rewards remain hidden until data loads.
 - Delete an account and confirm the app clears local data and reloads to the initial state.
@@ -101,6 +113,10 @@
 - Adjust the mobile tasks layout and enable swipe delete.
 - Adjust the mobile rewards layout and enable swipe delete.
 - Reintroduce the language selector in Settings.
+- Reorder landing page sections for mobile and keep alternating image alignment on desktop.
+- Add a terms-of-use link to the landing privacy section.
+- Add a terms-of-use link to the footer.
+- Control topbar language selector visibility per page.
 - Add a right-side onboarding illustration and convert the layout to three responsive columns.
 - Center the Create New Profile button within its onboarding column on desktop.
 - Align the onboarding copy to the left while keeping equal column widths on desktop.

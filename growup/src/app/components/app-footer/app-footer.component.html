@@ -4,3 +4,6 @@
 @if (showBuildTime && buildTime) {
   <span class="footer-build"> • {{ 'footer.builtAt' | translate }} {{ buildTime }}</span>
 }
+<button type="button" class="footer-terms" (click)="openTerms()">
+  {{ 'footer.terms' | translate }}
+</button>

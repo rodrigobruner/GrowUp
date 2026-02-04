@@ -112,6 +112,7 @@
         "Pas de publicité ciblée pour les enfants."
       ],
       "note": "Conçu avec la confidentialité et la sécurité des enfants à l'esprit.",
+      "termsLink": "Voir nos conditions d'utilisation.",
       "imageAlt": "Priorité à la confidentialité"
     },
     "cta": {
@@ -314,7 +315,7 @@
     "section6Intro": "GrowUp applique des pratiques de privacy by design et de data minimization, en collectant uniquement les données strictement nécessaires au fonctionnement de l'application.",
     "section6_1Title": "6.1 Données collectées",
     "section6_1Item1": "Informations de compte du responsable légal ;",
-    "section6_1Item2": "Nom ou surnom de l'enfant ;",
+    "section6_1Item2": "Nom ou surnom du profil ;",
     "section6_1Item3": "Données de progression, tâches et récompenses ;",
     "section6_1Item4": "Informations techniques nécessaires au fonctionnement du service. Nous ne collectons pas intentionnellement de données sensibles d'enfants.",
     "section6_2Title": "6.2 Utilisation des données",
@@ -354,7 +355,8 @@
   "footer": {
     "developedBy": "Développé par :",
     "site": "bruner.app",
-    "builtAt": "Compilé le"
+    "builtAt": "Compilé le",
+    "terms": "Conditions d'utilisation"
   },
   "confirm": {
     "deleteTaskTitle": "Supprimer la tâche",

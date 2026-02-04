@@ -45,6 +45,7 @@ export class TopbarComponent {
   @Input() showProfiles = true;
   @Input() showSettings = true;
   @Input() showSyncStatus = true;
+  @Input() showLanguageSelect = true;
   @Output() settingsClick = new EventEmitter<void>();
   @Output() profileCreate = new EventEmitter<void>();
   @Output() profileEdit = new EventEmitter<void>();

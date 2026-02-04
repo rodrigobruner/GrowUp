@@ -12,6 +12,17 @@
   font-size: 0.9rem;
 }
 
+.footer-terms {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: auto;
+}
+
 .app-footer--default {
   margin-top: 2rem;
 }

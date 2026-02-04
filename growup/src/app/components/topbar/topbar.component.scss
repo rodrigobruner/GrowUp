@@ -259,10 +259,6 @@ button[mat-icon-button] {
     margin-left: 0.5rem;
   }
 
-  .language-select {
-    display: none;
-  }
-
   .brand-title {
     font-size: 1.15rem;
   }
@@ -285,6 +281,24 @@ button[mat-icon-button] {
   .sync-status .status .dot {
     width: 0.6rem;
     height: 0.6rem;
+  }
+
+  .language-select {
+    width: 80px;
+    margin-top: 14px;
+  }
+
+  :host ::ng-deep .language-select .mat-mdc-select-value-text,
+  :host ::ng-deep .language-select .mat-mdc-select-min-line {
+    font-size: 1.6rem;
+  }
+
+  :host ::ng-deep .mat-mdc-option .mat-mdc-option-text {
+    font-size: 1.2rem;
+  }
+
+  .language-flag {
+    font-size: 1.2rem;
   }
 
 }

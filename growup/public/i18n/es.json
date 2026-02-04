@@ -112,6 +112,7 @@
         "Sin publicidad dirigida a niños."
       ],
       "note": "Creado con privacidad y seguridad infantil en mente.",
+      "termsLink": "Consulta nuestros términos de uso.",
       "imageAlt": "Privacidad primero"
     },
     "cta": {
@@ -326,7 +327,7 @@
     "section6Intro": "GrowUp aplica prácticas de privacy by design y data minimization, recopilando solo los datos estrictamente necesarios para el funcionamiento de la app.",
     "section6_1Title": "6.1 Datos recopilados",
     "section6_1Item1": "Información de la cuenta del responsable legal;",
-    "section6_1Item2": "Nombre o apodo del niño;",
+    "section6_1Item2": "Nombre o apodo del perfil;",
     "section6_1Item3": "Datos de progreso, tareas y recompensas;",
     "section6_1Item4": "Información técnica necesaria para el funcionamiento del servicio. No recopilamos intencionalmente datos sensibles de niños.",
     "section6_2Title": "6.2 Uso de los datos",
@@ -376,7 +377,8 @@
   "footer": {
     "developedBy": "Desarrollado por",
     "site": "sitio",
-    "builtAt": "Compilado el"
+    "builtAt": "Compilado el",
+    "terms": "Términos de uso"
   },
   "levelup": {
     "title": "¡Nivel alcanzado!",

@@ -14,6 +14,9 @@
         <div class="panel-copy">
           <p class="eyebrow">{{ 'landing.hero.eyebrow' | translate }}</p>
           <h1>{{ 'landing.hero.title' | translate }}</h1>
+          <div class="panel-visual panel-visual--mobile">
+            <img class="panel-image" src="assets/images/home/home_1.png" [attr.alt]="'landing.hero.imageAlt' | translate" />
+          </div>
           <p class="subtitle">
             {{ 'landing.hero.subtitle' | translate }}
           </p>
@@ -26,7 +29,7 @@
             </button>
           </div>
         </div>
-        <div class="panel-visual">
+        <div class="panel-visual panel-visual--desktop">
           <img class="panel-image" src="assets/images/home/home_1.png" [attr.alt]="'landing.hero.imageAlt' | translate" />
         </div>
       </div>
@@ -36,6 +39,9 @@
       <div class="panel-inner reverse">
         <div class="panel-copy">
           <h2>{{ 'landing.problem.title' | translate }}</h2>
+          <div class="panel-visual panel-visual--mobile">
+            <img class="panel-image" src="assets/images/home/home_2.png" [attr.alt]="'landing.problem.imageAlt' | translate" />
+          </div>
           <ul class="bullet-list">
             <li>{{ 'landing.problem.bullets.0' | translate }}</li>
             <li>{{ 'landing.problem.bullets.1' | translate }}</li>
@@ -43,7 +49,7 @@
           </ul>
           <p class="section-note">{{ 'landing.problem.note' | translate }}</p>
         </div>
-        <div class="panel-visual">
+        <div class="panel-visual panel-visual--desktop">
           <img class="panel-image" src="assets/images/home/home_2.png" [attr.alt]="'landing.problem.imageAlt' | translate" />
         </div>
       </div>
@@ -53,6 +59,9 @@
       <div class="panel-inner">
         <div class="panel-copy">
           <h2>{{ 'landing.solution.title' | translate }}</h2>
+          <div class="panel-visual panel-visual--mobile">
+            <img class="panel-image" src="assets/images/home/home_3.png" [attr.alt]="'landing.solution.imageAlt' | translate" />
+          </div>
           <p>
             {{ 'landing.solution.body' | translate }}
           </p>
@@ -62,7 +71,7 @@
             <div class="feature-card">{{ 'landing.solution.features.2' | translate }}</div>
           </div>
         </div>
-        <div class="panel-visual">
+        <div class="panel-visual panel-visual--desktop">
           <img class="panel-image" src="assets/images/home/home_3.png" [attr.alt]="'landing.solution.imageAlt' | translate" />
         </div>
       </div>
@@ -72,6 +81,13 @@
       <div class="panel-inner reverse">
         <div class="panel-copy">
           <h2>{{ 'landing.steps.title' | translate }}</h2>
+          <div class="panel-visual panel-visual--mobile">
+            <img
+              class="panel-image panel-image--xlarge"
+              src="assets/images/home/home_4.png"
+              [attr.alt]="'landing.steps.imageAlt' | translate"
+            />
+          </div>
           <div class="steps-grid">
             <div class="step-card">
               <span class="step-index">01</span>
@@ -95,7 +111,7 @@
             </div>
           </div>
         </div>
-        <div class="panel-visual">
+        <div class="panel-visual panel-visual--desktop">
           <img
             class="panel-image panel-image--xlarge"
             src="assets/images/home/home_4.png"
@@ -109,6 +125,9 @@
       <div class="panel-inner">
         <div class="panel-copy">
           <h2>{{ 'landing.skills.title' | translate }}</h2>
+          <div class="panel-visual panel-visual--mobile">
+            <img class="panel-image" src="assets/images/home/home_5.png" [attr.alt]="'landing.skills.imageAlt' | translate" />
+          </div>
           <ul class="bullet-list">
             <li>{{ 'landing.skills.items.0' | translate }}</li>
             <li>{{ 'landing.skills.items.1' | translate }}</li>
@@ -118,7 +137,7 @@
           </ul>
           <p class="section-note">{{ 'landing.skills.note' | translate }}</p>
         </div>
-        <div class="panel-visual">
+        <div class="panel-visual panel-visual--desktop">
           <img class="panel-image" src="assets/images/home/home_5.png" [attr.alt]="'landing.skills.imageAlt' | translate" />
         </div>
       </div>
@@ -128,6 +147,9 @@
       <div class="panel-inner reverse">
         <div class="panel-copy">
           <h2>{{ 'landing.difference.title' | translate }}</h2>
+          <div class="panel-visual panel-visual--mobile">
+            <img class="panel-image" src="assets/images/home/home_6.png" [attr.alt]="'landing.difference.imageAlt' | translate" />
+          </div>
           <div class="difference-grid">
             <div class="difference-card">{{ 'landing.difference.items.0' | translate }}</div>
             <div class="difference-card">{{ 'landing.difference.items.1' | translate }}</div>
@@ -136,7 +158,7 @@
           </div>
           <p class="section-note">{{ 'landing.difference.note' | translate }}</p>
         </div>
-        <div class="panel-visual">
+        <div class="panel-visual panel-visual--desktop">
           <img class="panel-image" src="assets/images/home/home_6.png" [attr.alt]="'landing.difference.imageAlt' | translate" />
         </div>
       </div>
@@ -146,6 +168,13 @@
       <div class="panel-inner stacked">
         <div class="panel-copy">
           <h2>{{ 'landing.audience.title' | translate }}</h2>
+          <div class="panel-visual panel-visual--mobile">
+            <img
+              class="panel-image panel-image--xlarge"
+              src="assets/images/home/home_7.png"
+              [attr.alt]="'landing.audience.imageAlt' | translate"
+            />
+          </div>
           <ul class="bullet-list">
             <li>
               <strong>{{ 'landing.audience.items.parents.label' | translate }}</strong>
@@ -161,7 +190,7 @@
             </li>
           </ul>
         </div>
-        <div class="panel-visual">
+        <div class="panel-visual panel-visual--desktop">
           <img
             class="panel-image panel-image--xlarge"
             src="assets/images/home/home_7.png"
@@ -175,6 +204,13 @@
       <div class="panel-inner reverse">
         <div class="panel-copy">
           <h2>{{ 'landing.privacy.title' | translate }}</h2>
+          <div class="panel-visual panel-visual--mobile">
+            <img
+              class="panel-image panel-image--xlarge"
+              src="assets/images/home/home_8.png"
+              [attr.alt]="'landing.privacy.imageAlt' | translate"
+            />
+          </div>
           <div class="privacy-grid">
             <div class="privacy-card">{{ 'landing.privacy.items.0' | translate }}</div>
             <div class="privacy-card">{{ 'landing.privacy.items.1' | translate }}</div>
@@ -182,8 +218,11 @@
             <div class="privacy-card">{{ 'landing.privacy.items.3' | translate }}</div>
           </div>
           <p class="section-note section-note--privacy">{{ 'landing.privacy.note' | translate }}</p>
+          <button type="button" class="terms-link" (click)="openTerms()">
+            {{ 'landing.privacy.termsLink' | translate }}
+          </button>
         </div>
-        <div class="panel-visual">
+        <div class="panel-visual panel-visual--desktop">
           <img
             class="panel-image panel-image--xlarge"
             src="assets/images/home/home_8.png"
@@ -197,6 +236,13 @@
       <div class="panel-inner">
         <div class="panel-copy">
           <h2>{{ 'landing.cta.title' | translate }}</h2>
+          <div class="panel-visual panel-visual--mobile">
+            <img
+              class="panel-image panel-image--xlarge"
+              src="assets/images/home/home_9.png"
+              [attr.alt]="'landing.cta.imageAlt' | translate"
+            />
+          </div>
           <p>{{ 'landing.cta.subtitle' | translate }}</p>
           <div class="panel-actions">
             <button class="cta-primary" mat-flat-button color="primary" type="button" (click)="openAuth()">
@@ -204,7 +250,7 @@
             </button>
           </div>
         </div>
-        <div class="panel-visual">
+        <div class="panel-visual panel-visual--desktop">
           <img
             class="panel-image panel-image--xlarge"
             src="assets/images/home/home_9.png"
