@@ -93,10 +93,6 @@ export class TopbarComponent {
     });
   }
 
-  handleAvatarError(): void {
-    this.avatarLoadFailed.set(true);
-  }
-
   emitOpenAuthDialog(): void {
     this.openAuthDialog.emit();
   }
@@ -126,11 +122,6 @@ export class TopbarComponent {
 
   selectProfile(profileId: string): void {
     this.profileSelect.emit(profileId);
-  }
-
-  profileAvatarSrc(avatarId?: string): string {
-    const resolved = avatarId ?? '01';
-    return `assets/avatar/${resolved}/avatar.png`;
   }
 
   async changeLanguage(language: AccountSettings['language']): Promise<void> {

@@ -1,8 +1,23 @@
 @use '../../../styles/form-theme' as form-theme;
 
 .dialog-form {
+  --reward-dialog-surface: #fff7e7;
+  --reward-dialog-border: rgba(255, 197, 90, 0.35);
+  --reward-dialog-shadow: 0 20px 40px rgba(19, 70, 134, 0.18);
+  --reward-dialog-text: #1f2a44;
   margin-top: 0.5rem;
   min-width: min(360px, 80vw);
+  color: var(--reward-dialog-text);
+}
+
+:host ::ng-deep .mat-mdc-dialog-container {
+  border-radius: 18px;
+  box-shadow: var(--reward-dialog-shadow);
+}
+
+:host ::ng-deep .mat-mdc-dialog-surface {
+  background: var(--reward-dialog-surface);
+  border: 1px solid var(--reward-dialog-border);
 }
 
 @include form-theme.compact-form-fields();

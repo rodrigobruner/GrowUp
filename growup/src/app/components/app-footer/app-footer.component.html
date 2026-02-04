@@ -1,9 +1,11 @@
-<span>{{ 'footer.developedBy' | translate }} Rodrigo Bruner - </span>
-<a href="https://bruner.app" target="_blank" rel="noopener">{{ 'footer.site' | translate }}</a>
-<span> © {{ currentYear }}</span>
-@if (showBuildTime && buildTime) {
-  <span class="footer-build"> • {{ 'footer.builtAt' | translate }} {{ buildTime }}</span>
-}
-<button type="button" class="footer-terms" (click)="openTerms()">
-  {{ 'footer.terms' | translate }}
-</button>
+<div class="footer-content">
+  <span>{{ 'footer.developedBy' | translate }} Rodrigo Bruner - </span>
+  <a href="https://bruner.app" target="_blank" rel="noopener">{{ 'footer.site' | translate }}</a>
+  <span> © {{ currentYear }}</span>
+  @if (showBuildTime && buildTime) {
+    <span class="footer-build"> • {{ 'footer.builtAt' | translate }} {{ buildTime }}</span>
+  }
+  <button type="button" class="footer-terms" (click)="openTerms()">
+    {{ 'footer.terms' | translate }}
+  </button>
+</div>

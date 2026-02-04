@@ -1,4 +1,24 @@
 .design-system {
+  --design-ink: #1e293b;
+  --design-primary: #134686;
+  --design-primary-strong: #1c5194;
+  --design-muted: rgba(19, 70, 134, 0.7);
+  --design-muted-soft: rgba(19, 70, 134, 0.6);
+  --design-surface: rgba(253, 244, 227, 0.45);
+  --design-surface-strong: rgba(255, 255, 255, 0.92);
+  --design-border: rgba(19, 70, 134, 0.12);
+  --design-chip: rgba(19, 70, 134, 0.1);
+  --design-chip-primary: rgba(254, 178, 26, 0.22);
+  --design-chip-primary-text: #8a4a00;
+  --design-chip-warn: rgba(237, 63, 39, 0.18);
+  --design-chip-warn-text: #9b1e10;
+  --design-danger-text: #a33;
+  --design-danger-border: rgba(170, 51, 51, 0.35);
+  --design-danger-bg: rgba(255, 214, 214, 0.6);
+  --design-danger-bg-hover: rgba(255, 214, 214, 0.8);
+  --design-input-border: rgba(0, 0, 0, 0.6);
+  --design-input-surface: #fff;
+  --design-placeholder: rgba(46, 58, 89, 0.55);
   margin-top: 3rem;
   display: grid;
   gap: 2rem;
@@ -15,14 +35,14 @@
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.7rem;
-  color: rgba(46, 58, 89, 0.7);
+  color: var(--design-muted);
   margin: 0 0 0.6rem;
 }
 
 .design-system__subtitle {
   margin: 0;
   max-width: 32rem;
-  color: rgba(19, 70, 134, 0.7);
+  color: var(--design-muted);
 }
 
 .design-system__grid {
@@ -33,13 +53,13 @@
 
 .design-system__card {
   border-radius: 20px;
-  background: linear-gradient(160deg, rgba(253, 244, 227, 0.45), rgba(255, 255, 255, 0.92));
-  border: 1px solid rgba(19, 70, 134, 0.12);
+  background: linear-gradient(160deg, var(--design-surface), var(--design-surface-strong));
+  border: 1px solid var(--design-border);
 }
 
 .design-system__card-subtitle {
   margin: 0 0 1rem;
-  color: rgba(19, 70, 134, 0.7);
+  color: var(--design-muted);
 }
 
 .design-system__stats {
@@ -57,7 +77,7 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: rgba(19, 70, 134, 0.6);
+  color: var(--design-muted-soft);
 }
 
 .design-system__stat-value {
@@ -73,26 +93,26 @@
 }
 
 :host ::ng-deep .design-system__danger-button {
-  color: #a33;
-  border-color: rgba(170, 51, 51, 0.35);
-  background: rgba(255, 214, 214, 0.6);
+  color: var(--design-danger-text);
+  border-color: var(--design-danger-border);
+  background: var(--design-danger-bg);
 }
 
 :host ::ng-deep .design-system__danger-button:hover {
-  background: rgba(255, 214, 214, 0.8);
+  background: var(--design-danger-bg-hover);
 }
 
 :host ::ng-deep .design-system__buttons .mat-mdc-raised-button.mat-primary {
-  background: #134686;
+  background: var(--design-primary);
 }
 
 :host ::ng-deep .design-system__buttons .mat-mdc-raised-button.mat-primary:hover {
-  background: #1c5194;
+  background: var(--design-primary-strong);
 }
 
 :host ::ng-deep .design-system__buttons .mat-mdc-outlined-button,
 :host ::ng-deep .design-system__buttons .mat-mdc-button {
-  color: #134686;
+  color: var(--design-primary);
 }
 
 :host ::ng-deep .design-system__buttons .mat-mdc-outlined-button {
@@ -106,22 +126,18 @@
 }
 
 :host ::ng-deep .design-system__badges .mat-mdc-chip {
-  background: rgba(19, 70, 134, 0.1);
-  color: #134686;
+  background: var(--design-chip);
+  color: var(--design-primary);
 }
 
 :host ::ng-deep .design-system__badges .mat-mdc-chip.mat-primary {
-  background: rgba(254, 178, 26, 0.22);
-  color: #8a4a00;
+  background: var(--design-chip-primary);
+  color: var(--design-chip-primary-text);
 }
 
 :host ::ng-deep .design-system__badges .mat-mdc-chip.mat-warn {
-  background: rgba(237, 63, 39, 0.18);
-  color: #9b1e10;
-}
-
-.design-system__forms {
-  display: grid;
+  background: var(--design-chip-warn);
+  color: var(--design-chip-warn-text);
 }
 
 .design-system__form-grid {
@@ -143,6 +159,7 @@
 :host ::ng-deep .design-system__form-grid .mat-mdc-text-field-wrapper {
   min-height: 48px;
   max-height: 48px;
+  background: var(--design-input-surface);
 }
 
 :host ::ng-deep .design-system__form-grid .mat-mdc-form-field-infix {
@@ -155,12 +172,11 @@
 :host ::ng-deep .design-system__form-grid .mat-mdc-form-field .mdc-notched-outline__leading,
 :host ::ng-deep .design-system__form-grid .mat-mdc-form-field .mdc-notched-outline__notch,
 :host ::ng-deep .design-system__form-grid .mat-mdc-form-field .mdc-notched-outline__trailing {
-  border-color: rgba(0, 0, 0, 0.6);
+  border-color: var(--design-input-border);
 }
 
-:host ::ng-deep .design-system__form-grid .mat-mdc-text-field-wrapper {
-  background: #fff;
-}
+  
+
 
 :host ::ng-deep .design-system__form-grid .mat-mdc-select,
 :host ::ng-deep .design-system__form-grid .mat-mdc-input-element {
@@ -170,7 +186,7 @@
 :host ::ng-deep .design-system__form-grid .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
 :host ::ng-deep .design-system__form-grid .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
 :host ::ng-deep .design-system__form-grid .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
-  border-color: #134686;
+  border-color: var(--design-primary);
 }
 
 .design-system__textarea-field {
@@ -184,10 +200,10 @@
   top: 0.65rem;
   left: 0.9rem;
   padding: 0 0.25rem;
-  background: #fff;
+  background: var(--design-input-surface);
   font-weight: 500;
   font-size: 0.9rem;
-  color: rgba(46, 58, 89, 0.7);
+  color: var(--design-muted);
   letter-spacing: 0.02em;
   pointer-events: none;
   transition: transform 160ms ease, font-size 160ms ease, color 160ms ease;
@@ -199,17 +215,17 @@
   max-height: 240px;
   resize: vertical;
   border-radius: 12px;
-  border: 1.5px solid rgba(0, 0, 0, 0.6);
+  border: 1.5px solid var(--design-input-border);
   padding: 1.4rem 0.9rem 0.75rem;
   font: inherit;
   color: var(--app-ink);
-  background: #fff;
+  background: var(--design-input-surface);
   transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
 .design-system__textarea-field textarea:focus {
   outline: none;
-  border-color: #134686;
+  border-color: var(--design-primary);
   border-width: 2px;
   box-shadow: none;
 }
@@ -217,11 +233,11 @@
 .design-system__textarea-field:focus-within .design-system__textarea-label,
 .design-system__textarea-field.design-system__textarea-field--filled .design-system__textarea-label {
   transform: translateY(-0.9rem) scale(0.9);
-  color: #134686;
+  color: var(--design-primary);
 }
 
 .design-system__textarea-field textarea::placeholder {
-  color: rgba(46, 58, 89, 0.55);
+  color: var(--design-placeholder);
 }
 
 
@@ -233,7 +249,7 @@
 
 .design-system__hint {
   font-size: 0.8rem;
-  color: rgba(19, 70, 134, 0.6);
+  color: var(--design-muted-soft);
   margin-left: 2.2rem;
 }
 
@@ -254,10 +270,6 @@
 
 .design-system__choices mat-radio-button {
   align-items: flex-start;
-}
-
-.design-system__visuals {
-  display: grid;
 }
 
 .design-system__visual-grid {

@@ -2,14 +2,15 @@
   display: block;
   padding: 15px;
   background: transparent;
+  color: rgba(46, 58, 89, 0.7);
+  font-size: 0.9rem;
 }
 
-.app-footer {
+.footer-content {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  color: rgba(46, 58, 89, 0.7);
-  font-size: 0.9rem;
+  align-items: center;
 }
 
 .footer-terms {
@@ -21,14 +22,12 @@
   text-decoration: underline;
   cursor: pointer;
   margin-left: auto;
+  margin-right: 10px;
+  white-space: nowrap;
 }
 
 .app-footer--default {
   margin-top: 2rem;
-}
-
-.app-footer--landing {
-  background: transparent;
 }
 
 .footer-build {

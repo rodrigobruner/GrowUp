@@ -1,4 +1,12 @@
 .ui-badge {
+  --badge-ink: var(--app-ink);
+  --badge-neutral-bg: rgba(19, 70, 134, 0.08);
+  --badge-sun-bg: rgba(254, 178, 26, 0.2);
+  --badge-sun-text: #8a4a00;
+  --badge-ocean-bg: rgba(19, 70, 134, 0.15);
+  --badge-ocean-text: #0d3a70;
+  --badge-coral-bg: rgba(237, 63, 39, 0.15);
+  --badge-coral-text: #9b1e10;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -7,8 +15,8 @@
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  background: rgba(19, 70, 134, 0.08);
-  color: var(--app-ink);
+  background: var(--badge-neutral-bg);
+  color: var(--badge-ink);
 }
 
 .ui-badge--sm {
@@ -17,21 +25,21 @@
 }
 
 .ui-badge--sun {
-  background: rgba(254, 178, 26, 0.2);
-  color: #8a4a00;
+  background: var(--badge-sun-bg);
+  color: var(--badge-sun-text);
 }
 
 .ui-badge--ocean {
-  background: rgba(19, 70, 134, 0.15);
-  color: #0d3a70;
+  background: var(--badge-ocean-bg);
+  color: var(--badge-ocean-text);
 }
 
 .ui-badge--coral {
-  background: rgba(237, 63, 39, 0.15);
-  color: #9b1e10;
+  background: var(--badge-coral-bg);
+  color: var(--badge-coral-text);
 }
 
 .ui-badge--neutral {
-  background: rgba(19, 70, 134, 0.08);
-  color: var(--app-ink);
+  background: var(--badge-neutral-bg);
+  color: var(--badge-ink);
 }

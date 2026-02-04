@@ -1,6 +1,13 @@
 .panel {
+  --tasks-surface: #ffffffeb;
+  --tasks-border: rgba(19, 70, 134, 0.1);
+  --tasks-muted: rgba(19, 70, 134, 0.6);
+  --tasks-accent: #d28a05;
+  --tasks-check: #35b26b;
+  --tasks-delete: #ff5e5e;
+  --tasks-check-border: #c7ceda;
   padding: 1.5rem;
-  background: #ffffffeb;
+  background: var(--tasks-surface);
   animation: fade-up 700ms ease both;
 }
 
@@ -88,7 +95,7 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(19, 70, 134, 0.6);
+  color: var(--tasks-muted);
   margin-bottom: 0.5rem;
 }
 
@@ -98,7 +105,7 @@
   gap: 0.75rem;
   align-items: center;
   padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(19, 70, 134, 0.1);
+  border-bottom: 1px solid var(--tasks-border);
 }
 
 .item-row-shell {
@@ -137,11 +144,11 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 2px solid #c7ceda;
+  border: 2px solid var(--tasks-check-border);
   background: #ffffff;
   display: grid;
   place-items: center;
-  color: #c7ceda;
+  color: var(--tasks-check-border);
   cursor: pointer;
   padding: 0;
 }
@@ -151,14 +158,14 @@
 }
 
 .check-toggle.done {
-  border-color: #35b26b;
-  color: #35b26b;
+  border-color: var(--tasks-check);
+  color: var(--tasks-check);
 }
 
 .status {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #d28a05;
+  color: var(--tasks-accent);
 }
 
 .status.done {
@@ -176,7 +183,7 @@
   height: 100%;
   width: 64px;
   border: none;
-  background: #ff5e5e;
+  background: var(--tasks-delete);
   color: #fff;
   display: none;
   align-items: center;
@@ -191,7 +198,7 @@
 .empty-state {
   padding: 1rem 0;
   margin: 0;
-  color: rgba(19, 70, 134, 0.6);
+  color: var(--tasks-muted);
 }
 
 .panel-header--skeleton {

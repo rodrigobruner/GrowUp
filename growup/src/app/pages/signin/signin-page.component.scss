@@ -1,6 +1,12 @@
 @use '../../styles/form-theme' as form-theme;
 
 .signin-shell {
+  --signin-surface: #fff7e7;
+  --signin-border: rgba(255, 197, 90, 0.35);
+  --signin-shadow: 0 24px 60px rgba(19, 70, 134, 0.16);
+  --signin-title: #1b3b69;
+  --signin-error: #b01a1a;
+  --signin-info: #1f5c3b;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -16,10 +22,10 @@
 
 .signin-card {
   width: min(92vw, 520px);
-  background: #fff7e7;
+  background: var(--signin-surface);
   border-radius: 24px;
-  border: 1px solid rgba(255, 197, 90, 0.35);
-  box-shadow: 0 24px 60px rgba(19, 70, 134, 0.16);
+  border: 1px solid var(--signin-border);
+  box-shadow: var(--signin-shadow);
   padding: 2rem 2rem 1.5rem;
   display: grid;
   gap: 1.25rem;
@@ -28,7 +34,7 @@
 .signin-header h1 {
   margin: 0;
   font-size: 2rem;
-  color: #1b3b69;
+  color: var(--signin-title);
 }
 
 .auth-form {
@@ -76,11 +82,11 @@
 }
 
 .auth-message.error {
-  color: #b01a1a;
+  color: var(--signin-error);
 }
 
 .auth-message.info {
-  color: #1f5c3b;
+  color: var(--signin-info);
 }
 
 .signin-actions {

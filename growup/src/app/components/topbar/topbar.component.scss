@@ -37,12 +37,14 @@
 
 .language-select {
   width: 90px;
-  margin-right: 0rem;
+  margin-right: 0;
   margin-top: 18px;
-  --mdc-filled-text-field-container-color: #124686;
-  --mdc-filled-text-field-active-indicator-color: #124686;
-  --mdc-filled-text-field-hover-active-indicator-color: #124686;
-  --mdc-filled-text-field-focus-active-indicator-color: #124686;
+  --language-select-bg: #124686;
+  --language-select-fg: #ffffff;
+  --mdc-filled-text-field-container-color: var(--language-select-bg);
+  --mdc-filled-text-field-active-indicator-color: var(--language-select-bg);
+  --mdc-filled-text-field-hover-active-indicator-color: var(--language-select-bg);
+  --mdc-filled-text-field-focus-active-indicator-color: var(--language-select-bg);
 }
 
 .language-select .mat-mdc-form-field-subscript-wrapper {
@@ -51,33 +53,29 @@
 
 .language-select .mat-mdc-text-field-wrapper,
 .language-select .mat-mdc-form-field-flex,
-.language-select .mdc-text-field {
-  background-color: #124686;
-  border-radius: 999px;
-  border: 1px solid #124686;
-}
-
+.language-select .mdc-text-field,
 .language-select .mat-mdc-select-trigger,
 .language-select .mat-mdc-select-value,
 .language-select .mat-mdc-select-value-text,
-.language-select .mat-mdc-select-min-line {
-  background-color: #124686;
-  color: #ffffff;
-}
-
-:host ::ng-deep .language-select .mat-mdc-form-field-focus-overlay {
-  background-color: #124686;
-}
-
+.language-select .mat-mdc-select-min-line,
+:host ::ng-deep .language-select .mat-mdc-form-field-focus-overlay,
 :host ::ng-deep .language-select .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: #124686;
+  background-color: var(--language-select-bg);
+  color: var(--language-select-fg);
+}
+
+.language-select .mat-mdc-text-field-wrapper,
+.language-select .mat-mdc-form-field-flex,
+.language-select .mdc-text-field {
+  border-radius: 999px;
+  border: 1px solid var(--language-select-bg);
 }
 
 .language-select .mat-mdc-text-field-wrapper:hover,
 .language-select .mdc-text-field--focused .mat-mdc-text-field-wrapper,
 .language-select .mdc-text-field--focused,
 .language-select .mdc-text-field:hover {
-  border-color: #124686;
+  border-color: var(--language-select-bg);
 }
 
 .language-select .mdc-line-ripple {
@@ -97,19 +95,14 @@
 }
 
 .language-select .mat-mdc-select-arrow {
-  color: #ffffff;
-}
-
-.language-select .mat-mdc-select-arrow svg,
-.language-select .mat-mdc-select-arrow svg path {
-  fill: #ffffff;
+  color: var(--language-select-fg);
 }
 
 :host ::ng-deep .language-select .mat-mdc-select-arrow svg,
 :host ::ng-deep .language-select .mat-mdc-select-arrow svg path,
 :host ::ng-deep .language-select .mat-mdc-select-arrow-wrapper {
-  fill: #ffffff;
-  color: #ffffff;
+  fill: var(--language-select-fg);
+  color: var(--language-select-fg);
 }
 
 .language-flag {
@@ -132,24 +125,6 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-}
-
-.balance {
-  text-align: right;
-  display: grid;
-  gap: 0.1rem;
-}
-
-.balance .label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  opacity: 0.7;
-}
-
-.balance .value {
-  font-size: 1.1rem;
-  font-weight: 600;
 }
 
 .sync-status {

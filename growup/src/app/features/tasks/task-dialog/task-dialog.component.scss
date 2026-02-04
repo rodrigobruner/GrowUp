@@ -1,8 +1,23 @@
 @use '../../../styles/form-theme' as form-theme;
 
 .dialog-form {
+  --task-dialog-surface: #fff7e7;
+  --task-dialog-border: rgba(255, 197, 90, 0.35);
+  --task-dialog-shadow: 0 20px 40px rgba(19, 70, 134, 0.18);
+  --task-dialog-text: #1f2a44;
   margin-top: 0.5rem;
   min-width: min(360px, 80vw);
+  color: var(--task-dialog-text);
+}
+
+:host ::ng-deep .mat-mdc-dialog-container {
+  border-radius: 18px;
+  box-shadow: var(--task-dialog-shadow);
+}
+
+:host ::ng-deep .mat-mdc-dialog-surface {
+  background: var(--task-dialog-surface);
+  border: 1px solid var(--task-dialog-border);
 }
 
 @include form-theme.compact-form-fields();

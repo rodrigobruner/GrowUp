@@ -150,11 +150,6 @@ export class DashboardPageComponent implements OnInit {
     return !this.auth.isLoggedIn() && this.demoMode.isEnabled();
   }
 
-  private onboardingKey(): string | null {
-    const userId = this.auth.user()?.id ?? 'anon';
-    return `growup.onboarding.profileCreated.${userId}`;
-  }
-
   async addTask(): Promise<void> {
     await this.openTaskDialog();
   }
