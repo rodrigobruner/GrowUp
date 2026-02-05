@@ -38,6 +38,7 @@
 - Hide accept/decline actions when opening the privacy terms from the footer.
 - Add a dedicated privacy policy dialog and stop persisting logs in production.
 - Add a role field to profiles with USER/ADMIN support.
+- Enforce terms acceptance for data access, lock profile role changes, and add sync-focused indexes.
 
 ### Impact
 - The onboarding card now shows the Create New Profile action alongside an illustration, with a stacked layout on smaller screens.
@@ -76,6 +77,7 @@
 - The footer privacy link opens the terms dialog in read-only mode (no accept/decline).
 - Privacy policy is now a dedicated dialog, and logs are no longer persisted in production. Logs are cleared on logout.
 - Profiles now store a role attribute with default USER.
+- Data access now requires accepted terms, profile roles can only be changed by service role, and common sync filters have indexes.
 
 ### Validation
 - Open the app with no profiles and confirm the onboarding card shows text, button, and image in three columns on desktop.
@@ -121,6 +123,8 @@
 - Open the footer privacy link and confirm the privacy policy dialog renders.
 - Sign out and confirm stored logs are cleared in local storage.
 - Create or fetch a profile and confirm role defaults to USER in the database.
+- Attempt to read tasks before accepting terms and confirm access is denied.
+- Try updating a profile role as an authenticated user and confirm it is blocked.
 
 ### Changed
 - Make the onboarding "Create New Profile" button large, with a max width of 400px, and use the app gold theme color.
