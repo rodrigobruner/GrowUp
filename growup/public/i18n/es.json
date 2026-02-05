@@ -296,6 +296,7 @@
     "close": "Cerrar",
     "backToHome": "Volver al inicio",
     "dashboard": "Panel",
+    "genericError": "No se pudo completar la solicitud. Inténtalo de nuevo.",
     "asideLine1": "Crea rutinas",
     "asideLine2": "Recompensa el progreso",
     "asideLine3": "Sigue el crecimiento"
@@ -362,6 +363,29 @@
     "section11Title": "11. Contacto",
     "section11Body": "Si tienes dudas, contáctanos a través de los canales oficiales de soporte de GrowUp."
   },
+  "privacyPolicy": {
+    "title": "Política de privacidad – GrowUp",
+    "intro": "Esta política de privacidad describe cómo GrowUp recopila, utiliza y protege los datos personales. Aplicamos privacy by design y data minimization.",
+    "section6Title": "1. Privacidad y protección de datos (LGPD, GDPR y COPPA)",
+    "section6Intro": "GrowUp aplica prácticas de privacy by design y data minimization, recopilando solo los datos estrictamente necesarios para el funcionamiento de la app.",
+    "section6_1Title": "1.1 Datos recopilados",
+    "section6_1Item1": "Información de cuenta del responsable legal;",
+    "section6_1Item2": "Nombre o apodo del perfil;",
+    "section6_1Item3": "Datos de progreso, tareas y recompensas;",
+    "section6_1Item4": "Información técnica necesaria para operar el servicio. No recopilamos intencionalmente datos sensibles de menores.",
+    "section6_2Title": "1.2 Uso de los datos",
+    "section6_2Item1": "Operar y mejorar las funciones de GrowUp;",
+    "section6_2Item2": "Personalizar la experiencia del usuario;",
+    "section6_2Item3": "Cumplir obligaciones legales. No vendemos datos personales ni mostramos publicidad dirigida a niños.",
+    "section6_3Title": "1.3 Compartición de datos",
+    "section6_3Item1": "Cuando lo exija la ley o una orden judicial;",
+    "section6_3Item2": "Con proveedores estrictamente necesarios para operar la app, bajo acuerdos de confidencialidad y protección de datos.",
+    "section6_4Title": "1.4 Derechos de los responsables",
+    "section6_4Item1": "Solicitar acceso a los datos del menor;",
+    "section6_4Item2": "Corregir o actualizar la información;",
+    "section6_4Item3": "Solicitar la eliminación de los datos;",
+    "section6_4Item4": "Retirar el consentimiento cuando corresponda."
+  },
   "sync": {
     "syncedAt": "Sincronizado a las {{ time }}",
     "updatedAt": "Actualizado a las {{ time }}",
@@ -378,10 +402,11 @@
     "never": "Nunca"
   },
   "footer": {
-    "developedBy": "Desarrollado por",
-    "site": "sitio",
-    "builtAt": "Compilado el",
-    "terms": "Términos de uso"
+    "developedBy": "Desenvolvido por:",
+    "site": "bruner.app",
+    "builtAt": "Ambiente/versão:",
+    "terms": "Términos de uso",
+    "privacy": "Política de privacidad"
   },
   "levelup": {
     "title": "¡Nivel alcanzado!",

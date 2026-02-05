@@ -33,6 +33,11 @@
 - Ensure onboarding renders for logged-in users with no profiles, even during initial loading.
 - Redesign the landing page as a full-screen, one-page presentation with alternating sections.
 - Allow the landing page to scroll through all full-screen sections.
+- Harden auth flows by clearing URL auth errors, showing generic auth errors, and redacting sensitive log fields.
+- Unify the footer across landing, signin, and dashboard with privacy terms and environment/version info.
+- Hide accept/decline actions when opening the privacy terms from the footer.
+- Add a dedicated privacy policy dialog and stop persisting logs in production.
+- Add a role field to profiles with USER/ADMIN support.
 
 ### Impact
 - The onboarding card now shows the Create New Profile action alongside an illustration, with a stacked layout on smaller screens.
@@ -66,6 +71,11 @@
 - New users redirected to the dashboard will see onboarding immediately when no profiles exist.
 - The landing page now scrolls through full-screen sections with alternating palettes and visuals.
 - Visitors can scroll through every section on `/` without being locked to a single panel.
+- Auth error messaging is now generic and auth error parameters are removed from the URL. Logged contexts are redacted for sensitive fields.
+- All pages now use the shared footer component, which shows the privacy terms link and the environment/version label on the right.
+- The footer privacy link opens the terms dialog in read-only mode (no accept/decline).
+- Privacy policy is now a dedicated dialog, and logs are no longer persisted in production. Logs are cleared on logout.
+- Profiles now store a role attribute with default USER.
 
 ### Validation
 - Open the app with no profiles and confirm the onboarding card shows text, button, and image in three columns on desktop.
@@ -103,6 +113,14 @@
 - Log in with a new account and confirm onboarding appears even while the session is loading and no profiles exist.
 - Scroll the landing page and confirm each section fills the viewport with alternating colors and imagery.
 - Confirm the landing page scrolls through all sections on desktop and mobile.
+- Trigger a failed login and confirm the UI shows a generic error without revealing provider details.
+- Add a fake `error` query param to `/signin` and confirm it is removed from the URL after load.
+- Check stored logs and confirm sensitive keys (password, token, email, authorization) are redacted.
+- Open the landing page, signin page, and dashboard and confirm the footer text and right-aligned privacy/environment info match.
+- Click the footer privacy link and confirm only the close button is shown.
+- Open the footer privacy link and confirm the privacy policy dialog renders.
+- Sign out and confirm stored logs are cleared in local storage.
+- Create or fetch a profile and confirm role defaults to USER in the database.
 
 ### Changed
 - Make the onboarding "Create New Profile" button large, with a max width of 400px, and use the app gold theme color.

@@ -1,0 +1,53 @@
+.terms-dialog {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem;
+}
+
+.terms-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.terms-header h2 {
+  margin: 0;
+  font-family: 'Baloo 2', 'Comic Sans MS', cursive;
+  color: var(--app-primary);
+}
+
+.terms-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  margin-top: 1rem;
+  color: rgba(46, 58, 89, 0.9);
+  display: grid;
+  gap: 0.75rem;
+}
+
+.terms-content ul {
+  margin: 0.75rem 0 1rem;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.terms-version {
+  margin-top: 1.5rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: rgba(46, 58, 89, 0.6);
+}
+
+.terms-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+}
+
+:host ::ng-deep .mat-mdc-dialog-surface {
+  border-radius: 0;
+}

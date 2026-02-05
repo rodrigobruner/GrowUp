@@ -114,6 +114,9 @@ export class SettingsDialogComponent implements OnChanges {
     if (changes['accountSettings'] || changes['profileSettings']) {
       this.loadAvatars();
     }
+    if (!this.isAdmin()) {
+      this.logsOpen.set(false);
+    }
   }
 
   refreshLogs(): void {
@@ -140,6 +143,9 @@ export class SettingsDialogComponent implements OnChanges {
   }
 
   toggleLogs(): void {
+    if (!this.isAdmin()) {
+      return;
+    }
     const next = !this.logsOpen();
     this.logsOpen.set(next);
     localStorage.setItem(SettingsDialogComponent.LOGS_OPEN_KEY, String(next));
@@ -147,6 +153,14 @@ export class SettingsDialogComponent implements OnChanges {
       this.restoreDebugPrefs();
       this.refreshLogs();
     }
+  }
+
+  isAdmin(): boolean {
+    if (!this.activeProfileId) {
+      return false;
+    }
+    const profile = this.profiles.find((item) => item.id === this.activeProfileId);
+    return profile?.role === 'ADMIN';
   }
 
   toggleLogging(): void {

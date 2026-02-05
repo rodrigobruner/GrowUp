@@ -68,6 +68,10 @@ app-root {
   background: rgba(0, 0, 0, 0.85);
 }
 
+.terms-dialog .mat-mdc-dialog-surface {
+  background: #fff;
+}
+
 .settings-drawer .mat-mdc-dialog-container {
   padding: 0;
   border-radius: 0;

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
+import { AppFooterComponent } from '../../components/app-footer/app-footer.component';
 import { AuthService } from '../../core/services/auth.service';
 import { AvatarService } from '../../core/services/avatar.service';
 import { TermsDialogComponent } from '../../features/auth/terms-dialog/terms-dialog.component';
@@ -28,7 +29,8 @@ import { TermsDialogComponent } from '../../features/auth/terms-dialog/terms-dia
     MatInputModule,
     MatTabsModule,
     TranslateModule,
-    TopbarComponent
+    TopbarComponent,
+    AppFooterComponent
   ],
   templateUrl: './signin-page.component.html',
   styleUrl: './signin-page.component.scss'
@@ -65,7 +67,7 @@ export class SigninPageComponent {
     const error = await this.auth.signIn(this.email.trim(), this.password);
     this.busy.set(false);
     if (error) {
-      this.error.set(error.message);
+      this.error.set(this.translate.instant('auth.genericError'));
       return;
     }
     void this.router.navigate(['/dashboard']);
@@ -91,7 +93,7 @@ export class SigninPageComponent {
     );
     this.busy.set(false);
     if (error) {
-      this.error.set(error.message);
+      this.error.set(this.translate.instant('auth.genericError'));
       return;
     }
     this.info.set(this.translate.instant('auth.checkEmail'));
@@ -103,7 +105,7 @@ export class SigninPageComponent {
     const error = await this.auth.signInWithGoogle();
     this.busy.set(false);
     if (error) {
-      this.error.set(error.message);
+      this.error.set(this.translate.instant('auth.genericError'));
     }
   }
 
@@ -113,7 +115,7 @@ export class SigninPageComponent {
     const error = await this.auth.resetPassword(this.email.trim());
     this.busy.set(false);
     if (error) {
-      this.error.set(error.message);
+      this.error.set(this.translate.instant('auth.genericError'));
       return;
     }
     this.info.set(this.translate.instant('auth.resetSent'));

@@ -13,6 +13,10 @@
   align-items: center;
 }
 
+.footer-spacer {
+  flex: 1 1 auto;
+}
+
 .footer-terms {
   background: none;
   border: none;
@@ -21,7 +25,6 @@
   font-weight: 600;
   text-decoration: underline;
   cursor: pointer;
-  margin-left: auto;
   margin-right: 10px;
   white-space: nowrap;
 }

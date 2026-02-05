@@ -11,7 +11,7 @@ import {
 
 describe('supabase row guards', () => {
   it('accepts valid profile row', () => {
-    expect(isProfileRow({ id: '1', owner_id: '2', display_name: 'Kid' })).toBe(true);
+    expect(isProfileRow({ id: '1', owner_id: '2', display_name: 'Kid', role: 'USER' })).toBe(true);
   });
 
   it('rejects invalid task row', () => {

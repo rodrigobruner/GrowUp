@@ -45,6 +45,7 @@ export class SessionManagerService {
 
     if (!userId) {
       this.logger.info('session.change.anon');
+      this.logger.clear();
       return true;
     }
 

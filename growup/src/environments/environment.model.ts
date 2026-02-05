@@ -11,6 +11,7 @@ export type Environment = {
     saveDebounceMs?: number;
     persistLevel?: LogLevel;
     consoleLevel?: LogLevel;
+    persistEnabled?: boolean;
   };
   sync?: {
     backoffBaseMs?: number;

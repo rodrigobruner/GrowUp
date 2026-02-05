@@ -112,7 +112,7 @@
       </section>
 
 
-      <section class="settings-section">
+      <section class="settings-section" *ngIf="isAdmin()">
         <button type="button" class="section-title log-toggle" (click)="toggleLogs()">
           <span>{{ 'settingsDialog.debugSection' | translate }}</span>
           <span class="material-icons">{{ logsOpen() ? 'expand_less' : 'expand_more' }}</span>

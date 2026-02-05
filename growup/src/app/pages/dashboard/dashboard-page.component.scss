@@ -118,18 +118,6 @@ h1 {
   margin-bottom: 3rem;
 }
 
-.app-footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  color: rgba(46, 58, 89, 0.7);
-  font-size: 0.9rem;
-}
-
-.footer-build {
-  white-space: nowrap;
-}
-
 @media (max-width: 960px) {
   .hero {
     grid-template-columns: 1fr;

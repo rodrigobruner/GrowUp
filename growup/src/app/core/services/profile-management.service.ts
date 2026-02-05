@@ -40,6 +40,7 @@ export class ProfileManagementService {
       id: profileId,
       displayName: result.profile.displayName ?? '',
       avatarId: result.profile.avatarId ?? '01',
+      role: this.profileService.profiles().find((item) => item.id === profileId)?.role ?? 'USER',
       createdAt: this.profileService.profiles().find((item) => item.id === profileId)?.createdAt ?? Date.now()
     };
     await this.db.updateProfile(profile);
@@ -83,6 +84,10 @@ export class ProfileManagementService {
       id: profileId,
       displayName: rawName,
       avatarId: result.avatarId ?? '01',
+      role:
+        mode === 'create'
+          ? 'USER'
+          : (this.profileService.profiles().find((p) => p.id === profileId)?.role ?? 'USER'),
       createdAt:
         mode === 'create'
           ? Date.now()

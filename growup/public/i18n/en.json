@@ -284,6 +284,7 @@
     "close": "Close",
     "backToHome": "Back to home",
     "dashboard": "Dashboard",
+    "genericError": "We couldn’t complete this request. Please try again.",
     "asideLine1": "Create routines",
     "asideLine2": "Reward progress",
     "asideLine3": "Track growth"
@@ -355,11 +356,35 @@
     "noteBody": "GrowUp is a tool to support family education and does not replace the active role of parents, guardians, or educators.",
     "versionLabel": "Version:"
   },
+  "privacyPolicy": {
+    "title": "Privacy Policy – GrowUp",
+    "intro": "This Privacy Policy describes how GrowUp collects, uses, and protects personal data. We follow privacy by design and data minimization, collecting only what is strictly necessary to operate the service.",
+    "section6Title": "1. Privacy and data protection (LGPD, GDPR, and COPPA)",
+    "section6Intro": "GrowUp follows privacy by design and data minimization practices, collecting only the data strictly necessary to operate the app.",
+    "section6_1Title": "1.1 Collected data",
+    "section6_1Item1": "Legal guardian account information;",
+    "section6_1Item2": "Profile name or nickname;",
+    "section6_1Item3": "Progress, tasks, and rewards data;",
+    "section6_1Item4": "Technical information required to operate the service. We do not intentionally collect sensitive data from children.",
+    "section6_2Title": "1.2 Use of data",
+    "section6_2Item1": "Operate and improve GrowUp features;",
+    "section6_2Item2": "Personalize the user experience;",
+    "section6_2Item3": "Comply with legal obligations. We do not sell personal data and do not show targeted ads to children.",
+    "section6_3Title": "1.3 Data sharing",
+    "section6_3Item1": "When required by law or court order;",
+    "section6_3Item2": "With service providers strictly necessary to operate the app, under confidentiality and data protection agreements.",
+    "section6_4Title": "1.4 Rights of guardians",
+    "section6_4Item1": "Request access to the child’s data;",
+    "section6_4Item2": "Correct or update information;",
+    "section6_4Item3": "Request deletion of data;",
+    "section6_4Item4": "Withdraw consent where applicable."
+  },
   "footer": {
-    "developedBy": "Developed by:",
+    "developedBy": "Desenvolvido por:",
     "site": "bruner.app",
-    "builtAt": "Built at",
-    "terms": "Terms of use"
+    "builtAt": "Ambiente/versão:",
+    "terms": "Terms of use",
+    "privacy": "Privacy policy"
   },
   "confirm": {
     "deleteTaskTitle": "Delete task",

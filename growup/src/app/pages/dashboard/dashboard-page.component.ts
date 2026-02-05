@@ -31,6 +31,7 @@ import { TasksPanelComponent } from '../../features/tasks/tasks-panel/tasks-pane
 import { RewardsPanelComponent } from '../../features/rewards/rewards-panel/rewards-panel.component';
 import { OnboardingCardComponent } from '../../components/onboarding-card/onboarding-card.component';
 import { ProfileDialogComponent } from '../../features/profiles/profile-dialog/profile-dialog.component';
+import { AppFooterComponent } from '../../components/app-footer/app-footer.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -47,6 +48,7 @@ import { Router } from '@angular/router';
     RewardsPanelComponent,
     SettingsDialogComponent,
     ProfileDialogComponent,
+    AppFooterComponent,
     TranslateModule
   ],
   templateUrl: './dashboard-page.component.html',

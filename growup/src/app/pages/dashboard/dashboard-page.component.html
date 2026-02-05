@@ -114,12 +114,7 @@
         />
       </section>
 
-      <footer class="app-footer">
-        <span>{{ 'footer.developedBy' | translate }} Rodrigo Bruner - </span>
-        <a href="https://bruner.app" target="_blank" rel="noopener">{{ 'footer.site' | translate }}</a>
-        <span> © {{ currentYear }}</span>
-        <span class="footer-build"> • {{ 'footer.builtAt' | translate }} {{ buildTime }}</span>
-      </footer>
+      <app-footer [currentYear]="currentYear" [buildTime]="buildTime" [showBuildTime]="true" />
     </main>
   </mat-drawer-content>
 </mat-drawer-container>
