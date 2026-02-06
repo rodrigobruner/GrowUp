@@ -50,7 +50,7 @@ export class SeedService {
 
     if (!profiles.length && seedIfEmpty && this.auth.isLoggedIn() && !navigator.onLine) {
       const profileId = this.db.createId();
-      const displayName = this.defaultProfileName(accountLanguage);
+      const displayName = this.defaultProfileName();
       const profile: Profile = {
         id: profileId,
         displayName,
@@ -80,7 +80,7 @@ export class SeedService {
 
     if (!profiles.length && seedIfEmpty && !this.auth.isLoggedIn()) {
       const profileId = this.db.createId();
-      const displayName = this.defaultProfileName(accountLanguage);
+      const displayName = this.defaultProfileName();
       const profile: Profile = {
         id: profileId,
         displayName,
@@ -121,8 +121,8 @@ export class SeedService {
   }
 
   async seedDefaultTasks(profileId: string): Promise<Task[]> {
-    const language = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
-    const defaults = language.startsWith('pt') ? this.defaultTasksPt() : this.defaultTasksEn();
+    const language = this.seedLanguage();
+    const defaults = this.seedDefaults<Array<{ title: string; points: number }>>('seed.defaultTasks');
     const seeded = defaults.map((entry, index) => ({
       id: this.defaultId('task', language, index, profileId),
       profileId,
@@ -135,8 +135,10 @@ export class SeedService {
   }
 
   async seedDefaultRewards(profileId: string): Promise<Reward[]> {
-    const language = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
-    const defaults = language.startsWith('pt') ? this.defaultRewardsPt() : this.defaultRewardsEn();
+    const language = this.seedLanguage();
+    const defaults = this.seedDefaults<Array<{ title: string; cost: number; limitPerCycle: number }>>(
+      'seed.defaultRewards'
+    );
     const seeded = defaults.map((entry, index) => ({
       id: this.defaultId('reward', language, index, profileId),
       profileId,
@@ -149,17 +151,9 @@ export class SeedService {
     return seeded;
   }
 
-  defaultProfileName(language: AccountSettings['language']): string {
-    if (language === 'pt') {
-      return 'Super Amigo';
-    }
-    if (language === 'fr') {
-      return 'Super Copain';
-    }
-    if (language === 'es') {
-      return 'Super Amigo';
-    }
-    return 'Super Buddy';
+  defaultProfileName(): string {
+    const name = this.translate.instant('seed.defaultProfileName');
+    return typeof name === 'string' ? name : '';
   }
 
   private async hasRemoteProfiles(): Promise<boolean | null> {
@@ -179,9 +173,32 @@ export class SeedService {
   }
 
   private defaultId(kind: 'task' | 'reward', language: string, index: number, profileId: string): string {
-    const langKey = language.startsWith('pt') ? 'pt' : 'en';
+    const langKey = this.seedLanguageKey(language);
     const seed = `default-${kind}-${langKey}-${index + 1}-${profileId}`;
     return this.uuidFromString(seed);
+  }
+
+  private seedLanguage(): string {
+    return this.translate.currentLang || this.translate.getDefaultLang() || 'en';
+  }
+
+  private seedLanguageKey(language: string): string {
+    const normalized = language.toLowerCase();
+    if (normalized.startsWith('pt')) {
+      return 'pt';
+    }
+    if (normalized.startsWith('fr')) {
+      return 'fr';
+    }
+    if (normalized.startsWith('es')) {
+      return 'es';
+    }
+    return 'en';
+  }
+
+  private seedDefaults<T extends unknown[]>(key: string): T {
+    const defaults = this.translate.instant(key);
+    return Array.isArray(defaults) ? (defaults as T) : ([] as unknown as T);
   }
 
   private uuidFromString(value: string): string {
@@ -209,59 +226,4 @@ export class SeedService {
     return `${part1}-${part2}-${part3}-${part4}-${part5}`;
   }
 
-  private defaultTasksPt(): Array<{ title: string; points: number }> {
-    return [
-      { title: '🎒 Organizar o material escolar e mochila', points: 1 },
-      { title: '📖 Estudar', points: 3 },
-      { title: '🚂 Guardar os brinquedos', points: 1 },
-      { title: '🛏️ Arrumar a cama', points: 1 },
-      { title: '☕️ Ajudar com a louça e lixo', points: 1 },
-      { title: '🛀 Tomar banho e escovar os dentes', points: 1 },
-      { title: '🙋🏻‍♂️ Ajudar o papai e a mamãe', points: 2 },
-      { title: '😴 Ir para cama no horário', points: 1 },
-      { title: '👍 Outras tarefas de casa', points: 1 },
-      { title: '🍉 Eu experimentei', points: 4 }
-    ];
-  }
-
-  private defaultTasksEn(): Array<{ title: string; points: number }> {
-    return [
-      { title: '🎒 Pack school supplies and backpack', points: 1 },
-      { title: '📖 Study', points: 3 },
-      { title: '🚂 Put away toys', points: 1 },
-      { title: '🛏️ Make the bed', points: 1 },
-      { title: '☕️ Help with dishes and trash', points: 1 },
-      { title: '🛀 Shower and brush teeth', points: 1 },
-      { title: '🙋🏻‍♂️ Help mom and dad', points: 2 },
-      { title: '😴 Go to bed on time', points: 1 },
-      { title: '👍 Other house chores', points: 1 },
-      { title: '🍉 I tried a new food', points: 4 }
-    ];
-  }
-
-  private defaultRewardsEn(): Array<{ title: string; cost: number; limitPerCycle: number }> {
-    return [
-      { title: '🎶 Choose the music in the car', cost: 10, limitPerCycle: 3 },
-      { title: '📚 Visit the library or bookstore', cost: 15, limitPerCycle: 3 },
-      { title: '♟️ Family game time', cost: 20, limitPerCycle: 3 },
-      { title: '🍿 Family movie night', cost: 20, limitPerCycle: 3 },
-      { title: '🎮 Extra video game time', cost: 30, limitPerCycle: 3 },
-      { title: '🍕 Special coffee/lunch/dinner', cost: 35, limitPerCycle: 3 },
-      { title: '🎥 Movie theater', cost: 50, limitPerCycle: 3 },
-      { title: '🍔 Eat out', cost: 50, limitPerCycle: 3 }
-    ];
-  }
-
-  private defaultRewardsPt(): Array<{ title: string; cost: number; limitPerCycle: number }> {
-    return [
-      { title: '🎶 Escolher a música no carro', cost: 10, limitPerCycle: 3 },
-      { title: '📚 Visitar a biblioteca ou livraria', cost: 15, limitPerCycle: 3 },
-      { title: '♟️ Jogo em família', cost: 20, limitPerCycle: 3 },
-      { title: '🍿 Cinema em família', cost: 20, limitPerCycle: 3 },
-      { title: '🎮 Tempo extra de videogame', cost: 30, limitPerCycle: 3 },
-      { title: '🍕 Café/lanche/jantar especial', cost: 35, limitPerCycle: 3 },
-      { title: '🎥 Cinema', cost: 50, limitPerCycle: 3 },
-      { title: '🍔 Comer fora', cost: 50, limitPerCycle: 3 }
-    ];
-  }
 }

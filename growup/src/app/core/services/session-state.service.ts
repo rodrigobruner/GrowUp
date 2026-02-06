@@ -70,10 +70,7 @@ export class SessionStateService {
         this.accountSettings.set(accountSettings);
       }
 
-      const profileState = await this.seedService.ensureProfiles(
-        seedIfEmpty,
-        accountSettings?.language ?? 'en'
-      );
+      const profileState = await this.seedService.ensureProfiles(seedIfEmpty, accountSettings?.language ?? 'en');
       const profiles = profileState.profiles;
       let activeProfileId = profileState.activeProfileId;
 
@@ -130,7 +127,7 @@ export class SessionStateService {
           displayName: settings.displayName ?? ''
         });
       } else if (allowProfileSeed && activeProfileId) {
-        const fallbackName = this.seedService.defaultProfileName(accountSettings?.language ?? 'en');
+        const fallbackName = this.seedService.defaultProfileName();
         this.settings.set({
           id: activeProfileId,
           profileId: activeProfileId,
