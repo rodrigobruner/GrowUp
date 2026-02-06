@@ -3,6 +3,7 @@ import { AccountSettings } from '../models/account-settings';
 import { Completion } from '../models/completion';
 import { Reward } from '../models/reward';
 import { RewardRedemption } from '../models/redemption';
+import { RewardUse } from '../models/reward-use';
 import { Settings } from '../models/settings';
 import { Task } from '../models/task';
 import { GrowUpDbService } from './growup-db.service';
@@ -14,11 +15,13 @@ import { SyncService } from './sync.service';
 
 @Injectable({ providedIn: 'root' })
 export class SessionStateService {
-  tasks = signal<Task[]>([]);
-  rewards = signal<Reward[]>([]);
-  completions = signal<Completion[]>([]);
-  redemptions = signal<RewardRedemption[]>([]);
-  settings = signal<Settings>({
+  readonly status = signal<'idle' | 'loading' | 'ready' | 'empty' | 'error'>('idle');
+  private tasksSeeded = new Set<string>();
+  private rewardsSeeded = new Set<string>();
+  private isRefreshing = false;
+  private pendingRefresh = false;
+  private lastRefreshSeed = false;
+  private readonly defaultSettings: Settings = {
     id: 'profile',
     profileId: 'profile',
     cycleType: 'biweekly',
@@ -26,17 +29,18 @@ export class SessionStateService {
     levelUpPoints: 100,
     avatarId: '01',
     displayName: ''
-  });
-  accountSettings = signal<AccountSettings>({
+  };
+  private readonly defaultAccountSettings: AccountSettings = {
     id: 'account',
     language: 'en'
-  });
-
-  private tasksSeeded = new Set<string>();
-  private rewardsSeeded = new Set<string>();
-  private isRefreshing = false;
-  private pendingRefresh = false;
-  private lastRefreshSeed = false;
+  };
+  tasks = signal<Task[]>([]);
+  rewards = signal<Reward[]>([]);
+  completions = signal<Completion[]>([]);
+  redemptions = signal<RewardRedemption[]>([]);
+  rewardUses = signal<RewardUse[]>([]);
+  settings = signal<Settings>({ ...this.defaultSettings });
+  accountSettings = signal<AccountSettings>({ ...this.defaultAccountSettings });
 
   constructor(
     private readonly db: GrowUpDbService,
@@ -55,6 +59,7 @@ export class SessionStateService {
     }
     this.isRefreshing = true;
     this.lastRefreshSeed = seedIfEmpty;
+    this.status.set('loading');
     try {
       await this.db.migrateDefaultIds();
       await this.db.migrateLegacyRewardRedemptions();
@@ -84,12 +89,13 @@ export class SessionStateService {
         this.sync.notifyLocalChange();
       }
 
-      const [tasks, rewards, completions, settings, redemptions] = await Promise.all([
+      const [tasks, rewards, completions, settings, redemptions, rewardUses] = await Promise.all([
         this.db.getTasks(activeProfileId ?? undefined),
         this.db.getRewards(activeProfileId ?? undefined),
         this.db.getCompletions(activeProfileId ?? undefined),
         activeProfileId ? this.db.getSettings(activeProfileId) : undefined,
-        this.db.getRedemptions(activeProfileId ?? undefined)
+        this.db.getRedemptions(activeProfileId ?? undefined),
+        this.db.getRewardUses(activeProfileId ?? undefined)
       ]);
 
       let didSeed = false;
@@ -113,9 +119,12 @@ export class SessionStateService {
 
       this.completions.set(completions);
       this.redemptions.set(redemptions);
+      this.rewardUses.set(rewardUses);
       if (settings) {
         this.settings.set({
           ...settings,
+          cycleType: settings.cycleType ?? 'biweekly',
+          cycleStartDate: settings.cycleStartDate ?? currentDateKey(),
           levelUpPoints: settings.levelUpPoints ?? 100,
           avatarId: settings.avatarId ?? '01',
           displayName: settings.displayName ?? ''
@@ -136,6 +145,14 @@ export class SessionStateService {
       if (didSeed) {
         this.sync.notifyLocalChange();
       }
+
+      if (!this.auth.isLoggedIn()) {
+        this.status.set(profiles.length ? 'ready' : 'idle');
+      } else {
+        this.status.set(profiles.length ? 'ready' : 'empty');
+      }
+    } catch {
+      this.status.set('error');
     } finally {
       this.isRefreshing = false;
       if (this.pendingRefresh) {
@@ -143,6 +160,21 @@ export class SessionStateService {
         void this.refreshFromDb(this.lastRefreshSeed);
       }
     }
+  }
+
+  resetForAuthChange(): void {
+    this.tasks.set([]);
+    this.rewards.set([]);
+    this.completions.set([]);
+    this.redemptions.set([]);
+    this.rewardUses.set([]);
+    this.settings.set({ ...this.defaultSettings });
+    this.accountSettings.set({ ...this.defaultAccountSettings });
+    this.profileService.setProfiles([]);
+    this.profileService.setActiveProfile(null);
+    this.tasksSeeded.clear();
+    this.rewardsSeeded.clear();
+    this.status.set('loading');
   }
 
   private sortTasks(items: Task[]): Task[] {

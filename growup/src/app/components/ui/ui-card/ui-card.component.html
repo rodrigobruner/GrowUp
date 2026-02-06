@@ -1,0 +1,17 @@
+<article
+  class="ui-card"
+  [class.ui-card--sun]="tone === 'sun'"
+  [class.ui-card--ocean]="tone === 'ocean'"
+  [class.ui-card--coral]="tone === 'coral'"
+  [class.ui-card--sand]="tone === 'sand'"
+>
+  <span class="ui-card__glow" aria-hidden="true"></span>
+  <header class="ui-card__header" *ngIf="eyebrow || title || subtitle">
+    <p class="ui-card__eyebrow" *ngIf="eyebrow">{{ eyebrow }}</p>
+    <h3 class="ui-card__title" *ngIf="title">{{ title }}</h3>
+    <p class="ui-card__subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+  </header>
+  <div class="ui-card__body">
+    <ng-content></ng-content>
+  </div>
+</article>

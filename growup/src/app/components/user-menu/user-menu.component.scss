@@ -1,14 +1,18 @@
-.avatar-button {
+.avatar-button,
+.settings-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: #fff;
+  margin: 0;
+}
+
+.avatar-button {
   border-radius: 999px;
-  margin-right: 0.5rem;
 }
 
 .avatar-icon {
   font-size: 2rem;
-  color: #fff;
 }
 
 .avatar-image {
@@ -23,23 +27,16 @@
 .user-menu-actions {
   display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .settings-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   color: #fff;
-  margin-right: 0.5rem;
 }
 
 .settings-icon {
   font-size: 24px;
   line-height: 1;
-}
-
-.avatar-menu {
-  --menu-arrow-size: 10px;
 }
 
 :host ::ng-deep .mat-mdc-menu-panel.avatar-menu {
@@ -49,22 +46,22 @@
   border-radius: 14px;
   position: relative;
   overflow: visible;
-  background: #fff7e7;
-  border: 1px solid rgba(255, 197, 90, 0.45);
-  box-shadow: 0 16px 30px rgba(19, 70, 134, 0.18);
+  background: var(--menu-surface);
+  border: 1px solid var(--menu-border);
+  box-shadow: var(--menu-shadow);
 }
 
 :host ::ng-deep .mat-mdc-menu-panel.avatar-menu::before {
   content: '';
   position: absolute;
   top: calc(-1 * var(--menu-arrow-size));
-  left: 50%;
+  left: calc(100% - 28px);
   transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: var(--menu-arrow-size) solid transparent;
   border-right: var(--menu-arrow-size) solid transparent;
-  border-bottom: var(--menu-arrow-size) solid #fff7e7;
+  border-bottom: var(--menu-arrow-size) solid var(--menu-surface);
   filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.08));
 }
 
@@ -94,21 +91,21 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  background: rgba(255, 197, 90, 0.25);
-  color: #1b3b69;
+  background: var(--menu-icon-bg);
+  color: var(--menu-icon);
   font-size: 18px;
   line-height: 1;
 }
 
 :host ::ng-deep .mat-mdc-menu-panel.avatar-menu .menu-item-text {
-  color: #1b3b69;
+  color: var(--menu-icon);
   font-weight: 600;
   line-height: 1.2;
 }
 
 :host ::ng-deep .mat-mdc-menu-panel.avatar-menu mat-divider {
   margin: 0.25rem 0;
-  border-top-color: rgba(255, 197, 90, 0.4);
+  border-top-color: var(--menu-divider);
 }
 
 @media (max-width: 840px) {

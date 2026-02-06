@@ -6,6 +6,122 @@
     "subtitle": "Create tasks, set rewards, and track XP easily. Everything stays in your browser.",
     "settings": "Settings"
   },
+  "topbar": {
+    "language": "Language"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "GrowUp",
+      "title": "GrowUp helps children build healthy habits through motivation, not pressure.",
+      "subtitle": "A playful system that turns daily tasks into growth, responsibility, and real-life learning.",
+      "cta": {
+        "getStarted": "Get Started",
+        "tryDemo": "Try the Demo"
+      },
+      "imageAlt": "GrowUp preview"
+    },
+    "problem": {
+      "title": "The problem GrowUp solves",
+      "bullets": [
+        "Constant reminders don’t work.",
+        "Punishment creates resistance.",
+        "Kids don’t see the value of daily responsibilities."
+      ],
+      "note": "GrowUp was created to change this dynamic.",
+      "imageAlt": "GrowUp avatar"
+    },
+    "solution": {
+      "title": "What is GrowUp?",
+      "body": "GrowUp is a family-friendly, gamified system that helps children develop responsibility, consistency, and autonomy.",
+      "features": [
+        "Designed for families and educators.",
+        "Built around positive reinforcement.",
+        "Simple, visual, and age-appropriate."
+      ],
+      "imageAlt": "GrowUp character"
+    },
+    "steps": {
+      "title": "How it works",
+      "items": [
+        {
+          "title": "Daily Tasks",
+          "body": "Children complete daily tasks set by parents or educators."
+        },
+        {
+          "title": "Earn XP & Level Up",
+          "body": "Tasks generate XP that unlocks levels and progress."
+        },
+        {
+          "title": "Shop & Inventory",
+          "body": "XP unlock shared family experiences, stored in an inventory."
+        },
+        {
+          "title": "Keep the Journey Going",
+          "body": "Rewards fuel motivation and restart the growth cycle."
+        }
+      ],
+      "imageAlt": "Task tracking"
+    },
+    "skills": {
+      "title": "What children learn",
+      "items": [
+        "Responsibility",
+        "Consistency",
+        "Planning & choices",
+        "Understanding value",
+        "Autonomy and confidence"
+      ],
+      "note": "GrowUp turns everyday actions into lifelong skills.",
+      "imageAlt": "Learning outcomes"
+    },
+    "difference": {
+      "title": "Why GrowUp is different",
+      "items": [
+        "No punishment systems.",
+        "No pressure or shame.",
+        "No ads for children.",
+        "No real money transactions."
+      ],
+      "note": "GrowUp focuses on learning, not control.",
+      "imageAlt": "GrowUp promise"
+    },
+    "audience": {
+      "title": "Built for everyone who supports children",
+      "items": {
+        "parents": {
+          "label": "For Parents:",
+          "body": "Build routines without conflict."
+        },
+        "families": {
+          "label": "For Families:",
+          "body": "Create shared moments and experiences."
+        },
+        "educators": {
+          "label": "For Educators:",
+          "body": "Support responsibility and habit-building in a playful way."
+        }
+      },
+      "imageAlt": "Community"
+    },
+    "privacy": {
+      "title": "Privacy and trust",
+      "items": [
+        "COPPA, GDPR and LGPD aligned.",
+        "Parental consent required.",
+        "No selling of personal data.",
+        "No targeted advertising to children."
+      ],
+      "note": "Built with privacy and children’s safety in mind.",
+      "termsLink": "See our terms of use.",
+      "imageAlt": "Privacy first"
+    },
+    "cta": {
+      "title": "Start helping children grow — one day at a time.",
+      "subtitle": "Join the beta or explore the demo experience today.",
+      "button": "Join the Beta",
+      "imageAlt": "GrowUp demo"
+    }
+  },
   "summary": {
     "level": "Current level",
     "levelValue": "Level {{ level }}",
@@ -38,6 +154,7 @@
     "title": "Rewards",
     "tabAvailable": "Available",
     "tabRedeemed": "Redeemed",
+    "tabUsed": "Used",
     "name": "Reward",
     "placeholder": "Movie night",
     "cost": "Cost in XP",
@@ -47,7 +164,15 @@
     "availableWithCount": "Available ({{ count }} left)",
     "redeemedAt": "Redeemed on",
     "redeemedEmpty": "No redeemed rewards yet.",
-    "use": "Use reward"
+    "usedAt": "Used on",
+    "usedEmpty": "No used rewards yet.",
+    "use": "Use reward",
+    "return": "Return",
+    "tooltipAdd": "Add new reward",
+    "tooltipRedeem": "Redeem reward",
+    "tooltipDelete": "Delete reward",
+    "tooltipUse": "Consume reward",
+    "tooltipReturn": "Return to stock"
   },
   "settingsDialog": {
     "title": "Settings",
@@ -156,7 +281,13 @@
     "updatePassword": "Update password",
     "signInGoogle": "Continue with Google",
     "logout": "Logout",
-    "close": "Close"
+    "close": "Close",
+    "backToHome": "Back to home",
+    "dashboard": "Dashboard",
+    "genericError": "We couldn’t complete this request. Please try again.",
+    "asideLine1": "Create routines",
+    "asideLine2": "Reward progress",
+    "asideLine3": "Track growth"
   },
   "terms": {
     "title": "Terms of Use – GrowUp",
@@ -188,7 +319,7 @@
     "section6Intro": "GrowUp follows privacy by design and data minimization practices, collecting only the data strictly necessary to operate the app.",
     "section6_1Title": "6.1 Collected data",
     "section6_1Item1": "Legal guardian account information;",
-    "section6_1Item2": "Child’s name or nickname;",
+    "section6_1Item2": "Profile name or nickname;",
     "section6_1Item3": "Progress, tasks, and rewards data;",
     "section6_1Item4": "Technical information required to operate the service. We do not intentionally collect sensitive data from children.",
     "section6_2Title": "6.2 Use of data",
@@ -225,10 +356,35 @@
     "noteBody": "GrowUp is a tool to support family education and does not replace the active role of parents, guardians, or educators.",
     "versionLabel": "Version:"
   },
+  "privacyPolicy": {
+    "title": "Privacy Policy – GrowUp",
+    "intro": "This Privacy Policy describes how GrowUp collects, uses, and protects personal data. We follow privacy by design and data minimization, collecting only what is strictly necessary to operate the service.",
+    "section6Title": "1. Privacy and data protection (LGPD, GDPR, and COPPA)",
+    "section6Intro": "GrowUp follows privacy by design and data minimization practices, collecting only the data strictly necessary to operate the app.",
+    "section6_1Title": "1.1 Collected data",
+    "section6_1Item1": "Legal guardian account information;",
+    "section6_1Item2": "Profile name or nickname;",
+    "section6_1Item3": "Progress, tasks, and rewards data;",
+    "section6_1Item4": "Technical information required to operate the service. We do not intentionally collect sensitive data from children.",
+    "section6_2Title": "1.2 Use of data",
+    "section6_2Item1": "Operate and improve GrowUp features;",
+    "section6_2Item2": "Personalize the user experience;",
+    "section6_2Item3": "Comply with legal obligations. We do not sell personal data and do not show targeted ads to children.",
+    "section6_3Title": "1.3 Data sharing",
+    "section6_3Item1": "When required by law or court order;",
+    "section6_3Item2": "With service providers strictly necessary to operate the app, under confidentiality and data protection agreements.",
+    "section6_4Title": "1.4 Rights of guardians",
+    "section6_4Item1": "Request access to the child’s data;",
+    "section6_4Item2": "Correct or update information;",
+    "section6_4Item3": "Request deletion of data;",
+    "section6_4Item4": "Withdraw consent where applicable."
+  },
   "footer": {
-    "developedBy": "Developed by:",
+    "developedBy": "Desenvolvido por:",
     "site": "bruner.app",
-    "builtAt": "Built at"
+    "builtAt": "Ambiente/versão:",
+    "terms": "Terms of use",
+    "privacy": "Privacy policy"
   },
   "confirm": {
     "deleteTaskTitle": "Delete task",

@@ -1,0 +1,10 @@
+<label class="ui-checkbox" [class.ui-checkbox--disabled]="disabled">
+  <input type="checkbox" [checked]="checked" [disabled]="disabled" (change)="handleChange($event)" />
+  <span class="ui-checkbox__box" aria-hidden="true">
+    <span class="ui-checkbox__check">✓</span>
+  </span>
+  <span class="ui-checkbox__text">
+    <span class="ui-checkbox__label">{{ label }}</span>
+    <span class="ui-checkbox__hint" *ngIf="hint">{{ hint }}</span>
+  </span>
+</label>

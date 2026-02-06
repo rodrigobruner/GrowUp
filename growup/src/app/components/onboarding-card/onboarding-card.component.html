@@ -1,0 +1,30 @@
+<section class="onboarding">
+  <mat-card class="onboarding-card">
+    <div class="onboarding-content">
+      <div class="onboarding-copy">
+        <p class="onboarding-eyebrow">{{ 'profiles.firstProfileTooltip' | translate }}</p>
+        <h2>{{ 'profiles.dialogTitle' | translate }}</h2>
+        <p class="onboarding-text">
+          {{ 'app.subtitle' | translate }}
+        </p>
+      </div>
+      <div class="onboarding-actions">
+        <button
+          mat-flat-button
+          class="onboarding-cta"
+          type="button"
+          (click)="onCreateProfile()"
+        >
+          {{ 'profiles.addTooltip' | translate }}
+        </button>
+      </div>
+      <div class="onboarding-visual">
+        <img
+          class="onboarding-image"
+          src="assets/images/dashboard/onboard.webp"
+          alt="Illustration of a family profile"
+        />
+      </div>
+    </div>
+  </mat-card>
+</section>

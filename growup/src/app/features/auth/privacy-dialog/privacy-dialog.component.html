@@ -1,0 +1,52 @@
+<div class="terms-dialog ds-scope">
+  <div class="terms-header">
+    <h2>{{ 'privacyPolicy.title' | translate }}</h2>
+    <button mat-icon-button mat-dialog-close type="button" [attr.aria-label]="'terms.close' | translate">
+      <span class="material-icons">close</span>
+    </button>
+  </div>
+  <div class="terms-content">
+    <p>{{ 'privacyPolicy.intro' | translate }}</p>
+
+    <p><strong>{{ 'privacyPolicy.section6Title' | translate }}</strong></p>
+    <p>{{ 'privacyPolicy.section6Intro' | translate }}</p>
+
+    <p><strong>{{ 'privacyPolicy.section6_1Title' | translate }}</strong></p>
+    <ul>
+      <li>{{ 'privacyPolicy.section6_1Item1' | translate }}</li>
+      <li>{{ 'privacyPolicy.section6_1Item2' | translate }}</li>
+      <li>{{ 'privacyPolicy.section6_1Item3' | translate }}</li>
+      <li>{{ 'privacyPolicy.section6_1Item4' | translate }}</li>
+    </ul>
+
+    <p><strong>{{ 'privacyPolicy.section6_2Title' | translate }}</strong></p>
+    <ul>
+      <li>{{ 'privacyPolicy.section6_2Item1' | translate }}</li>
+      <li>{{ 'privacyPolicy.section6_2Item2' | translate }}</li>
+      <li>{{ 'privacyPolicy.section6_2Item3' | translate }}</li>
+    </ul>
+
+    <p><strong>{{ 'privacyPolicy.section6_3Title' | translate }}</strong></p>
+    <ul>
+      <li>{{ 'privacyPolicy.section6_3Item1' | translate }}</li>
+      <li>{{ 'privacyPolicy.section6_3Item2' | translate }}</li>
+    </ul>
+
+    <p><strong>{{ 'privacyPolicy.section6_4Title' | translate }}</strong></p>
+    <ul>
+      <li>{{ 'privacyPolicy.section6_4Item1' | translate }}</li>
+      <li>{{ 'privacyPolicy.section6_4Item2' | translate }}</li>
+      <li>{{ 'privacyPolicy.section6_4Item3' | translate }}</li>
+      <li>{{ 'privacyPolicy.section6_4Item4' | translate }}</li>
+    </ul>
+
+    <div class="terms-version">
+      {{ 'terms.versionLabel' | translate }} {{ today | date:'short' }}
+    </div>
+  </div>
+  <div class="terms-actions">
+    <button mat-button mat-dialog-close type="button">
+      {{ 'terms.close' | translate }}
+    </button>
+  </div>
+</div>

@@ -12,6 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './summary-card.component.scss'
 })
 export class SummaryCardComponent {
+  @Input() loading = false;
   @Input({ required: true }) avatarSrc = '';
   @Input({ required: true }) level = 1;
   @Input({ required: true }) xpToNext = 0;

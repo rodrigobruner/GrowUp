@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -12,5 +12,13 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './terms-dialog.component.scss'
 })
 export class TermsDialogComponent {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public readonly data?: { showActions?: boolean }
+  ) {}
+
+  get showActions(): boolean {
+    return this.data?.showActions !== false;
+  }
+
   readonly today = new Date();
 }

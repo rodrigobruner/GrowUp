@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>{{ 'sync.detailsTitle' | translate }}</h2>
 
-<mat-dialog-content>
+<mat-dialog-content class="ds-scope">
   <p>
     <strong>{{ 'sync.detailsOnline' | translate }}:</strong>
     {{ data.isOnline ? ('sync.statusOnline' | translate) : ('sync.statusOffline' | translate) }}
@@ -22,6 +22,6 @@
   </p>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
+<mat-dialog-actions align="end" class="ds-scope">
   <button mat-button mat-dialog-close>{{ 'auth.close' | translate }}</button>
 </mat-dialog-actions>

@@ -1,12 +1,4 @@
 <div class="user-menu-actions">
-  <button
-    mat-icon-button
-    class="settings-button"
-    (click)="settingsClick.emit()"
-    [attr.aria-label]="'app.settings' | translate"
-  >
-    <span class="material-icons settings-icon">settings</span>
-  </button>
   <ng-container *ngIf="isLoggedIn; else loggedOutAvatar">
     <button
       mat-icon-button
@@ -37,10 +29,24 @@
       <span class="material-icons avatar-icon">account_circle</span>
     </button>
   </ng-template>
+  <button
+    *ngIf="showSettings"
+    mat-icon-button
+    class="settings-button"
+    (click)="settingsClick.emit()"
+    [attr.aria-label]="'app.settings' | translate"
+  >
+    <span class="material-icons settings-icon">settings</span>
+  </button>
 </div>
 
-<mat-menu #authMenu="matMenu" panelClass="avatar-menu">
+<mat-menu #authMenu="matMenu" panelClass="avatar-menu" [overlapTrigger]="false" xPosition="after" yPosition="below">
   <mat-nav-list class="menu-list" aria-label="user menu">
+    <mat-list-item class="menu-item" [routerLink]="['/dashboard']">
+      <span matListItemIcon class="menu-item-icon material-icons">dashboard</span>
+      <span matListItemTitle class="menu-item-text">{{ 'auth.dashboard' | translate }}</span>
+    </mat-list-item>
+    <mat-divider></mat-divider>
     @if (canChangePassword) {
       <mat-list-item class="menu-item" (click)="openResetPassword.emit()">
         <span matListItemIcon class="menu-item-icon material-icons">lock_reset</span>

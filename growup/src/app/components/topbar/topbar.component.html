@@ -1,9 +1,10 @@
-<mat-toolbar color="primary" class="topbar">
-  <div class="brand">
+<mat-toolbar color="primary" class="topbar" [class.compact-brand]="profiles.length > 3">
+  <button type="button" class="brand" (click)="goHome()">
     <span class="material-icons">rocket_launch</span>
     <span class="brand-title">{{ 'app.title' | translate }}</span>
-  </div>
+  </button>
   <app-profile-avatar
+    *ngIf="showProfiles"
     class="center-avatar"
     [src]="avatarSrc"
     [profiles]="profiles"
@@ -13,18 +14,30 @@
     (profileSelect)="selectProfile($event)"
   />
   <div class="spacer"></div>
+  <mat-form-field *ngIf="showLanguageSelect" class="language-select" appearance="fill">
+    <mat-select
+      [value]="language()"
+      (selectionChange)="changeLanguage($event.value)"
+      [attr.aria-label]="'topbar.language' | translate"
+    >
+      <mat-option *ngFor="let option of languageOptions" [value]="option.value">
+        <span class="language-flag" aria-hidden="true">{{ option.flag }}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <app-user-menu
     [isLoggedIn]="isLoggedIn()"
     [avatarSrc]="avatarSrc"
     [userAvatarUrl]="userAvatarUrl()"
     [avatarLoadFailed]="avatarLoadFailed()"
     [authProvider]="authProvider()"
+    [showSettings]="showSettings"
     (settingsClick)="settingsClick.emit()"
-    (openAuthDialog)="openAuthDialog()"
+    (openAuthDialog)="emitOpenAuthDialog()"
     (openResetPassword)="openResetPassword()"
     (logout)="logout()"
   />
-  <div class="sync-status" *ngIf="isLoggedIn()">
+  <div class="sync-status" *ngIf="isLoggedIn() && showSyncStatus">
     <span
       *ngIf="!isOnline || syncError"
       class="status offline"

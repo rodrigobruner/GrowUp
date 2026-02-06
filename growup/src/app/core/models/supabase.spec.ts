@@ -11,7 +11,7 @@ import {
 
 describe('supabase row guards', () => {
   it('accepts valid profile row', () => {
-    expect(isProfileRow({ id: '1', owner_id: '2', display_name: 'Kid' })).toBe(true);
+    expect(isProfileRow({ id: '1', owner_id: '2', display_name: 'Kid', role: 'USER' })).toBe(true);
   });
 
   it('rejects invalid task row', () => {
@@ -58,6 +58,9 @@ describe('supabase row guards', () => {
 
   it('accepts valid account settings row', () => {
     expect(isAccountSettingsRow({ owner_id: '1', language: 'en', terms_version: null, terms_accepted_at: null })).toBe(
+      true
+    );
+    expect(isAccountSettingsRow({ owner_id: '1', language: 'es', terms_version: null, terms_accepted_at: null })).toBe(
       true
     );
   });

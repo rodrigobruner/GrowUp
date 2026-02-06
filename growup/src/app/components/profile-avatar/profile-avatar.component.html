@@ -1,4 +1,4 @@
-<div class="profile-avatar-wrap">
+<div class="profile-avatar-wrap" [class.max-profiles]="profiles.length >= 6">
   <div class="profile-strip" *ngIf="profiles.length">
     <button
       type="button"

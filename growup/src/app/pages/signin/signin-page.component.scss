@@ -1,0 +1,279 @@
+@use '../../styles/form-theme' as form-theme;
+
+.signin-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-ink-08);
+}
+
+.signin-content {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 3.5rem 1.5rem 4rem;
+  width: min(1100px, 100%);
+  margin: 0 auto;
+}
+
+.signin-panel {
+  width: min(100%, 960px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  border-radius: 28px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 32px 70px rgba(19, 70, 134, 0.15);
+}
+
+.signin-aside {
+  position: relative;
+  display: grid;
+  gap: 2rem;
+  padding: 2.75rem 2.5rem;
+  background: linear-gradient(150deg, rgba(19, 70, 134, 0.92), rgba(9, 26, 52, 0.92));
+  color: #fff;
+  overflow: hidden;
+}
+
+.aside-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'Baloo 2', 'Comic Sans MS', cursive;
+  font-size: 2.1rem;
+  z-index: 1;
+}
+
+.aside-brand .material-icons {
+  font-size: 2.4rem;
+}
+
+.aside-orb {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+.aside-orb--gold {
+  width: 190px;
+  height: 190px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 231, 166, 0.9), var(--app-gold));
+  top: -60px;
+  right: -30px;
+}
+
+.aside-orb--ocean {
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle at 30% 30%, rgba(217, 236, 255, 0.6), rgba(19, 70, 134, 0.4));
+  bottom: -120px;
+  left: -90px;
+  opacity: 0.5;
+}
+
+.aside-stack {
+  display: grid;
+  gap: 1rem;
+  z-index: 1;
+}
+
+.aside-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1.2rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+}
+
+.aside-item .material-icons {
+  font-size: 30px;
+}
+
+.aside-item__text {
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+}
+
+.signin-card {
+  width: 100%;
+  background: var(--color-white);
+  border-radius: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: none;
+  padding: 2.5rem 2.75rem 2rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.signin-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--dialog-title);
+}
+
+.auth-form {
+  padding: 1rem 0 0.75rem;
+}
+
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.terms-link {
+  background: none;
+  border: none;
+  color: var(--app-primary);
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.google-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+}
+
+.google-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.auth-message {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.auth-message.error {
+  color: var(--dialog-error);
+}
+
+.auth-message.info {
+  color: var(--dialog-info);
+}
+
+.signin-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@include form-theme.form-layout();
+
+:host ::ng-deep .signin-card .mat-mdc-tab-group {
+  display: grid;
+  gap: 1rem;
+}
+
+:host ::ng-deep .signin-card .mat-mdc-tab-header {
+  border-bottom: none;
+}
+
+:host ::ng-deep .signin-card .mat-mdc-tab-label-container {
+  background: var(--color-ink-08);
+  border-radius: 999px;
+  padding: 0.25rem;
+  border: 1px solid var(--color-ink-35);
+}
+
+:host ::ng-deep .signin-card .mat-mdc-tab {
+  min-width: 0;
+  padding: 0.35rem 0.9rem;
+  margin: 0 0.15rem;
+  border-radius: 999px;
+  font-weight: 600;
+  color: var(--app-ink);
+  opacity: 0.65;
+  align-items: center;
+  overflow: hidden;
+}
+
+:host ::ng-deep .signin-card .mat-mdc-tab .mdc-tab__ripple,
+:host ::ng-deep .signin-card .mat-mdc-tab .mdc-tab__ripple::before,
+:host ::ng-deep .signin-card .mat-mdc-tab .mdc-tab__ripple::after,
+:host ::ng-deep .signin-card .mat-mdc-tab .mat-ripple-element,
+:host ::ng-deep .signin-card .mat-mdc-tab:hover,
+:host ::ng-deep .signin-card .mat-mdc-tab:hover .mdc-tab__content,
+:host ::ng-deep .signin-card .mat-mdc-tab:hover .mdc-tab__text-label,
+:host ::ng-deep .signin-card .mat-mdc-tab .mdc-tab__content:hover,
+:host ::ng-deep .signin-card .mat-mdc-tab .mdc-tab__text-label:hover {
+  border-radius: 999px;
+}
+
+:host ::ng-deep .signin-card .mat-mdc-tab .mdc-tab__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep .signin-card .mat-mdc-tab .mdc-tab__text-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+:host ::ng-deep .signin-card .mat-mdc-tab.mdc-tab--active {
+  background: var(--color-white);
+  border: 1px solid var(--color-ink-12);
+  box-shadow: 0 10px 18px rgba(19, 70, 134, 0.12);
+  opacity: 1;
+}
+
+:host ::ng-deep .signin-card .mdc-tab-indicator {
+  display: none;
+}
+
+:host ::ng-deep .signin-shell .topbar .language-select {
+  margin-top: 6px;
+}
+
+@include form-theme.compact-form-fields();
+
+@media (max-width: 720px) {
+  .signin-content {
+    gap: 1.25rem;
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .signin-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .signin-aside {
+    padding: 2rem 1.5rem;
+    min-height: 220px;
+  }
+
+  .signin-card {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 1.75rem;
+  }
+
+  .signin-header h1 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 960px) {
+  .signin-panel {
+    grid-template-columns: 1fr;
+  }
+}

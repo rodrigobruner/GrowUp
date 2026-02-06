@@ -1,4 +1,4 @@
-<div class="terms-dialog">
+<div class="terms-dialog ds-scope">
   <div class="terms-header">
     <h2>{{ 'terms.title' | translate }}</h2>
     <button mat-icon-button [mat-dialog-close]="false" type="button" [attr.aria-label]="'terms.close' | translate">
@@ -101,12 +101,14 @@
       {{ 'terms.versionLabel' | translate }} {{ today | date:'short' }}
     </div>
   </div>
-  <div class="terms-actions">
-    <button mat-stroked-button type="button" [mat-dialog-close]="false">
-      {{ 'terms.decline' | translate }}
-    </button>
-    <button mat-flat-button color="primary" [mat-dialog-close]="true">
-      {{ 'terms.accept' | translate }}
-    </button>
-  </div>
+  @if (showActions) {
+    <div class="terms-actions">
+      <button mat-stroked-button type="button" [mat-dialog-close]="false">
+        {{ 'terms.decline' | translate }}
+      </button>
+      <button mat-flat-button color="primary" [mat-dialog-close]="true">
+        {{ 'terms.accept' | translate }}
+      </button>
+    </div>
+  }
 </div>

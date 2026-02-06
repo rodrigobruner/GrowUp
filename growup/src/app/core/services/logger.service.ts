@@ -17,14 +17,18 @@ const isLogLevel = (value: unknown): value is LogLevel =>
 @Injectable({ providedIn: 'root' })
 export class LoggerService {
   constructor(private readonly storage: LogStorageService) {
-    const stored = storage.load();
-    if (stored.length) {
-      this.entries = stored;
+    if (this.persistEnabled) {
+      const stored = storage.load();
+      if (stored.length) {
+        this.entries = stored;
+      }
     }
   }
   private entries: LogEntry[] = [];
   private maxEntries = 200;
   private enabled = true;
+  private readonly persistEnabled =
+    environment.production ? false : (environment.logging?.persistEnabled ?? true);
   private saveTimer: ReturnType<typeof setTimeout> | null = null;
   private dirty = false;
   private readonly fallbackLevel: LogLevel = environment.production ? 'warn' : 'debug';
@@ -85,10 +89,11 @@ export class LoggerService {
     if (!this.shouldLog(level)) {
       return;
     }
+    const safeContext = this.sanitizeContext(context);
     const entry: LogEntry = {
       level,
       message,
-      context,
+      context: safeContext,
       timestamp: Date.now()
     };
     this.entries.push(entry);
@@ -100,13 +105,13 @@ export class LoggerService {
     if (this.shouldLogFor(level, this.consoleLevel)) {
       const prefix = `[${level.toUpperCase()}] ${message}`;
       if (level === 'error') {
-        console.error(prefix, context ?? '');
+        console.error(prefix, safeContext ?? '');
       } else if (level === 'warn') {
-        console.warn(prefix, context ?? '');
+        console.warn(prefix, safeContext ?? '');
       } else if (level === 'info') {
-        console.info(prefix, context ?? '');
+        console.info(prefix, safeContext ?? '');
       } else {
-        console.debug(prefix, context ?? '');
+        console.debug(prefix, safeContext ?? '');
       }
     }
   }
@@ -121,6 +126,9 @@ export class LoggerService {
   }
 
   private scheduleSave(level: LogLevel): void {
+    if (!this.persistEnabled) {
+      return;
+    }
     if (!this.shouldLogFor(level, this.persistLevel)) {
       return;
     }
@@ -145,5 +153,43 @@ export class LoggerService {
     }
     this.dirty = false;
     this.storage.save(this.entries);
+  }
+
+  private sanitizeContext(context?: Record<string, unknown>): Record<string, unknown> | undefined {
+    if (!context) {
+      return undefined;
+    }
+    return this.sanitizeValue(context, 0) as Record<string, unknown>;
+  }
+
+  private sanitizeValue(value: unknown, depth: number): unknown {
+    if (depth > 4) {
+      return '[REDACTED]';
+    }
+    if (value instanceof Error) {
+      return { name: value.name, message: value.message };
+    }
+    if (Array.isArray(value)) {
+      return value.map((item) => this.sanitizeValue(item, depth + 1));
+    }
+    if (!value || typeof value !== 'object') {
+      return value;
+    }
+    const entries = Object.entries(value as Record<string, unknown>);
+    const sanitized: Record<string, unknown> = {};
+    for (const [key, entryValue] of entries) {
+      if (this.isSensitiveKey(key)) {
+        sanitized[key] = '[REDACTED]';
+        continue;
+      }
+      sanitized[key] = this.sanitizeValue(entryValue, depth + 1);
+    }
+    return sanitized;
+  }
+
+  private isSensitiveKey(key: string): boolean {
+    const lower = key.toLowerCase();
+    const markers = ['password', 'pass', 'token', 'authorization', 'email', 'secret', 'apikey', 'api_key', 'otp', 'code'];
+    return markers.some((marker) => lower.includes(marker));
   }
 }

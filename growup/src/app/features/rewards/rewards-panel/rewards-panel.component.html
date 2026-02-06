@@ -3,11 +3,18 @@
     <h2>{{ 'rewards.title' | translate }}</h2>
   </div>
 
+  @if (!loading) {
   <mat-tab-group>
     <mat-tab label="{{ 'rewards.tabAvailable' | translate }}">
       <div class="tab-header">
         <span></span>
-        <button mat-fab color="primary" class="add-fab" (click)="addReward.emit()">
+        <button
+          mat-fab
+          color="primary"
+          class="add-fab"
+          (click)="addReward.emit()"
+          [matTooltip]="'rewards.tooltipAdd' | translate"
+        >
           <span class="material-icons">add</span>
         </button>
       </div>
@@ -20,41 +27,68 @@
         <p class="empty-state">{{ 'rewards.empty' | translate }}</p>
       }
       @for (reward of availableRewards; track reward.id) {
-        <div class="item-row">
-          <div class="item-main">
-            <button class="item-title" type="button" (click)="redeemReward.emit(reward)">
-              {{ reward.title }}
-            </button>
+        <div
+          class="item-row-shell"
+          [class.swipe-open]="swipeOffset(reward.id) < 0"
+          [style.--swipe-offset.px]="swipeOffset(reward.id)"
+          (touchstart)="onTouchStart(reward.id, $event)"
+          (touchmove)="onTouchMove(reward.id, $event)"
+          (touchend)="onTouchEnd(reward.id)"
+          (touchcancel)="onTouchEnd(reward.id)"
+        >
+          <div class="item-row item-row--available">
+            <div class="item-main">
+              <button class="item-title" type="button" (click)="redeemReward.emit(reward)">
+                {{ reward.title }}
+              </button>
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="redeemReward.emit(reward)"
+                [disabled]="balance < reward.cost"
+                [matTooltip]="'rewards.tooltipRedeem' | translate"
+              >
+                <span class="material-icons">redeem</span>
+              </button>
+            </div>
+            <div class="item-meta">
+              <span class="item-xp">{{ reward.cost }} XP</span>
+              <span class="status">
+                {{ 'rewards.availableWithCount' | translate:{ count: remainingForReward(reward) } }}
+              </span>
+            </div>
             <button
               mat-icon-button
-              color="primary"
-              (click)="redeemReward.emit(reward)"
-              [disabled]="balance < reward.cost"
+              class="danger"
+              (click)="removeReward.emit(reward)"
+              [matTooltip]="'rewards.tooltipDelete' | translate"
             >
-              <span class="material-icons">redeem</span>
+              <span class="material-icons">delete</span>
             </button>
           </div>
-          <span>{{ reward.cost }} XP</span>
-          <span class="status">
-            {{ 'rewards.availableWithCount' | translate:{ count: remainingForReward(reward) } }}
-          </span>
-          <button mat-icon-button class="danger" (click)="removeReward.emit(reward)">
+          <button
+            class="delete-swipe"
+            type="button"
+            (click)="clearSwipe(reward.id); removeReward.emit(reward)"
+            [attr.aria-label]="'confirm.deleteRewardTitle' | translate"
+          >
             <span class="material-icons">delete</span>
           </button>
         </div>
       }
     </mat-tab>
     <mat-tab label="{{ 'rewards.tabRedeemed' | translate }}">
-      <div class="list-header">
+      <div class="list-header list-header--redeemed">
         <span>{{ 'rewards.name' | translate }}</span>
         <span>{{ 'rewards.redeemedAt' | translate }}</span>
         <span>{{ 'tasks.xp' | translate }}</span>
+        <span></span>
       </div>
       @if (redeemedRewards.length === 0) {
         <p class="empty-state">{{ 'rewards.redeemedEmpty' | translate }}</p>
       }
       @for (redemption of pagedRedeemedRewards; track redemption.id) {
-        <div class="item-row">
+        <div class="item-row item-row--redeemed">
           <div class="item-main">
             <span class="item-title">{{ redemption.rewardTitle }}</span>
           </div>
@@ -62,14 +96,25 @@
             {{ redemption.redeemedAt | date:'shortDate' }}
           </span>
           <span>{{ redemption.cost }} XP</span>
-          <button
-            mat-icon-button
-            color="primary"
-            (click)="consumeReward.emit(redemption)"
-            [attr.aria-label]="'rewards.use' | translate"
-          >
-            <span class="material-icons">check_circle</span>
-          </button>
+          <div class="item-actions">
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="consumeReward.emit(redemption)"
+              [attr.aria-label]="'rewards.use' | translate"
+              [matTooltip]="'rewards.tooltipUse' | translate"
+            >
+              <span class="material-icons">check_circle</span>
+            </button>
+            <button
+              mat-icon-button
+              (click)="returnRedemption.emit(redemption)"
+              [attr.aria-label]="'rewards.return' | translate"
+              [matTooltip]="'rewards.tooltipReturn' | translate"
+            >
+              <span class="material-icons">undo</span>
+            </button>
+          </div>
         </div>
       }
       <mat-paginator
@@ -81,5 +126,44 @@
         (page)="onPageChange($event)"
       ></mat-paginator>
     </mat-tab>
+    <mat-tab label="{{ 'rewards.tabUsed' | translate }}">
+      <div class="list-header list-header--used">
+        <span>{{ 'rewards.name' | translate }}</span>
+        <span>{{ 'rewards.usedAt' | translate }}</span>
+        <span>{{ 'tasks.xp' | translate }}</span>
+      </div>
+      @if (usedRewards.length === 0) {
+        <p class="empty-state">{{ 'rewards.usedEmpty' | translate }}</p>
+      }
+      @for (entry of usedRewards; track entry.redemption.id) {
+        <div class="item-row item-row--used">
+          <div class="item-main">
+            <span class="item-title">{{ entry.redemption.rewardTitle }}</span>
+          </div>
+          <span class="redeemed-date">
+            {{ entry.usedAt | date:'shortDate' }}
+          </span>
+          <span>{{ entry.redemption.cost }} XP</span>
+        </div>
+      }
+    </mat-tab>
   </mat-tab-group>
+  } @else {
+    <div class="rewards-skeleton">
+      <div class="tab-header">
+        <span class="skeleton-line skeleton-line--title"></span>
+        <div class="skeleton-circle"></div>
+      </div>
+      <div class="list-header list-header--skeleton">
+        <span class="skeleton-line"></span>
+        <span class="skeleton-line"></span>
+        <span class="skeleton-line"></span>
+      </div>
+      <div class="skeleton-list">
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+      </div>
+    </div>
+  }
 </mat-card>

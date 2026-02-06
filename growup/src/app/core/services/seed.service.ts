@@ -46,11 +46,38 @@ export class SeedService {
       }
     }
 
+    let seededProfile = false;
+
+    if (!profiles.length && seedIfEmpty && this.auth.isLoggedIn() && !navigator.onLine) {
+      const profileId = this.db.createId();
+      const displayName = this.defaultProfileName(accountLanguage);
+      const profile: Profile = {
+        id: profileId,
+        displayName,
+        avatarId: '01',
+        role: 'USER',
+        createdAt: Date.now()
+      };
+      await this.db.addProfile(profile);
+      const profileSettings: Settings = {
+        id: profileId,
+        profileId,
+        cycleType: 'biweekly',
+        cycleStartDate: currentDateKey(),
+        levelUpPoints: 100,
+        avatarId: '01',
+        displayName
+      };
+      await this.db.saveSettings(profileSettings);
+      profiles = [profile];
+      activeProfileId = profileId;
+      seededProfile = true;
+    }
+
     if (!profiles.length && this.auth.isLoggedIn()) {
       localStorage.removeItem('activeProfileId');
     }
 
-    let seededProfile = false;
     if (!profiles.length && seedIfEmpty && !this.auth.isLoggedIn()) {
       const profileId = this.db.createId();
       const displayName = this.defaultProfileName(accountLanguage);
@@ -58,6 +85,7 @@ export class SeedService {
         id: profileId,
         displayName,
         avatarId: '01',
+        role: 'USER',
         createdAt: Date.now()
       };
       await this.db.addProfile(profile);
@@ -79,28 +107,9 @@ export class SeedService {
     if (!profiles.length && seedIfEmpty && this.auth.isLoggedIn()) {
       const hasRemote = await this.hasRemoteProfiles();
       if (hasRemote === false) {
-        const profileId = this.db.createId();
-        const displayName = this.defaultProfileName(accountLanguage);
-        const profile: Profile = {
-          id: profileId,
-          displayName,
-          avatarId: '01',
-          createdAt: Date.now()
-        };
-        await this.db.addProfile(profile);
-        const profileSettings: Settings = {
-          id: profileId,
-          profileId,
-          cycleType: 'biweekly',
-          cycleStartDate: currentDateKey(),
-          levelUpPoints: 100,
-          avatarId: '01',
-          displayName
-        };
-        await this.db.saveSettings(profileSettings);
-        profiles = [profile];
-        activeProfileId = profileId;
-        seededProfile = true;
+        // No remote profiles: keep empty to show onboarding (no auto-seed for logged in users).
+        profiles = [];
+        activeProfileId = null;
       }
     }
 
@@ -146,6 +155,9 @@ export class SeedService {
     }
     if (language === 'fr') {
       return 'Super Copain';
+    }
+    if (language === 'es') {
+      return 'Super Amigo';
     }
     return 'Super Buddy';
   }

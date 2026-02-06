@@ -64,7 +64,9 @@ export class AuthService {
 
   async signInWithGoogle(): Promise<AuthError | null> {
     const baseHref = this.document.querySelector('base')?.getAttribute('href') ?? '/';
-    const redirectUrl = new URL(baseHref, window.location.origin).toString();
+    const baseUrl = new URL(baseHref, window.location.origin);
+    const redirectUrl = new URL('dashboard', baseUrl).toString();
+    localStorage.setItem('growup.postAuthRedirect', '/dashboard');
     const { error } = await this.supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -113,7 +115,7 @@ export class AuthService {
     if (error) {
       return { message: error.message };
     }
-    await this.supabase.auth.signOut();
+    await this.supabase.auth.signOut().catch(() => undefined);
     return null;
   }
 
@@ -136,10 +138,13 @@ export class AuthService {
     const error =
       hashParams.get('error_description') ||
       hashParams.get('error') ||
+      hashParams.get('error_code') ||
       searchParams.get('error_description') ||
-      searchParams.get('error');
+      searchParams.get('error') ||
+      searchParams.get('error_code');
     if (error) {
-      this.authError.set(decodeURIComponent(error.replace(/\+/g, ' ')));
+      this.authError.set('generic');
+      this.clearAuthParams(['error', 'error_description', 'error_code']);
     }
   }
 
@@ -173,6 +178,31 @@ export class AuthService {
     url.searchParams.delete('type');
     url.searchParams.delete('error');
     url.searchParams.delete('error_description');
+    url.searchParams.delete('error_code');
+    window.history.replaceState({}, document.title, url.toString());
+  }
+
+  private clearAuthParams(keys: string[]): void {
+    const url = new URL(window.location.href);
+    let changed = false;
+    for (const key of keys) {
+      if (url.searchParams.has(key)) {
+        url.searchParams.delete(key);
+        changed = true;
+      }
+    }
+    const hashParams = new URLSearchParams(url.hash.replace(/^#/, ''));
+    for (const key of keys) {
+      if (hashParams.has(key)) {
+        hashParams.delete(key);
+        changed = true;
+      }
+    }
+    if (!changed) {
+      return;
+    }
+    const nextHash = hashParams.toString();
+    url.hash = nextHash ? `#${nextHash}` : '';
     window.history.replaceState({}, document.title, url.toString());
   }
 }

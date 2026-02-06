@@ -1,3 +1,13 @@
+# AI-Assisted Development & Experimentation
+
+This project was intentionally developed with the assistance of AI tools.
+
+Its purpose is to experiment with and evaluate AI-powered development solutions — such as GitHub Copilot, Codex, Claude, Grok, Gemini and cloud-based AI services, analyzing their impact on productivity, code quality, accuracy, configuration workflows, and decision-making.
+
+AI is used as a productivity and exploration tool. All critical design choices, validations, and final code are reviewed and refined by the developer.
+
+---
+
 # GrowUp
 
 GrowUp was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.
@@ -11,6 +21,33 @@ ng serve
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+## Supabase migrations
+
+Migrations live in `supabase/migrations/` and are applied in order. We use the Supabase CLI for local and CI runs.
+
+### Local workflow
+
+```bash
+supabase migration new add_feature_name
+supabase db reset
+supabase db push
+```
+
+If you prefer npm scripts:
+
+```bash
+npm run supabase:reset
+npm run supabase:push
+```
+
+### CI workflow
+
+The GitHub Action `.github/workflows/supabase-migrate.yml` runs `supabase db push` on changes to `supabase/migrations/`.
+Provide the following repository secrets:
+
+- `SUPABASE_ACCESS_TOKEN` (Supabase access token)
+- `SUPABASE_PROJECT_REF` (Supabase project reference ID)
 
 ## Code scaffolding
 
@@ -38,7 +75,7 @@ This will compile your project and store the build artifacts in the `dist/` dire
 
 ## Running unit tests
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+To execute unit tests, use the following command:
 
 ```bash
 ng test

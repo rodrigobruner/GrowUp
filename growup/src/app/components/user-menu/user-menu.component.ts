@@ -5,6 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -17,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatIconModule,
     MatListModule,
     MatMenuModule,
+    RouterModule,
     TranslateModule
   ],
   templateUrl: './user-menu.component.html',
@@ -28,6 +30,7 @@ export class UserMenuComponent {
   @Input() userAvatarUrl: string | null = null;
   @Input() avatarLoadFailed = false;
   @Input() authProvider: string | null = null;
+  @Input() showSettings = true;
   @Output() settingsClick = new EventEmitter<void>();
   @Output() openAuthDialog = new EventEmitter<void>();
   @Output() openResetPassword = new EventEmitter<void>();

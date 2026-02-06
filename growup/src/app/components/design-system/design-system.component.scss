@@ -1,0 +1,272 @@
+.design-system {
+  margin-top: 3rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.design-system__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.design-system__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  color: var(--design-muted);
+  margin: 0 0 0.6rem;
+}
+
+.design-system__subtitle {
+  margin: 0;
+  max-width: 32rem;
+  color: var(--design-muted);
+}
+
+.design-system__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.design-system__card {
+  border-radius: 20px;
+  background: linear-gradient(160deg, var(--design-surface), var(--design-surface-strong));
+  border: 1px solid var(--design-border);
+}
+
+.design-system__card-subtitle {
+  margin: 0 0 1rem;
+  color: var(--design-muted);
+}
+
+.design-system__stats {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.design-system__stat {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.design-system__stat-label {
+  margin: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--design-muted-soft);
+}
+
+.design-system__stat-value {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.design-system__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+:host ::ng-deep .design-system__danger-button {
+  color: var(--design-danger-text);
+  border-color: var(--design-danger-border);
+  background: var(--design-danger-bg);
+}
+
+:host ::ng-deep .design-system__danger-button:hover {
+  background: var(--design-danger-bg-hover);
+}
+
+:host ::ng-deep .design-system__buttons .mat-mdc-raised-button.mat-primary {
+  background: var(--design-primary);
+}
+
+:host ::ng-deep .design-system__buttons .mat-mdc-raised-button.mat-primary:hover {
+  background: var(--design-primary-strong);
+}
+
+:host ::ng-deep .design-system__buttons .mat-mdc-outlined-button,
+:host ::ng-deep .design-system__buttons .mat-mdc-button {
+  color: var(--design-primary);
+}
+
+:host ::ng-deep .design-system__buttons .mat-mdc-outlined-button {
+  border-color: rgba(19, 70, 134, 0.35);
+}
+
+.design-system__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+:host ::ng-deep .design-system__badges .mat-mdc-chip {
+  background: var(--design-chip);
+  color: var(--design-primary);
+}
+
+:host ::ng-deep .design-system__badges .mat-mdc-chip.mat-primary {
+  background: var(--design-chip-primary);
+  color: var(--design-chip-primary-text);
+}
+
+:host ::ng-deep .design-system__badges .mat-mdc-chip.mat-warn {
+  background: var(--design-chip-warn);
+  color: var(--design-chip-warn-text);
+}
+
+.design-system__form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.design-system__form-grid mat-form-field {
+  width: 100%;
+}
+
+// Compact heights for Material form fields inside the design system page.
+:host ::ng-deep .design-system__form-grid .mat-mdc-form-field {
+  --mdc-outlined-text-field-container-height: var(--app-form-field-height);
+}
+
+:host ::ng-deep .design-system__form-grid .mat-mdc-text-field-wrapper {
+  min-height: var(--app-form-field-height);
+  max-height: var(--app-form-field-height);
+  background: var(--design-input-surface);
+}
+
+:host ::ng-deep .design-system__form-grid .mat-mdc-form-field-infix {
+  padding-top: var(--app-form-field-infix-padding);
+  padding-bottom: var(--app-form-field-infix-padding);
+  min-height: var(--app-form-field-infix-height);
+  max-height: var(--app-form-field-infix-height);
+}
+
+:host ::ng-deep .design-system__form-grid .mat-mdc-form-field .mdc-notched-outline__leading,
+:host ::ng-deep .design-system__form-grid .mat-mdc-form-field .mdc-notched-outline__notch,
+:host ::ng-deep .design-system__form-grid .mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: var(--design-input-border);
+}
+
+  
+
+
+:host ::ng-deep .design-system__form-grid .mat-mdc-select,
+:host ::ng-deep .design-system__form-grid .mat-mdc-input-element {
+  background: transparent;
+}
+
+:host ::ng-deep .design-system__form-grid .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+:host ::ng-deep .design-system__form-grid .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+:host ::ng-deep .design-system__form-grid .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--design-primary);
+}
+
+.design-system__textarea-field {
+  position: relative;
+  display: grid;
+  align-self: start;
+}
+
+.design-system__textarea-label {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.9rem;
+  padding: 0 0.25rem;
+  background: var(--design-input-surface);
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--design-muted);
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  transition: transform 160ms ease, font-size 160ms ease, color 160ms ease;
+}
+
+.design-system__textarea-field textarea {
+  width: 100%;
+  min-height: 96px;
+  max-height: 240px;
+  resize: vertical;
+  border-radius: 12px;
+  border: 1.5px solid var(--design-input-border);
+  padding: 1.4rem 0.9rem 0.75rem;
+  font: inherit;
+  color: var(--app-ink);
+  background: var(--design-input-surface);
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.design-system__textarea-field textarea:focus {
+  outline: none;
+  border-color: var(--design-primary);
+  border-width: 2px;
+  box-shadow: none;
+}
+
+.design-system__textarea-field:focus-within .design-system__textarea-label,
+.design-system__textarea-field.design-system__textarea-field--filled .design-system__textarea-label {
+  transform: translateY(-0.9rem) scale(0.9);
+  color: var(--design-primary);
+}
+
+.design-system__textarea-field textarea::placeholder {
+  color: var(--design-placeholder);
+}
+
+
+.design-system__choices {
+  display: grid;
+  gap: 1rem;
+  padding: 0.25rem 0;
+}
+
+.design-system__hint {
+  font-size: 0.8rem;
+  color: var(--design-muted-soft);
+  margin-left: 2.2rem;
+}
+
+.design-system__radio-label {
+  margin: 0 0 0.6rem;
+  font-weight: 600;
+}
+
+.design-system__radio-text {
+  display: inline-block;
+  margin-right: 0.6rem;
+}
+
+.design-system__choices mat-radio-group {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.design-system__choices mat-radio-button {
+  align-items: flex-start;
+}
+
+.design-system__visual-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.design-system__visual-block {
+  display: grid;
+  gap: 0.6rem;
+}
+
+@media (max-width: 900px) {
+  .design-system__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

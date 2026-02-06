@@ -1,4 +1,8 @@
-@mixin compact-form-fields($field-height: 44px, $infix-height: 28px, $infix-padding: 8px) {
+@mixin compact-form-fields(
+  $field-height: var(--app-form-field-height, 44px),
+  $infix-height: var(--app-form-field-infix-height, 28px),
+  $infix-padding: var(--app-form-field-infix-padding, 8px)
+) {
   :host ::ng-deep .mat-mdc-form-field {
     --mdc-outlined-text-field-container-height: #{$field-height};
     max-height: $field-height;

@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  padding: 15px;
+  background: transparent;
+  color: rgba(46, 58, 89, 0.7);
+  font-size: 0.9rem;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.footer-spacer {
+  flex: 1 1 auto;
+}
+
+.footer-terms {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.app-footer--default {
+  margin-top: 2rem;
+}
+
+.footer-build {
+  white-space: nowrap;
+}

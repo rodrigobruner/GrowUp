@@ -105,7 +105,8 @@ export class SyncMapperService {
       id: profile.id,
       owner_id: ownerId,
       display_name: profile.displayName,
-      avatar_id: profile.avatarId ?? '01'
+      avatar_id: profile.avatarId ?? '01',
+      role: profile.role ?? 'USER'
     };
   }
 
@@ -119,6 +120,7 @@ export class SyncMapperService {
         id: profile.id,
         displayName: profile.display_name,
         avatarId: profile.avatar_id ?? '01',
+        role: profile.role ?? 'USER',
         createdAt: profile.created_at ? new Date(profile.created_at).getTime() : Date.now(),
         updatedAt: profile.updated_at ? new Date(profile.updated_at).getTime() : undefined
       };

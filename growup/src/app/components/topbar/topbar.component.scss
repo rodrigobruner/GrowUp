@@ -17,6 +17,11 @@
   align-items: center;
   gap: 0.75rem;
   font-weight: 600;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
 }
 
 
@@ -30,28 +35,94 @@
   flex: 1;
 }
 
+.language-select {
+  width: 90px;
+  margin-right: 0;
+  margin-top: 18px;
+  --mdc-filled-text-field-container-color: var(--language-select-bg);
+  --mdc-filled-text-field-active-indicator-color: var(--language-select-bg);
+  --mdc-filled-text-field-hover-active-indicator-color: var(--language-select-bg);
+  --mdc-filled-text-field-focus-active-indicator-color: var(--language-select-bg);
+}
+
+.language-select .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.language-select .mat-mdc-text-field-wrapper,
+.language-select .mat-mdc-form-field-flex,
+.language-select .mdc-text-field,
+.language-select .mat-mdc-select-trigger,
+.language-select .mat-mdc-select-value,
+.language-select .mat-mdc-select-value-text,
+.language-select .mat-mdc-select-min-line,
+:host ::ng-deep .language-select .mat-mdc-form-field-focus-overlay,
+:host ::ng-deep .language-select .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: var(--language-select-bg);
+  color: var(--language-select-fg);
+}
+
+.language-select .mat-mdc-text-field-wrapper,
+.language-select .mat-mdc-form-field-flex,
+.language-select .mdc-text-field {
+  border-radius: 999px;
+  border: 1px solid var(--language-select-bg);
+}
+
+.language-select .mat-mdc-text-field-wrapper:hover,
+.language-select .mdc-text-field--focused .mat-mdc-text-field-wrapper,
+.language-select .mdc-text-field--focused,
+.language-select .mdc-text-field:hover {
+  border-color: var(--language-select-bg);
+}
+
+.language-select .mdc-line-ripple {
+  display: none;
+}
+
+:host ::ng-deep .language-select .mdc-line-ripple,
+:host ::ng-deep .language-select .mdc-line-ripple::before,
+:host ::ng-deep .language-select .mdc-line-ripple::after {
+  display: none;
+  opacity: 0;
+  border-bottom: none;
+}
+
+.language-select .mat-mdc-select-trigger {
+  justify-content: center;
+}
+
+.language-select .mat-mdc-select-arrow {
+  color: var(--language-select-fg);
+}
+
+:host ::ng-deep .language-select .mat-mdc-select-arrow svg,
+:host ::ng-deep .language-select .mat-mdc-select-arrow svg path,
+:host ::ng-deep .language-select .mat-mdc-select-arrow-wrapper {
+  fill: var(--language-select-fg);
+  color: var(--language-select-fg);
+}
+
+.language-flag {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+:host ::ng-deep .language-select .mat-mdc-select-value-text,
+:host ::ng-deep .language-select .mat-mdc-select-min-line {
+  font-size: 2.0rem;
+  line-height: 1;
+}
+
+:host ::ng-deep .mat-mdc-option .mat-mdc-option-text {
+  font-size: 1.5rem;
+  line-height: 0.5;
+}
+
 .center-avatar {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-}
-
-.balance {
-  text-align: right;
-  display: grid;
-  gap: 0.1rem;
-}
-
-.balance .label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  opacity: 0.7;
-}
-
-.balance .value {
-  font-size: 1.1rem;
-  font-weight: 600;
 }
 
 .sync-status {
@@ -150,6 +221,17 @@ button[mat-icon-button] {
     padding: 0 0.5rem;
   }
 
+  .topbar.compact-brand .brand-title {
+    display: none;
+  }
+
+  .topbar.compact-brand .center-avatar {
+    position: static;
+    left: auto;
+    transform: none;
+    margin-left: 0.5rem;
+  }
+
   .brand-title {
     font-size: 1.15rem;
   }
@@ -163,6 +245,33 @@ button[mat-icon-button] {
     display: flex;
     font-size: 0.6rem;
     letter-spacing: 0.06em;
+  }
+
+  .sync-status .status {
+    font-size: 0;
+  }
+
+  .sync-status .status .dot {
+    width: 0.6rem;
+    height: 0.6rem;
+  }
+
+  .language-select {
+    width: 80px;
+    margin-top: 14px;
+  }
+
+  :host ::ng-deep .language-select .mat-mdc-select-value-text,
+  :host ::ng-deep .language-select .mat-mdc-select-min-line {
+    font-size: 1.6rem;
+  }
+
+  :host ::ng-deep .mat-mdc-option .mat-mdc-option-text {
+    font-size: 1.2rem;
+  }
+
+  .language-flag {
+    font-size: 1.2rem;
   }
 
 }

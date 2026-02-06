@@ -3,6 +3,17 @@
 .dialog-form {
   margin-top: 0.5rem;
   min-width: min(360px, 80vw);
+  color: var(--dialog-text);
+}
+
+:host ::ng-deep .mat-mdc-dialog-container {
+  border-radius: 18px;
+  box-shadow: var(--dialog-shadow);
+}
+
+:host ::ng-deep .mat-mdc-dialog-surface {
+  background: var(--dialog-surface);
+  border: 1px solid var(--dialog-border-warm);
 }
 
 @include form-theme.compact-form-fields();

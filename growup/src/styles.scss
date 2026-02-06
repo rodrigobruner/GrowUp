@@ -5,17 +5,7 @@
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
-
-:root {
-  --app-ink: #134686;
-  --app-cream: #fdf4e3;
-  --app-sand: #fde7b6;
-  --app-gold: #feb21a;
-  --app-coral: #ed3f27;
-  --app-primary: #134686;
-  --app-shadow: rgba(19, 70, 134, 0.18);
-  --app-gradient: linear-gradient(160deg, #feb21a 0%, #fdf4e3 48%, #d9ecff 100%);
-}
+@import './styles/theme.css';
 
 html {
   height: 100%;
@@ -31,14 +21,14 @@ html {
 
 body {
   color-scheme: light;
-  background: var(--app-gradient);
+  background: var(--color-ink-08);
   background-attachment: fixed;
   color: var(--app-ink);
   font: var(--mat-sys-body-medium);
   margin: 0;
   height: 100%;
   min-height: 100%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 app-root {
@@ -50,6 +40,17 @@ app-root {
 
 * {
   box-sizing: border-box;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .levelup-dialog .mat-mdc-dialog-container {
@@ -67,6 +68,10 @@ app-root {
   background: rgba(0, 0, 0, 0.85);
 }
 
+.terms-dialog .mat-mdc-dialog-surface {
+  background: #fff;
+}
+
 .settings-drawer .mat-mdc-dialog-container {
   padding: 0;
   border-radius: 0;
@@ -78,4 +83,52 @@ app-root {
   height: 100%;
   max-height: 100vh;
   border-radius: 0;
+}
+
+.ds-scope .mat-mdc-form-field {
+  --mdc-outlined-text-field-container-height: var(--app-form-field-height);
+}
+
+.ds-scope .mat-mdc-text-field-wrapper {
+  min-height: var(--app-form-field-height);
+  max-height: var(--app-form-field-height);
+  background: var(--app-form-field-background);
+}
+
+.ds-scope .mat-mdc-form-field-infix {
+  padding-top: var(--app-form-field-infix-padding);
+  padding-bottom: var(--app-form-field-infix-padding);
+  min-height: var(--app-form-field-infix-height);
+  max-height: var(--app-form-field-infix-height);
+}
+
+.ds-scope .mat-mdc-form-field .mdc-notched-outline__leading,
+.ds-scope .mat-mdc-form-field .mdc-notched-outline__notch,
+.ds-scope .mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: var(--app-outline-strong);
+}
+
+.ds-scope .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.ds-scope .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.ds-scope .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--app-ink);
+}
+
+.ds-scope .mat-mdc-raised-button.mat-primary,
+.ds-scope .mat-mdc-unelevated-button.mat-primary {
+  background: var(--app-ink);
+}
+
+.ds-scope .mat-mdc-raised-button.mat-primary:hover,
+.ds-scope .mat-mdc-unelevated-button.mat-primary:hover {
+  background: var(--app-primary-hover);
+}
+
+.ds-scope .mat-mdc-outlined-button,
+.ds-scope .mat-mdc-button {
+  color: var(--app-ink);
+}
+
+.ds-scope .mat-mdc-outlined-button {
+  border-color: var(--app-outline-soft);
 }

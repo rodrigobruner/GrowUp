@@ -1,0 +1,20 @@
+<div class="ui-radio-group" [class.ui-radio-group--disabled]="disabled">
+  <p class="ui-radio-group__label" *ngIf="label">{{ label }}</p>
+  <div class="ui-radio-group__options">
+    <label class="ui-radio" *ngFor="let option of options">
+      <input
+        type="radio"
+        [name]="name"
+        [value]="option.value"
+        [checked]="option.value === value"
+        [disabled]="disabled"
+        (change)="select(option.value)"
+      />
+      <span class="ui-radio__dot" aria-hidden="true"></span>
+      <span class="ui-radio__text">
+        <span class="ui-radio__label">{{ option.label }}</span>
+        <span class="ui-radio__hint" *ngIf="option.hint">{{ option.hint }}</span>
+      </span>
+    </label>
+  </div>
+</div>

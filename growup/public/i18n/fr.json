@@ -6,6 +6,122 @@
     "subtitle": "Créez des tâches, définissez des récompenses et suivez l'XP facilement. Tout reste dans votre navigateur.",
     "settings": "Paramètres"
   },
+  "topbar": {
+    "language": "Langue"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "GrowUp",
+      "title": "GrowUp aide les enfants à construire des habitudes saines grâce à la motivation, pas la pression.",
+      "subtitle": "Un système ludique qui transforme les tâches quotidiennes en croissance, responsabilité et apprentissage pour la vie.",
+      "cta": {
+        "getStarted": "Commencer",
+        "tryDemo": "Essayer la démo"
+      },
+      "imageAlt": "Aperçu de GrowUp"
+    },
+    "problem": {
+      "title": "Le problème que GrowUp résout",
+      "bullets": [
+        "Les rappels constants ne fonctionnent pas.",
+        "La punition crée de la résistance.",
+        "Les enfants ne voient pas la valeur des responsabilités quotidiennes."
+      ],
+      "note": "GrowUp a été créé pour changer cette dynamique.",
+      "imageAlt": "Avatar GrowUp"
+    },
+    "solution": {
+      "title": "Qu'est-ce que GrowUp ?",
+      "body": "GrowUp est un système familial gamifié qui aide les enfants à développer la responsabilité, la régularité et l'autonomie.",
+      "features": [
+        "Conçu pour les familles et les éducateurs.",
+        "Basé sur le renforcement positif.",
+        "Simple, visuel et adapté à l'âge."
+      ],
+      "imageAlt": "Personnage GrowUp"
+    },
+    "steps": {
+      "title": "Comment ça marche",
+      "items": [
+        {
+          "title": "Tâches quotidiennes",
+          "body": "Les enfants accomplissent des tâches quotidiennes définies par les parents ou les éducateurs."
+        },
+        {
+          "title": "Gagnez de l'XP et montez de niveau",
+          "body": "Les tâches génèrent de l'XP qui débloque des niveaux et la progression."
+        },
+        {
+          "title": "Boutique et inventaire",
+          "body": "L'XP débloque des expériences familiales, stockées dans un inventaire."
+        },
+        {
+          "title": "Poursuivre le parcours",
+          "body": "Les récompenses nourrissent la motivation et relancent le cycle de croissance."
+        }
+      ],
+      "imageAlt": "Suivi des tâches"
+    },
+    "skills": {
+      "title": "Ce que les enfants apprennent",
+      "items": [
+        "Responsabilité",
+        "Régularité",
+        "Planification et choix",
+        "Comprendre la valeur",
+        "Autonomie et confiance"
+      ],
+      "note": "GrowUp transforme les actions quotidiennes en compétences pour la vie.",
+      "imageAlt": "Résultats d'apprentissage"
+    },
+    "difference": {
+      "title": "Pourquoi GrowUp est différent",
+      "items": [
+        "Sans systèmes de punition.",
+        "Sans pression ni honte.",
+        "Sans publicités pour enfants.",
+        "Sans transactions d'argent réel."
+      ],
+      "note": "GrowUp se concentre sur l'apprentissage, pas le contrôle.",
+      "imageAlt": "Promesse GrowUp"
+    },
+    "audience": {
+      "title": "Conçu pour tous ceux qui soutiennent les enfants",
+      "items": {
+        "parents": {
+          "label": "Pour les parents :",
+          "body": "Construire des routines sans conflit."
+        },
+        "families": {
+          "label": "Pour les familles :",
+          "body": "Créer des moments et des expériences partagés."
+        },
+        "educators": {
+          "label": "Pour les éducateurs :",
+          "body": "Soutenir la responsabilité et la construction d'habitudes de manière ludique."
+        }
+      },
+      "imageAlt": "Communauté"
+    },
+    "privacy": {
+      "title": "Confidentialité et confiance",
+      "items": [
+        "Conforme à la COPPA, au RGPD et à la LGPD.",
+        "Consentement parental requis.",
+        "Aucune vente de données personnelles.",
+        "Pas de publicité ciblée pour les enfants."
+      ],
+      "note": "Conçu avec la confidentialité et la sécurité des enfants à l'esprit.",
+      "termsLink": "Voir nos conditions d'utilisation.",
+      "imageAlt": "Priorité à la confidentialité"
+    },
+    "cta": {
+      "title": "Commencez à aider les enfants à grandir — un jour à la fois.",
+      "subtitle": "Rejoignez la bêta ou explorez la démo dès aujourd'hui.",
+      "button": "Rejoindre la bêta",
+      "imageAlt": "Démo GrowUp"
+    }
+  },
   "summary": {
     "level": "Niveau actuel",
     "levelValue": "Niveau {{ level }}",
@@ -38,6 +154,7 @@
     "title": "Récompenses",
     "tabAvailable": "Disponibles",
     "tabRedeemed": "Utilisées",
+    "tabUsed": "Consommées",
     "name": "Récompense",
     "placeholder": "Soirée cinéma",
     "cost": "Coût en XP",
@@ -47,7 +164,15 @@
     "availableWithCount": "Disponibles ({{ count }} restantes)",
     "redeemedAt": "Utilisée le",
     "redeemedEmpty": "Aucune récompense utilisée pour le moment.",
-    "use": "Utiliser la récompense"
+    "usedAt": "Consommée le",
+    "usedEmpty": "Aucune récompense consommée pour le moment.",
+    "use": "Utiliser la récompense",
+    "return": "Rendre",
+    "tooltipAdd": "Ajouter une récompense",
+    "tooltipRedeem": "Utiliser la récompense",
+    "tooltipDelete": "Supprimer la récompense",
+    "tooltipUse": "Consommer la récompense",
+    "tooltipReturn": "Rendre au stock"
   },
   "settingsDialog": {
     "title": "Paramètres",
@@ -156,7 +281,13 @@
     "updatePassword": "Mettre à jour le mot de passe",
     "signInGoogle": "Continuer avec Google",
     "logout": "Se déconnecter",
-    "close": "Fermer"
+    "close": "Fermer",
+    "backToHome": "Retour a l'accueil",
+    "dashboard": "Tableau de bord",
+    "genericError": "Impossible de terminer la requête. Veuillez réessayer.",
+    "asideLine1": "Créez des routines",
+    "asideLine2": "Récompensez les progrès",
+    "asideLine3": "Suivez l'évolution"
   },
   "terms": {
     "title": "Conditions d'utilisation – GrowUp",
@@ -188,7 +319,7 @@
     "section6Intro": "GrowUp applique des pratiques de privacy by design et de data minimization, en collectant uniquement les données strictement nécessaires au fonctionnement de l'application.",
     "section6_1Title": "6.1 Données collectées",
     "section6_1Item1": "Informations de compte du responsable légal ;",
-    "section6_1Item2": "Nom ou surnom de l'enfant ;",
+    "section6_1Item2": "Nom ou surnom du profil ;",
     "section6_1Item3": "Données de progression, tâches et récompenses ;",
     "section6_1Item4": "Informations techniques nécessaires au fonctionnement du service. Nous ne collectons pas intentionnellement de données sensibles d'enfants.",
     "section6_2Title": "6.2 Utilisation des données",
@@ -225,10 +356,35 @@
     "noteBody": "GrowUp est un outil d'appui à l'éducation familiale et ne remplace pas le rôle actif des parents, tuteurs ou éducateurs.",
     "versionLabel": "Version :"
   },
+  "privacyPolicy": {
+    "title": "Politique de confidentialité – GrowUp",
+    "intro": "Cette politique de confidentialité décrit comment GrowUp collecte, utilise et protège les données personnelles. Nous appliquons les principes de privacy by design et de data minimization.",
+    "section6Title": "1. Confidentialité et protection des données (LGPD, GDPR et COPPA)",
+    "section6Intro": "GrowUp applique des pratiques de privacy by design et de data minimization, en collectant uniquement les données strictement nécessaires au fonctionnement de l'application.",
+    "section6_1Title": "1.1 Données collectées",
+    "section6_1Item1": "Informations de compte du responsable légal ;",
+    "section6_1Item2": "Nom ou surnom du profil ;",
+    "section6_1Item3": "Données de progression, tâches et récompenses ;",
+    "section6_1Item4": "Informations techniques nécessaires au fonctionnement du service. Nous ne collectons pas intentionnellement de données sensibles d'enfants.",
+    "section6_2Title": "1.2 Utilisation des données",
+    "section6_2Item1": "Exploiter et améliorer les fonctionnalités de GrowUp ;",
+    "section6_2Item2": "Personnaliser l'expérience utilisateur ;",
+    "section6_2Item3": "Respecter les obligations légales. Nous ne vendons pas de données personnelles et n'affichons pas de publicités ciblées aux enfants.",
+    "section6_3Title": "1.3 Partage des données",
+    "section6_3Item1": "Lorsque la loi ou une décision judiciaire l'exige ;",
+    "section6_3Item2": "Avec des prestataires de services strictement nécessaires au fonctionnement de l'application, sous accords de confidentialité et de protection des données.",
+    "section6_4Title": "1.4 Droits des responsables",
+    "section6_4Item1": "Demander l'accès aux données de l'enfant ;",
+    "section6_4Item2": "Corriger ou mettre à jour les informations ;",
+    "section6_4Item3": "Demander la suppression des données ;",
+    "section6_4Item4": "Retirer le consentement lorsque cela est applicable."
+  },
   "footer": {
-    "developedBy": "Développé par :",
+    "developedBy": "Desenvolvido por:",
     "site": "bruner.app",
-    "builtAt": "Compilé le"
+    "builtAt": "Ambiente/versão:",
+    "terms": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité"
   },
   "confirm": {
     "deleteTaskTitle": "Supprimer la tâche",

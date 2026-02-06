@@ -1,60 +1,104 @@
 <mat-card class="summary-card">
-  <div class="summary-layout">
-    <div class="avatar-lg">
-      <img [src]="avatarSrc" alt="Avatar do nível" />
-    </div>
-    <div class="summary-content">
-      <div class="level-row">
-        <div>
-          <p class="summary-label">{{ 'summary.level' | translate }}</p>
-          <p class="summary-value">{{ 'summary.levelValue' | translate: { level: level } }}</p>
-        </div>
-        <div class="level-meta">
-          <p class="summary-label">{{ 'summary.nextLevel' | translate }}</p>
-          <p class="summary-value">{{ xpToNext }} XP</p>
-        </div>
+  @if (!loading) {
+    <div class="summary-layout">
+      <div class="avatar-lg">
+        <img [src]="avatarSrc" alt="Avatar do nível" />
       </div>
-      <mat-progress-bar color="primary" mode="determinate" [value]="progressPercent"></mat-progress-bar>
-      <div class="summary-row three">
-        <div>
-          <p class="summary-label">{{ 'summary.xpEarned' | translate }}</p>
-          <p class="summary-value">{{ earned }} XP</p>
+      <div class="summary-content">
+        <div class="level-row">
+          <div>
+            <p class="summary-label">{{ 'summary.level' | translate }}</p>
+            <p class="summary-value">{{ 'summary.levelValue' | translate: { level: level } }}</p>
+          </div>
+          <div class="level-meta">
+            <p class="summary-label">{{ 'summary.nextLevel' | translate }}</p>
+            <p class="summary-value">{{ xpToNext }} XP</p>
+          </div>
         </div>
-        <div>
-          <p class="summary-label">{{ 'summary.xpSpent' | translate }}</p>
-          <p class="summary-value">{{ spent }} XP</p>
+        <mat-progress-bar color="primary" mode="determinate" [value]="progressPercent"></mat-progress-bar>
+        <div class="summary-row three">
+          <div>
+            <p class="summary-label">{{ 'summary.xpEarned' | translate }}</p>
+            <p class="summary-value">{{ earned }} XP</p>
+          </div>
+          <div>
+            <p class="summary-label">{{ 'summary.xpSpent' | translate }}</p>
+            <p class="summary-value">{{ spent }} XP</p>
+          </div>
+          <div>
+            <p class="summary-label">{{ 'summary.xpAvailable' | translate }}</p>
+            <p class="summary-value">{{ available }} XP</p>
+          </div>
         </div>
-        <div>
-          <p class="summary-label">{{ 'summary.xpAvailable' | translate }}</p>
-          <p class="summary-value">{{ available }} XP</p>
-        </div>
-      </div>
-      <mat-divider></mat-divider>
-      <div class="summary-row">
-        <div>
-          <p class="summary-label">
-            {{ 'summary.cycleXp' | translate: { cycle: cycleLabel } }}
-          </p>
-          <p class="summary-value">{{ cycleEarned }} XP</p>
-        </div>
-        <div>
-          <p class="summary-label">{{ 'summary.cycleRange' | translate }}</p>
-          <p class="summary-value small">{{ cycleRangeLabel }}</p>
-        </div>
-      </div>
-      @if (previousCycleEarned !== null) {
         <mat-divider></mat-divider>
         <div class="summary-row">
           <div>
-            <p class="summary-label">{{ 'summary.previousXp' | translate }}</p>
-            <p class="summary-value">{{ previousCycleEarned }} XP</p>
+            <p class="summary-label">
+              {{ 'summary.cycleXp' | translate: { cycle: cycleLabel } }}
+            </p>
+            <p class="summary-value">{{ cycleEarned }} XP</p>
           </div>
           <div>
-            <p class="summary-label">{{ 'summary.previousRange' | translate }}</p>
-            <p class="summary-value small">{{ previousCycleLabel }}</p>
+            <p class="summary-label">{{ 'summary.cycleRange' | translate }}</p>
+            <p class="summary-value small">{{ cycleRangeLabel }}</p>
           </div>
         </div>
-      }
+        @if (previousCycleEarned !== null) {
+          <mat-divider></mat-divider>
+          <div class="summary-row">
+            <div>
+              <p class="summary-label">{{ 'summary.previousXp' | translate }}</p>
+              <p class="summary-value">{{ previousCycleEarned }} XP</p>
+            </div>
+            <div>
+              <p class="summary-label">{{ 'summary.previousRange' | translate }}</p>
+              <p class="summary-value small">{{ previousCycleLabel }}</p>
+            </div>
+          </div>
+        }
+      </div>
     </div>
-  </div>
+  } @else {
+    <div class="summary-layout summary-skeleton">
+      <div class="avatar-lg skeleton-box"></div>
+      <div class="summary-content">
+        <div class="level-row">
+          <div>
+            <div class="skeleton-line skeleton-line--label"></div>
+            <div class="skeleton-line skeleton-line--value"></div>
+          </div>
+          <div class="level-meta">
+            <div class="skeleton-line skeleton-line--label"></div>
+            <div class="skeleton-line skeleton-line--value"></div>
+          </div>
+        </div>
+        <div class="skeleton-bar"></div>
+        <div class="summary-row three">
+          <div>
+            <div class="skeleton-line skeleton-line--label"></div>
+            <div class="skeleton-line skeleton-line--value"></div>
+          </div>
+          <div>
+            <div class="skeleton-line skeleton-line--label"></div>
+            <div class="skeleton-line skeleton-line--value"></div>
+          </div>
+          <div>
+            <div class="skeleton-line skeleton-line--label"></div>
+            <div class="skeleton-line skeleton-line--value"></div>
+          </div>
+        </div>
+        <div class="skeleton-divider"></div>
+        <div class="summary-row">
+          <div>
+            <div class="skeleton-line skeleton-line--label"></div>
+            <div class="skeleton-line skeleton-line--value"></div>
+          </div>
+          <div>
+            <div class="skeleton-line skeleton-line--label"></div>
+            <div class="skeleton-line skeleton-line--value"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 </mat-card>

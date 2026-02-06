@@ -12,6 +12,7 @@ export interface BaseRow {
 export interface ProfileRow extends BaseRow {
   display_name: string;
   avatar_id: string | null;
+  role: 'USER' | 'ADMIN';
 }
 
 export interface TaskRow extends BaseRow {
@@ -55,7 +56,7 @@ export interface SettingsRow extends BaseRow {
 
 export interface AccountSettingsRow {
   owner_id: SupabaseUuid;
-  language: 'en' | 'pt' | 'fr';
+  language: 'en' | 'pt' | 'fr' | 'es';
   terms_version: string | null;
   terms_accepted_at: string | null;
   updated_at?: string | null;
@@ -63,10 +64,12 @@ export interface AccountSettingsRow {
 
 const hasString = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
 
+const isProfileRole = (value: unknown): value is ProfileRow['role'] => value === 'USER' || value === 'ADMIN';
+
 export const isProfileRow = (row: unknown): row is ProfileRow => {
   if (!row || typeof row !== 'object') return false;
   const r = row as ProfileRow;
-  return hasString(r.id) && hasString(r.owner_id) && hasString(r.display_name);
+  return hasString(r.id) && hasString(r.owner_id) && hasString(r.display_name) && isProfileRole(r.role);
 };
 
 export const isTaskRow = (row: unknown): row is TaskRow => {

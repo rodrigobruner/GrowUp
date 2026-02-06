@@ -5,10 +5,19 @@ import { Completion } from '../models/completion';
 import { Profile } from '../models/profile';
 import { Reward } from '../models/reward';
 import { RewardRedemption } from '../models/redemption';
+import { RewardUse } from '../models/reward-use';
 import { Settings } from '../models/settings';
 import { Task } from '../models/task';
 
-type StoreName = 'profiles' | 'tasks' | 'rewards' | 'completions' | 'settings' | 'redemptions' | 'accountSettings';
+type StoreName =
+  | 'profiles'
+  | 'tasks'
+  | 'rewards'
+  | 'completions'
+  | 'settings'
+  | 'redemptions'
+  | 'rewardUses'
+  | 'accountSettings';
 
 type OutboxEntity = StoreName;
 type OutboxAction = 'upsert' | 'delete';
@@ -28,6 +37,7 @@ class GrowUpDexie extends Dexie {
   tasks!: Table<Task, string>;
   rewards!: Table<Reward, string>;
   redemptions!: Table<RewardRedemption, string>;
+  rewardUses!: Table<RewardUse, string>;
   completions!: Table<Completion, string>;
   settings!: Table<Settings, string>;
   accountSettings!: Table<AccountSettings, string>;
@@ -40,6 +50,7 @@ class GrowUpDexie extends Dexie {
       tasks: 'id,createdAt,profileId',
       rewards: 'id,createdAt,redeemedAt,profileId',
       redemptions: 'id,rewardId,redeemedAt,date,profileId',
+      rewardUses: 'id,redemptionId,usedAt,profileId',
       completions: 'id,taskId,date,profileId',
       settings: 'id,profileId',
       accountSettings: 'id',
@@ -50,6 +61,7 @@ class GrowUpDexie extends Dexie {
       tasks: 'id,createdAt,profileId',
       rewards: 'id,createdAt,redeemedAt,profileId',
       redemptions: 'id,rewardId,redeemedAt,date,profileId',
+      rewardUses: 'id,redemptionId,usedAt,profileId',
       completions: 'id,taskId,date,profileId',
       settings: 'id,profileId',
       accountSettings: 'id',
@@ -60,6 +72,18 @@ class GrowUpDexie extends Dexie {
       tasks: 'id,createdAt,profileId',
       rewards: 'id,createdAt,redeemedAt,profileId',
       redemptions: 'id,rewardId,redeemedAt,date,profileId',
+      rewardUses: 'id,redemptionId,usedAt,profileId',
+      completions: 'id,taskId,date,profileId',
+      settings: 'id,profileId',
+      accountSettings: 'id',
+      outbox: '++seq,createdAt,entity,action,recordId,profileId'
+    });
+    this.version(4).stores({
+      profiles: 'id,createdAt',
+      tasks: 'id,createdAt,profileId',
+      rewards: 'id,createdAt,redeemedAt,profileId',
+      redemptions: 'id,rewardId,redeemedAt,date,profileId',
+      rewardUses: 'id,redemptionId,usedAt,profileId',
       completions: 'id,taskId,date,profileId',
       settings: 'id,profileId',
       accountSettings: 'id',
@@ -127,6 +151,7 @@ export class GrowUpDbService {
       this.db.table('tasks').where('profileId').equals(profileId).delete(),
       this.db.table('rewards').where('profileId').equals(profileId).delete(),
       this.db.table('redemptions').where('profileId').equals(profileId).delete(),
+      this.db.table('rewardUses').where('profileId').equals(profileId).delete(),
       this.db.table('completions').where('profileId').equals(profileId).delete(),
       this.db.table('settings').where('profileId').equals(profileId).delete()
     ]);
@@ -199,6 +224,10 @@ export class GrowUpDbService {
     return this.getAllForProfile<RewardRedemption>('redemptions', profileId);
   }
 
+  async getRewardUses(profileId?: string): Promise<RewardUse[]> {
+    return this.getAllForProfile<RewardUse>('rewardUses', profileId);
+  }
+
   async addRedemption(redemption: RewardRedemption): Promise<void> {
     const next = { ...redemption, updatedAt: Date.now() };
     await this.add('redemptions', next);
@@ -208,6 +237,19 @@ export class GrowUpDbService {
   async removeRedemption(id: string, profileId: string): Promise<void> {
     await this.remove('redemptions', id);
     await this.enqueueOutbox('redemptions', 'delete', id, undefined, profileId);
+  }
+
+  async addRewardUse(rewardUse: RewardUse): Promise<void> {
+    const next = { ...rewardUse, updatedAt: Date.now() };
+    await this.add('rewardUses', next);
+  }
+
+  async removeRewardUse(id: string): Promise<void> {
+    await this.remove('rewardUses', id);
+  }
+
+  async removeRewardUseByRedemption(redemptionId: string): Promise<void> {
+    await this.db.table('rewardUses').where('redemptionId').equals(redemptionId).delete();
   }
 
   async getSettings(profileId: string): Promise<Settings | undefined> {

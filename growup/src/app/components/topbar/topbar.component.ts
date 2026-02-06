@@ -2,15 +2,20 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, computed, effect, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { AccountSettings } from '../../core/models/account-settings';
 import { Profile } from '../../core/models/profile';
-import { AuthDialogComponent } from '../../features/auth/auth-dialog/auth-dialog.component';
 import { ResetPasswordDialogComponent } from '../../features/auth/reset-password-dialog/reset-password-dialog.component';
 import { SyncStatusDialogComponent } from '../sync-status-dialog/sync-status-dialog.component';
 import { UserMenuComponent } from '../user-menu/user-menu.component';
 import { ProfileAvatarComponent } from '../profile-avatar/profile-avatar.component';
+import { AccountSettingsService } from '../../core/services/account-settings.service';
+import { SessionStateService } from '../../core/services/session-state.service';
 
 @Component({
   selector: 'app-topbar',
@@ -19,6 +24,8 @@ import { ProfileAvatarComponent } from '../profile-avatar/profile-avatar.compone
     CommonModule,
     MatToolbarModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
     TranslateModule,
     ProfileAvatarComponent,
     UserMenuComponent
@@ -35,16 +42,31 @@ export class TopbarComponent {
   @Input() avatarSrc = '';
   @Input() profiles: Profile[] = [];
   @Input() activeProfileId: string | null = null;
+  @Input() showProfiles = true;
+  @Input() showSettings = true;
+  @Input() showSyncStatus = true;
+  @Input() showLanguageSelect = true;
   @Output() settingsClick = new EventEmitter<void>();
   @Output() profileCreate = new EventEmitter<void>();
   @Output() profileEdit = new EventEmitter<void>();
   @Output() profileSelect = new EventEmitter<string>();
+  @Output() openAuthDialog = new EventEmitter<void>();
 
   private readonly dialog = inject(MatDialog);
   private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly accountSettingsService = inject(AccountSettingsService);
+  private readonly state = inject(SessionStateService);
   readonly isLoggedIn = computed(() => this.auth.isLoggedIn());
   readonly avatarLoadFailed = signal(false);
   private readonly lastAvatarUrl = signal<string | null>(null);
+  readonly language = computed(() => this.state.accountSettings().language ?? 'en');
+  readonly languageOptions: Array<{ value: AccountSettings['language']; flag: string }> = [
+    { value: 'en', flag: '🇺🇸' },
+    { value: 'pt', flag: '🇧🇷' },
+    { value: 'fr', flag: '🇫🇷' },
+    { value: 'es', flag: '🇪🇸' }
+  ];
   readonly userAvatarUrl = computed(() => {
     const user = this.auth.user();
     if (!user) {
@@ -71,12 +93,8 @@ export class TopbarComponent {
     });
   }
 
-  handleAvatarError(): void {
-    this.avatarLoadFailed.set(true);
-  }
-
-  openAuthDialog(): void {
-    this.dialog.open(AuthDialogComponent);
+  emitOpenAuthDialog(): void {
+    this.openAuthDialog.emit();
   }
 
   openResetPassword(): void {
@@ -106,12 +124,16 @@ export class TopbarComponent {
     this.profileSelect.emit(profileId);
   }
 
-  profileAvatarSrc(avatarId?: string): string {
-    const resolved = avatarId ?? '01';
-    return `assets/avatar/${resolved}/avatar.png`;
+  async changeLanguage(language: AccountSettings['language']): Promise<void> {
+    const next = await this.accountSettingsService.updateLanguage(language);
+    this.state.accountSettings.set(next);
   }
 
   async logout(): Promise<void> {
     await this.auth.signOut();
+  }
+
+  goHome(): void {
+    void this.router.navigate(['/']);
   }
 }

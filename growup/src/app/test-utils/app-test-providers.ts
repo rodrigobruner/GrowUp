@@ -14,6 +14,8 @@ import { LevelupDialogService } from '../core/services/levelup-dialog.service';
 import { TaskService } from '../core/services/task.service';
 import { RewardService } from '../core/services/reward.service';
 import { ProfileManagementService } from '../core/services/profile-management.service';
+import { SyncService } from '../core/services/sync.service';
+import { DemoModeService } from '../core/services/demo-mode.service';
 
 export const appTestProviders = [
   {
@@ -48,6 +50,7 @@ export const appTestProviders = [
       rewards: signal([]),
       completions: signal([]),
       redemptions: signal([]),
+      rewardUses: signal([]),
       settings: signal({
         id: 'profile',
         profileId: 'profile',
@@ -94,7 +97,7 @@ export const appTestProviders = [
   {
     provide: AvatarService,
     useValue: {
-      avatarSrc: signal('assets/avatar/01/level-1.png')
+      avatarSrc: signal('assets/avatar/01/level-1.webp')
     }
   },
   {
@@ -125,5 +128,17 @@ export const appTestProviders = [
   { provide: LevelupDialogService, useValue: {} },
   { provide: TaskService, useValue: {} },
   { provide: RewardService, useValue: {} },
-  { provide: ProfileManagementService, useValue: {} }
+  { provide: ProfileManagementService, useValue: {} },
+  {
+    provide: SyncService,
+    useValue: {
+      isStarted: () => false
+    }
+  },
+  {
+    provide: DemoModeService,
+    useValue: {
+      isEnabled: () => false
+    }
+  }
 ];
