@@ -33,7 +33,7 @@ export class ProfileAvatarComponent {
 
   profileAvatarSrc(avatarId?: string): string {
     const resolved = avatarId ?? '01';
-    return `assets/avatar/${resolved}/avatar.png`;
+    return `assets/avatar/${resolved}/avatar.webp`;
   }
 
   trackProfileId(_: number, profile: Profile): string {

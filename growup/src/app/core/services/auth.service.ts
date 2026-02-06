@@ -66,6 +66,7 @@ export class AuthService {
     const baseHref = this.document.querySelector('base')?.getAttribute('href') ?? '/';
     const baseUrl = new URL(baseHref, window.location.origin);
     const redirectUrl = new URL('dashboard', baseUrl).toString();
+    localStorage.setItem('growup.postAuthRedirect', '/dashboard');
     const { error } = await this.supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {

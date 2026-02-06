@@ -97,7 +97,7 @@ export const appTestProviders = [
   {
     provide: AvatarService,
     useValue: {
-      avatarSrc: signal('assets/avatar/01/level-1.png')
+      avatarSrc: signal('assets/avatar/01/level-1.webp')
     }
   },
   {

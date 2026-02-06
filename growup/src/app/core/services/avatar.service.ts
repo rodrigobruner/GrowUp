@@ -9,6 +9,6 @@ export class AvatarService {
 
   readonly avatarSrc = computed(() => {
     const avatarNumber = this.state.settings().avatarId || '01';
-    return `assets/avatar/${avatarNumber}/level-${this.summary.level()}.png`;
+    return `assets/avatar/${avatarNumber}/level-${this.summary.level()}.webp`;
   });
 }

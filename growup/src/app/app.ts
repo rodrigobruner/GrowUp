@@ -1,5 +1,5 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { AuthService } from './core/services/auth.service';
 import { SessionManagerService } from './core/services/session-manager.service';
@@ -22,6 +22,7 @@ export class App implements OnInit {
   private readonly authDialogs = inject(AuthDialogsService);
   private readonly sync = inject(SyncService);
   private readonly demoMode = inject(DemoModeService);
+  private readonly router = inject(Router);
   readonly appStatus = inject(AppStatusService);
   readonly accountSettings = this.state.accountSettings;
 
@@ -110,5 +111,12 @@ export class App implements OnInit {
       return;
     }
     await this.state.refreshFromDb(this.shouldSeed());
+    if (userId) {
+      const redirectTo = localStorage.getItem('growup.postAuthRedirect');
+      if (redirectTo) {
+        localStorage.removeItem('growup.postAuthRedirect');
+        void this.router.navigate([redirectTo]);
+      }
+    }
   }
 }

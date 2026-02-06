@@ -341,7 +341,7 @@ export class SettingsDialogComponent implements OnChanges {
   }
 
   avatarOptionSrc(avatarId: string): string {
-    return `assets/avatar/${avatarId}/avatar.png`;
+    return `assets/avatar/${avatarId}/avatar.webp`;
   }
 
   selectedAvatarDescription(): string | null {
