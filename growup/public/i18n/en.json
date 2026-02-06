@@ -379,6 +379,31 @@
     "section6_4Item3": "Request deletion of data;",
     "section6_4Item4": "Withdraw consent where applicable."
   },
+  "seed": {
+    "defaultProfileName": "Super Buddy",
+    "defaultTasks": [
+      { "title": "🎒 Pack school supplies and backpack", "points": 1 },
+      { "title": "📖 Study", "points": 3 },
+      { "title": "🚂 Put away toys", "points": 1 },
+      { "title": "🛏️ Make the bed", "points": 1 },
+      { "title": "☕️ Help with dishes and trash", "points": 1 },
+      { "title": "🛀 Shower and brush teeth", "points": 1 },
+      { "title": "🙋🏻‍♂️ Help mom and dad", "points": 2 },
+      { "title": "😴 Go to bed on time", "points": 1 },
+      { "title": "👍 Other house chores", "points": 1 },
+      { "title": "🍉 I tried a new food", "points": 4 }
+    ],
+    "defaultRewards": [
+      { "title": "🎶 Choose the music in the car", "cost": 10, "limitPerCycle": 3 },
+      { "title": "📚 Visit the library or bookstore", "cost": 15, "limitPerCycle": 3 },
+      { "title": "♟️ Family game time", "cost": 20, "limitPerCycle": 3 },
+      { "title": "🍿 Family movie night", "cost": 20, "limitPerCycle": 3 },
+      { "title": "🎮 Extra video game time", "cost": 30, "limitPerCycle": 3 },
+      { "title": "🍕 Special coffee/lunch/dinner", "cost": 35, "limitPerCycle": 3 },
+      { "title": "🎥 Movie theater", "cost": 50, "limitPerCycle": 3 },
+      { "title": "🍔 Eat out", "cost": 50, "limitPerCycle": 3 }
+    ]
+  },
   "footer": {
     "developedBy": "Desenvolvido por:",
     "site": "bruner.app",

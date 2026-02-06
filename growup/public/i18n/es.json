@@ -476,6 +476,31 @@
   "syncStatus": {
     "title": "Sincronización"
   },
+  "seed": {
+    "defaultProfileName": "Super Amigo",
+    "defaultTasks": [
+      { "title": "🎒 Organizar útiles escolares y mochila", "points": 1 },
+      { "title": "📖 Estudiar", "points": 3 },
+      { "title": "🚂 Guardar los juguetes", "points": 1 },
+      { "title": "🛏️ Hacer la cama", "points": 1 },
+      { "title": "☕️ Ayudar con los platos y la basura", "points": 1 },
+      { "title": "🛀 Ducharse y cepillarse los dientes", "points": 1 },
+      { "title": "🙋🏻‍♂️ Ayudar a mamá y papá", "points": 2 },
+      { "title": "😴 Ir a la cama a tiempo", "points": 1 },
+      { "title": "👍 Otras tareas del hogar", "points": 1 },
+      { "title": "🍉 Probé un alimento nuevo", "points": 4 }
+    ],
+    "defaultRewards": [
+      { "title": "🎶 Elegir la música en el auto", "cost": 10, "limitPerCycle": 3 },
+      { "title": "📚 Visitar la biblioteca o librería", "cost": 15, "limitPerCycle": 3 },
+      { "title": "♟️ Juego en familia", "cost": 20, "limitPerCycle": 3 },
+      { "title": "🍿 Noche de cine en familia", "cost": 20, "limitPerCycle": 3 },
+      { "title": "🎮 Tiempo extra de videojuegos", "cost": 30, "limitPerCycle": 3 },
+      { "title": "🍕 Café/almuerzo/cena especial", "cost": 35, "limitPerCycle": 3 },
+      { "title": "🎥 Cine", "cost": 50, "limitPerCycle": 3 },
+      { "title": "🍔 Comer fuera", "cost": 50, "limitPerCycle": 3 }
+    ]
+  },
   "status": {
     "loading": "Cargando",
     "error": "Error"

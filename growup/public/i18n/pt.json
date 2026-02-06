@@ -379,6 +379,31 @@
     "section6_4Item3": "Solicitar exclusão dos dados;",
     "section6_4Item4": "Retirar o consentimento quando aplicável."
   },
+  "seed": {
+    "defaultProfileName": "Super Amigo",
+    "defaultTasks": [
+      { "title": "🎒 Organizar o material escolar e mochila", "points": 1 },
+      { "title": "📖 Estudar", "points": 3 },
+      { "title": "🚂 Guardar os brinquedos", "points": 1 },
+      { "title": "🛏️ Arrumar a cama", "points": 1 },
+      { "title": "☕️ Ajudar com a louça e lixo", "points": 1 },
+      { "title": "🛀 Tomar banho e escovar os dentes", "points": 1 },
+      { "title": "🙋🏻‍♂️ Ajudar o papai e a mamãe", "points": 2 },
+      { "title": "😴 Ir para cama no horário", "points": 1 },
+      { "title": "👍 Outras tarefas de casa", "points": 1 },
+      { "title": "🍉 Eu experimentei", "points": 4 }
+    ],
+    "defaultRewards": [
+      { "title": "🎶 Escolher a música no carro", "cost": 10, "limitPerCycle": 3 },
+      { "title": "📚 Visitar a biblioteca ou livraria", "cost": 15, "limitPerCycle": 3 },
+      { "title": "♟️ Jogo em família", "cost": 20, "limitPerCycle": 3 },
+      { "title": "🍿 Cinema em família", "cost": 20, "limitPerCycle": 3 },
+      { "title": "🎮 Tempo extra de videogame", "cost": 30, "limitPerCycle": 3 },
+      { "title": "🍕 Café/lanche/jantar especial", "cost": 35, "limitPerCycle": 3 },
+      { "title": "🎥 Cinema", "cost": 50, "limitPerCycle": 3 },
+      { "title": "🍔 Comer fora", "cost": 50, "limitPerCycle": 3 }
+    ]
+  },
   "footer": {
     "developedBy": "Desenvolvido por:",
     "site": "bruner.app",
