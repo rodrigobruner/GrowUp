@@ -411,6 +411,21 @@
     "terms": "Termo de uso",
     "privacy": "Termo de privacidade"
   },
+  "pwaBanner": {
+    "title": "Instalar GrowUp",
+    "body": "Adicione o app na tela inicial para acesso rápido.",
+    "install": "Instalar",
+    "howTo": "Como instalar",
+    "dismiss": "Agora não"
+  },
+  "pwaDialog": {
+    "title": "Adicionar GrowUp na tela inicial",
+    "lead": "Siga estes passos no iOS:",
+    "step1": "Toque no botão Compartilhar no Safari.",
+    "step2": "Escolha \"Adicionar à Tela de Início\".",
+    "step3": "Confirme tocando em \"Adicionar\".",
+    "close": "Fechar"
+  },
   "confirm": {
     "deleteTaskTitle": "Excluir tarefa",
     "deleteTaskMessage": "Tem certeza que deseja excluir \"{{ title }}\"?",
@@ -420,8 +435,11 @@
     "deleteProfileMessage": "Tem certeza que deseja excluir o perfil \"{{ name }}\"?",
     "useRedemptionTitle": "Usar recompensa",
     "useRedemptionMessage": "Deseja usar \"{{ title }}\" agora?",
+    "redeemTitle": "Resgatar recompensa",
+    "redeemMessage": "Deseja resgatar \"{{ title }}\"?",
     "cancel": "Cancelar",
     "confirm": "Excluir",
+    "redeem": "Resgatar",
     "use": "Usar"
   }
 }

@@ -1,0 +1,59 @@
+.pwa-banner {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #ffd24a;
+  color: #2b1b00;
+  box-shadow: 0 6px 18px rgba(22, 14, 0, 0.18);
+}
+
+.pwa-banner__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.pwa-banner__title {
+  font-size: 0.95rem;
+}
+
+.pwa-banner__text {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.pwa-banner__actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.pwa-banner__button {
+  border-color: rgba(43, 27, 0, 0.5);
+  color: #2b1b00;
+}
+
+.pwa-banner__dismiss {
+  color: rgba(43, 27, 0, 0.8);
+}
+
+@media (max-width: 720px) {
+  .pwa-banner {
+    padding: 10px 12px;
+  }
+
+  .pwa-banner__actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}

@@ -193,6 +193,10 @@ export class DashboardPageComponent implements OnInit {
   }
 
   async redeemReward(reward: Reward): Promise<void> {
+    const confirmed = await this.dialogs.confirmRedeemReward(reward.title);
+    if (!confirmed) {
+      return;
+    }
     const { start, end } = this.currentCycleRange();
     await this.rewardService.redeem(reward, this.balance(), { start, end });
   }

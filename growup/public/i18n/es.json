@@ -227,7 +227,13 @@
     "deleteProfileTitle": "Eliminar perfil",
     "deleteProfileMessage": "¿Deseas eliminar el perfil '{{ name }}'?",
     "deleteRedemptionTitle": "Eliminar canje",
-    "deleteRedemptionMessage": "¿Deseas eliminar el canje '{{ title }}'?"
+    "deleteRedemptionMessage": "¿Deseas eliminar el canje '{{ title }}'?",
+    "useRedemptionTitle": "Usar recompensa",
+    "useRedemptionMessage": "¿Quieres usar '{{ title }}' ahora?",
+    "redeemTitle": "Canjear recompensa",
+    "redeemMessage": "¿Quieres canjear '{{ title }}'?",
+    "redeem": "Canjear",
+    "use": "Usar"
   },
   "cycle": {
     "weekly": "Semanal",
@@ -475,6 +481,21 @@
   },
   "syncStatus": {
     "title": "Sincronización"
+  },
+  "pwaBanner": {
+    "title": "Instalar GrowUp",
+    "body": "Agrega la app a la pantalla de inicio para acceso rápido.",
+    "install": "Instalar",
+    "howTo": "Cómo instalar",
+    "dismiss": "Ahora no"
+  },
+  "pwaDialog": {
+    "title": "Agregar GrowUp a la pantalla de inicio",
+    "lead": "Sigue estos pasos en iOS:",
+    "step1": "Toca el botón Compartir en Safari.",
+    "step2": "Elige \"Agregar a pantalla de inicio\".",
+    "step3": "Confirma tocando \"Agregar\".",
+    "close": "Cerrar"
   },
   "seed": {
     "defaultProfileName": "Super Amigo",

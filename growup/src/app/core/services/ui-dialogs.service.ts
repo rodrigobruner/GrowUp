@@ -43,6 +43,14 @@ export class UiDialogsService {
     );
   }
 
+  async confirmRedeemReward(title: string): Promise<boolean> {
+    return this.confirm(
+      this.translate.instant('confirm.redeemTitle'),
+      this.translate.instant('confirm.redeemMessage', { title }),
+      this.translate.instant('confirm.redeem')
+    );
+  }
+
   async informProfileDuplicate(): Promise<void> {
     this.dialog.open(ConfirmDialogComponent, {
       data: {

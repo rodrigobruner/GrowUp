@@ -4,6 +4,8 @@
 
 - CI: include `SUPABASE_DB_PASSWORD` and pass it to `supabase db push` in the migration workflow.
 - Seed: move default profile/tasks/rewards strings to i18n files and seed based on the active language.
+- Rewards: ask for confirmation before redeeming a reward.
+- PWA: add a mobile install banner with Android install prompt and iOS instructions dialog.
 ### Summary
 - Refresh the onboarding layout with a three-column structure and a supporting illustration.
 - Move authentication from a modal to a dedicated `/signin` page with a home return action.

@@ -411,6 +411,21 @@
     "terms": "Conditions d'utilisation",
     "privacy": "Politique de confidentialité"
   },
+  "pwaBanner": {
+    "title": "Installer GrowUp",
+    "body": "Ajoutez l’app à l’écran d’accueil pour un accès rapide.",
+    "install": "Installer",
+    "howTo": "Comment installer",
+    "dismiss": "Pas maintenant"
+  },
+  "pwaDialog": {
+    "title": "Ajouter GrowUp à l’écran d’accueil",
+    "lead": "Suivez ces étapes sur iOS :",
+    "step1": "Appuyez sur le bouton Partager dans Safari.",
+    "step2": "Choisissez « Ajouter à l’écran d’accueil ».",
+    "step3": "Confirmez en appuyant sur « Ajouter ».",
+    "close": "Fermer"
+  },
   "confirm": {
     "deleteTaskTitle": "Supprimer la tâche",
     "deleteTaskMessage": "Voulez-vous vraiment supprimer \"{{ title }}\" ?",
@@ -420,8 +435,11 @@
     "deleteProfileMessage": "Voulez-vous vraiment supprimer le profil \"{{ name }}\" ?",
     "useRedemptionTitle": "Utiliser la récompense",
     "useRedemptionMessage": "Voulez-vous utiliser \"{{ title }}\" maintenant ?",
+    "redeemTitle": "Échanger la récompense",
+    "redeemMessage": "Voulez-vous échanger \"{{ title }}\" ?",
     "cancel": "Annuler",
     "confirm": "Supprimer",
+    "redeem": "Échanger",
     "use": "Utiliser"
   }
 }

@@ -411,6 +411,21 @@
     "terms": "Terms of use",
     "privacy": "Privacy policy"
   },
+  "pwaBanner": {
+    "title": "Install GrowUp",
+    "body": "Add the app to your home screen for faster access.",
+    "install": "Install",
+    "howTo": "How to install",
+    "dismiss": "Not now"
+  },
+  "pwaDialog": {
+    "title": "Add GrowUp to your home screen",
+    "lead": "Follow these steps on iOS:",
+    "step1": "Tap the Share button in Safari.",
+    "step2": "Choose \"Add to Home Screen\".",
+    "step3": "Confirm by tapping \"Add\".",
+    "close": "Close"
+  },
   "confirm": {
     "deleteTaskTitle": "Delete task",
     "deleteTaskMessage": "Are you sure you want to delete \"{{ title }}\"?",
@@ -420,8 +435,11 @@
     "deleteProfileMessage": "Are you sure you want to delete the profile \"{{ name }}\"?",
     "useRedemptionTitle": "Use reward",
     "useRedemptionMessage": "Do you want to use \"{{ title }}\" now?",
+    "redeemTitle": "Redeem reward",
+    "redeemMessage": "Do you want to redeem \"{{ title }}\"?",
     "cancel": "Cancel",
     "confirm": "Delete",
+    "redeem": "Redeem",
     "use": "Use"
   }
 }

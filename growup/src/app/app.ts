@@ -1,5 +1,6 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
+import { PwaInstallBannerComponent } from './components/pwa-install-banner/pwa-install-banner.component';
 import { SwUpdate } from '@angular/service-worker';
 import { AuthService } from './core/services/auth.service';
 import { SessionManagerService } from './core/services/session-manager.service';
@@ -11,7 +12,7 @@ import { DemoModeService } from './core/services/demo-mode.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, PwaInstallBannerComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
