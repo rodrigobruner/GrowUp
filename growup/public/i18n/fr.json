@@ -9,6 +9,44 @@
   "topbar": {
     "language": "Langue"
   },
+  "admin": {
+    "eyebrow": "GrowUp Admin",
+    "title": "Administration",
+    "subtitle": "Gérez la vue d'ensemble, les fonctionnalités et les journaux du produit.",
+    "tabs": {
+      "overview": "Overview",
+      "features": "Fonctionnalités",
+      "users": "Utilisateurs",
+      "logs": "Logs"
+    },
+    "overview": {
+      "title": "Vue d'ensemble",
+      "body": "Suivez les indicateurs clés et l'état global du produit.",
+      "range": "30 derniers jours",
+      "usersSeries": "Utilisateurs inscrits (cumul)",
+      "accessSeries": "Accès quotidiens",
+      "empty": "Il n'y a pas encore assez de données pour afficher le graphique."
+    },
+    "features": {
+      "title": "Fonctionnalités",
+      "body": "Consultez l'état de livraison et la priorisation des fonctionnalités."
+    },
+    "users": {
+      "title": "Utilisateurs",
+      "body": "Consultez les détails et les métriques liés aux utilisateurs inscrits.",
+      "loading": "Chargement des utilisateurs...",
+      "empty": "Aucun utilisateur trouvé.",
+      "columns": {
+        "userId": "ID utilisateur",
+        "role": "Rôle",
+        "createdAt": "Créé le"
+      }
+    },
+    "logs": {
+      "title": "Logs",
+      "body": "Centralisez les événements critiques et les audits du système."
+    }
+  },
   "landing": {
     "hero": {
       "eyebrow": "GrowUp",
@@ -283,6 +321,7 @@
     "logout": "Se déconnecter",
     "close": "Fermer",
     "backToHome": "Retour a l'accueil",
+    "admin": "Admin",
     "dashboard": "Tableau de bord",
     "genericError": "Impossible de terminer la requête. Veuillez réessayer.",
     "asideLine1": "Créez des routines",

@@ -60,7 +60,7 @@ export const appTestProviders = [
         avatarId: '01',
         displayName: ''
       }),
-      accountSettings: signal({ id: 'account', language: 'en' }),
+      accountSettings: signal({ id: 'account', language: 'en', role: 'USER' }),
       refreshFromDb: async () => {}
     }
   },

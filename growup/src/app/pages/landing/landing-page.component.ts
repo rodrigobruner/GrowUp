@@ -7,6 +7,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { DemoModeService } from '../../core/services/demo-mode.service';
 import { AvatarService } from '../../core/services/avatar.service';
 import { SessionStateService } from '../../core/services/session-state.service';
+import { ProfileService } from '../../core/services/profile.service';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
 import { AppFooterComponent } from '../../components/app-footer/app-footer.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,9 +28,12 @@ export class LandingPageComponent {
   private readonly router = inject(Router);
   private readonly avatar = inject(AvatarService);
   private readonly state = inject(SessionStateService);
+  private readonly profileService = inject(ProfileService);
   private readonly dialog = inject(MatDialog);
 
   readonly avatarSrc = this.avatar.avatarSrc;
+  readonly profiles = this.profileService.profiles;
+  readonly activeProfileId = this.profileService.activeProfileId;
   currentYear = new Date().getFullYear();
 
   constructor() {}

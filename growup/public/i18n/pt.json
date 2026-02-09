@@ -9,6 +9,44 @@
   "topbar": {
     "language": "Idioma"
   },
+  "admin": {
+    "eyebrow": "Admin GrowUp",
+    "title": "Painel administrativo",
+    "subtitle": "Gerencie a visão geral, funcionalidades e logs do produto.",
+    "tabs": {
+      "overview": "Overview",
+      "features": "Funcionalidades",
+      "users": "Usuários",
+      "logs": "Logs"
+    },
+    "overview": {
+      "title": "Visão geral",
+      "body": "Acompanhe os principais indicadores e o status do produto.",
+      "range": "Últimos 30 dias",
+      "usersSeries": "Usuários cadastrados (acumulado)",
+      "accessSeries": "Acessos diários",
+      "empty": "Ainda não há dados suficientes para exibir o gráfico."
+    },
+    "features": {
+      "title": "Funcionalidades",
+      "body": "Confira o estado de entrega e a priorização das funcionalidades."
+    },
+    "users": {
+      "title": "Usuários",
+      "body": "Visualize detalhes e métricas relacionadas aos usuários cadastrados.",
+      "loading": "Carregando usuários...",
+      "empty": "Nenhum usuário encontrado.",
+      "columns": {
+        "userId": "ID do usuário",
+        "role": "Papel",
+        "createdAt": "Criado em"
+      }
+    },
+    "logs": {
+      "title": "Logs",
+      "body": "Centralize eventos críticos e auditorias do sistema."
+    }
+  },
   "landing": {
     "hero": {
       "eyebrow": "GrowUp",
@@ -283,6 +321,7 @@
     "logout": "Sair",
     "close": "Fechar",
     "backToHome": "Voltar para o inicio",
+    "admin": "Admin",
     "dashboard": "Painel",
     "genericError": "Não foi possível concluir. Tente novamente.",
     "asideLine1": "Crie rotinas",

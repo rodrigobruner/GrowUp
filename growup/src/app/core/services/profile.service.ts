@@ -36,7 +36,6 @@ export class ProfileService {
       id: profileId,
       displayName: result.displayName ?? '',
       avatarId: result.avatarId ?? '01',
-      role: 'USER',
       createdAt: Date.now()
     };
     await this.db.addProfile(profile);
@@ -50,7 +49,6 @@ export class ProfileService {
       id: profileId,
       displayName: result.displayName ?? existing?.displayName ?? '',
       avatarId: result.avatarId ?? existing?.avatarId ?? '01',
-      role: existing?.role ?? 'USER',
       createdAt: existing?.createdAt ?? Date.now()
     };
     await this.db.updateProfile(profile);
@@ -70,7 +68,6 @@ export class ProfileService {
       id: profileId,
       displayName,
       avatarId: '01',
-      role: 'USER',
       createdAt: Date.now()
     };
     await this.db.addProfile(profile);

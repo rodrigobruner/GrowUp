@@ -57,6 +57,7 @@ export interface SettingsRow extends BaseRow {
 export interface AccountSettingsRow {
   owner_id: SupabaseUuid;
   language: 'en' | 'pt' | 'fr' | 'es';
+  role: 'USER' | 'ADMIN';
   terms_version: string | null;
   terms_accepted_at: string | null;
   updated_at?: string | null;
@@ -119,5 +120,5 @@ export const isSettingsRow = (row: unknown): row is SettingsRow => {
 export const isAccountSettingsRow = (row: unknown): row is AccountSettingsRow => {
   if (!row || typeof row !== 'object') return false;
   const r = row as AccountSettingsRow;
-  return hasString(r.owner_id) && hasString(r.language);
+  return hasString(r.owner_id) && hasString(r.language) && isProfileRole(r.role);
 };

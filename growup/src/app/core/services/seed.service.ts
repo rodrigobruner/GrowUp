@@ -55,7 +55,6 @@ export class SeedService {
         id: profileId,
         displayName,
         avatarId: '01',
-        role: 'USER',
         createdAt: Date.now()
       };
       await this.db.addProfile(profile);
@@ -85,7 +84,6 @@ export class SeedService {
         id: profileId,
         displayName,
         avatarId: '01',
-        role: 'USER',
         createdAt: Date.now()
       };
       await this.db.addProfile(profile);

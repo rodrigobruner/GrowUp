@@ -83,6 +83,10 @@ export class TopbarComponent {
   });
   readonly authProvider = computed(() => this.auth.user()?.app_metadata?.provider ?? null);
 
+  get isAdmin(): boolean {
+    return this.state.accountSettings().role === 'ADMIN';
+  }
+
   constructor() {
     effect(() => {
       const url = this.userAvatarUrl();

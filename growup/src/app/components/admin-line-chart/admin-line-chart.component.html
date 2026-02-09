@@ -1,0 +1,44 @@
+<div class="chart-shell">
+  <div class="chart-legend" *ngIf="series.length">
+    <div class="legend-item" *ngFor="let item of series">
+      <span class="legend-swatch" [style.background]="item.color"></span>
+      <span>{{ item.label }}</span>
+    </div>
+  </div>
+
+  <div class="chart-body" [class.chart-body--empty]="!hasData && !loading">
+    <svg *ngIf="!loading" class="chart" [attr.viewBox]="viewBox" role="img" aria-hidden="true">
+      <g class="chart-grid">
+        <line
+          *ngFor="let line of gridLines"
+          class="chart-grid-line"
+          [attr.x1]="24"
+          [attr.x2]="width - 24"
+          [attr.y1]="gridY(line)"
+          [attr.y2]="gridY(line)"
+        />
+      </g>
+      <g class="chart-series">
+        <path
+          *ngFor="let item of series"
+          class="chart-line"
+          [attr.d]="buildPath(item.values)"
+          [attr.stroke]="item.color"
+        ></path>
+      </g>
+    </svg>
+
+    <div class="chart-loading" *ngIf="loading">
+      <div class="chart-spinner"></div>
+    </div>
+
+    <div class="chart-empty" *ngIf="!loading && !hasData">
+      <p>{{ emptyLabel }}</p>
+    </div>
+  </div>
+
+  <div class="chart-axis" *ngIf="labels.length">
+    <span>{{ labelLeft() }}</span>
+    <span>{{ labelRight() }}</span>
+  </div>
+</div>

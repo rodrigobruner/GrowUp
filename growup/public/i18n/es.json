@@ -9,6 +9,44 @@
   "topbar": {
     "language": "Idioma"
   },
+  "admin": {
+    "eyebrow": "GrowUp Admin",
+    "title": "Administración",
+    "subtitle": "Gestiona el resumen, las funcionalidades y los logs del producto.",
+    "tabs": {
+      "overview": "Overview",
+      "features": "Funcionalidades",
+      "users": "Usuarios",
+      "logs": "Logs"
+    },
+    "overview": {
+      "title": "Resumen",
+      "body": "Sigue los indicadores clave y el estado general del producto.",
+      "range": "Últimos 30 días",
+      "usersSeries": "Usuarios registrados (acumulado)",
+      "accessSeries": "Accesos diarios",
+      "empty": "Aún no hay datos suficientes para mostrar el gráfico."
+    },
+    "features": {
+      "title": "Funcionalidades",
+      "body": "Revisa el estado de entrega y la prioridad de las funcionalidades."
+    },
+    "users": {
+      "title": "Usuarios",
+      "body": "Consulta detalles y métricas relacionadas con los usuarios registrados.",
+      "loading": "Cargando usuarios...",
+      "empty": "No se encontraron usuarios.",
+      "columns": {
+        "userId": "ID de usuario",
+        "role": "Rol",
+        "createdAt": "Creado en"
+      }
+    },
+    "logs": {
+      "title": "Logs",
+      "body": "Centraliza eventos críticos y auditorías del sistema."
+    }
+  },
   "landing": {
     "hero": {
       "eyebrow": "GrowUp",
@@ -301,6 +339,7 @@
     "logout": "Cerrar sesión",
     "close": "Cerrar",
     "backToHome": "Volver al inicio",
+    "admin": "Admin",
     "dashboard": "Panel",
     "genericError": "No se pudo completar la solicitud. Inténtalo de nuevo.",
     "asideLine1": "Crea rutinas",

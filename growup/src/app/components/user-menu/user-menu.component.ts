@@ -31,6 +31,7 @@ export class UserMenuComponent {
   @Input() avatarLoadFailed = false;
   @Input() authProvider: string | null = null;
   @Input() showSettings = true;
+  @Input() showAdmin = false;
   @Output() settingsClick = new EventEmitter<void>();
   @Output() openAuthDialog = new EventEmitter<void>();
   @Output() openResetPassword = new EventEmitter<void>();

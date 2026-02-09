@@ -16,13 +16,19 @@ export class AccountSettingsService {
   async loadOrSeed(seedIfEmpty: boolean): Promise<AccountSettings | null> {
     const settings = await this.db.getAccountSettings();
     if (settings) {
+      if (!settings.role) {
+        const next: AccountSettings = { ...settings, role: 'USER' };
+        await this.db.saveAccountSettings(next);
+        this.applyLanguage(next.language);
+        return next;
+      }
       this.applyLanguage(settings.language);
       return settings;
     }
     if (!seedIfEmpty) {
       return null;
     }
-    const next: AccountSettings = { id: 'account', language: 'en' };
+    const next: AccountSettings = { id: 'account', language: 'en', role: 'USER' };
     await this.db.saveAccountSettings(next);
     this.applyLanguage(next.language);
     return next;
@@ -33,7 +39,9 @@ export class AccountSettingsService {
   }
 
   async updateLanguage(language: AccountSettings['language']): Promise<AccountSettings> {
-    const next: AccountSettings = { id: 'account', language };
+    const current = this.db.getAccountSettings();
+    const resolvedRole = (await current)?.role ?? 'USER';
+    const next: AccountSettings = { id: 'account', language, role: resolvedRole };
     await this.db.saveAccountSettings(next);
     this.applyLanguage(language);
     return next;

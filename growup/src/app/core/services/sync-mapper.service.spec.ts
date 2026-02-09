@@ -33,6 +33,7 @@ describe('SyncMapperService', () => {
     const local = mapper.toLocalAccountSettings({
       owner_id: 'u1',
       language: 'en',
+      role: 'USER',
       terms_version: null,
       terms_accepted_at: null
     });

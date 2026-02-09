@@ -95,6 +95,7 @@ export class SyncMapperService {
     return {
       owner_id: ownerId,
       language: settings.language,
+      role: settings.role,
       terms_version: settings.termsVersion ?? null,
       terms_accepted_at: settings.termsAcceptedAt ? new Date(settings.termsAcceptedAt).toISOString() : null
     };
@@ -106,7 +107,7 @@ export class SyncMapperService {
       owner_id: ownerId,
       display_name: profile.displayName,
       avatar_id: profile.avatarId ?? '01',
-      role: profile.role ?? 'USER'
+      role: 'USER'
     };
   }
 
@@ -120,7 +121,6 @@ export class SyncMapperService {
         id: profile.id,
         displayName: profile.display_name,
         avatarId: profile.avatar_id ?? '01',
-        role: profile.role ?? 'USER',
         createdAt: profile.created_at ? new Date(profile.created_at).getTime() : Date.now(),
         updatedAt: profile.updated_at ? new Date(profile.updated_at).getTime() : undefined
       };
@@ -190,6 +190,7 @@ export class SyncMapperService {
     return {
       id: 'account',
       language: row.language,
+      role: row.role,
       termsVersion: row.terms_version ?? undefined,
       termsAcceptedAt: row.terms_accepted_at ? new Date(row.terms_accepted_at).getTime() : undefined,
       updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined

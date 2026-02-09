@@ -9,6 +9,44 @@
   "topbar": {
     "language": "Language"
   },
+  "admin": {
+    "eyebrow": "GrowUp Admin",
+    "title": "Administration",
+    "subtitle": "Manage the overview, features, and logs for the product.",
+    "tabs": {
+      "overview": "Overview",
+      "features": "Features",
+      "users": "Users",
+      "logs": "Logs"
+    },
+    "overview": {
+      "title": "Overview",
+      "body": "Track key indicators and the overall product status.",
+      "range": "Last 30 days",
+      "usersSeries": "Registered users (cumulative)",
+      "accessSeries": "Daily accesses",
+      "empty": "There is not enough data to render this chart yet."
+    },
+    "features": {
+      "title": "Features",
+      "body": "Review delivery status and prioritization of features."
+    },
+    "users": {
+      "title": "Users",
+      "body": "View details and metrics related to registered users.",
+      "loading": "Loading users...",
+      "empty": "No users found.",
+      "columns": {
+        "userId": "User ID",
+        "role": "Role",
+        "createdAt": "Created at"
+      }
+    },
+    "logs": {
+      "title": "Logs",
+      "body": "Centralize critical events and system audits."
+    }
+  },
   "landing": {
     "hero": {
       "eyebrow": "GrowUp",
@@ -283,6 +321,7 @@
     "logout": "Logout",
     "close": "Close",
     "backToHome": "Back to home",
+    "admin": "Admin",
     "dashboard": "Dashboard",
     "genericError": "We couldn’t complete this request. Please try again.",
     "asideLine1": "Create routines",

@@ -156,11 +156,7 @@ export class SettingsDialogComponent implements OnChanges {
   }
 
   isAdmin(): boolean {
-    if (!this.activeProfileId) {
-      return false;
-    }
-    const profile = this.profiles.find((item) => item.id === this.activeProfileId);
-    return profile?.role === 'ADMIN';
+    return this.accountSettings?.role === 'ADMIN';
   }
 
   toggleLogging(): void {

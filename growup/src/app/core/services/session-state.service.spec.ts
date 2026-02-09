@@ -25,7 +25,7 @@ describe('SessionStateService', () => {
   });
 
   const buildAccountSettingsService = () => ({
-    loadOrSeed: async () => ({ id: 'account', language: 'en' })
+    loadOrSeed: async () => ({ id: 'account', language: 'en', role: 'USER' })
   });
 
   const buildSeedService = (profiles: Array<{ id: string }>) => ({

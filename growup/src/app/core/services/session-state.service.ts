@@ -32,7 +32,8 @@ export class SessionStateService {
   };
   private readonly defaultAccountSettings: AccountSettings = {
     id: 'account',
-    language: 'en'
+    language: 'en',
+    role: 'USER'
   };
   tasks = signal<Task[]>([]);
   rewards = signal<Reward[]>([]);

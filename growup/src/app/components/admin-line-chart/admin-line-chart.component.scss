@@ -1,0 +1,98 @@
+.chart-shell {
+  display: grid;
+  gap: 1rem;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-weight: 600;
+  color: var(--app-ink);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+}
+
+.chart-body {
+  position: relative;
+  background: var(--app-surface);
+  border-radius: 18px;
+  border: 1px solid var(--app-border);
+  padding: 1rem;
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+}
+
+.chart-body--empty {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.chart {
+  width: 100%;
+  height: auto;
+}
+
+.chart-grid-line {
+  stroke: rgba(19, 70, 134, 0.12);
+  stroke-width: 1;
+}
+
+.chart-line {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-loading {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 180px;
+}
+
+.chart-spinner {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 3px solid rgba(19, 70, 134, 0.18);
+  border-top-color: var(--app-primary-hover);
+  animation: spin 0.9s linear infinite;
+}
+
+.chart-empty {
+  text-align: center;
+  color: var(--app-ink-soft);
+  font-weight: 600;
+}
+
+.chart-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--app-ink-soft);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .chart-body {
+    padding: 0.75rem;
+  }
+}

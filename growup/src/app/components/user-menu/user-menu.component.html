@@ -42,6 +42,13 @@
 
 <mat-menu #authMenu="matMenu" panelClass="avatar-menu" [overlapTrigger]="false" xPosition="after" yPosition="below">
   <mat-nav-list class="menu-list" aria-label="user menu">
+    @if (showAdmin) {
+      <mat-list-item class="menu-item" [routerLink]="['/admin']">
+        <span matListItemIcon class="menu-item-icon material-icons">admin_panel_settings</span>
+        <span matListItemTitle class="menu-item-text">{{ 'auth.admin' | translate }}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    }
     <mat-list-item class="menu-item" [routerLink]="['/dashboard']">
       <span matListItemIcon class="menu-item-icon material-icons">dashboard</span>
       <span matListItemTitle class="menu-item-text">{{ 'auth.dashboard' | translate }}</span>

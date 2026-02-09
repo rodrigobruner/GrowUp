@@ -57,11 +57,23 @@ describe('supabase row guards', () => {
   });
 
   it('accepts valid account settings row', () => {
-    expect(isAccountSettingsRow({ owner_id: '1', language: 'en', terms_version: null, terms_accepted_at: null })).toBe(
-      true
-    );
-    expect(isAccountSettingsRow({ owner_id: '1', language: 'es', terms_version: null, terms_accepted_at: null })).toBe(
-      true
-    );
+    expect(
+      isAccountSettingsRow({
+        owner_id: '1',
+        language: 'en',
+        role: 'USER',
+        terms_version: null,
+        terms_accepted_at: null
+      })
+    ).toBe(true);
+    expect(
+      isAccountSettingsRow({
+        owner_id: '1',
+        language: 'es',
+        role: 'ADMIN',
+        terms_version: null,
+        terms_accepted_at: null
+      })
+    ).toBe(true);
   });
 });

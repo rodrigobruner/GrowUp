@@ -1,0 +1,106 @@
+<div class="admin-shell">
+  <app-topbar
+    [balance]="0"
+    [avatarSrc]="avatarSrc()"
+    [showProfiles]="false"
+    [showSettings]="false"
+    [showSyncStatus]="false"
+    (openAuthDialog)="openAuth()"
+  />
+
+  <main class="admin-content">
+    <section class="admin-header">
+      <p class="eyebrow">{{ 'admin.eyebrow' | translate }}</p>
+    </section>
+
+    <section class="admin-tabs ds-scope">
+      <nav class="admin-menu" aria-label="admin menu">
+        <button
+          type="button"
+          class="admin-menu__item"
+          [class.is-active]="activeTab() === 'overview'"
+          (click)="setTab('overview')"
+        >
+          {{ 'admin.tabs.overview' | translate }}
+        </button>
+        <button
+          type="button"
+          class="admin-menu__item"
+          [class.is-active]="activeTab() === 'users'"
+          (click)="setTab('users')"
+        >
+          {{ 'admin.tabs.users' | translate }}
+        </button>
+        <button
+          type="button"
+          class="admin-menu__item"
+          [class.is-active]="activeTab() === 'features'"
+          (click)="setTab('features')"
+        >
+          {{ 'admin.tabs.features' | translate }}
+        </button>
+        <button
+          type="button"
+          class="admin-menu__item"
+          [class.is-active]="activeTab() === 'logs'"
+          (click)="setTab('logs')"
+        >
+          {{ 'admin.tabs.logs' | translate }}
+        </button>
+      </nav>
+
+      <div class="tab-body" *ngIf="activeTab() === 'overview'">
+        <div class="tab-header">
+          <div>
+            <h2>{{ 'admin.overview.title' | translate }}</h2>
+            <p>{{ 'admin.overview.body' | translate }}</p>
+          </div>
+          <span class="tab-range">{{ 'admin.overview.range' | translate }}</span>
+        </div>
+        <app-admin-line-chart
+          [labels]="chartLabels()"
+          [series]="chartSeries()"
+          [loading]="chartLoading()"
+          [emptyLabel]="'admin.overview.empty' | translate"
+        />
+      </div>
+
+      <div class="tab-body" *ngIf="activeTab() === 'users'">
+        <h2>{{ 'admin.users.title' | translate }}</h2>
+        <p>{{ 'admin.users.body' | translate }}</p>
+        <div class="users-list" *ngIf="!usersLoading(); else usersLoadingState">
+          <div class="users-empty" *ngIf="users().length === 0">
+            {{ 'admin.users.empty' | translate }}
+          </div>
+          <div class="users-table" *ngIf="users().length > 0">
+            <div class="users-row users-row--header">
+              <span>{{ 'admin.users.columns.userId' | translate }}</span>
+              <span>{{ 'admin.users.columns.role' | translate }}</span>
+              <span>{{ 'admin.users.columns.createdAt' | translate }}</span>
+            </div>
+            <div class="users-row" *ngFor="let user of users()">
+              <span class="users-cell users-cell--mono">{{ user.ownerId }}</span>
+              <span class="users-role">{{ user.role }}</span>
+              <span>{{ user.createdAt | date:'shortDate' }}</span>
+            </div>
+          </div>
+        </div>
+        <ng-template #usersLoadingState>
+          <div class="users-loading">{{ 'admin.users.loading' | translate }}</div>
+        </ng-template>
+      </div>
+
+      <div class="tab-body" *ngIf="activeTab() === 'features'">
+        <h2>{{ 'admin.features.title' | translate }}</h2>
+        <p>{{ 'admin.features.body' | translate }}</p>
+      </div>
+
+      <div class="tab-body" *ngIf="activeTab() === 'logs'">
+        <h2>{{ 'admin.logs.title' | translate }}</h2>
+        <p>{{ 'admin.logs.body' | translate }}</p>
+      </div>
+    </section>
+
+    <app-footer [currentYear]="currentYear" />
+  </main>
+</div>

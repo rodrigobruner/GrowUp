@@ -59,7 +59,9 @@ describe('SyncService', () => {
     } as any;
 
     const mapper = {
-      toRemoteAccountSettings: vi.fn().mockReturnValue({ owner_id: 'u1', language: 'en', terms_version: null, terms_accepted_at: null })
+      toRemoteAccountSettings: vi
+        .fn()
+        .mockReturnValue({ owner_id: 'u1', language: 'en', role: 'USER', terms_version: null, terms_accepted_at: null })
     } as unknown as SyncMapperService;
 
     const logger = { info: vi.fn(), warn: vi.fn(), error: vi.fn() } as any;
