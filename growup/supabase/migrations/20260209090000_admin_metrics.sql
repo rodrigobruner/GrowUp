@@ -1,3 +1,17 @@
+create or replace function public.has_accepted_terms()
+returns boolean
+language sql
+stable
+as $$
+  select exists (
+    select 1
+    from public.account_settings
+    where owner_id = auth.uid()
+      and terms_version is not null
+      and terms_accepted_at is not null
+  );
+$$;
+
 create or replace function public.is_admin()
 returns boolean
 language sql
