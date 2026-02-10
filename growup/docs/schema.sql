@@ -7,7 +7,6 @@ create table if not exists public.profiles (
   owner_id uuid not null references auth.users (id) on delete cascade,
   display_name text not null,
   avatar_id text not null default '01',
-  role text not null default 'USER' check (role in ('USER', 'ADMIN')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   primary key (owner_id, id)
@@ -92,6 +91,9 @@ create table if not exists public.settings (
 create table if not exists public.account_settings (
   owner_id uuid primary key references auth.users (id) on delete cascade,
   language text not null check (language in ('en', 'pt', 'fr', 'es')),
+  role text not null default 'USER' check (role in ('USER', 'ADMIN')),
+  plan text not null default 'FREE' check (plan in ('FREE', 'BETA', 'PRO', 'DEV')),
+  flags jsonb not null default '{}'::jsonb,
   terms_version text,
   terms_accepted_at timestamptz,
   created_at timestamptz not null default now(),
@@ -169,30 +171,7 @@ as $$
   );
 $$;
 
-create or replace function public.enforce_profile_role()
-returns trigger
-language plpgsql
-security definer
-set search_path = public
-as $$
-begin
-  if (tg_op = 'INSERT') then
-    if auth.role() <> 'service_role' and new.role <> 'USER' then
-      raise exception 'profile role must be USER';
-    end if;
-  elsif (tg_op = 'UPDATE') then
-    if new.role <> old.role and auth.role() <> 'service_role' then
-      raise exception 'profile role cannot be changed';
-    end if;
-  end if;
-  return new;
-end;
-$$;
-
-drop trigger if exists profiles_enforce_role on public.profiles;
-create trigger profiles_enforce_role
-before insert or update on public.profiles
-for each row execute function public.enforce_profile_role();
+ 
 
 create policy "tasks_read_own" on public.tasks
 for select using (auth.uid() = owner_id and public.has_accepted_terms());

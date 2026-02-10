@@ -28,6 +28,9 @@ erDiagram
   ACCOUNT_SETTINGS {
     uuid owner_id
     text language
+    text role
+    text plan
+    jsonb flags
     text terms_version
     timestamptz terms_accepted_at
     timestamptz created_at

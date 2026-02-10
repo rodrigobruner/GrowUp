@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { AuthService } from './auth.service';
 import { LoggerService } from './logger.service';
 
-export type PlanType = 'FREE' | 'BETA' | 'PRO';
+export type PlanType = 'FREE' | 'BETA' | 'PRO' | 'DEV';
 
 export type FeatureFlag = {
   key: string;

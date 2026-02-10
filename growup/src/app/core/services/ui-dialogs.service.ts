@@ -61,6 +61,16 @@ export class UiDialogsService {
     });
   }
 
+  async informProfileLimit(maxProfiles: number): Promise<void> {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.translate.instant('profiles.limitTitle'),
+        message: this.translate.instant('profiles.limitMessage', { count: maxProfiles }),
+        confirmLabel: this.translate.instant('profiles.ok')
+      }
+    });
+  }
+
   private async confirm(title: string, message: string, confirmLabel?: string): Promise<boolean> {
     return firstValueFrom(
       this.dialog.open(ConfirmDialogComponent, {

@@ -37,7 +37,8 @@
         "feature": "Feature",
         "free": "Free",
         "beta": "Beta",
-        "pro": "Pro"
+        "pro": "Pro",
+        "dev": "Dev"
       },
       "items": {
         "tasks": {
@@ -309,6 +310,7 @@
   "profiles": {
     "addTooltip": "Create a new profile",
     "firstProfileTooltip": "Create your first profile here",
+    "limitTooltip": "Limit of {{ count }} profiles reached",
     "dialogTitle": "New profile",
     "editTitle": "Edit profile",
     "avatarSection": "Avatar",
@@ -318,6 +320,8 @@
     "use": "Use this profile",
     "duplicateTitle": "Duplicate name",
     "duplicateMessage": "A profile with this name already exists. Please choose another.",
+    "limitTitle": "Profile limit",
+    "limitMessage": "You have reached the limit of {{ count }} profiles for this account.",
     "ok": "OK",
     "cancel": "Cancel",
     "save": "Save",

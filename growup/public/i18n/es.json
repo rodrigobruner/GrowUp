@@ -37,7 +37,8 @@
         "feature": "Funcionalidad",
         "free": "Free",
         "beta": "Beta",
-        "pro": "Pro"
+        "pro": "Pro",
+        "dev": "Dev"
       },
       "items": {
         "tasks": {
@@ -336,6 +337,9 @@
     "yearly": "Anual"
   },
   "profiles": {
+    "addTooltip": "Crear un nuevo perfil",
+    "firstProfileTooltip": "Crea tu primer perfil aquí",
+    "limitTooltip": "Límite de {{ count }} perfiles alcanzado",
     "title": "Perfiles",
     "listTitle": "Perfiles",
     "add": "Agregar perfil",
@@ -345,6 +349,12 @@
     "nameLabel": "Nombre",
     "save": "Guardar perfil",
     "duplicate": "Ya existe un perfil con ese nombre.",
+    "duplicateTitle": "Nombre duplicado",
+    "duplicateMessage": "Ya existe un perfil con ese nombre. Elige otro.",
+    "limitTitle": "Límite de perfiles",
+    "limitMessage": "Ya alcanzaste el límite de {{ count }} perfiles en esta cuenta.",
+    "ok": "OK",
+    "cancel": "Cancelar",
     "deleteError": "No se puede eliminar el último perfil.",
     "createTitle": "Crear perfil",
     "editTitle": "Editar perfil"

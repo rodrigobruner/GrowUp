@@ -17,7 +17,7 @@ export interface AdminChartData {
 export interface AdminUserRecord {
   ownerId: string;
   role: 'USER' | 'ADMIN';
-  plan: 'FREE' | 'BETA' | 'PRO';
+  plan: 'FREE' | 'BETA' | 'PRO' | 'DEV';
   createdAt: string | null;
   lastAccessedAt: string | null;
 }

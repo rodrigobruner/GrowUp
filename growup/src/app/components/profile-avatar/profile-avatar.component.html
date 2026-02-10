@@ -1,4 +1,4 @@
-<div class="profile-avatar-wrap" [class.max-profiles]="profiles.length >= 6">
+<div class="profile-avatar-wrap" [class.max-profiles]="reachedLimit">
   <div class="profile-strip" *ngIf="profiles.length">
     <button
       type="button"
@@ -15,7 +15,12 @@
     type="button"
     class="profile-avatar-add"
     aria-label="Adicionar novo perfil"
-    [matTooltip]="profiles.length ? ('profiles.addTooltip' | translate) : ('profiles.firstProfileTooltip' | translate)"
+    [matTooltip]="
+      reachedLimit
+        ? ('profiles.limitTooltip' | translate:{ count: maxProfiles })
+        : (profiles.length ? ('profiles.addTooltip' | translate) : ('profiles.firstProfileTooltip' | translate))
+    "
+    [disabled]="reachedLimit"
     (click)="onCreateProfile()"
   >
     <span class="material-icons">add</span>

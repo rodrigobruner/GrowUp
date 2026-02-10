@@ -3,7 +3,7 @@ import { isValidAccountSettingsRow, isValidSyncRow } from './supabase-validators
 
 describe('supabase validators', () => {
   it('accepts valid profile row', () => {
-    expect(isValidSyncRow('profiles', { id: '1', owner_id: '2', display_name: 'Kid', role: 'USER' })).toBe(true);
+    expect(isValidSyncRow('profiles', { id: '1', owner_id: '2', display_name: 'Kid' })).toBe(true);
   });
 
   it('rejects invalid profile row', () => {
@@ -16,7 +16,7 @@ describe('supabase validators', () => {
         owner_id: '1',
         language: 'en',
         role: 'USER',
-        plan: 'FREE',
+        plan: 'DEV',
         flags: {},
         terms_version: null,
         terms_accepted_at: null

@@ -93,7 +93,7 @@
       [style.left]="hoverXPercent + '%'"
       [style.top]="hoverYPercent + '%'"
     >
-      <div class="chart-tooltip__title">{{ viewLabels[hoverIndex ?? 0] }}</div>
+      <div class="chart-tooltip__title">{{ viewLabels[hoverIndex!] }}</div>
       <div class="chart-tooltip__item" *ngFor="let item of getTooltipItems()">
         <span class="chart-tooltip__swatch" [style.background]="item.color"></span>
         <span class="chart-tooltip__label">{{ item.label }}</span>

@@ -41,7 +41,7 @@ export class AdminPageComponent {
   private readonly document = inject(DOCUMENT);
 
   readonly avatarSrc = this.avatar.avatarSrc;
-  private readonly featurePlans: PlanType[] = ['FREE', 'BETA', 'PRO'];
+  private readonly featurePlans: PlanType[] = ['FREE', 'BETA', 'PRO', 'DEV'];
   private readonly allowedFeatureKeys = new Set(['tasks', 'rewards', 'profiles']);
   private static readonly LOG_LEVEL_KEY = 'growup.debug.logLevel';
   private static readonly LOG_ENABLED_KEY = 'growup.debug.loggingEnabled';
@@ -93,7 +93,8 @@ export class AdminPageComponent {
   readonly featureToggleMap = signal<Record<PlanType, Record<string, boolean>>>({
     FREE: {},
     BETA: {},
-    PRO: {}
+    PRO: {},
+    DEV: {}
   });
   readonly featuresLoading = signal(true);
   readonly featuresSaving = signal<Record<string, boolean>>({});
@@ -375,7 +376,8 @@ export class AdminPageComponent {
     const nextMap: Record<PlanType, Record<string, boolean>> = {
       FREE: {},
       BETA: {},
-      PRO: {}
+      PRO: {},
+      DEV: {}
     };
 
     for (const plan of this.featurePlans) {
