@@ -25,26 +25,83 @@
       "range": "Last 30 days",
       "usersSeries": "Registered users (cumulative)",
       "accessSeries": "Daily accesses",
-      "empty": "There is not enough data to render this chart yet."
+      "empty": "There is not enough data to render this chart yet.",
+      "resetZoom": "Reset zoom"
     },
     "features": {
       "title": "Features",
-      "body": "Review delivery status and prioritization of features."
+      "body": "Enable or disable features by plan and track availability.",
+      "loading": "Loading toggles...",
+      "empty": "No features configured.",
+      "table": {
+        "feature": "Feature",
+        "free": "Free",
+        "beta": "Beta",
+        "pro": "Pro",
+        "dev": "Dev"
+      },
+      "items": {
+        "tasks": {
+          "title": "Tasks",
+          "description": "Allows creating and managing tasks."
+        },
+        "rewards": {
+          "title": "Rewards",
+          "description": "Unlocks rewards and XP management."
+        },
+        "profiles": {
+          "title": "Profiles",
+          "description": "Enables multiple profiles per account."
+        }
+      }
     },
     "users": {
       "title": "Users",
       "body": "View details and metrics related to registered users.",
+      "searchPlaceholder": "Search by user ID",
       "loading": "Loading users...",
       "empty": "No users found.",
       "columns": {
+        "title": "Columns",
         "userId": "User ID",
         "role": "Role",
-        "createdAt": "Created at"
+        "plan": "Plan",
+        "createdAt": "Created at",
+        "lastAccessedAt": "Last access"
+      },
+      "actions": {
+        "copy": "Copy CSV",
+        "export": "Export CSV"
+      },
+      "pagination": {
+        "prev": "Previous",
+        "next": "Next",
+        "page": "Page",
+        "of": "of {{ total }}"
+      },
+      "status": {
+        "total": "Total: {{ count }} users"
       }
     },
     "logs": {
       "title": "Logs",
-      "body": "Centralize critical events and system audits."
+      "body": "Centralize critical events and system audits.",
+      "actions": {
+        "refresh": "Refresh",
+        "clear": "Clear",
+        "export": "Export",
+        "enable": "Enable logs",
+        "disable": "Disable logs"
+      },
+      "filter": {
+        "label": "Level",
+        "all": "All",
+        "debug": "Debug",
+        "info": "Info",
+        "warn": "Warn",
+        "error": "Error"
+      },
+      "empty": "No logs recorded."
     }
   },
   "landing": {
@@ -253,6 +310,7 @@
   "profiles": {
     "addTooltip": "Create a new profile",
     "firstProfileTooltip": "Create your first profile here",
+    "limitTooltip": "Limit of {{ count }} profiles reached",
     "dialogTitle": "New profile",
     "editTitle": "Edit profile",
     "avatarSection": "Avatar",
@@ -262,6 +320,8 @@
     "use": "Use this profile",
     "duplicateTitle": "Duplicate name",
     "duplicateMessage": "A profile with this name already exists. Please choose another.",
+    "limitTitle": "Profile limit",
+    "limitMessage": "You have reached the limit of {{ count }} profiles for this account.",
     "ok": "OK",
     "cancel": "Cancel",
     "save": "Save",

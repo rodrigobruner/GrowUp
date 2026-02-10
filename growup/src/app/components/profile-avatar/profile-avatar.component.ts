@@ -15,11 +15,19 @@ export class ProfileAvatarComponent {
   @Input() src = '';
   @Input() profiles: Profile[] = [];
   @Input() activeProfileId: string | null = null;
+  @Input() maxProfiles = 5;
   @Output() createProfile = new EventEmitter<void>();
   @Output() editProfile = new EventEmitter<void>();
   @Output() profileSelect = new EventEmitter<string>();
 
+  get reachedLimit(): boolean {
+    return this.profiles.length >= this.maxProfiles;
+  }
+
   onCreateProfile(): void {
+    if (this.reachedLimit) {
+      return;
+    }
     this.createProfile.emit();
   }
 

@@ -42,6 +42,7 @@ export class TopbarComponent {
   @Input() avatarSrc = '';
   @Input() profiles: Profile[] = [];
   @Input() activeProfileId: string | null = null;
+  @Input() maxProfiles = 5;
   @Input() showProfiles = true;
   @Input() showSettings = true;
   @Input() showSyncStatus = true;

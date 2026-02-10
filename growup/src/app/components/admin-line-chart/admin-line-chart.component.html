@@ -1,12 +1,29 @@
 <div class="chart-shell">
   <div class="chart-legend" *ngIf="series.length">
-    <div class="legend-item" *ngFor="let item of series">
+    <button
+      type="button"
+      class="legend-item"
+      *ngFor="let item of series"
+      [class.legend-item--disabled]="hiddenSeries.has(item.id)"
+      (click)="toggleSeries(item)"
+      [attr.aria-pressed]="!hiddenSeries.has(item.id)"
+    >
       <span class="legend-swatch" [style.background]="item.color"></span>
       <span>{{ item.label }}</span>
-    </div>
+    </button>
   </div>
 
-  <div class="chart-body" [class.chart-body--empty]="!hasData && !loading">
+  <div
+    class="chart-body"
+    [class.chart-body--empty]="!hasData && !loading"
+    (mousemove)="onChartMouseMove($event)"
+    (mouseleave)="onChartMouseLeave()"
+    (mousedown)="onChartMouseDown()"
+    (mouseup)="onChartMouseUp()"
+  >
+    <button type="button" class="chart-reset" *ngIf="isZoomed" (click)="resetZoom()">
+      {{ 'admin.overview.resetZoom' | translate }}
+    </button>
     <svg *ngIf="!loading" class="chart" [attr.viewBox]="viewBox" role="img" aria-hidden="true">
       <g class="chart-grid">
         <line
@@ -17,14 +34,48 @@
           [attr.y1]="gridY(line)"
           [attr.y2]="gridY(line)"
         />
+        <text
+          *ngFor="let line of gridLines"
+          class="chart-grid-label"
+          [attr.x]="8"
+          [attr.y]="gridY(line) + 4"
+        >
+          {{ gridValue(line) }}
+        </text>
       </g>
       <g class="chart-series">
         <path
-          *ngFor="let item of series"
+          *ngFor="let item of visibleSeries"
           class="chart-line"
-          [attr.d]="buildPath(item.values)"
+          [attr.d]="buildPath(getVisibleValues(item.values))"
           [attr.stroke]="item.color"
         ></path>
+        <line
+          *ngIf="hoverIndex !== null"
+          class="chart-hover-line"
+          [attr.x1]="getHoverX()"
+          [attr.x2]="getHoverX()"
+          [attr.y1]="24"
+          [attr.y2]="height - 24"
+        />
+        <ng-container *ngIf="hoverIndex !== null">
+          <circle
+            *ngFor="let item of visibleSeries"
+            class="chart-hover-point"
+            [attr.cx]="getHoverX()"
+            [attr.cy]="getHoverY(item.values)"
+            [attr.r]="4"
+            [attr.fill]="item.color"
+          />
+        </ng-container>
+        <rect
+          *ngIf="selectionX !== null && selectionWidth !== null"
+          class="chart-selection"
+          [attr.x]="selectionX"
+          [attr.y]="24"
+          [attr.width]="selectionWidth"
+          [attr.height]="height - 48"
+        ></rect>
       </g>
     </svg>
 
@@ -35,10 +86,23 @@
     <div class="chart-empty" *ngIf="!loading && !hasData">
       <p>{{ emptyLabel }}</p>
     </div>
+
+    <div
+      class="chart-tooltip"
+      *ngIf="hoverIndex !== null && hoverXPercent !== null && hoverYPercent !== null"
+      [style.left]="hoverXPercent + '%'"
+      [style.top]="hoverYPercent + '%'"
+    >
+      <div class="chart-tooltip__title">{{ viewLabels[hoverIndex!] }}</div>
+      <div class="chart-tooltip__item" *ngFor="let item of getTooltipItems()">
+        <span class="chart-tooltip__swatch" [style.background]="item.color"></span>
+        <span class="chart-tooltip__label">{{ item.label }}</span>
+        <span class="chart-tooltip__value">{{ item.value }}</span>
+      </div>
+    </div>
   </div>
 
-  <div class="chart-axis" *ngIf="labels.length">
-    <span>{{ labelLeft() }}</span>
-    <span>{{ labelRight() }}</span>
+  <div class="chart-axis" *ngIf="viewLabels.length">
+    <span *ngFor="let tick of xTicks">{{ tick.label }}</span>
   </div>
 </div>

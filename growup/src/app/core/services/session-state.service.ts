@@ -33,7 +33,9 @@ export class SessionStateService {
   private readonly defaultAccountSettings: AccountSettings = {
     id: 'account',
     language: 'en',
-    role: 'USER'
+    role: 'USER',
+    plan: 'FREE',
+    flags: {}
   };
   tasks = signal<Task[]>([]);
   rewards = signal<Reward[]>([]);

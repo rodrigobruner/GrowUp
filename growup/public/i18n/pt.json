@@ -25,26 +25,83 @@
       "range": "Últimos 30 dias",
       "usersSeries": "Usuários cadastrados (acumulado)",
       "accessSeries": "Acessos diários",
-      "empty": "Ainda não há dados suficientes para exibir o gráfico."
+      "empty": "Ainda não há dados suficientes para exibir o gráfico.",
+      "resetZoom": "Resetar zoom"
     },
     "features": {
       "title": "Funcionalidades",
-      "body": "Confira o estado de entrega e a priorização das funcionalidades."
+      "body": "Ative ou desative funcionalidades por plano e acompanhe a disponibilidade.",
+      "loading": "Carregando toggles...",
+      "empty": "Nenhuma funcionalidade configurada.",
+      "table": {
+        "feature": "Funcionalidade",
+        "free": "Free",
+        "beta": "Beta",
+        "pro": "Pro",
+        "dev": "Dev"
+      },
+      "items": {
+        "tasks": {
+          "title": "Tarefas",
+          "description": "Permite criar e gerenciar tarefas no app."
+        },
+        "rewards": {
+          "title": "Recompensas",
+          "description": "Libera a gestão de recompensas e XP."
+        },
+        "profiles": {
+          "title": "Perfis",
+          "description": "Habilita múltiplos perfis dentro da conta."
+        }
+      }
     },
     "users": {
       "title": "Usuários",
       "body": "Visualize detalhes e métricas relacionadas aos usuários cadastrados.",
+      "searchPlaceholder": "Buscar por ID do usuário",
       "loading": "Carregando usuários...",
       "empty": "Nenhum usuário encontrado.",
       "columns": {
+        "title": "Colunas",
         "userId": "ID do usuário",
         "role": "Papel",
-        "createdAt": "Criado em"
+        "plan": "Plano",
+        "createdAt": "Criado em",
+        "lastAccessedAt": "Último acesso"
+      },
+      "actions": {
+        "copy": "Copiar CSV",
+        "export": "Exportar CSV"
+      },
+      "pagination": {
+        "prev": "Anterior",
+        "next": "Próximo",
+        "page": "Página",
+        "of": "de {{ total }}"
+      },
+      "status": {
+        "total": "Total: {{ count }} usuários"
       }
     },
     "logs": {
       "title": "Logs",
-      "body": "Centralize eventos críticos e auditorias do sistema."
+      "body": "Centralize eventos críticos e auditorias do sistema.",
+      "actions": {
+        "refresh": "Atualizar",
+        "clear": "Limpar",
+        "export": "Exportar",
+        "enable": "Ativar logs",
+        "disable": "Desativar logs"
+      },
+      "filter": {
+        "label": "Nível",
+        "all": "Todos",
+        "debug": "Debug",
+        "info": "Info",
+        "warn": "Warn",
+        "error": "Error"
+      },
+      "empty": "Nenhum log registrado."
     }
   },
   "landing": {
@@ -253,6 +310,7 @@
   "profiles": {
     "addTooltip": "Cadastrar novo perfil",
     "firstProfileTooltip": "Crie seu primeiro perfil aqui",
+    "limitTooltip": "Limite de {{ count }} perfis atingido",
     "dialogTitle": "Novo perfil",
     "editTitle": "Editar perfil",
     "avatarSection": "Avatar",
@@ -262,6 +320,8 @@
     "use": "Usar esse perfil",
     "duplicateTitle": "Nome duplicado",
     "duplicateMessage": "Ja existe um perfil com esse nome. Escolha outro.",
+    "limitTitle": "Limite de perfis",
+    "limitMessage": "Você já atingiu o limite de {{ count }} perfis nesta conta.",
     "ok": "OK",
     "cancel": "Cancelar",
     "save": "Salvar",
