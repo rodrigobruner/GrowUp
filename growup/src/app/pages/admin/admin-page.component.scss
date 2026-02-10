@@ -3,33 +3,59 @@
   display: flex;
   flex-direction: column;
   background: var(--color-ink-08);
+  background-attachment: fixed;
 }
 
 .admin-content {
   flex: 1;
   width: min(1200px, 100%);
   margin: 0 auto;
-  padding: 3.5rem 1.5rem 4rem;
+  padding: 2.5rem clamp(1.5rem, 3vw, 4rem) 3.5rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-content::before {
+  content: '';
+  position: absolute;
+  inset: 2% 8% auto auto;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(254, 178, 26, 0.6) 0%, rgba(254, 178, 26, 0) 70%);
+  pointer-events: none;
 }
 
 .admin-header {
   display: grid;
   gap: 0.75rem;
+  position: relative;
+  z-index: 1;
 }
 
 .admin-header h1 {
   margin: 0;
 }
 
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  color: rgba(46, 58, 89, 0.7);
+  margin-bottom: 0.75rem;
+}
+
 .admin-tabs {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--panel-surface);
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--panel-border);
   padding: 1.5rem 1.5rem 0.75rem;
+  backdrop-filter: blur(8px);
   box-shadow: 0 24px 50px rgba(19, 70, 134, 0.12);
+  position: relative;
+  z-index: 1;
 }
 
 .admin-menu {
@@ -455,25 +481,7 @@
   background: #DBE4ED !important;
 }
 
-:host ::ng-deep .ag-theme-alpine .ag-header {
-  background-color: #DBE4ED !important;
-}
-
-:host ::ng-deep .ag-theme-alpine .ag-header-row {
-  background-color: #DBE4ED !important;
-}
-
-:host ::ng-deep .ag-theme-alpine .ag-header-viewport {
-  background-color: #DBE4ED !important;
-}
-
-:host ::ng-deep .ag-theme-alpine .ag-header-cell {
-  background-color: #DBE4ED !important;
-}
-
-:host ::ng-deep .ag-theme-alpine .ag-paging-panel * {
-  background-color: transparent;
-}
+ 
 
 :host ::ng-deep .ag-theme-alpine .ag-root-wrapper,
 :host ::ng-deep .ag-theme-alpine .ag-body-viewport,
