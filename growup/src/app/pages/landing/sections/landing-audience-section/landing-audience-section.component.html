@@ -1,0 +1,35 @@
+<section class="panel panel-audience">
+  <div class="panel-inner stacked">
+    <div class="panel-copy">
+      <h2>{{ 'landing.audience.title' | translate }}</h2>
+      <div class="panel-visual panel-visual--mobile">
+        <img
+          class="panel-image panel-image--xlarge"
+          src="assets/images/home/home_7.webp"
+          [attr.alt]="'landing.audience.imageAlt' | translate"
+        />
+      </div>
+      <ul class="bullet-list">
+        <li>
+          <strong>{{ 'landing.audience.items.parents.label' | translate }}</strong>
+          {{ 'landing.audience.items.parents.body' | translate }}
+        </li>
+        <li>
+          <strong>{{ 'landing.audience.items.families.label' | translate }}</strong>
+          {{ 'landing.audience.items.families.body' | translate }}
+        </li>
+        <li>
+          <strong>{{ 'landing.audience.items.educators.label' | translate }}</strong>
+          {{ 'landing.audience.items.educators.body' | translate }}
+        </li>
+      </ul>
+    </div>
+    <div class="panel-visual panel-visual--desktop">
+      <img
+        class="panel-image panel-image--xlarge"
+        src="assets/images/home/home_7.webp"
+        [attr.alt]="'landing.audience.imageAlt' | translate"
+      />
+    </div>
+  </div>
+</section>

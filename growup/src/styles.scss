@@ -23,7 +23,7 @@ html {
 
 body {
   color-scheme: light;
-  background: var(--color-ink-08);
+  background: rgba(var(--color-ink-rgb), 0.08);
   background-attachment: fixed;
   color: var(--app-ink);
   font: var(--mat-sys-body-medium);
@@ -67,11 +67,11 @@ app-root {
   max-width: 100vw;
   max-height: 100vh;
   border-radius: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(var(--color-black-rgb), 0.85);
 }
 
 .terms-dialog .mat-mdc-dialog-surface {
-  background: #fff;
+  background: var(--color-white);
 }
 
 .settings-drawer .mat-mdc-dialog-container {

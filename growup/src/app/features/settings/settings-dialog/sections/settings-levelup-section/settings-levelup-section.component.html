@@ -1,0 +1,9 @@
+<section class="settings-section">
+  <div class="section-title">{{ 'settingsDialog.levelupSection' | translate }}</div>
+  <div [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'settingsDialog.levelUpPoints' | translate }}</mat-label>
+      <input matInput type="number" min="10" formControlName="levelUpPoints" />
+    </mat-form-field>
+  </div>
+</section>

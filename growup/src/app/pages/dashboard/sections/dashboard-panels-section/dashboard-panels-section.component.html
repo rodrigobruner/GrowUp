@@ -1,0 +1,32 @@
+<section class="grid" *ngIf="showDashboard" [class.grid--single]="!showRewardsPanel">
+  <app-tasks-panel
+    [tasks]="tasks"
+    [todayDoneIds]="todayDoneIds"
+    [selectedDate]="selectedDate"
+    [todayKey]="todayKey"
+    [loading]="loading"
+    (selectedDateChange)="selectedDateChange.emit($event)"
+    (addTask)="addTask.emit()"
+    (toggleTask)="toggleTask.emit($event)"
+    (removeTask)="removeTask.emit($event)"
+  />
+
+  <app-rewards-panel
+    *ngIf="showRewardsPanel"
+    [rewards]="rewards"
+    [balance]="balance"
+    [redemptions]="redemptions"
+    [rewardUses]="rewardUses"
+    [cycleStart]="cycleStart"
+    [cycleEnd]="cycleEnd"
+    [loading]="loading"
+    [advancedEnabled]="rewardsAdvancedEnabled"
+    [maxRewards]="rewardsAdvancedEnabled ? null : 10"
+    [showUsedTab]="rewardsAdvancedEnabled"
+    (addReward)="addReward.emit()"
+    (redeemReward)="redeemReward.emit($event)"
+    (consumeReward)="consumeReward.emit($event)"
+    (returnRedemption)="returnRedemption.emit($event)"
+    (removeReward)="removeReward.emit($event)"
+  />
+</section>

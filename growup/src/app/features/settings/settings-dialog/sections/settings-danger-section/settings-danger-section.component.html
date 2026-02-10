@@ -1,0 +1,11 @@
+<section class="settings-section danger-zone" *ngIf="isLoggedIn">
+  <div class="section-title danger-title">{{ 'settingsDialog.deleteAccount' | translate }}</div>
+  <button
+    mat-stroked-button
+    class="delete-account-button"
+    type="button"
+    (click)="openDeleteAccount.emit()"
+  >
+    {{ 'settingsDialog.deleteAccount' | translate }}
+  </button>
+</section>

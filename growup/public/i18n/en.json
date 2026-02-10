@@ -11,8 +11,6 @@
   },
   "admin": {
     "eyebrow": "GrowUp Admin",
-    "title": "Administration",
-    "subtitle": "Manage the overview, features, and logs for the product.",
     "tabs": {
       "overview": "Overview",
       "features": "Features",
@@ -57,7 +55,6 @@
     },
     "users": {
       "title": "Users",
-      "body": "View details and metrics related to registered users.",
       "searchPlaceholder": "Search by user ID",
       "loading": "Loading users...",
       "empty": "No users found.",
@@ -277,12 +274,6 @@
   "settingsDialog": {
     "title": "Settings",
     "planLabel": "Plan",
-    "plan": {
-      "free": "Free",
-      "beta": "Beta",
-      "pro": "Pro",
-      "dev": "Dev"
-    },
     "languageSection": "Language",
     "cycleSection": "Cycle",
     "levelupSection": "Level-up",
@@ -290,7 +281,6 @@
     "start": "Cycle start date",
     "language": "Language",
     "levelUpPoints": "Points per level",
-    "avatar": "Avatar",
     "cacheSection": "Cache",
     "clearCache": "Clear cache and reload",
     "clearAll": "Clear all data",
@@ -304,27 +294,13 @@
     "deleteAccountConfirm": "Delete permanently",
     "cancel": "Cancel",
     "save": "Save",
-    "close": "Close",
-    "debugSection": "Debug logs",
-    "refreshLogs": "Refresh logs",
-    "clearLogs": "Clear logs",
-    "noLogs": "No logs yet.",
-    "exportLogs": "Export logs",
-    "enableLogs": "Enable logs",
-    "disableLogs": "Disable logs",
-    "logFilter": "Log filter",
-    "logFilterAll": "All",
-    "logFilterDebug": "Debug",
-    "logFilterInfo": "Info",
-    "logFilterWarn": "Warn",
-    "logFilterError": "Error"
+    "close": "Close"
   },
   "profiles": {
     "addTooltip": "Create a new profile",
     "firstProfileTooltip": "Create your first profile here",
     "limitTooltip": "Limit of {{ count }} profiles reached",
     "dialogTitle": "New profile",
-    "editTitle": "Edit profile",
     "avatarSection": "Avatar",
     "avatarLabel": "Avatar",
     "nameLabel": "Name",
@@ -493,26 +469,88 @@
   "seed": {
     "defaultProfileName": "Super Buddy",
     "defaultTasks": [
-      { "title": "🎒 Pack school supplies and backpack", "points": 1 },
-      { "title": "📖 Study", "points": 3 },
-      { "title": "🚂 Put away toys", "points": 1 },
-      { "title": "🛏️ Make the bed", "points": 1 },
-      { "title": "☕️ Help with dishes and trash", "points": 1 },
-      { "title": "🛀 Shower and brush teeth", "points": 1 },
-      { "title": "🙋🏻‍♂️ Help mom and dad", "points": 2 },
-      { "title": "😴 Go to bed on time", "points": 1 },
-      { "title": "👍 Other house chores", "points": 1 },
-      { "title": "🍉 I tried a new food", "points": 4 }
+      {
+        "title": "🎒 Pack school supplies and backpack",
+        "points": 1
+      },
+      {
+        "title": "📖 Study",
+        "points": 3
+      },
+      {
+        "title": "🚂 Put away toys",
+        "points": 1
+      },
+      {
+        "title": "🛏️ Make the bed",
+        "points": 1
+      },
+      {
+        "title": "☕️ Help with dishes and trash",
+        "points": 1
+      },
+      {
+        "title": "🛀 Shower and brush teeth",
+        "points": 1
+      },
+      {
+        "title": "🙋🏻‍♂️ Help mom and dad",
+        "points": 2
+      },
+      {
+        "title": "😴 Go to bed on time",
+        "points": 1
+      },
+      {
+        "title": "👍 Other house chores",
+        "points": 1
+      },
+      {
+        "title": "🍉 I tried a new food",
+        "points": 4
+      }
     ],
     "defaultRewards": [
-      { "title": "🎶 Choose the music in the car", "cost": 10, "limitPerCycle": 3 },
-      { "title": "📚 Visit the library or bookstore", "cost": 15, "limitPerCycle": 3 },
-      { "title": "♟️ Family game time", "cost": 20, "limitPerCycle": 3 },
-      { "title": "🍿 Family movie night", "cost": 20, "limitPerCycle": 3 },
-      { "title": "🎮 Extra video game time", "cost": 30, "limitPerCycle": 3 },
-      { "title": "🍕 Special coffee/lunch/dinner", "cost": 35, "limitPerCycle": 3 },
-      { "title": "🎥 Movie theater", "cost": 50, "limitPerCycle": 3 },
-      { "title": "🍔 Eat out", "cost": 50, "limitPerCycle": 3 }
+      {
+        "title": "🎶 Choose the music in the car",
+        "cost": 10,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "📚 Visit the library or bookstore",
+        "cost": 15,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "♟️ Family game time",
+        "cost": 20,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🍿 Family movie night",
+        "cost": 20,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🎮 Extra video game time",
+        "cost": 30,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🍕 Special coffee/lunch/dinner",
+        "cost": 35,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🎥 Movie theater",
+        "cost": 50,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🍔 Eat out",
+        "cost": 50,
+        "limitPerCycle": 3
+      }
     ]
   },
   "footer": {

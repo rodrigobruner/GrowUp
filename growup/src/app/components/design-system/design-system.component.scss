@@ -96,7 +96,7 @@
 }
 
 :host ::ng-deep .design-system__buttons .mat-mdc-outlined-button {
-  border-color: rgba(19, 70, 134, 0.35);
+  border-color: rgba(var(--color-ink-rgb), 0.35);
 }
 
 .design-system__badges {

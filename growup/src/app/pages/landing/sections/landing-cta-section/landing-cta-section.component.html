@@ -1,0 +1,27 @@
+<section class="panel panel-cta">
+  <div class="panel-inner">
+    <div class="panel-copy">
+      <h2>{{ 'landing.cta.title' | translate }}</h2>
+      <div class="panel-visual panel-visual--mobile">
+        <img
+          class="panel-image panel-image--xlarge"
+          src="assets/images/home/home_9.webp"
+          [attr.alt]="'landing.cta.imageAlt' | translate"
+        />
+      </div>
+      <p>{{ 'landing.cta.subtitle' | translate }}</p>
+      <div class="panel-actions">
+        <button class="cta-primary" mat-flat-button color="primary" type="button" (click)="openAuth.emit()">
+          {{ 'landing.cta.button' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="panel-visual panel-visual--desktop">
+      <img
+        class="panel-image panel-image--xlarge"
+        src="assets/images/home/home_9.webp"
+        [attr.alt]="'landing.cta.imageAlt' | translate"
+      />
+    </div>
+  </div>
+</section>

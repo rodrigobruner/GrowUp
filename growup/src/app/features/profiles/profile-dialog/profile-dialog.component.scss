@@ -40,7 +40,7 @@
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid var(--dialog-border-strong);
-  background: #f2f6fb;
+  background: var(--color-slate-50);
 }
 
 .avatar-preview {
@@ -74,7 +74,7 @@
   border-radius: 18px;
   object-fit: contain;
   border: 1px solid var(--dialog-border-strong);
-  background: #f2f6fb;
+  background: var(--color-slate-50);
 }
 
 .avatar-description {
@@ -97,7 +97,7 @@
   padding: 0.4rem 0.6rem;
   border-radius: 999px;
   border: 1px solid var(--dialog-border-cool);
-  background: #fff;
+  background: var(--color-white);
   cursor: pointer;
   text-align: left;
 }
@@ -120,7 +120,7 @@
 
 .profile-chip.active {
   border-color: var(--avatar-active);
-  box-shadow: 0 0 0 2px rgba(255, 210, 76, 0.2);
+  box-shadow: 0 0 0 2px rgba(var(--color-gold-rgb), 0.2);
 }
 
 .profile-delete {
@@ -128,8 +128,8 @@
   height: 28px;
   border-radius: 50%;
   border: none;
-  background: rgba(211, 47, 47, 0.12);
-  color: #d32f2f;
+  background: rgba(var(--color-danger-rgb), 0.12);
+  color: var(--color-danger-mid);
   display: inline-flex;
   align-items: center;
   justify-content: center;

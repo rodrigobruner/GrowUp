@@ -1,0 +1,25 @@
+<section class="panel panel-hero">
+  <div class="panel-inner">
+    <div class="panel-copy">
+      <p class="eyebrow">{{ 'landing.hero.eyebrow' | translate }}</p>
+      <h1>{{ 'landing.hero.title' | translate }}</h1>
+      <div class="panel-visual panel-visual--mobile">
+        <img class="panel-image" src="assets/images/home/home_1.webp" [attr.alt]="'landing.hero.imageAlt' | translate" />
+      </div>
+      <p class="subtitle">
+        {{ 'landing.hero.subtitle' | translate }}
+      </p>
+      <div class="panel-actions">
+        <button class="cta-primary" mat-flat-button color="primary" type="button" (click)="openAuth.emit()">
+          {{ 'landing.hero.cta.getStarted' | translate }}
+        </button>
+        <button class="cta-primary" mat-flat-button color="primary" type="button" (click)="startDemo.emit()">
+          {{ 'landing.hero.cta.tryDemo' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="panel-visual panel-visual--desktop">
+      <img class="panel-image" src="assets/images/home/home_1.webp" [attr.alt]="'landing.hero.imageAlt' | translate" />
+    </div>
+  </div>
+</section>

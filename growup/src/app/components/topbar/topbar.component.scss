@@ -149,47 +149,47 @@
   height: 0.45rem;
   border-radius: 999px;
   display: inline-block;
-  background: #cfe9ff;
+  background: var(--color-sky-100);
 }
 
 .sync-status .status.offline {
-  color: #ffd7a3;
+  color: var(--color-gold-100);
 }
 
 .sync-status .status.syncing {
-  color: #cfe9ff;
+  color: var(--color-sky-100);
 }
 
 .sync-status .status.synced {
-  color: #d2f3d0;
+  color: var(--color-mint-100);
 }
 
 .sync-status .status.updated {
-  color: #d2f3d0;
+  color: var(--color-mint-100);
 }
 
 .sync-status .status.error {
-  color: #ffd1d1;
+  color: var(--color-danger-100);
 }
 
 .sync-status .status.offline .dot {
-  background: #ff5e5e;
+  background: var(--panel-delete);
 }
 
 .sync-status .status.error .dot {
-  background: #ff5e5e;
+  background: var(--panel-delete);
 }
 
 .sync-status .status.syncing .dot {
-  background: #ffd166;
+  background: var(--color-gold-200);
 }
 
 .sync-status .status.synced .dot {
-  background: #6ee7a5;
+  background: var(--color-mint-500);
 }
 
 .sync-status .status.updated .dot {
-  background: #6ee7a5;
+  background: var(--color-mint-500);
 }
 
 button[mat-icon-button] {

@@ -1,5 +1,5 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, computed, EventEmitter, inject, Input, OnChanges, Output, signal, SimpleChanges } from '@angular/core';
+import { Component, computed, EventEmitter, inject, Input, OnChanges, Output, signal, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,6 +15,13 @@ import { AuthService } from '../../../core/services/auth.service';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { DeleteAccountDialogComponent } from '../delete-account-dialog/delete-account-dialog.component';
 import { AuthErrorDialogComponent } from '../../auth/auth-error-dialog/auth-error-dialog.component';
+import { SettingsLanguageSectionComponent } from './sections/settings-language-section/settings-language-section.component';
+import { SettingsPlanSectionComponent } from './sections/settings-plan-section/settings-plan-section.component';
+import { SettingsProfilesSectionComponent } from './sections/settings-profiles-section/settings-profiles-section.component';
+import { SettingsCycleSectionComponent } from './sections/settings-cycle-section/settings-cycle-section.component';
+import { SettingsLevelupSectionComponent } from './sections/settings-levelup-section/settings-levelup-section.component';
+import { SettingsCacheSectionComponent } from './sections/settings-cache-section/settings-cache-section.component';
+import { SettingsDangerSectionComponent } from './sections/settings-danger-section/settings-danger-section.component';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -26,10 +33,18 @@ import { AuthErrorDialogComponent } from '../../auth/auth-error-dialog/auth-erro
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    TranslateModule
+    TranslateModule,
+    SettingsLanguageSectionComponent,
+    SettingsPlanSectionComponent,
+    SettingsProfilesSectionComponent,
+    SettingsCycleSectionComponent,
+    SettingsLevelupSectionComponent,
+    SettingsCacheSectionComponent,
+    SettingsDangerSectionComponent
   ],
   templateUrl: './settings-dialog.component.html',
-  styleUrl: './settings-dialog.component.scss'
+  styleUrl: './settings-dialog.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class SettingsDialogComponent implements OnChanges {
   @Input() accountSettings: AccountSettings | null = null;

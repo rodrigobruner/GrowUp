@@ -1,0 +1,43 @@
+<div class="tab-header">
+  <div>
+    <h2>{{ 'admin.logs.title' | translate }}</h2>
+    <p>{{ 'admin.logs.body' | translate }}</p>
+  </div>
+</div>
+<div class="logs-toolbar">
+  <div class="logs-actions">
+    <button type="button" class="users-action" (click)="refreshLogs.emit()">
+      {{ 'admin.logs.actions.refresh' | translate }}
+    </button>
+    <button type="button" class="users-action" (click)="clearLogs.emit()">
+      {{ 'admin.logs.actions.clear' | translate }}
+    </button>
+    <button type="button" class="users-action" (click)="exportLogs.emit()">
+      {{ 'admin.logs.actions.export' | translate }}
+    </button>
+    <button type="button" class="users-action" (click)="toggleLogging.emit()">
+      {{ loggingEnabled ? ('admin.logs.actions.disable' | translate) : ('admin.logs.actions.enable' | translate) }}
+    </button>
+  </div>
+  <label class="logs-filter">
+    <span>{{ 'admin.logs.filter.label' | translate }}</span>
+    <select [value]="logLevelFilter" (change)="logFilterChange.emit($any($event.target).value)">
+      <option value="all">{{ 'admin.logs.filter.all' | translate }}</option>
+      <option value="debug">{{ 'admin.logs.filter.debug' | translate }}</option>
+      <option value="info">{{ 'admin.logs.filter.info' | translate }}</option>
+      <option value="warn">{{ 'admin.logs.filter.warn' | translate }}</option>
+      <option value="error">{{ 'admin.logs.filter.error' | translate }}</option>
+    </select>
+  </label>
+</div>
+<div class="debug-log" *ngIf="logEntriesView.length; else noLogs">
+  <div class="debug-log-item" *ngFor="let entry of logEntriesView">
+    <span class="debug-log-time">{{ entry.timestamp | date:'short' }}</span>
+    <span class="debug-log-level">{{ entry.level }}</span>
+    <span class="debug-log-message">{{ entry.message }}</span>
+    <span class="debug-log-context" *ngIf="entry.context">{{ entry.context | json }}</span>
+  </div>
+</div>
+<ng-template #noLogs>
+  <p class="logs-empty">{{ 'admin.logs.empty' | translate }}</p>
+</ng-template>

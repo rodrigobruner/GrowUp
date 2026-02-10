@@ -1,0 +1,50 @@
+<section class="settings-section" *ngIf="profiles.length">
+  <div class="section-title">{{ 'profiles.listTitle' | translate }}</div>
+  <div class="profiles-grid">
+    <button
+      type="button"
+      class="profile-chip"
+      *ngFor="let profile of profiles; trackBy: trackProfileById"
+      [class.active]="profile.id === activeProfileId"
+      (click)="selectProfile.emit(profile.id)"
+    >
+      <img [src]="avatarOptionSrc(profile.avatarId)" [attr.alt]="profile.displayName" />
+      <span>{{ profile.displayName }}</span>
+      <span class="spacer"></span>
+      <button
+        *ngIf="profiles.length > 1"
+        type="button"
+        class="profile-delete"
+        aria-label="Excluir perfil"
+        (click)="deleteProfile.emit({ profileId: profile.id, event: $event })"
+      >
+        <span class="material-icons">close</span>
+      </button>
+    </button>
+  </div>
+  <div class="avatar-row">
+    <div class="avatar-preview" aria-live="polite">
+      <img [src]="avatarPreviewSrc()" alt="Avatar selecionado" />
+    </div>
+    <div class="avatar-fields" [formGroup]="form">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'profiles.avatarLabel' | translate }}</mat-label>
+        <mat-select formControlName="avatarId">
+          <mat-option *ngFor="let avatar of avatars" [value]="avatar.id">
+            <span class="avatar-option">
+              <img class="avatar-option-img" [src]="avatarOptionSrc(avatar.id)" [attr.alt]="avatar.name" />
+              {{ avatar.name }}
+            </span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'profiles.nameLabel' | translate }}</mat-label>
+        <input matInput formControlName="displayName" maxlength="40" />
+      </mat-form-field>
+    </div>
+  </div>
+  <p class="avatar-description" *ngIf="selectedAvatarDescription()">
+    {{ selectedAvatarDescription() }}
+  </p>
+</section>

@@ -138,7 +138,7 @@
   height: 36px;
   border-radius: 50%;
   border: 2px solid var(--panel-check-border);
-  background: #ffffff;
+  background: var(--color-white)fff;
   display: grid;
   place-items: center;
   color: var(--panel-check-border);
@@ -177,7 +177,7 @@
   width: 64px;
   border: none;
   background: var(--panel-delete);
-  color: #fff;
+  color: var(--color-white);
   display: none;
   align-items: center;
   justify-content: center;
@@ -202,7 +202,7 @@
 .skeleton-pill,
 .skeleton-circle,
 .skeleton-row {
-  background: linear-gradient(90deg, rgba(19, 70, 134, 0.08), rgba(19, 70, 134, 0.18), rgba(19, 70, 134, 0.08));
+  background: linear-gradient(90deg, rgba(var(--color-ink-rgb), 0.08), rgba(var(--color-ink-rgb), 0.18), rgba(var(--color-ink-rgb), 0.08));
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
   border-radius: 999px;

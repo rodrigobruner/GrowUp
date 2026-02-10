@@ -12,12 +12,12 @@
         <img
           class="avatar-image"
           [src]="userAvatarUrl"
-          alt=""
+          [attr.alt]="userDisplayName || ('auth.account' | translate)"
           (error)="handleAvatarError()"
         />
       </ng-container>
       <ng-template #localAvatar>
-        <img class="avatar-image" [src]="avatarSrc" alt="" />
+        <img class="avatar-image" [src]="avatarSrc" [attr.alt]="userDisplayName || ('auth.account' | translate)" />
       </ng-template>
     </button>
   </ng-container>

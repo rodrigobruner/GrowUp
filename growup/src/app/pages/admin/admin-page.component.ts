@@ -1,5 +1,5 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, DestroyRef, computed, effect, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, effect, inject, signal, ViewEncapsulation } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
@@ -9,8 +9,7 @@ import { AvatarService } from '../../core/services/avatar.service';
 import { SessionStateService } from '../../core/services/session-state.service';
 import { AuthService } from '../../core/services/auth.service';
 import { AdminMetricsService, AdminUserRecord } from '../../core/services/admin-metrics.service';
-import { AdminLineChartComponent, AdminLineChartSeries } from '../../components/admin-line-chart/admin-line-chart.component';
-import { AgGridAngular } from 'ag-grid-angular';
+import { AdminLineChartSeries } from '../../components/admin-line-chart/admin-line-chart.component';
 import { ColDef, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -19,13 +18,27 @@ import {
   PlanType
 } from '../../core/services/feature-toggles.service';
 import { LoggerService, LogLevel } from '../../core/services/logger.service';
+import { AdminOverviewTabComponent } from './components/admin-overview-tab/admin-overview-tab.component';
+import { AdminUsersTabComponent } from './components/admin-users-tab/admin-users-tab.component';
+import { AdminFeaturesTabComponent } from './components/admin-features-tab/admin-features-tab.component';
+import { AdminLogsTabComponent } from './components/admin-logs-tab/admin-logs-tab.component';
 
 @Component({
   selector: 'app-admin-page',
   standalone: true,
-  imports: [CommonModule, TopbarComponent, AppFooterComponent, TranslateModule, AdminLineChartComponent, AgGridAngular],
+  imports: [
+    CommonModule,
+    TopbarComponent,
+    AppFooterComponent,
+    TranslateModule,
+    AdminOverviewTabComponent,
+    AdminUsersTabComponent,
+    AdminFeaturesTabComponent,
+    AdminLogsTabComponent
+  ],
   templateUrl: './admin-page.component.html',
-  styleUrl: './admin-page.component.scss'
+  styleUrl: './admin-page.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class AdminPageComponent {
   private readonly authDialogs = inject(AuthDialogsService);

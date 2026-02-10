@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -13,13 +12,38 @@ import { AppFooterComponent } from '../../components/app-footer/app-footer.compo
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthDialogsService } from '../../core/services/auth-dialogs.service';
 import { TermsDialogComponent } from '../../features/auth/terms-dialog/terms-dialog.component';
+import { LandingHeroSectionComponent } from './sections/landing-hero-section/landing-hero-section.component';
+import { LandingProblemSectionComponent } from './sections/landing-problem-section/landing-problem-section.component';
+import { LandingSolutionSectionComponent } from './sections/landing-solution-section/landing-solution-section.component';
+import { LandingStepsSectionComponent } from './sections/landing-steps-section/landing-steps-section.component';
+import { LandingSkillsSectionComponent } from './sections/landing-skills-section/landing-skills-section.component';
+import { LandingDifferenceSectionComponent } from './sections/landing-difference-section/landing-difference-section.component';
+import { LandingAudienceSectionComponent } from './sections/landing-audience-section/landing-audience-section.component';
+import { LandingPrivacySectionComponent } from './sections/landing-privacy-section/landing-privacy-section.component';
+import { LandingCtaSectionComponent } from './sections/landing-cta-section/landing-cta-section.component';
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatDialogModule, TopbarComponent, AppFooterComponent, TranslateModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    TopbarComponent,
+    AppFooterComponent,
+    TranslateModule,
+    LandingHeroSectionComponent,
+    LandingProblemSectionComponent,
+    LandingSolutionSectionComponent,
+    LandingStepsSectionComponent,
+    LandingSkillsSectionComponent,
+    LandingDifferenceSectionComponent,
+    LandingAudienceSectionComponent,
+    LandingPrivacySectionComponent,
+    LandingCtaSectionComponent
+  ],
   templateUrl: './landing-page.component.html',
-  styleUrl: './landing-page.component.scss'
+  styleUrl: './landing-page.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class LandingPageComponent {
   private readonly authDialogs = inject(AuthDialogsService);

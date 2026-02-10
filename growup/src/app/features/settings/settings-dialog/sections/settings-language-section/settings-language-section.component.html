@@ -1,0 +1,14 @@
+<section class="settings-section">
+  <div class="section-title">{{ 'settingsDialog.languageSection' | translate }}</div>
+  <div [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'settingsDialog.language' | translate }}</mat-label>
+      <mat-select formControlName="language">
+        <mat-option value="en">English</mat-option>
+        <mat-option value="pt">Português</mat-option>
+        <mat-option value="fr">Français</mat-option>
+        <mat-option value="es">Español</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</section>

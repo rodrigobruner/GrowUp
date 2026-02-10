@@ -11,8 +11,6 @@
   },
   "admin": {
     "eyebrow": "GrowUp Admin",
-    "title": "Administration",
-    "subtitle": "Gérez la vue d'ensemble, les fonctionnalités et les journaux du produit.",
     "tabs": {
       "overview": "Overview",
       "features": "Fonctionnalités",
@@ -57,7 +55,6 @@
     },
     "users": {
       "title": "Utilisateurs",
-      "body": "Consultez les détails et les métriques liés aux utilisateurs inscrits.",
       "searchPlaceholder": "Rechercher par ID utilisateur",
       "loading": "Chargement des utilisateurs...",
       "empty": "Aucun utilisateur trouvé.",
@@ -277,12 +274,6 @@
   "settingsDialog": {
     "title": "Paramètres",
     "planLabel": "Plan",
-    "plan": {
-      "free": "Free",
-      "beta": "Beta",
-      "pro": "Pro",
-      "dev": "Dev"
-    },
     "languageSection": "Langue",
     "cycleSection": "Cycle",
     "levelupSection": "Montée en niveau",
@@ -290,7 +281,6 @@
     "start": "Date de début du cycle",
     "language": "Langue",
     "levelUpPoints": "Points par niveau",
-    "avatar": "Avatar",
     "cacheSection": "Cache",
     "clearCache": "Vider le cache et recharger",
     "clearAll": "Tout effacer",
@@ -304,27 +294,13 @@
     "deleteAccountConfirm": "Supprimer définitivement",
     "cancel": "Annuler",
     "save": "Enregistrer",
-    "close": "Fermer",
-    "debugSection": "Journaux de débogage",
-    "refreshLogs": "Rafraîchir les logs",
-    "clearLogs": "Effacer les logs",
-    "noLogs": "Aucun log pour le moment.",
-    "exportLogs": "Exporter les logs",
-    "enableLogs": "Activer les logs",
-    "disableLogs": "Désactiver les logs",
-    "logFilter": "Filtre de logs",
-    "logFilterAll": "Tous",
-    "logFilterDebug": "Debug",
-    "logFilterInfo": "Info",
-    "logFilterWarn": "Alerte",
-    "logFilterError": "Erreur"
+    "close": "Fermer"
   },
   "profiles": {
     "addTooltip": "Créer un nouveau profil",
     "firstProfileTooltip": "Créez votre premier profil ici",
     "limitTooltip": "Limite de {{ count }} profils atteinte",
     "dialogTitle": "Nouveau profil",
-    "editTitle": "Modifier le profil",
     "avatarSection": "Avatar",
     "avatarLabel": "Avatar",
     "nameLabel": "Nom",
@@ -493,26 +469,88 @@
   "seed": {
     "defaultProfileName": "Super Copain",
     "defaultTasks": [
-      { "title": "🎒 Préparer le matériel scolaire et le sac", "points": 1 },
-      { "title": "📖 Étudier", "points": 3 },
-      { "title": "🚂 Ranger les jouets", "points": 1 },
-      { "title": "🛏️ Faire le lit", "points": 1 },
-      { "title": "☕️ Aider avec la vaisselle et les poubelles", "points": 1 },
-      { "title": "🛀 Prendre une douche et se brosser les dents", "points": 1 },
-      { "title": "🙋🏻‍♂️ Aider maman et papa", "points": 2 },
-      { "title": "😴 Aller au lit à l'heure", "points": 1 },
-      { "title": "👍 Autres tâches ménagères", "points": 1 },
-      { "title": "🍉 J'ai essayé un nouvel aliment", "points": 4 }
+      {
+        "title": "🎒 Préparer le matériel scolaire et le sac",
+        "points": 1
+      },
+      {
+        "title": "📖 Étudier",
+        "points": 3
+      },
+      {
+        "title": "🚂 Ranger les jouets",
+        "points": 1
+      },
+      {
+        "title": "🛏️ Faire le lit",
+        "points": 1
+      },
+      {
+        "title": "☕️ Aider avec la vaisselle et les poubelles",
+        "points": 1
+      },
+      {
+        "title": "🛀 Prendre une douche et se brosser les dents",
+        "points": 1
+      },
+      {
+        "title": "🙋🏻‍♂️ Aider maman et papa",
+        "points": 2
+      },
+      {
+        "title": "😴 Aller au lit à l'heure",
+        "points": 1
+      },
+      {
+        "title": "👍 Autres tâches ménagères",
+        "points": 1
+      },
+      {
+        "title": "🍉 J'ai essayé un nouvel aliment",
+        "points": 4
+      }
     ],
     "defaultRewards": [
-      { "title": "🎶 Choisir la musique en voiture", "cost": 10, "limitPerCycle": 3 },
-      { "title": "📚 Visiter la bibliothèque ou la librairie", "cost": 15, "limitPerCycle": 3 },
-      { "title": "♟️ Moment de jeu en famille", "cost": 20, "limitPerCycle": 3 },
-      { "title": "🍿 Soirée cinéma en famille", "cost": 20, "limitPerCycle": 3 },
-      { "title": "🎮 Temps de jeu vidéo supplémentaire", "cost": 30, "limitPerCycle": 3 },
-      { "title": "🍕 Café/repas spécial", "cost": 35, "limitPerCycle": 3 },
-      { "title": "🎥 Cinéma", "cost": 50, "limitPerCycle": 3 },
-      { "title": "🍔 Manger à l'extérieur", "cost": 50, "limitPerCycle": 3 }
+      {
+        "title": "🎶 Choisir la musique en voiture",
+        "cost": 10,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "📚 Visiter la bibliothèque ou la librairie",
+        "cost": 15,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "♟️ Moment de jeu en famille",
+        "cost": 20,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🍿 Soirée cinéma en famille",
+        "cost": 20,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🎮 Temps de jeu vidéo supplémentaire",
+        "cost": 30,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🍕 Café/repas spécial",
+        "cost": 35,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🎥 Cinéma",
+        "cost": 50,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🍔 Manger à l'extérieur",
+        "cost": 50,
+        "limitPerCycle": 3
+      }
     ]
   },
   "footer": {

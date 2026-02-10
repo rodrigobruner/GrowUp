@@ -57,69 +57,53 @@
     />
 
     <main class="page ds-scope">
-      <section class="hero">
-        <div>
-          <p class="eyebrow">{{ 'app.eyebrow' | translate }}</p>
-          <h1>{{ 'app.hero' | translate }}</h1>
-          <p class="subtitle">
-            {{ 'app.subtitle' | translate }}
-          </p>
-        </div>
-        <app-summary-card
-          *ngIf="showDashboard()"
-          [loading]="appStatus.isSyncing()"
-          [avatarSrc]="avatarSrc()"
-          [level]="level()"
-          [xpToNext]="xpToNext()"
-          [progressPercent]="progressPercent()"
-          [earned]="earned()"
-          [spent]="spent()"
-          [available]="balance()"
-          [cycleLabel]="cycleLabel()"
-          [cycleEarned]="cycleEarned()"
-          [cycleRangeLabel]="cycleRangeLabel()"
-          [previousCycleEarned]="previousCycleEarned()"
-          [previousCycleLabel]="previousCycleLabel()"
-        />
-      </section>
+      <app-dashboard-hero-section
+        [showDashboard]="showDashboard()"
+        [loading]="appStatus.isSyncing()"
+        [avatarSrc]="avatarSrc()"
+        [level]="level()"
+        [xpToNext]="xpToNext()"
+        [progressPercent]="progressPercent()"
+        [earned]="earned()"
+        [spent]="spent()"
+        [available]="balance()"
+        [cycleLabel]="cycleLabel()"
+        [cycleEarned]="cycleEarned()"
+        [cycleRangeLabel]="cycleRangeLabel()"
+        [previousCycleEarned]="previousCycleEarned()"
+        [previousCycleLabel]="previousCycleLabel()"
+      />
 
       <app-onboarding-card
         *ngIf="showOnboarding() || showProfileOnboarding()"
         (createProfile)="openCreateProfile()"
       />
 
-      <section class="grid" *ngIf="showDashboard()" [class.grid--single]="!showRewardsPanel()">
-        <app-tasks-panel
-          [tasks]="tasks()"
-          [todayDoneIds]="todayDoneIds()"
-          [selectedDate]="selectedDate()"
-          [todayKey]="todayKey()"
-          [loading]="appStatus.isSyncing()"
-          (selectedDateChange)="setSelectedDate($event)"
-          (addTask)="openTaskDialog()"
-          (toggleTask)="toggleTask($event)"
-          (removeTask)="removeTask($event)"
-        />
-
-        <app-rewards-panel
-          *ngIf="showRewardsPanel()"
-          [rewards]="rewards()"
-          [balance]="balance()"
-          [redemptions]="redemptions()"
-          [rewardUses]="rewardUses()"
-          [cycleStart]="currentCycleRange().start"
-          [cycleEnd]="currentCycleRange().end"
-          [loading]="appStatus.isSyncing()"
-          [advancedEnabled]="rewardsAdvancedEnabled()"
-          [maxRewards]="rewardsAdvancedEnabled() ? null : 10"
-          [showUsedTab]="rewardsAdvancedEnabled()"
-          (addReward)="openRewardDialog()"
-          (redeemReward)="redeemReward($event)"
-          (consumeReward)="consumeReward($event)"
-          (returnRedemption)="returnRedemption($event)"
-          (removeReward)="removeReward($event)"
-        />
-      </section>
+      <app-dashboard-panels-section
+        [showDashboard]="showDashboard()"
+        [showRewardsPanel]="showRewardsPanel()"
+        [tasks]="tasks()"
+        [todayDoneIds]="todayDoneIds()"
+        [selectedDate]="selectedDate()"
+        [todayKey]="todayKey()"
+        [loading]="appStatus.isSyncing()"
+        [rewards]="rewards()"
+        [balance]="balance()"
+        [redemptions]="redemptions()"
+        [rewardUses]="rewardUses()"
+        [cycleStart]="currentCycleRange().start"
+        [cycleEnd]="currentCycleRange().end"
+        [rewardsAdvancedEnabled]="rewardsAdvancedEnabled()"
+        (selectedDateChange)="setSelectedDate($event)"
+        (addTask)="openTaskDialog()"
+        (toggleTask)="toggleTask($event)"
+        (removeTask)="removeTask($event)"
+        (addReward)="openRewardDialog()"
+        (redeemReward)="redeemReward($event)"
+        (consumeReward)="consumeReward($event)"
+        (returnRedemption)="returnRedemption($event)"
+        (removeReward)="removeReward($event)"
+      />
 
       <app-footer [currentYear]="currentYear" [buildTime]="buildTime" [showBuildTime]="true" />
     </main>

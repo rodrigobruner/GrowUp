@@ -1,0 +1,97 @@
+<h2>{{ 'admin.users.title' | translate }}</h2>
+<div class="users-toolbar">
+  <label class="users-search" for="users-search">
+    <span class="material-icons" aria-hidden="true">search</span>
+    <input
+      id="users-search"
+      type="search"
+      [placeholder]="'admin.users.searchPlaceholder' | translate"
+      (input)="usersSearch.emit($event)"
+    />
+  </label>
+  <div class="users-actions">
+    <button type="button" class="users-action" (click)="copyUsersCsv.emit()">
+      {{ 'admin.users.actions.copy' | translate }}
+    </button>
+    <button type="button" class="users-action" (click)="exportUsersCsv.emit()">
+      {{ 'admin.users.actions.export' | translate }}
+    </button>
+  </div>
+  <div class="users-columns">
+    <span class="users-columns__label">{{ 'admin.users.columns.title' | translate }}</span>
+    <label class="users-columns__option">
+      <input
+        type="checkbox"
+        [checked]="usersColumnVisibility['ownerId']"
+        (change)="toggleUsersColumn.emit('ownerId')"
+      />
+      {{ 'admin.users.columns.userId' | translate }}
+    </label>
+    <label class="users-columns__option">
+      <input
+        type="checkbox"
+        [checked]="usersColumnVisibility['role']"
+        (change)="toggleUsersColumn.emit('role')"
+      />
+      {{ 'admin.users.columns.role' | translate }}
+    </label>
+    <label class="users-columns__option">
+      <input
+        type="checkbox"
+        [checked]="usersColumnVisibility['plan']"
+        (change)="toggleUsersColumn.emit('plan')"
+      />
+      {{ 'admin.users.columns.plan' | translate }}
+    </label>
+    <label class="users-columns__option">
+      <input
+        type="checkbox"
+        [checked]="usersColumnVisibility['createdAt']"
+        (change)="toggleUsersColumn.emit('createdAt')"
+      />
+      {{ 'admin.users.columns.createdAt' | translate }}
+    </label>
+    <label class="users-columns__option">
+      <input
+        type="checkbox"
+        [checked]="usersColumnVisibility['lastAccessedAt']"
+        (change)="toggleUsersColumn.emit('lastAccessedAt')"
+      />
+      {{ 'admin.users.columns.lastAccessedAt' | translate }}
+    </label>
+  </div>
+</div>
+<div class="users-grid">
+  <ag-grid-angular
+    class="ag-theme-alpine"
+    [rowData]="users"
+    [columnDefs]="usersColumns"
+    [animateRows]="true"
+    [gridOptions]="usersGridOptions"
+    [domLayout]="'normal'"
+    [style.height.px]="360"
+    (gridReady)="usersGridReady.emit($event)"
+  ></ag-grid-angular>
+</div>
+<div class="users-status">
+  <span>{{ 'admin.users.status.total' | translate:{ count: usersTotalCount } }}</span>
+  <div class="users-pagination">
+    <button type="button" class="users-page-btn" (click)="previousUsersPage.emit()">
+      {{ 'admin.users.pagination.prev' | translate }}
+    </button>
+    <label class="users-page-input">
+      <span>{{ 'admin.users.pagination.page' | translate }}</span>
+      <input
+        type="number"
+        [value]="usersPage"
+        (change)="goToUsersPage.emit($any($event.target).value)"
+        [min]="1"
+        [max]="usersTotalPages"
+      />
+      <span>{{ 'admin.users.pagination.of' | translate:{ total: usersTotalPages } }}</span>
+    </label>
+    <button type="button" class="users-page-btn" (click)="nextUsersPage.emit()">
+      {{ 'admin.users.pagination.next' | translate }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="tab-header">
+  <div>
+    <h2>{{ 'admin.features.title' | translate }}</h2>
+    <p>{{ 'admin.features.body' | translate }}</p>
+  </div>
+  <span class="tab-range" *ngIf="featuresLoading">
+    {{ 'admin.features.loading' | translate }}
+  </span>
+</div>
+<div class="features-table" *ngIf="!featuresLoading && featureFlags.length > 0">
+  <div class="features-row features-row--head">
+    <div class="features-cell features-cell--feature">
+      {{ 'admin.features.table.feature' | translate }}
+    </div>
+    <div class="features-cell">{{ 'admin.features.table.free' | translate }}</div>
+    <div class="features-cell">{{ 'admin.features.table.beta' | translate }}</div>
+    <div class="features-cell">{{ 'admin.features.table.pro' | translate }}</div>
+    <div class="features-cell">{{ 'admin.features.table.dev' | translate }}</div>
+  </div>
+  <div class="features-row" *ngFor="let feature of featureFlags">
+    <div class="features-cell features-cell--feature">
+      <span class="features-name">
+        {{ ('admin.features.items.' + feature.key + '.title') | translate }}
+      </span>
+      <span class="features-desc">
+        {{ ('admin.features.items.' + feature.key + '.description') | translate }}
+      </span>
+    </div>
+    <div class="features-cell">
+      <span class="features-plan-label">{{ 'admin.features.table.free' | translate }}</span>
+      <label class="feature-toggle">
+        <input
+          type="checkbox"
+          [checked]="isFeatureEnabled('FREE', feature.key)"
+          [disabled]="featuresLoading || isFeatureSaving('FREE', feature.key)"
+          (change)="toggleFeature.emit({ plan: 'FREE', featureKey: feature.key, enabled: $any($event.target).checked })"
+        />
+        <span class="feature-toggle__ui" aria-hidden="true"></span>
+      </label>
+    </div>
+    <div class="features-cell">
+      <span class="features-plan-label">{{ 'admin.features.table.beta' | translate }}</span>
+      <label class="feature-toggle">
+        <input
+          type="checkbox"
+          [checked]="isFeatureEnabled('BETA', feature.key)"
+          [disabled]="featuresLoading || isFeatureSaving('BETA', feature.key)"
+          (change)="toggleFeature.emit({ plan: 'BETA', featureKey: feature.key, enabled: $any($event.target).checked })"
+        />
+        <span class="feature-toggle__ui" aria-hidden="true"></span>
+      </label>
+    </div>
+    <div class="features-cell">
+      <span class="features-plan-label">{{ 'admin.features.table.pro' | translate }}</span>
+      <label class="feature-toggle">
+        <input
+          type="checkbox"
+          [checked]="isFeatureEnabled('PRO', feature.key)"
+          [disabled]="featuresLoading || isFeatureSaving('PRO', feature.key)"
+          (change)="toggleFeature.emit({ plan: 'PRO', featureKey: feature.key, enabled: $any($event.target).checked })"
+        />
+        <span class="feature-toggle__ui" aria-hidden="true"></span>
+      </label>
+    </div>
+    <div class="features-cell">
+      <span class="features-plan-label">{{ 'admin.features.table.dev' | translate }}</span>
+      <label class="feature-toggle">
+        <input
+          type="checkbox"
+          [checked]="isFeatureEnabled('DEV', feature.key)"
+          [disabled]="featuresLoading || isFeatureSaving('DEV', feature.key)"
+          (change)="toggleFeature.emit({ plan: 'DEV', featureKey: feature.key, enabled: $any($event.target).checked })"
+        />
+        <span class="feature-toggle__ui" aria-hidden="true"></span>
+      </label>
+    </div>
+  </div>
+</div>
+<p class="features-empty" *ngIf="!featuresLoading && featureFlags.length === 0">
+  {{ 'admin.features.empty' | translate }}
+</p>

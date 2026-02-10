@@ -9,14 +9,22 @@ const createSupabaseMock = () => {
       maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null })
     })
   });
+  const createEqChain = () => {
+    const chain: any = {};
+    const final = vi.fn().mockResolvedValue({ error: null });
+    chain.eq = vi.fn(() => ({
+      eq: vi.fn(() => final())
+    }));
+    return chain;
+  };
   const from = vi.fn().mockReturnValue({
     upsert,
     delete: () => ({
-      eq: vi.fn().mockReturnValue({ error: null })
+      eq: vi.fn().mockReturnValue({
+        eq: vi.fn().mockResolvedValue({ error: null })
+      })
     }),
-    update: () => ({
-      eq: vi.fn().mockReturnValue({ error: null })
-    }),
+    update: () => createEqChain(),
     select
   });
   return { from, upsert, select };
@@ -264,5 +272,181 @@ describe('SyncService', () => {
     expect(syncAllSpy).toHaveBeenCalledTimes(1);
 
     Object.defineProperty(globalThis.navigator, 'onLine', { value: original, configurable: true });
+  });
+
+  it('stop unsubscribes and clears timers', () => {
+    const auth = createAuth(true);
+    const db = {} as any;
+    const mapper = new SyncMapperService();
+    const logger = { info: vi.fn(), warn: vi.fn(), error: vi.fn() } as any;
+    const service = new SyncService(auth, db, mapper, logger);
+
+    const unsubscribe = vi.fn();
+    (service as any).channel = { unsubscribe };
+    (service as any).syncTimer = window.setTimeout(() => {}, 1000);
+    (service as any).started = true;
+
+    service.stop();
+
+    expect(unsubscribe).toHaveBeenCalled();
+    expect(service.isStarted()).toBe(false);
+  });
+
+  it('pullAll aggregates counts per table', async () => {
+    const auth = createAuth(true);
+    const db = {} as any;
+    const mapper = new SyncMapperService();
+    const logger = { info: vi.fn(), warn: vi.fn(), error: vi.fn() } as any;
+    const service = new SyncService(auth, db, mapper, logger);
+    const pullSpy = vi.spyOn(service as any, 'pullTable')
+      .mockResolvedValueOnce(1)
+      .mockResolvedValueOnce(2)
+      .mockResolvedValueOnce(3)
+      .mockResolvedValueOnce(4)
+      .mockResolvedValueOnce(5)
+      .mockResolvedValueOnce(6)
+      .mockResolvedValueOnce(7);
+
+    const result = await service.pullAll();
+
+    expect(pullSpy).toHaveBeenCalledTimes(7);
+    expect(result).toEqual({
+      profiles: 1,
+      tasks: 2,
+      rewards: 3,
+      completions: 4,
+      settings: 5,
+      redemptions: 6,
+      accountSettings: 7
+    });
+  });
+
+  it('pushes profile upsert', async () => {
+    const supabase = createSupabaseMock();
+    const auth = {
+      user: () => ({ id: 'u1' }),
+      getClient: () => ({
+        auth: { getSession: async () => ({ data: { session: { user: { id: 'u1' } } } }) },
+        from: supabase.from
+      })
+    } as any;
+
+    const db = {
+      getOutbox: async () => [
+        {
+          entity: 'profiles',
+          action: 'upsert',
+          payload: { id: 'p1', displayName: 'Profile', avatarId: '01', createdAt: 1 },
+          seq: 1
+        }
+      ],
+      removeOutboxEntry: vi.fn()
+    } as any;
+
+    const mapper = {
+      toRemoteProfile: vi.fn().mockReturnValue({ owner_id: 'u1', id: 'p1' })
+    } as unknown as SyncMapperService;
+
+    const logger = { info: vi.fn(), warn: vi.fn(), error: vi.fn() } as any;
+    const service = new SyncService(auth, db, mapper, logger);
+
+    await service.pushOutbox();
+
+    expect(mapper.toRemoteProfile).toHaveBeenCalled();
+    expect(supabase.from).toHaveBeenCalledWith('profiles');
+  });
+
+  it('pushes task upsert and delete', async () => {
+    const supabase = createSupabaseMock();
+    const auth = {
+      user: () => ({ id: 'u1' }),
+      getClient: () => ({
+        auth: { getSession: async () => ({ data: { session: { user: { id: 'u1' } } } }) },
+        from: supabase.from
+      })
+    } as any;
+
+    const db = {
+      getOutbox: async () => [
+        {
+          entity: 'tasks',
+          action: 'upsert',
+          payload: { id: 't1', profileId: 'p1', title: 'Task', points: 10, createdAt: 1 },
+          seq: 1
+        },
+        {
+          entity: 'tasks',
+          action: 'delete',
+          recordId: 't2',
+          seq: 2
+        }
+      ],
+      removeOutboxEntry: vi.fn()
+    } as any;
+
+    const mapper = {
+      toRemotePayload: vi.fn().mockReturnValue({ owner_id: 'u1', id: 't1' })
+    } as any;
+
+    const logger = { info: vi.fn(), warn: vi.fn(), error: vi.fn() } as any;
+    const service = new SyncService(auth, db, mapper, logger);
+
+    await service.pushOutbox();
+
+    expect(mapper.toRemotePayload).toHaveBeenCalled();
+    expect(supabase.from).toHaveBeenCalledWith('tasks');
+  });
+
+  it('pushes reward, completion, settings and redemption upserts', async () => {
+    const supabase = createSupabaseMock();
+    const auth = {
+      user: () => ({ id: 'u1' }),
+      getClient: () => ({
+        auth: { getSession: async () => ({ data: { session: { user: { id: 'u1' } } } }) },
+        from: supabase.from
+      })
+    } as any;
+
+    const db = {
+      getOutbox: async () => [
+        {
+          entity: 'rewards',
+          action: 'upsert',
+          payload: { id: 'r1', profileId: 'p1', title: 'Reward', cost: 10, limitPerCycle: 1, createdAt: 1 },
+          seq: 1
+        },
+        {
+          entity: 'completions',
+          action: 'upsert',
+          payload: { id: 'c1', profileId: 'p1', taskId: 't1', date: '2026-02-01', points: 10 },
+          seq: 2
+        },
+        {
+          entity: 'settings',
+          action: 'upsert',
+          payload: { profileId: 'p1', cycleType: 'weekly', cycleStartDate: '2026-02-01', levelUpPoints: 100 },
+          seq: 3
+        },
+        {
+          entity: 'redemptions',
+          action: 'upsert',
+          payload: { id: 'red1', profileId: 'p1', rewardId: 'r1', rewardTitle: 'Reward', cost: 10, redeemedAt: 1, date: '2026-02-01' },
+          seq: 4
+        }
+      ],
+      getRecord: vi.fn().mockResolvedValue(null),
+      removeOutboxEntry: vi.fn()
+    } as any;
+
+    const mapper = {
+      toRemotePayload: vi.fn().mockReturnValue({ owner_id: 'u1', id: 'payload' })
+    } as any;
+
+    const logger = { info: vi.fn(), warn: vi.fn(), error: vi.fn() } as any;
+    const service = new SyncService(auth, db, mapper, logger);
+
+    await service.pushOutbox();
+
+    expect(mapper.toRemotePayload).toHaveBeenCalled();
   });
 });

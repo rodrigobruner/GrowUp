@@ -28,7 +28,7 @@
           {{ 'tasks.today' | translate }}
         </button>
       </div>
-      <button mat-fab color="primary" class="add-fab" (click)="addTask.emit()">
+      <button mat-fab color="primary" class="add-fab" type="button" (click)="addTask.emit()">
         <span class="material-icons">add</span>
       </button>
     </div>
@@ -71,7 +71,13 @@
               {{ todayDoneIds.has(task.id) ? ('tasks.done' | translate) : ('tasks.available' | translate) }}
             </span>
           </div>
-          <button mat-icon-button class="danger" (click)="removeTask.emit(task)">
+          <button
+            mat-icon-button
+            class="danger"
+            type="button"
+            [attr.aria-label]="'confirm.deleteTaskTitle' | translate"
+            (click)="removeTask.emit(task)"
+          >
             <span class="material-icons">delete</span>
           </button>
         </div>

@@ -1,0 +1,25 @@
+<section class="hero">
+  <div>
+    <p class="eyebrow">{{ 'app.eyebrow' | translate }}</p>
+    <h1>{{ 'app.hero' | translate }}</h1>
+    <p class="subtitle">
+      {{ 'app.subtitle' | translate }}
+    </p>
+  </div>
+  <app-summary-card
+    *ngIf="showDashboard"
+    [loading]="loading"
+    [avatarSrc]="avatarSrc"
+    [level]="level"
+    [xpToNext]="xpToNext"
+    [progressPercent]="progressPercent"
+    [earned]="earned"
+    [spent]="spent"
+    [available]="available"
+    [cycleLabel]="cycleLabel"
+    [cycleEarned]="cycleEarned"
+    [cycleRangeLabel]="cycleRangeLabel"
+    [previousCycleEarned]="previousCycleEarned"
+    [previousCycleLabel]="previousCycleLabel"
+  />
+</section>

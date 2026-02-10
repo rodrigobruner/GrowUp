@@ -11,8 +11,6 @@
   },
   "admin": {
     "eyebrow": "GrowUp Admin",
-    "title": "Administración",
-    "subtitle": "Gestiona el resumen, las funcionalidades y los logs del producto.",
     "tabs": {
       "overview": "Overview",
       "features": "Funcionalidades",
@@ -57,7 +55,6 @@
     },
     "users": {
       "title": "Usuarios",
-      "body": "Consulta detalles y métricas relacionadas con los usuarios registrados.",
       "searchPlaceholder": "Buscar por ID de usuario",
       "loading": "Cargando usuarios...",
       "empty": "No se encontraron usuarios.",
@@ -277,12 +274,6 @@
   "settingsDialog": {
     "title": "Configuración",
     "planLabel": "Plan",
-    "plan": {
-      "free": "Free",
-      "beta": "Beta",
-      "pro": "Pro",
-      "dev": "Dev"
-    },
     "languageSection": "Idioma",
     "cycleSection": "Ciclo",
     "levelupSection": "Subir de nivel",
@@ -290,7 +281,6 @@
     "start": "Fecha de inicio del ciclo",
     "language": "Idioma",
     "levelUpPoints": "Puntos por nivel",
-    "avatar": "Avatar",
     "cacheSection": "Caché",
     "clearCache": "Limpiar caché y recargar",
     "clearAll": "Borrar todos los datos",
@@ -304,25 +294,7 @@
     "deleteAccountConfirm": "Eliminar permanentemente",
     "cancel": "Cancelar",
     "save": "Guardar",
-    "close": "Cerrar",
-    "debugSection": "Registros de depuración",
-    "refreshLogs": "Actualizar registros",
-    "clearLogs": "Borrar registros",
-    "exportLogs": "Exportar registros",
-    "disableLogs": "Desactivar registros",
-    "enableLogs": "Activar registros",
-    "logFilter": "Filtrar por nivel",
-    "logFilterAll": "Todos",
-    "logFilterDebug": "Depuración",
-    "logFilterInfo": "Información",
-    "logFilterWarn": "Advertencia",
-    "logFilterError": "Error",
-    "noLogs": "No hay registros.",
-    "logLimit": "Límite de registros",
-    "deleteAccountSuccess": "Cuenta eliminada.",
-    "deleteAccountError": "No se pudo eliminar la cuenta.",
-    "deleteAccountConfirmTitle": "Eliminar cuenta",
-    "deleteAccountConfirmMessage": "Esta acción es permanente. ¿Deseas continuar?"
+    "close": "Cerrar"
   },
   "confirm": {
     "cancel": "Cancelar",
@@ -333,8 +305,6 @@
     "deleteRewardMessage": "¿Deseas eliminar la recompensa '{{ title }}'?",
     "deleteProfileTitle": "Eliminar perfil",
     "deleteProfileMessage": "¿Deseas eliminar el perfil '{{ name }}'?",
-    "deleteRedemptionTitle": "Eliminar canje",
-    "deleteRedemptionMessage": "¿Deseas eliminar el canje '{{ title }}'?",
     "useRedemptionTitle": "Usar recompensa",
     "useRedemptionMessage": "¿Quieres usar '{{ title }}' ahora?",
     "redeemTitle": "Canjear recompensa",
@@ -352,43 +322,20 @@
     "addTooltip": "Crear un nuevo perfil",
     "firstProfileTooltip": "Crea tu primer perfil aquí",
     "limitTooltip": "Límite de {{ count }} perfiles alcanzado",
-    "title": "Perfiles",
     "listTitle": "Perfiles",
-    "add": "Agregar perfil",
-    "create": "Crear perfil",
-    "edit": "Editar perfil",
     "avatarLabel": "Avatar",
     "nameLabel": "Nombre",
     "save": "Guardar perfil",
-    "duplicate": "Ya existe un perfil con ese nombre.",
     "duplicateTitle": "Nombre duplicado",
     "duplicateMessage": "Ya existe un perfil con ese nombre. Elige otro.",
     "limitTitle": "Límite de perfiles",
     "limitMessage": "Ya alcanzaste el límite de {{ count }} perfiles en esta cuenta.",
     "ok": "OK",
     "cancel": "Cancelar",
-    "deleteError": "No se puede eliminar el último perfil.",
-    "createTitle": "Crear perfil",
-    "editTitle": "Editar perfil"
-  },
-  "summaryCard": {
-    "levelLabel": "Nivel",
-    "xpAvailable": "XP disponible",
-    "xpToNext": "XP para el próximo nivel",
-    "levelUp": "Subir de nivel"
-  },
-  "tasksPanel": {
-    "empty": "Aún no hay tareas.",
-    "add": "Agregar tarea"
-  },
-  "rewardsPanel": {
-    "empty": "Aún no hay recompensas.",
-    "add": "Agregar recompensa"
-  },
-  "onboarding": {
-    "title": "Comienza con tu primer perfil",
-    "body": "Crea un perfil para empezar a registrar tareas y recompensas.",
-    "button": "Crear perfil"
+    "dialogTitle": "New profile",
+    "avatarSection": "Avatar",
+    "use": "Use this profile",
+    "close": "Close"
   },
   "auth": {
     "title": "Cuenta",
@@ -484,7 +431,12 @@
     "section10Title": "10. Cambios en los términos",
     "section10Body": "Podemos actualizar estos términos periódicamente. Al continuar usando GrowUp después de un cambio, aceptas los términos revisados.",
     "section11Title": "11. Contacto",
-    "section11Body": "Si tienes dudas, contáctanos a través de los canales oficiales de soporte de GrowUp."
+    "section11Body": "Si tienes dudas, contáctanos a través de los canales oficiales de soporte de GrowUp.",
+    "section12Title": "12. Governing law and jurisdiction",
+    "section12Body": "These Terms of Use are governed by the laws applicable to the service’s location of operation, respecting data protection laws including LGPD, GDPR, and COPPA. In case of conflict between translations, the original version prevails.",
+    "noteTitle": "Important note",
+    "noteBody": "GrowUp is a tool to support family education and does not replace the active role of parents, guardians, or educators.",
+    "versionLabel": "Version:"
   },
   "privacyPolicy": {
     "title": "Política de privacidad – GrowUp",
@@ -514,7 +466,6 @@
     "updatedAt": "Actualizado a las {{ time }}",
     "syncing": "Sincronizando",
     "offline": "Sin conexión",
-    "close": "Cerrar",
     "detailsTitle": "Estado de sincronización",
     "detailsLastSync": "Última sincronización",
     "detailsLastError": "Último error",
@@ -522,7 +473,9 @@
     "statusOffline": "Sin conexión",
     "statusSyncing": "Sincronizando",
     "statusIdle": "Inactivo",
-    "never": "Nunca"
+    "never": "Nunca",
+    "detailsOnline": "Connectivity",
+    "detailsSyncing": "Status"
   },
   "footer": {
     "developedBy": "Desenvolvido por:",
@@ -530,74 +483,6 @@
     "builtAt": "Ambiente/versão:",
     "terms": "Términos de uso",
     "privacy": "Política de privacidad"
-  },
-  "levelup": {
-    "title": "¡Nivel alcanzado!",
-    "subtitle": "¡Increíble trabajo! ¡Sigue así!",
-    "newLevel": "Ahora estás en el nivel",
-    "continue": "Continuar"
-  },
-  "profileAvatar": {
-    "create": "Crear",
-    "edit": "Editar"
-  },
-  "rewardDialog": {
-    "title": "Nueva recompensa",
-    "editTitle": "Editar recompensa",
-    "name": "Nombre",
-    "cost": "Costo",
-    "limitPerCycle": "Límite por ciclo",
-    "save": "Guardar",
-    "cancel": "Cancelar"
-  },
-  "taskDialog": {
-    "title": "Nueva tarea",
-    "editTitle": "Editar tarea",
-    "name": "Nombre",
-    "points": "Puntos",
-    "save": "Guardar",
-    "cancel": "Cancelar"
-  },
-  "onboardingCard": {
-    "title": "Bienvenido a GrowUp",
-    "subtitle": "Crea tu primer perfil para empezar.",
-    "action": "Crear perfil"
-  },
-  "deleteAccount": {
-    "title": "Eliminar cuenta",
-    "body": "Esta acción es permanente. ¿Quieres continuar?",
-    "confirm": "Eliminar",
-    "cancel": "Cancelar"
-  },
-  "authError": {
-    "title": "Error de autenticación",
-    "message": "Ocurrió un error de autenticación. Inténtalo de nuevo."
-  },
-  "resetPassword": {
-    "title": "Restablecer contraseña",
-    "body": "Ingresa tu nueva contraseña para continuar.",
-    "save": "Guardar",
-    "cancel": "Cancelar"
-  },
-  "profileDialog": {
-    "title": "Perfil",
-    "save": "Guardar",
-    "cancel": "Cancelar"
-  },
-  "rewardPanel": {
-    "title": "Recompensas",
-    "add": "Agregar"
-  },
-  "taskPanel": {
-    "title": "Tareas",
-    "add": "Agregar"
-  },
-  "onboardingPanel": {
-    "title": "Comienza",
-    "subtitle": "Agrega tu primera tarea y recompensa."
-  },
-  "syncStatus": {
-    "title": "Sincronización"
   },
   "pwaBanner": {
     "title": "Instalar GrowUp",
@@ -617,30 +502,93 @@
   "seed": {
     "defaultProfileName": "Super Amigo",
     "defaultTasks": [
-      { "title": "🎒 Organizar útiles escolares y mochila", "points": 1 },
-      { "title": "📖 Estudiar", "points": 3 },
-      { "title": "🚂 Guardar los juguetes", "points": 1 },
-      { "title": "🛏️ Hacer la cama", "points": 1 },
-      { "title": "☕️ Ayudar con los platos y la basura", "points": 1 },
-      { "title": "🛀 Ducharse y cepillarse los dientes", "points": 1 },
-      { "title": "🙋🏻‍♂️ Ayudar a mamá y papá", "points": 2 },
-      { "title": "😴 Ir a la cama a tiempo", "points": 1 },
-      { "title": "👍 Otras tareas del hogar", "points": 1 },
-      { "title": "🍉 Probé un alimento nuevo", "points": 4 }
+      {
+        "title": "🎒 Organizar útiles escolares y mochila",
+        "points": 1
+      },
+      {
+        "title": "📖 Estudiar",
+        "points": 3
+      },
+      {
+        "title": "🚂 Guardar los juguetes",
+        "points": 1
+      },
+      {
+        "title": "🛏️ Hacer la cama",
+        "points": 1
+      },
+      {
+        "title": "☕️ Ayudar con los platos y la basura",
+        "points": 1
+      },
+      {
+        "title": "🛀 Ducharse y cepillarse los dientes",
+        "points": 1
+      },
+      {
+        "title": "🙋🏻‍♂️ Ayudar a mamá y papá",
+        "points": 2
+      },
+      {
+        "title": "😴 Ir a la cama a tiempo",
+        "points": 1
+      },
+      {
+        "title": "👍 Otras tareas del hogar",
+        "points": 1
+      },
+      {
+        "title": "🍉 Probé un alimento nuevo",
+        "points": 4
+      }
     ],
     "defaultRewards": [
-      { "title": "🎶 Elegir la música en el auto", "cost": 10, "limitPerCycle": 3 },
-      { "title": "📚 Visitar la biblioteca o librería", "cost": 15, "limitPerCycle": 3 },
-      { "title": "♟️ Juego en familia", "cost": 20, "limitPerCycle": 3 },
-      { "title": "🍿 Noche de cine en familia", "cost": 20, "limitPerCycle": 3 },
-      { "title": "🎮 Tiempo extra de videojuegos", "cost": 30, "limitPerCycle": 3 },
-      { "title": "🍕 Café/almuerzo/cena especial", "cost": 35, "limitPerCycle": 3 },
-      { "title": "🎥 Cine", "cost": 50, "limitPerCycle": 3 },
-      { "title": "🍔 Comer fuera", "cost": 50, "limitPerCycle": 3 }
+      {
+        "title": "🎶 Elegir la música en el auto",
+        "cost": 10,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "📚 Visitar la biblioteca o librería",
+        "cost": 15,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "♟️ Juego en familia",
+        "cost": 20,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🍿 Noche de cine en familia",
+        "cost": 20,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🎮 Tiempo extra de videojuegos",
+        "cost": 30,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🍕 Café/almuerzo/cena especial",
+        "cost": 35,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🎥 Cine",
+        "cost": 50,
+        "limitPerCycle": 3
+      },
+      {
+        "title": "🍔 Comer fuera",
+        "cost": 50,
+        "limitPerCycle": 3
+      }
     ]
   },
-  "status": {
-    "loading": "Cargando",
-    "error": "Error"
+  "levelUp": {
+    "title": "Level up!",
+    "subtitle": "Great job! Keep going to earn more XP.",
+    "close": "Close"
   }
 }

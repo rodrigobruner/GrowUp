@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,9 +27,8 @@ import { AccessTrackingService } from '../../core/services/access-tracking.servi
 import { environment } from '../../../environments/environment';
 import { SettingsDialogComponent } from '../../features/settings/settings-dialog/settings-dialog.component';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
-import { SummaryCardComponent } from '../../features/summary/summary-card/summary-card.component';
-import { TasksPanelComponent } from '../../features/tasks/tasks-panel/tasks-panel.component';
-import { RewardsPanelComponent } from '../../features/rewards/rewards-panel/rewards-panel.component';
+import { DashboardHeroSectionComponent } from './sections/dashboard-hero-section/dashboard-hero-section.component';
+import { DashboardPanelsSectionComponent } from './sections/dashboard-panels-section/dashboard-panels-section.component';
 import { OnboardingCardComponent } from '../../components/onboarding-card/onboarding-card.component';
 import { ProfileDialogComponent } from '../../features/profiles/profile-dialog/profile-dialog.component';
 import { AppFooterComponent } from '../../components/app-footer/app-footer.component';
@@ -44,16 +43,16 @@ import { Router } from '@angular/router';
     MatSidenavModule,
     TopbarComponent,
     OnboardingCardComponent,
-    SummaryCardComponent,
-    TasksPanelComponent,
-    RewardsPanelComponent,
+    DashboardHeroSectionComponent,
+    DashboardPanelsSectionComponent,
     SettingsDialogComponent,
     ProfileDialogComponent,
     AppFooterComponent,
     TranslateModule
   ],
   templateUrl: './dashboard-page.component.html',
-  styleUrl: './dashboard-page.component.scss'
+  styleUrl: './dashboard-page.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class DashboardPageComponent implements OnInit {
   private readonly auth = inject(AuthService);

@@ -1,14 +1,14 @@
 .confirm-message {
   margin: 0;
   font-size: 0.95rem;
-  color: rgba(46, 58, 89, 0.85);
+  color: rgba(var(--color-slate-rgb), 0.7);
 }
 
 .confirm-actions .confirm-danger {
-  background: #c62828;
-  color: #fff;
+  background: var(--color-danger-strong);
+  color: var(--color-white);
 }
 
 .confirm-actions .confirm-danger:hover {
-  background: #b71c1c;
+  background: var(--color-danger-stronger);
 }

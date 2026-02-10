@@ -1,0 +1,31 @@
+<section class="panel panel-privacy">
+  <div class="panel-inner reverse">
+    <div class="panel-copy">
+      <h2>{{ 'landing.privacy.title' | translate }}</h2>
+      <div class="panel-visual panel-visual--mobile">
+        <img
+          class="panel-image panel-image--xlarge"
+          src="assets/images/home/home_8.webp"
+          [attr.alt]="'landing.privacy.imageAlt' | translate"
+        />
+      </div>
+      <div class="privacy-grid">
+        <div class="privacy-card">{{ 'landing.privacy.items.0' | translate }}</div>
+        <div class="privacy-card">{{ 'landing.privacy.items.1' | translate }}</div>
+        <div class="privacy-card">{{ 'landing.privacy.items.2' | translate }}</div>
+        <div class="privacy-card">{{ 'landing.privacy.items.3' | translate }}</div>
+      </div>
+      <p class="section-note section-note--privacy">{{ 'landing.privacy.note' | translate }}</p>
+      <button type="button" class="terms-link" (click)="openTerms.emit()">
+        {{ 'landing.privacy.termsLink' | translate }}
+      </button>
+    </div>
+    <div class="panel-visual panel-visual--desktop">
+      <img
+        class="panel-image panel-image--xlarge"
+        src="assets/images/home/home_8.webp"
+        [attr.alt]="'landing.privacy.imageAlt' | translate"
+      />
+    </div>
+  </div>
+</section>

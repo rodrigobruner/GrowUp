@@ -2,12 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { UserMenuComponent } from './user-menu.component';
 
 describe('UserMenuComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserMenuComponent, TranslateModule.forRoot()]
+      imports: [UserMenuComponent, TranslateModule.forRoot(), RouterTestingModule]
     }).compileComponents();
   });
 

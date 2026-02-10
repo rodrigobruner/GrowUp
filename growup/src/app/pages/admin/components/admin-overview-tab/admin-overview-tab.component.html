@@ -1,0 +1,13 @@
+<div class="tab-header">
+  <div>
+    <h2>{{ 'admin.overview.title' | translate }}</h2>
+    <p>{{ 'admin.overview.body' | translate }}</p>
+  </div>
+  <span class="tab-range">{{ 'admin.overview.range' | translate }}</span>
+</div>
+<app-admin-line-chart
+  [labels]="labels"
+  [series]="series"
+  [loading]="loading"
+  [emptyLabel]="emptyLabel"
+/>

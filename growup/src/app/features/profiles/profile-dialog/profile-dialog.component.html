@@ -21,7 +21,7 @@
               <mat-select formControlName="avatarId">
                 <mat-option *ngFor="let avatar of avatars()" [value]="avatar.id">
                   <span class="avatar-option">
-                    <img class="avatar-option-img" [src]="avatarOptionSrc(avatar.id)" alt="" />
+                    <img class="avatar-option-img" [src]="avatarOptionSrc(avatar.id)" [attr.alt]="avatar.name" />
                     {{ avatar.name }}
                   </span>
                 </mat-option>
