@@ -16,12 +16,21 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.95rem;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
 }
 
 .legend-swatch {
   width: 12px;
   height: 12px;
   border-radius: 999px;
+}
+
+.legend-item--disabled {
+  opacity: 0.45;
 }
 
 .chart-body {
@@ -49,11 +58,33 @@
   stroke-width: 1;
 }
 
+.chart-grid-label {
+  fill: var(--app-ink-soft);
+  font-size: 10px;
+}
+
 .chart-line {
   fill: none;
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.chart-hover-line {
+  stroke: rgba(19, 70, 134, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.chart-hover-point {
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.chart-selection {
+  fill: rgba(19, 70, 134, 0.12);
+  stroke: rgba(19, 70, 134, 0.35);
+  stroke-width: 1;
 }
 
 .chart-loading {
@@ -85,6 +116,66 @@
   color: var(--app-ink-soft);
 }
 
+.chart-tooltip {
+  position: absolute;
+  min-width: 160px;
+  background: #fff;
+  border: 1px solid rgba(19, 70, 134, 0.18);
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(19, 70, 134, 0.15);
+  padding: 0.6rem 0.75rem;
+  transform: translate(-50%, -120%);
+  pointer-events: none;
+  display: grid;
+  gap: 0.35rem;
+  z-index: 2;
+}
+
+.chart-tooltip__title {
+  font-weight: 700;
+  color: var(--app-ink);
+}
+
+.chart-tooltip__item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--app-ink);
+}
+
+.chart-tooltip__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  margin-top: 0.2rem;
+}
+
+.chart-tooltip__label {
+  color: var(--app-ink);
+}
+
+.chart-tooltip__value {
+  font-weight: 600;
+}
+
+.chart-reset {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: rgba(19, 70, 134, 0.12);
+  color: var(--app-ink);
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+}
+
+.chart-reset:hover {
+  background: rgba(19, 70, 134, 0.2);
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -94,5 +185,9 @@
 @media (max-width: 720px) {
   .chart-body {
     padding: 0.75rem;
+  }
+
+  .chart-tooltip {
+    min-width: 140px;
   }
 }

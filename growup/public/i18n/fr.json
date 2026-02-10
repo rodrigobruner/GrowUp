@@ -25,7 +25,8 @@
       "range": "30 derniers jours",
       "usersSeries": "Utilisateurs inscrits (cumul)",
       "accessSeries": "Accès quotidiens",
-      "empty": "Il n'y a pas encore assez de données pour afficher le graphique."
+      "empty": "Il n'y a pas encore assez de données pour afficher le graphique.",
+      "resetZoom": "Réinitialiser le zoom"
     },
     "features": {
       "title": "Fonctionnalités",

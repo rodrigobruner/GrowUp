@@ -25,7 +25,8 @@
       "range": "Last 30 days",
       "usersSeries": "Registered users (cumulative)",
       "accessSeries": "Daily accesses",
-      "empty": "There is not enough data to render this chart yet."
+      "empty": "There is not enough data to render this chart yet.",
+      "resetZoom": "Reset zoom"
     },
     "features": {
       "title": "Features",

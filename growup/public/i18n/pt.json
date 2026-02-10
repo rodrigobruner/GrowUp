@@ -25,7 +25,8 @@
       "range": "Últimos 30 dias",
       "usersSeries": "Usuários cadastrados (acumulado)",
       "accessSeries": "Acessos diários",
-      "empty": "Ainda não há dados suficientes para exibir o gráfico."
+      "empty": "Ainda não há dados suficientes para exibir o gráfico.",
+      "resetZoom": "Resetar zoom"
     },
     "features": {
       "title": "Funcionalidades",
