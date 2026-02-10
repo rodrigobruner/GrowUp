@@ -208,6 +208,196 @@
   color: var(--app-ink-soft);
 }
 
+.logs-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.logs-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.logs-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--app-ink);
+  font-weight: 600;
+}
+
+.logs-filter select {
+  border-radius: 999px;
+  border: 1px solid rgba(19, 70, 134, 0.18);
+  padding: 0.3rem 0.75rem;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--app-ink);
+  font: inherit;
+}
+
+.debug-log {
+  display: grid;
+  gap: 0.5rem;
+  max-height: 320px;
+  overflow: auto;
+  padding: 0.75rem;
+  border: 1px solid rgba(19, 70, 134, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.debug-log-item {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--app-ink);
+}
+
+.debug-log-time {
+  font-variant-numeric: tabular-nums;
+  color: var(--app-ink-soft);
+}
+
+.debug-log-level {
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(19, 70, 134, 0.75);
+}
+
+.debug-log-message {
+  font-weight: 600;
+}
+
+.debug-log-context {
+  grid-column: 1 / -1;
+  color: var(--app-ink-soft);
+  word-break: break-word;
+}
+
+.logs-empty {
+  margin: 0;
+  font-weight: 600;
+  color: var(--app-ink-soft);
+}
+
+.features-table {
+  display: grid;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(19, 70, 134, 0.12);
+}
+
+.features-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 2.2fr) repeat(3, minmax(90px, 1fr));
+  align-items: center;
+}
+
+.features-row--head {
+  background: #DBE4ED;
+  font-weight: 700;
+  color: var(--app-ink);
+}
+
+.features-row:not(.features-row--head) {
+  background: rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(19, 70, 134, 0.08);
+}
+
+.features-cell {
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.features-plan-label {
+  display: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--app-ink-soft);
+}
+
+.features-cell--feature {
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 0.25rem;
+}
+
+.features-name {
+  font-weight: 700;
+  color: var(--app-ink);
+}
+
+.features-desc {
+  font-size: 0.85rem;
+  color: var(--app-ink-soft);
+}
+
+.feature-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 52px;
+  height: 28px;
+}
+
+.feature-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.feature-toggle__ui {
+  position: absolute;
+  inset: 0;
+  background: rgba(19, 70, 134, 0.2);
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+.feature-toggle__ui::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(19, 70, 134, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.feature-toggle input:checked + .feature-toggle__ui {
+  background: var(--app-primary-hover);
+}
+
+.feature-toggle input:checked + .feature-toggle__ui::after {
+  transform: translateX(22px);
+}
+
+.feature-toggle input:disabled + .feature-toggle__ui {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.features-empty {
+  margin: 0;
+  font-weight: 600;
+  color: var(--app-ink-soft);
+}
+
 
 :host ::ng-deep .ag-theme-alpine {
   --ag-foreground-color: var(--app-ink);
@@ -342,5 +532,46 @@
   .users-status {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .logs-toolbar {
+    align-items: flex-start;
+  }
+
+  .logs-actions {
+    width: 100%;
+  }
+
+  .logs-filter {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .features-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    text-align: left;
+  }
+
+  .features-row--head {
+    display: none;
+  }
+
+  .features-row:not(.features-row--head) {
+    padding: 0.5rem 0;
+  }
+
+  .features-cell {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .features-plan-label {
+    display: inline-flex;
+    margin-right: 0.6rem;
+  }
+
+  .features-cell:not(.features-cell--feature) {
+    padding-top: 0;
   }
 }

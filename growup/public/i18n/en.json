@@ -29,7 +29,29 @@
     },
     "features": {
       "title": "Features",
-      "body": "Review delivery status and prioritization of features."
+      "body": "Enable or disable features by plan and track availability.",
+      "loading": "Loading toggles...",
+      "empty": "No features configured.",
+      "table": {
+        "feature": "Feature",
+        "free": "Free",
+        "beta": "Beta",
+        "pro": "Pro"
+      },
+      "items": {
+        "tasks": {
+          "title": "Tasks",
+          "description": "Allows creating and managing tasks."
+        },
+        "rewards": {
+          "title": "Rewards",
+          "description": "Unlocks rewards and XP management."
+        },
+        "profiles": {
+          "title": "Profiles",
+          "description": "Enables multiple profiles per account."
+        }
+      }
     },
     "users": {
       "title": "Users",
@@ -61,7 +83,23 @@
     },
     "logs": {
       "title": "Logs",
-      "body": "Centralize critical events and system audits."
+      "body": "Centralize critical events and system audits.",
+      "actions": {
+        "refresh": "Refresh",
+        "clear": "Clear",
+        "export": "Export",
+        "enable": "Enable logs",
+        "disable": "Disable logs"
+      },
+      "filter": {
+        "label": "Level",
+        "all": "All",
+        "debug": "Debug",
+        "info": "Info",
+        "warn": "Warn",
+        "error": "Error"
+      },
+      "empty": "No logs recorded."
     }
   },
   "landing": {

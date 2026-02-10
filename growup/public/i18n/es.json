@@ -29,7 +29,29 @@
     },
     "features": {
       "title": "Funcionalidades",
-      "body": "Revisa el estado de entrega y la prioridad de las funcionalidades."
+      "body": "Activa o desactiva funcionalidades por plan y controla su disponibilidad.",
+      "loading": "Cargando toggles...",
+      "empty": "No hay funcionalidades configuradas.",
+      "table": {
+        "feature": "Funcionalidad",
+        "free": "Free",
+        "beta": "Beta",
+        "pro": "Pro"
+      },
+      "items": {
+        "tasks": {
+          "title": "Tareas",
+          "description": "Permite crear y gestionar tareas."
+        },
+        "rewards": {
+          "title": "Recompensas",
+          "description": "Habilita recompensas y gestión de XP."
+        },
+        "profiles": {
+          "title": "Perfiles",
+          "description": "Habilita múltiples perfiles por cuenta."
+        }
+      }
     },
     "users": {
       "title": "Usuarios",
@@ -61,7 +83,23 @@
     },
     "logs": {
       "title": "Logs",
-      "body": "Centraliza eventos críticos y auditorías del sistema."
+      "body": "Centraliza eventos críticos y auditorías del sistema.",
+      "actions": {
+        "refresh": "Actualizar",
+        "clear": "Limpiar",
+        "export": "Exportar",
+        "enable": "Activar logs",
+        "disable": "Desactivar logs"
+      },
+      "filter": {
+        "label": "Nivel",
+        "all": "Todos",
+        "debug": "Debug",
+        "info": "Info",
+        "warn": "Warn",
+        "error": "Error"
+      },
+      "empty": "No hay logs registrados."
     }
   },
   "landing": {

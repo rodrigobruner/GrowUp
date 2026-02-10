@@ -29,7 +29,29 @@
     },
     "features": {
       "title": "Funcionalidades",
-      "body": "Confira o estado de entrega e a priorização das funcionalidades."
+      "body": "Ative ou desative funcionalidades por plano e acompanhe a disponibilidade.",
+      "loading": "Carregando toggles...",
+      "empty": "Nenhuma funcionalidade configurada.",
+      "table": {
+        "feature": "Funcionalidade",
+        "free": "Free",
+        "beta": "Beta",
+        "pro": "Pro"
+      },
+      "items": {
+        "tasks": {
+          "title": "Tarefas",
+          "description": "Permite criar e gerenciar tarefas no app."
+        },
+        "rewards": {
+          "title": "Recompensas",
+          "description": "Libera a gestão de recompensas e XP."
+        },
+        "profiles": {
+          "title": "Perfis",
+          "description": "Habilita múltiplos perfis dentro da conta."
+        }
+      }
     },
     "users": {
       "title": "Usuários",
@@ -61,7 +83,23 @@
     },
     "logs": {
       "title": "Logs",
-      "body": "Centralize eventos críticos e auditorias do sistema."
+      "body": "Centralize eventos críticos e auditorias do sistema.",
+      "actions": {
+        "refresh": "Atualizar",
+        "clear": "Limpar",
+        "export": "Exportar",
+        "enable": "Ativar logs",
+        "disable": "Desativar logs"
+      },
+      "filter": {
+        "label": "Nível",
+        "all": "Todos",
+        "debug": "Debug",
+        "info": "Info",
+        "warn": "Warn",
+        "error": "Error"
+      },
+      "empty": "Nenhum log registrado."
     }
   },
   "landing": {

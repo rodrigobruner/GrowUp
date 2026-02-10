@@ -166,13 +166,124 @@
       </div>
 
       <div class="tab-body" *ngIf="activeTab() === 'features'">
-        <h2>{{ 'admin.features.title' | translate }}</h2>
-        <p>{{ 'admin.features.body' | translate }}</p>
+        <div class="tab-header">
+          <div>
+            <h2>{{ 'admin.features.title' | translate }}</h2>
+            <p>{{ 'admin.features.body' | translate }}</p>
+          </div>
+          <span class="tab-range" *ngIf="featuresLoading()">
+            {{ 'admin.features.loading' | translate }}
+          </span>
+        </div>
+        <div class="features-table" *ngIf="!featuresLoading() && featureFlags().length > 0">
+          <div class="features-row features-row--head">
+            <div class="features-cell features-cell--feature">
+              {{ 'admin.features.table.feature' | translate }}
+            </div>
+            <div class="features-cell">{{ 'admin.features.table.free' | translate }}</div>
+            <div class="features-cell">{{ 'admin.features.table.beta' | translate }}</div>
+            <div class="features-cell">{{ 'admin.features.table.pro' | translate }}</div>
+          </div>
+          <div class="features-row" *ngFor="let feature of featureFlags(); trackBy: trackByFeatureKey">
+            <div class="features-cell features-cell--feature">
+              <span class="features-name">
+                {{ ('admin.features.items.' + feature.key + '.title') | translate }}
+              </span>
+              <span class="features-desc">
+                {{ ('admin.features.items.' + feature.key + '.description') | translate }}
+              </span>
+            </div>
+            <div class="features-cell">
+              <span class="features-plan-label">{{ 'admin.features.table.free' | translate }}</span>
+              <label class="feature-toggle">
+                <input
+                  type="checkbox"
+                  [checked]="isFeatureEnabled('FREE', feature.key)"
+                  [disabled]="featuresLoading() || isFeatureSaving('FREE', feature.key)"
+                  (change)="toggleFeature('FREE', feature.key, $any($event.target).checked)"
+                />
+                <span class="feature-toggle__ui" aria-hidden="true"></span>
+              </label>
+            </div>
+            <div class="features-cell">
+              <span class="features-plan-label">{{ 'admin.features.table.beta' | translate }}</span>
+              <label class="feature-toggle">
+                <input
+                  type="checkbox"
+                  [checked]="isFeatureEnabled('BETA', feature.key)"
+                  [disabled]="featuresLoading() || isFeatureSaving('BETA', feature.key)"
+                  (change)="toggleFeature('BETA', feature.key, $any($event.target).checked)"
+                />
+                <span class="feature-toggle__ui" aria-hidden="true"></span>
+              </label>
+            </div>
+            <div class="features-cell">
+              <span class="features-plan-label">{{ 'admin.features.table.pro' | translate }}</span>
+              <label class="feature-toggle">
+                <input
+                  type="checkbox"
+                  [checked]="isFeatureEnabled('PRO', feature.key)"
+                  [disabled]="featuresLoading() || isFeatureSaving('PRO', feature.key)"
+                  (change)="toggleFeature('PRO', feature.key, $any($event.target).checked)"
+                />
+                <span class="feature-toggle__ui" aria-hidden="true"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <p class="features-empty" *ngIf="!featuresLoading() && featureFlags().length === 0">
+          {{ 'admin.features.empty' | translate }}
+        </p>
       </div>
 
       <div class="tab-body" *ngIf="activeTab() === 'logs'">
-        <h2>{{ 'admin.logs.title' | translate }}</h2>
-        <p>{{ 'admin.logs.body' | translate }}</p>
+        <div class="tab-header">
+          <div>
+            <h2>{{ 'admin.logs.title' | translate }}</h2>
+            <p>{{ 'admin.logs.body' | translate }}</p>
+          </div>
+        </div>
+        <div class="logs-toolbar">
+          <div class="logs-actions">
+            <button type="button" class="users-action" (click)="refreshLogs()">
+              {{ 'admin.logs.actions.refresh' | translate }}
+            </button>
+            <button type="button" class="users-action" (click)="clearLogs()">
+              {{ 'admin.logs.actions.clear' | translate }}
+            </button>
+            <button type="button" class="users-action" (click)="exportLogs()">
+              {{ 'admin.logs.actions.export' | translate }}
+            </button>
+            <button type="button" class="users-action" (click)="toggleLogging()">
+              {{
+                loggingEnabled()
+                  ? ('admin.logs.actions.disable' | translate)
+                  : ('admin.logs.actions.enable' | translate)
+              }}
+            </button>
+          </div>
+          <label class="logs-filter">
+            <span>{{ 'admin.logs.filter.label' | translate }}</span>
+            <select [value]="logLevelFilter()" (change)="onLogFilterChange($any($event.target).value)">
+              <option value="all">{{ 'admin.logs.filter.all' | translate }}</option>
+              <option value="debug">{{ 'admin.logs.filter.debug' | translate }}</option>
+              <option value="info">{{ 'admin.logs.filter.info' | translate }}</option>
+              <option value="warn">{{ 'admin.logs.filter.warn' | translate }}</option>
+              <option value="error">{{ 'admin.logs.filter.error' | translate }}</option>
+            </select>
+          </label>
+        </div>
+        <div class="debug-log" *ngIf="logEntriesView().length; else noLogs">
+          <div class="debug-log-item" *ngFor="let entry of logEntriesView()">
+            <span class="debug-log-time">{{ entry.timestamp | date:'short' }}</span>
+            <span class="debug-log-level">{{ entry.level }}</span>
+            <span class="debug-log-message">{{ entry.message }}</span>
+            <span class="debug-log-context" *ngIf="entry.context">{{ entry.context | json }}</span>
+          </div>
+        </div>
+        <ng-template #noLogs>
+          <p class="logs-empty">{{ 'admin.logs.empty' | translate }}</p>
+        </ng-template>
       </div>
     </section>
 

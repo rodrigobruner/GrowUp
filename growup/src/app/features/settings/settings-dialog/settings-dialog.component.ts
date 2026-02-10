@@ -12,7 +12,6 @@ import { AccountSettings } from '../../../core/models/account-settings';
 import { Profile } from '../../../core/models/profile';
 import { Settings } from '../../../core/models/settings';
 import { AuthService } from '../../../core/services/auth.service';
-import { LoggerService, LogLevel } from '../../../core/services/logger.service';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { DeleteAccountDialogComponent } from '../delete-account-dialog/delete-account-dialog.component';
 import { AuthErrorDialogComponent } from '../../auth/auth-error-dialog/auth-error-dialog.component';
@@ -33,10 +32,6 @@ import { AuthErrorDialogComponent } from '../../auth/auth-error-dialog/auth-erro
   styleUrl: './settings-dialog.component.scss'
 })
 export class SettingsDialogComponent implements OnChanges {
-  private static readonly LOGS_OPEN_KEY = 'growup.debug.logsOpen';
-  private static readonly LOG_LEVEL_KEY = 'growup.debug.logLevel';
-  private static readonly LOG_ENABLED_KEY = 'growup.debug.loggingEnabled';
-  private static readonly LOG_LIMIT_KEY = 'growup.debug.logLimit';
   @Input() accountSettings: AccountSettings | null = null;
   @Input() profileSettings: Settings | null = null;
   @Input() profiles: Profile[] = [];
@@ -54,24 +49,8 @@ export class SettingsDialogComponent implements OnChanges {
   private readonly dialog = inject(MatDialog);
   private readonly auth = inject(AuthService);
   private readonly translateService = inject(TranslateService);
-  private readonly logger = inject(LoggerService);
   readonly isLoggedIn = computed(() => this.auth.isLoggedIn());
   avatars = signal<Array<{ id: string; name: string; description?: string }>>([]);
-  logEntries = signal(this.logger.getEntries());
-  logEntriesCount = computed(() => this.logEntries().length);
-  logViewLimit = signal(100);
-  logEntriesView = computed(() => {
-    const entries = this.logEntries();
-    const limit = this.logViewLimit();
-    if (!entries.length) {
-      return [];
-    }
-    const start = Math.max(0, entries.length - limit);
-    return entries.slice(start).reverse();
-  });
-  logLevelFilter = signal<LogLevel | 'all'>('all');
-  loggingEnabled = signal(this.logger.isEnabled());
-  logsOpen = signal(false);
 
   form = this.formBuilder.group({
     language: this.formBuilder.control<AccountSettings['language']>('en', { validators: [Validators.required] }),
@@ -89,8 +68,6 @@ export class SettingsDialogComponent implements OnChanges {
   });
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.restoreDebugPrefs();
-    this.refreshLogs();
     if (changes['accountSettings'] && this.accountSettings) {
       this.form.reset({
         language: this.accountSettings.language,
@@ -114,68 +91,6 @@ export class SettingsDialogComponent implements OnChanges {
     if (changes['accountSettings'] || changes['profileSettings']) {
       this.loadAvatars();
     }
-    if (!this.isAdmin()) {
-      this.logsOpen.set(false);
-    }
-  }
-
-  refreshLogs(): void {
-    const entries = this.logger.getEntries();
-    const filter = this.logLevelFilter();
-    this.logEntries.set(filter === 'all' ? entries : entries.filter((entry) => entry.level === filter));
-    this.loggingEnabled.set(this.logger.isEnabled());
-  }
-
-  onLogFilterChange(value: LogLevel | 'all'): void {
-    this.logLevelFilter.set(value);
-    localStorage.setItem(SettingsDialogComponent.LOG_LEVEL_KEY, value);
-    this.refreshLogs();
-  }
-
-  onLogLimitChange(value: number): void {
-    this.logViewLimit.set(value);
-    localStorage.setItem(SettingsDialogComponent.LOG_LIMIT_KEY, String(value));
-  }
-
-  clearLogs(): void {
-    this.logger.clear();
-    this.refreshLogs();
-  }
-
-  toggleLogs(): void {
-    if (!this.isAdmin()) {
-      return;
-    }
-    const next = !this.logsOpen();
-    this.logsOpen.set(next);
-    localStorage.setItem(SettingsDialogComponent.LOGS_OPEN_KEY, String(next));
-    if (next) {
-      this.restoreDebugPrefs();
-      this.refreshLogs();
-    }
-  }
-
-  isAdmin(): boolean {
-    return this.accountSettings?.role === 'ADMIN';
-  }
-
-  toggleLogging(): void {
-    const next = !this.logger.isEnabled();
-    this.logger.setEnabled(next);
-    this.loggingEnabled.set(next);
-    localStorage.setItem(SettingsDialogComponent.LOG_ENABLED_KEY, String(next));
-    this.refreshLogs();
-  }
-
-  exportLogs(): void {
-    const payload = JSON.stringify(this.logEntries(), null, 2);
-    const blob = new Blob([payload], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const anchor = this.document.createElement('a');
-    anchor.href = url;
-    anchor.download = 'growup-logs.json';
-    anchor.click();
-    URL.revokeObjectURL(url);
   }
 
   save(): void {
@@ -430,34 +345,4 @@ export class SettingsDialogComponent implements OnChanges {
     return 'en';
   }
 
-  private restoreDebugPrefs(): void {
-    try {
-      const logsOpenRaw = localStorage.getItem(SettingsDialogComponent.LOGS_OPEN_KEY);
-      if (logsOpenRaw !== null) {
-        this.logsOpen.set(logsOpenRaw === 'true');
-      }
-      if (!this.logsOpen()) {
-        return;
-      }
-      const levelRaw = localStorage.getItem(SettingsDialogComponent.LOG_LEVEL_KEY);
-      if (levelRaw === 'debug' || levelRaw === 'info' || levelRaw === 'warn' || levelRaw === 'error' || levelRaw === 'all') {
-        this.logLevelFilter.set(levelRaw);
-      }
-      const enabledRaw = localStorage.getItem(SettingsDialogComponent.LOG_ENABLED_KEY);
-      if (enabledRaw !== null) {
-        const enabled = enabledRaw === 'true';
-        this.logger.setEnabled(enabled);
-        this.loggingEnabled.set(enabled);
-      }
-      const limitRaw = localStorage.getItem(SettingsDialogComponent.LOG_LIMIT_KEY);
-      if (limitRaw) {
-        const parsed = Number(limitRaw);
-        if (Number.isFinite(parsed) && parsed >= 10 && parsed <= 500) {
-          this.logViewLimit.set(parsed);
-        }
-      }
-    } catch {
-      // Ignore storage failures.
-    }
-  }
 }

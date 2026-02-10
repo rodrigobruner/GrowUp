@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, DestroyRef, computed, effect, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -13,6 +13,12 @@ import { AdminLineChartComponent, AdminLineChartSeries } from '../../components/
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  FeatureFlag,
+  FeatureTogglesService,
+  PlanType
+} from '../../core/services/feature-toggles.service';
+import { LoggerService, LogLevel } from '../../core/services/logger.service';
 
 @Component({
   selector: 'app-admin-page',
@@ -30,8 +36,16 @@ export class AdminPageComponent {
   private readonly metrics = inject(AdminMetricsService);
   private readonly translate = inject(TranslateService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly featureToggles = inject(FeatureTogglesService);
+  private readonly logger = inject(LoggerService);
+  private readonly document = inject(DOCUMENT);
 
   readonly avatarSrc = this.avatar.avatarSrc;
+  private readonly featurePlans: PlanType[] = ['FREE', 'BETA', 'PRO'];
+  private readonly allowedFeatureKeys = new Set(['tasks', 'rewards', 'profiles']);
+  private static readonly LOG_LEVEL_KEY = 'growup.debug.logLevel';
+  private static readonly LOG_ENABLED_KEY = 'growup.debug.loggingEnabled';
+  private static readonly LOG_LIMIT_KEY = 'growup.debug.logLimit';
   readonly isAdmin = computed(() => {
     return this.sessionState.accountSettings().role === 'ADMIN';
   });
@@ -75,6 +89,28 @@ export class AdminPageComponent {
   readonly usersPage = signal(1);
   readonly usersTotalPages = signal(1);
   readonly activeTab = signal<'overview' | 'features' | 'users' | 'logs'>('overview');
+  readonly featureFlags = signal<FeatureFlag[]>([]);
+  readonly featureToggleMap = signal<Record<PlanType, Record<string, boolean>>>({
+    FREE: {},
+    BETA: {},
+    PRO: {}
+  });
+  readonly featuresLoading = signal(true);
+  readonly featuresSaving = signal<Record<string, boolean>>({});
+  private readonly featuresLoaded = signal(false);
+  logEntries = signal(this.logger.getEntries());
+  logViewLimit = signal(100);
+  logEntriesView = computed(() => {
+    const entries = this.logEntries();
+    const limit = this.logViewLimit();
+    if (!entries.length) {
+      return [];
+    }
+    const start = Math.max(0, entries.length - limit);
+    return entries.slice(start).reverse();
+  });
+  logLevelFilter = signal<LogLevel | 'all'>('all');
+  loggingEnabled = signal(this.logger.isEnabled());
   currentYear = new Date().getFullYear();
 
   constructor() {
@@ -123,7 +159,13 @@ export class AdminPageComponent {
       if (!this.usersLoaded()) {
         void this.loadUsers();
       }
+      if (!this.featuresLoaded()) {
+        void this.loadFeatureToggles();
+      }
     });
+
+    this.restoreDebugPrefs();
+    this.refreshLogs();
   }
 
   openAuth(): void {
@@ -132,6 +174,9 @@ export class AdminPageComponent {
 
   setTab(tab: 'overview' | 'features' | 'users' | 'logs'): void {
     this.activeTab.set(tab);
+    if (tab === 'logs') {
+      this.refreshLogs();
+    }
   }
 
   onUsersGridReady(event: GridReadyEvent<AdminUserRecord>): void {
@@ -201,6 +246,92 @@ export class AdminPageComponent {
     }
   }
 
+  refreshLogs(): void {
+    const entries = this.logger.getEntries();
+    const filter = this.logLevelFilter();
+    this.logEntries.set(filter === 'all' ? entries : entries.filter((entry) => entry.level === filter));
+    this.loggingEnabled.set(this.logger.isEnabled());
+  }
+
+  onLogFilterChange(value: LogLevel | 'all'): void {
+    this.logLevelFilter.set(value);
+    localStorage.setItem(AdminPageComponent.LOG_LEVEL_KEY, value);
+    this.refreshLogs();
+  }
+
+  clearLogs(): void {
+    this.logger.clear();
+    this.refreshLogs();
+  }
+
+  toggleLogging(): void {
+    const next = !this.logger.isEnabled();
+    this.logger.setEnabled(next);
+    this.loggingEnabled.set(next);
+    localStorage.setItem(AdminPageComponent.LOG_ENABLED_KEY, String(next));
+    this.refreshLogs();
+  }
+
+  exportLogs(): void {
+    const payload = JSON.stringify(this.logEntries(), null, 2);
+    const blob = new Blob([payload], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const anchor = this.document.createElement('a');
+    anchor.href = url;
+    anchor.download = 'growup-logs.json';
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
+
+  isFeatureEnabled(plan: PlanType, featureKey: string): boolean {
+    return Boolean(this.featureToggleMap()[plan]?.[featureKey]);
+  }
+
+  isFeatureSaving(plan: PlanType, featureKey: string): boolean {
+    return Boolean(this.featuresSaving()[`${plan}:${featureKey}`]);
+  }
+
+  async toggleFeature(plan: PlanType, featureKey: string, enabled: boolean): Promise<void> {
+    const savingKey = `${plan}:${featureKey}`;
+    if (this.isFeatureSaving(plan, featureKey)) {
+      return;
+    }
+    this.featuresSaving.set({ ...this.featuresSaving(), [savingKey]: true });
+    const currentMap = this.featureToggleMap();
+    const previous = currentMap[plan]?.[featureKey];
+    this.featureToggleMap.set({
+      ...currentMap,
+      [plan]: {
+        ...currentMap[plan],
+        [featureKey]: enabled
+      }
+    });
+
+    const success = await this.featureToggles.savePlanToggle({
+      plan,
+      featureKey,
+      enabled
+    });
+
+    if (!success) {
+      this.featureToggleMap.set({
+        ...currentMap,
+        [plan]: {
+          ...currentMap[plan],
+          [featureKey]: previous ?? false
+        }
+      });
+    }
+
+    const nextSaving = { ...this.featuresSaving() };
+    delete nextSaving[savingKey];
+    this.featuresSaving.set(nextSaving);
+  }
+
+  trackByFeatureKey(_index: number, feature: FeatureFlag): string {
+    return feature.key;
+  }
+
   private async loadMetrics(): Promise<void> {
     this.chartLoading.set(true);
     const data = await this.metrics.loadDailyMetrics(30);
@@ -234,6 +365,65 @@ export class AdminPageComponent {
     this.updateUsersPaginationState();
   }
 
+  private async loadFeatureToggles(): Promise<void> {
+    this.featuresLoading.set(true);
+    const [flags, toggles] = await Promise.all([
+      this.featureToggles.loadFeatureFlags(),
+      this.featureToggles.loadPlanToggles()
+    ]);
+    const filteredFlags = flags.filter((flag) => this.allowedFeatureKeys.has(flag.key));
+    const nextMap: Record<PlanType, Record<string, boolean>> = {
+      FREE: {},
+      BETA: {},
+      PRO: {}
+    };
+
+    for (const plan of this.featurePlans) {
+      for (const flag of filteredFlags) {
+        nextMap[plan][flag.key] = flag.defaultEnabled;
+      }
+    }
+
+    for (const toggle of toggles) {
+      if (!this.allowedFeatureKeys.has(toggle.featureKey)) {
+        continue;
+      }
+      if (!nextMap[toggle.plan]) {
+        continue;
+      }
+      nextMap[toggle.plan][toggle.featureKey] = toggle.enabled;
+    }
+
+    this.featureFlags.set(filteredFlags);
+    this.featureToggleMap.set(nextMap);
+    this.featuresLoading.set(false);
+    this.featuresLoaded.set(true);
+  }
+
+  private restoreDebugPrefs(): void {
+    try {
+      const levelRaw = localStorage.getItem(AdminPageComponent.LOG_LEVEL_KEY);
+      if (levelRaw === 'debug' || levelRaw === 'info' || levelRaw === 'warn' || levelRaw === 'error' || levelRaw === 'all') {
+        this.logLevelFilter.set(levelRaw);
+      }
+      const enabledRaw = localStorage.getItem(AdminPageComponent.LOG_ENABLED_KEY);
+      if (enabledRaw !== null) {
+        const enabled = enabledRaw === 'true';
+        this.logger.setEnabled(enabled);
+        this.loggingEnabled.set(enabled);
+      }
+      const limitRaw = localStorage.getItem(AdminPageComponent.LOG_LIMIT_KEY);
+      if (limitRaw) {
+        const parsed = Number(limitRaw);
+        if (Number.isFinite(parsed) && parsed >= 10 && parsed <= 500) {
+          this.logViewLimit.set(parsed);
+        }
+      }
+    } catch {
+      // Ignore storage failures.
+    }
+  }
+
   private buildUsersColumns(): ColDef<AdminUserRecord>[] {
     return [
       {
@@ -252,8 +442,8 @@ export class AdminPageComponent {
         field: 'plan',
         headerName: this.translate.instant('admin.users.columns.plan'),
         width: 140,
-        cellRenderer: ({ value }) => {
-          const label = value ?? 'FREE';
+        cellRenderer: (params: { value?: string | null }) => {
+          const label = params.value ?? 'FREE';
           const normalized = String(label).toLowerCase();
           return `<span class="plan-badge plan-badge--${normalized}">${label}</span>`;
         }
