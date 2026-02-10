@@ -183,6 +183,7 @@
             <div class="features-cell">{{ 'admin.features.table.free' | translate }}</div>
             <div class="features-cell">{{ 'admin.features.table.beta' | translate }}</div>
             <div class="features-cell">{{ 'admin.features.table.pro' | translate }}</div>
+            <div class="features-cell">{{ 'admin.features.table.dev' | translate }}</div>
           </div>
           <div class="features-row" *ngFor="let feature of featureFlags(); trackBy: trackByFeatureKey">
             <div class="features-cell features-cell--feature">
@@ -225,6 +226,18 @@
                   [checked]="isFeatureEnabled('PRO', feature.key)"
                   [disabled]="featuresLoading() || isFeatureSaving('PRO', feature.key)"
                   (change)="toggleFeature('PRO', feature.key, $any($event.target).checked)"
+                />
+                <span class="feature-toggle__ui" aria-hidden="true"></span>
+              </label>
+            </div>
+            <div class="features-cell">
+              <span class="features-plan-label">{{ 'admin.features.table.dev' | translate }}</span>
+              <label class="feature-toggle">
+                <input
+                  type="checkbox"
+                  [checked]="isFeatureEnabled('DEV', feature.key)"
+                  [disabled]="featuresLoading() || isFeatureSaving('DEV', feature.key)"
+                  (change)="toggleFeature('DEV', feature.key, $any($event.target).checked)"
                 />
                 <span class="feature-toggle__ui" aria-hidden="true"></span>
               </label>

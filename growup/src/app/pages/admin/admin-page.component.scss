@@ -321,7 +321,7 @@
 
 .features-row {
   display: grid;
-  grid-template-columns: minmax(220px, 2.2fr) repeat(3, minmax(90px, 1fr));
+  grid-template-columns: minmax(220px, 2.2fr) repeat(4, minmax(90px, 1fr));
   align-items: center;
 }
 
@@ -473,6 +473,11 @@
 :host ::ng-deep .ag-theme-alpine .plan-badge--pro {
   background: rgba(255, 99, 71, 0.2);
   color: #8c2f1f;
+}
+
+:host ::ng-deep .ag-theme-alpine .plan-badge--dev {
+  background: rgba(120, 94, 240, 0.2);
+  color: #3a2aa0;
 }
 
 :host ::ng-deep .ag-theme-alpine .ag-paging-panel {

@@ -12,7 +12,6 @@ export interface BaseRow {
 export interface ProfileRow extends BaseRow {
   display_name: string;
   avatar_id: string | null;
-  role: 'USER' | 'ADMIN';
 }
 
 export interface TaskRow extends BaseRow {
@@ -58,7 +57,7 @@ export interface AccountSettingsRow {
   owner_id: SupabaseUuid;
   language: 'en' | 'pt' | 'fr' | 'es';
   role: 'USER' | 'ADMIN';
-  plan: 'FREE' | 'BETA' | 'PRO';
+  plan: 'FREE' | 'BETA' | 'PRO' | 'DEV';
   flags: Record<string, boolean> | null;
   terms_version: string | null;
   terms_accepted_at: string | null;
@@ -67,12 +66,10 @@ export interface AccountSettingsRow {
 
 const hasString = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
 
-const isProfileRole = (value: unknown): value is ProfileRow['role'] => value === 'USER' || value === 'ADMIN';
-
 export const isProfileRow = (row: unknown): row is ProfileRow => {
   if (!row || typeof row !== 'object') return false;
   const r = row as ProfileRow;
-  return hasString(r.id) && hasString(r.owner_id) && hasString(r.display_name) && isProfileRole(r.role);
+  return hasString(r.id) && hasString(r.owner_id) && hasString(r.display_name);
 };
 
 export const isTaskRow = (row: unknown): row is TaskRow => {
@@ -122,7 +119,8 @@ export const isSettingsRow = (row: unknown): row is SettingsRow => {
 export const isAccountSettingsRow = (row: unknown): row is AccountSettingsRow => {
   if (!row || typeof row !== 'object') return false;
   const r = row as AccountSettingsRow;
-  const hasPlan = r.plan === 'FREE' || r.plan === 'BETA' || r.plan === 'PRO';
+  const hasPlan = r.plan === 'FREE' || r.plan === 'BETA' || r.plan === 'PRO' || r.plan === 'DEV';
   const flagsOk = r.flags === null || typeof r.flags === 'object';
-  return hasString(r.owner_id) && hasString(r.language) && isProfileRole(r.role) && hasPlan && flagsOk;
+  const hasRole = r.role === 'USER' || r.role === 'ADMIN';
+  return hasString(r.owner_id) && hasString(r.language) && hasRole && hasPlan && flagsOk;
 };

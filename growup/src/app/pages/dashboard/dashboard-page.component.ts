@@ -134,6 +134,7 @@ export class DashboardPageComponent implements OnInit {
     }
     return false;
   });
+  readonly maxProfiles = computed(() => this.resolveMaxProfiles());
 
   constructor() {
     effect(() => {
@@ -245,7 +246,11 @@ export class DashboardPageComponent implements OnInit {
     this.drawer.openProfile();
   }
 
-  openCreateProfile(): void {
+  async openCreateProfile(): Promise<void> {
+    if (this.profiles().length >= this.maxProfiles()) {
+      await this.dialogs.informProfileLimit(this.maxProfiles());
+      return;
+    }
     this.drawer.openCreateProfile();
   }
 
@@ -260,6 +265,10 @@ export class DashboardPageComponent implements OnInit {
     const outcome = await this.profileManagement.saveProfile(mode, result);
     if (outcome === 'duplicate') {
       await this.dialogs.informProfileDuplicate();
+      return;
+    }
+    if (outcome === 'limit') {
+      await this.dialogs.informProfileLimit(this.maxProfiles());
       return;
     }
     if (outcome !== 'ok') {
@@ -296,5 +305,11 @@ export class DashboardPageComponent implements OnInit {
 
   cycleRangeLabel(): string {
     return this.summary.cycleRangeLabel();
+  }
+
+  private resolveMaxProfiles(): number {
+    const flag = this.accountSettings().flags?.['profiles'];
+    const enabled = typeof flag === 'boolean' ? flag : true;
+    return enabled ? 5 : 1;
   }
 }

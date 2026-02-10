@@ -108,8 +108,7 @@ export class SyncMapperService {
       id: profile.id,
       owner_id: ownerId,
       display_name: profile.displayName,
-      avatar_id: profile.avatarId ?? '01',
-      role: 'USER'
+      avatar_id: profile.avatarId ?? '01'
     };
   }
 

@@ -62,7 +62,7 @@ export class ProfileManagementService {
   async saveProfile(
     mode: 'create' | 'edit',
     result: Pick<Settings, 'avatarId' | 'displayName' | 'cycleType' | 'cycleStartDate' | 'levelUpPoints'>
-  ): Promise<'ok' | 'duplicate' | 'missing'> {
+  ): Promise<'ok' | 'duplicate' | 'missing' | 'limit'> {
     const profileId = mode === 'create' ? this.db.createId() : this.profileService.activeProfileId();
     if (!profileId) {
       return 'missing';
@@ -71,6 +71,10 @@ export class ProfileManagementService {
     const rawName = (result.displayName ?? '').trim();
     const nameKey = rawName.toLowerCase();
     if (mode === 'create') {
+      const maxProfiles = this.resolveMaxProfiles();
+      if (this.profileService.profiles().length >= maxProfiles) {
+        return 'limit';
+      }
       const exists = this.profileService
         .profiles()
         .some((profile) => profile.displayName.trim().toLowerCase() === nameKey);
@@ -117,6 +121,12 @@ export class ProfileManagementService {
   private markProfileCreated(): void {
     const userId = this.auth.user()?.id ?? 'anon';
     localStorage.setItem(`growup.onboarding.profileCreated.${userId}`, '1');
+  }
+
+  private resolveMaxProfiles(): number {
+    const flag = this.state.accountSettings().flags?.['profiles'];
+    const enabled = typeof flag === 'boolean' ? flag : true;
+    return enabled ? 5 : 1;
   }
 
   async selectProfile(profileId: string): Promise<void> {

@@ -105,7 +105,7 @@ export class AdminLineChartComponent {
     const padding = this.padding;
     const height = this.height - padding * 2;
     const ratio = position / (this.gridLines.length - 1);
-    return padding + height - ratio * height;
+    return padding + ratio * height;
   }
 
   gridValue(position: number): number {
