@@ -1,5 +1,6 @@
 <mat-drawer-container class="app-shell">
   <mat-drawer
+    *ngIf="settingsOpen()"
     class="settings-drawer"
     position="end"
     mode="over"
@@ -18,6 +19,7 @@
     />
   </mat-drawer>
   <mat-drawer
+    *ngIf="profileOpen()"
     class="profile-drawer"
     position="end"
     mode="over"
