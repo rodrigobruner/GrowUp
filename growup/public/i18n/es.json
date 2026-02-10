@@ -34,12 +34,29 @@
     "users": {
       "title": "Usuarios",
       "body": "Consulta detalles y métricas relacionadas con los usuarios registrados.",
+      "searchPlaceholder": "Buscar por ID de usuario",
       "loading": "Cargando usuarios...",
       "empty": "No se encontraron usuarios.",
       "columns": {
+        "title": "Columnas",
         "userId": "ID de usuario",
         "role": "Rol",
-        "createdAt": "Creado en"
+        "plan": "Plan",
+        "createdAt": "Creado en",
+        "lastAccessedAt": "Último acceso"
+      },
+      "actions": {
+        "copy": "Copiar CSV",
+        "export": "Exportar CSV"
+      },
+      "pagination": {
+        "prev": "Anterior",
+        "next": "Siguiente",
+        "page": "Página",
+        "of": "de {{ total }}"
+      },
+      "status": {
+        "total": "Total: {{ count }} usuarios"
       }
     },
     "logs": {

@@ -96,6 +96,8 @@ export class SyncMapperService {
       owner_id: ownerId,
       language: settings.language,
       role: settings.role,
+      plan: settings.plan,
+      flags: settings.flags,
       terms_version: settings.termsVersion ?? null,
       terms_accepted_at: settings.termsAcceptedAt ? new Date(settings.termsAcceptedAt).toISOString() : null
     };
@@ -191,6 +193,8 @@ export class SyncMapperService {
       id: 'account',
       language: row.language,
       role: row.role,
+      plan: row.plan ?? 'FREE',
+      flags: row.flags ?? {},
       termsVersion: row.terms_version ?? undefined,
       termsAcceptedAt: row.terms_accepted_at ? new Date(row.terms_accepted_at).getTime() : undefined,
       updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : undefined

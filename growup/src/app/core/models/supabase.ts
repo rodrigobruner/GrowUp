@@ -58,6 +58,8 @@ export interface AccountSettingsRow {
   owner_id: SupabaseUuid;
   language: 'en' | 'pt' | 'fr' | 'es';
   role: 'USER' | 'ADMIN';
+  plan: 'FREE' | 'BETA' | 'PRO';
+  flags: Record<string, boolean> | null;
   terms_version: string | null;
   terms_accepted_at: string | null;
   updated_at?: string | null;
@@ -120,5 +122,7 @@ export const isSettingsRow = (row: unknown): row is SettingsRow => {
 export const isAccountSettingsRow = (row: unknown): row is AccountSettingsRow => {
   if (!row || typeof row !== 'object') return false;
   const r = row as AccountSettingsRow;
-  return hasString(r.owner_id) && hasString(r.language) && isProfileRole(r.role);
+  const hasPlan = r.plan === 'FREE' || r.plan === 'BETA' || r.plan === 'PRO';
+  const flagsOk = r.flags === null || typeof r.flags === 'object';
+  return hasString(r.owner_id) && hasString(r.language) && isProfileRole(r.role) && hasPlan && flagsOk;
 };

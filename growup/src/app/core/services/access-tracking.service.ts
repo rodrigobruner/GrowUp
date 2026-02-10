@@ -15,7 +15,8 @@ export class AccessTrackingService {
       .upsert(
         {
           owner_id: userId,
-          accessed_at: accessDate
+          accessed_at: accessDate,
+          last_accessed_at: new Date().toISOString()
         },
         { onConflict: 'owner_id,accessed_at' }
       );

@@ -62,6 +62,8 @@ describe('supabase row guards', () => {
         owner_id: '1',
         language: 'en',
         role: 'USER',
+        plan: 'FREE',
+        flags: {},
         terms_version: null,
         terms_accepted_at: null
       })
@@ -71,6 +73,8 @@ describe('supabase row guards', () => {
         owner_id: '1',
         language: 'es',
         role: 'ADMIN',
+        plan: 'PRO',
+        flags: {},
         terms_version: null,
         terms_accepted_at: null
       })

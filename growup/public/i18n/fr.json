@@ -34,12 +34,29 @@
     "users": {
       "title": "Utilisateurs",
       "body": "Consultez les détails et les métriques liés aux utilisateurs inscrits.",
+      "searchPlaceholder": "Rechercher par ID utilisateur",
       "loading": "Chargement des utilisateurs...",
       "empty": "Aucun utilisateur trouvé.",
       "columns": {
+        "title": "Colonnes",
         "userId": "ID utilisateur",
         "role": "Rôle",
-        "createdAt": "Créé le"
+        "plan": "Plan",
+        "createdAt": "Créé le",
+        "lastAccessedAt": "Dernier accès"
+      },
+      "actions": {
+        "copy": "Copier CSV",
+        "export": "Exporter CSV"
+      },
+      "pagination": {
+        "prev": "Précédent",
+        "next": "Suivant",
+        "page": "Page",
+        "of": "sur {{ total }}"
+      },
+      "status": {
+        "total": "Total : {{ count }} utilisateurs"
       }
     },
     "logs": {
