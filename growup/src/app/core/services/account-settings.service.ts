@@ -1,12 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AccountSettings } from '../models/account-settings';
+import { AuthService } from './auth.service';
 import { GrowUpDbService } from './growup-db.service';
 
 @Injectable({ providedIn: 'root' })
 export class AccountSettingsService {
   private readonly db = inject(GrowUpDbService);
   private readonly translate = inject(TranslateService);
+  private readonly auth = inject(AuthService);
 
   constructor() {
     this.translate.setDefaultLang('en');
@@ -25,10 +27,10 @@ export class AccountSettingsService {
         };
         await this.db.saveAccountSettings(next);
         this.applyLanguage(next.language);
-        return next;
+        return this.applyEffectiveFlags(next);
       }
       this.applyLanguage(settings.language);
-      return settings;
+      return this.applyEffectiveFlags(settings);
     }
     if (!seedIfEmpty) {
       return null;
@@ -36,7 +38,7 @@ export class AccountSettingsService {
     const next: AccountSettings = { id: 'account', language: 'en', role: 'USER', plan: 'FREE', flags: {} };
     await this.db.saveAccountSettings(next);
     this.applyLanguage(next.language);
-    return next;
+    return this.applyEffectiveFlags(next);
   }
 
   applyLanguage(language: AccountSettings['language']): void {
@@ -56,5 +58,36 @@ export class AccountSettingsService {
     await this.db.saveAccountSettings(next);
     this.applyLanguage(language);
     return next;
+  }
+
+  private async applyEffectiveFlags(settings: AccountSettings): Promise<AccountSettings> {
+    if (settings.flags && Object.keys(settings.flags).length > 0) {
+      return settings;
+    }
+    if (!this.auth.isLoggedIn()) {
+      return settings;
+    }
+    const flags = await this.loadPlanFlags();
+    if (!flags) {
+      return settings;
+    }
+    return { ...settings, flags };
+  }
+
+  private async loadPlanFlags(): Promise<Record<string, boolean> | null> {
+    const { data, error } = await this.auth.getClient().rpc('get_current_plan_feature_flags');
+    if (error) {
+      return null;
+    }
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+      return null;
+    }
+    const resolved: Record<string, boolean> = {};
+    Object.entries(data as Record<string, unknown>).forEach(([key, value]) => {
+      if (typeof value === 'boolean') {
+        resolved[key] = value;
+      }
+    });
+    return resolved;
   }
 }

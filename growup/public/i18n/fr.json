@@ -42,12 +42,12 @@
       },
       "items": {
         "tasks": {
-          "title": "Tâches",
-          "description": "Permet de créer et de gérer des tâches."
+          "title": "Tâches avancées",
+          "description": "Permet de créer et de gérer plus de 10 tâches."
         },
         "rewards": {
-          "title": "Récompenses",
-          "description": "Active les récompenses et la gestion d'XP."
+          "title": "Récompenses avancées",
+          "description": "Débloque la gestion de plus de 10 récompenses, la visualisation des récompenses consommées et des limites d'usage supérieures à 1 par cycle."
         },
         "profiles": {
           "title": "Profils",
@@ -231,6 +231,8 @@
   },
   "tasks": {
     "title": "Tâches",
+    "limitTitle": "Limite de tâches",
+    "limitMessage": "Vous avez atteint la limite de {{ count }} tâches pour ce plan.",
     "date": "Date",
     "today": "Aujourd'hui",
     "prevDay": "Jour précédent",
@@ -254,6 +256,9 @@
     "placeholder": "Soirée cinéma",
     "cost": "Coût en XP",
     "limitPerCycle": "Limite par cycle",
+    "limitTitle": "Limite de récompenses",
+    "limitMessage": "Vous avez atteint la limite de {{ count }} récompenses pour ce plan.",
+    "limitReachedTooltip": "Limite de {{ count }} récompenses atteinte.",
     "add": "Ajouter une récompense",
     "empty": "Aucune récompense pour le moment.",
     "availableWithCount": "Disponibles ({{ count }} restantes)",
@@ -271,6 +276,13 @@
   },
   "settingsDialog": {
     "title": "Paramètres",
+    "planLabel": "Plan",
+    "plan": {
+      "free": "Free",
+      "beta": "Beta",
+      "pro": "Pro",
+      "dev": "Dev"
+    },
     "languageSection": "Langue",
     "cycleSection": "Cycle",
     "levelupSection": "Montée en niveau",

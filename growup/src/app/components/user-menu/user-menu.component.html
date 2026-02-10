@@ -5,6 +5,8 @@
       class="avatar-button"
       [matMenuTriggerFor]="authMenu"
       [attr.aria-label]="'auth.account' | translate"
+      [matTooltip]="userDisplayName || null"
+      [matTooltipDisabled]="!userDisplayName"
     >
       <ng-container *ngIf="userAvatarUrl && !avatarLoadFailed; else localAvatar">
         <img

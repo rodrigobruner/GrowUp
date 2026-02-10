@@ -23,6 +23,7 @@ import { SummaryService } from '../../core/services/summary.service';
 import { CalendarStateService } from '../../core/services/calendar-state.service';
 import { AvatarService } from '../../core/services/avatar.service';
 import { DemoModeService } from '../../core/services/demo-mode.service';
+import { AccessTrackingService } from '../../core/services/access-tracking.service';
 import { environment } from '../../../environments/environment';
 import { SettingsDialogComponent } from '../../features/settings/settings-dialog/settings-dialog.component';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
@@ -67,10 +68,12 @@ export class DashboardPageComponent implements OnInit {
   private readonly drawer = inject(SettingsDrawerService);
   private readonly demoMode = inject(DemoModeService);
   private readonly router = inject(Router);
+  private readonly accessTracking = inject(AccessTrackingService);
   readonly appStatus = inject(AppStatusService);
   private readonly summary = inject(SummaryService);
   private readonly calendar = inject(CalendarStateService);
   private readonly avatar = inject(AvatarService);
+  private hasTrackedDailyAccess = false;
 
   readonly tasks = this.state.tasks;
   readonly rewards = this.state.rewards;
@@ -114,6 +117,11 @@ export class DashboardPageComponent implements OnInit {
     }
     return this.demoMode.isEnabled() && this.profiles().length > 0;
   });
+  readonly showRewardsPanel = computed(() => true);
+  readonly rewardsAdvancedEnabled = computed(() => {
+    const flag = this.accountSettings().flags?.['rewards'];
+    return this.resolveBooleanFlag(flag, false);
+  });
   readonly showOnboarding = computed(() => {
     if (!this.auth.isLoggedIn()) {
       return false;
@@ -142,6 +150,23 @@ export class DashboardPageComponent implements OnInit {
       if (!allowDashboard && this.sessionStatus() !== 'loading') {
         void this.router.navigate(['/']);
       }
+    });
+    effect(() => {
+      if (this.hasTrackedDailyAccess) {
+        return;
+      }
+      if (!this.auth.isLoggedIn()) {
+        return;
+      }
+      if (this.sessionStatus() !== 'ready') {
+        return;
+      }
+      const userId = this.auth.user()?.id;
+      if (!userId) {
+        return;
+      }
+      this.hasTrackedDailyAccess = true;
+      void this.accessTracking.trackDailyAccess(userId);
     });
   }
 
@@ -186,7 +211,8 @@ export class DashboardPageComponent implements OnInit {
   }
 
   async openRewardDialog(): Promise<void> {
-    const result = await this.dialogs.openRewardDialog();
+    const maxLimitPerCycle = this.rewardsAdvancedEnabled() ? null : 1;
+    const result = await this.dialogs.openRewardDialog({ maxLimitPerCycle });
     if (!result) {
       return;
     }
@@ -309,7 +335,31 @@ export class DashboardPageComponent implements OnInit {
 
   private resolveMaxProfiles(): number {
     const flag = this.accountSettings().flags?.['profiles'];
-    const enabled = typeof flag === 'boolean' ? flag : true;
+    const enabled = this.resolveBooleanFlag(flag, true);
     return enabled ? 5 : 1;
+  }
+
+  private resolveBooleanFlag(value: unknown, fallback: boolean): boolean {
+    if (typeof value === 'boolean') {
+      return value;
+    }
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'true') {
+        return true;
+      }
+      if (normalized === 'false') {
+        return false;
+      }
+    }
+    if (typeof value === 'number') {
+      if (value === 1) {
+        return true;
+      }
+      if (value === 0) {
+        return false;
+      }
+    }
+    return fallback;
   }
 }

@@ -82,6 +82,16 @@ export class TopbarComponent {
     }
     return null;
   });
+  readonly userDisplayName = computed(() => {
+    const user = this.auth.user();
+    if (!user) {
+      return null;
+    }
+    const metadata = user.user_metadata as Record<string, unknown> | null;
+    const fullName = typeof metadata?.['full_name'] === 'string' ? metadata['full_name'] : null;
+    const name = typeof metadata?.['name'] === 'string' ? metadata['name'] : null;
+    return fullName ?? name ?? user.email ?? null;
+  });
   readonly authProvider = computed(() => this.auth.user()?.app_metadata?.provider ?? null);
 
   get isAdmin(): boolean {

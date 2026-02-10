@@ -13,7 +13,11 @@
           color="primary"
           class="add-fab"
           (click)="addReward.emit()"
-          [matTooltip]="'rewards.tooltipAdd' | translate"
+          [matTooltip]="
+            reachedRewardLimit
+              ? ('rewards.limitReachedTooltip' | translate:{ count: maxRewards })
+              : ('rewards.tooltipAdd' | translate)
+          "
         >
           <span class="material-icons">add</span>
         </button>
@@ -126,7 +130,7 @@
         (page)="onPageChange($event)"
       ></mat-paginator>
     </mat-tab>
-    <mat-tab label="{{ 'rewards.tabUsed' | translate }}">
+    <mat-tab *ngIf="shouldShowUsedTab" label="{{ 'rewards.tabUsed' | translate }}">
       <div class="list-header list-header--used">
         <span>{{ 'rewards.name' | translate }}</span>
         <span>{{ 'rewards.usedAt' | translate }}</span>

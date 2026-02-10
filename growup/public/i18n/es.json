@@ -42,12 +42,12 @@
       },
       "items": {
         "tasks": {
-          "title": "Tareas",
-          "description": "Permite crear y gestionar tareas."
+          "title": "Tareas avanzadas",
+          "description": "Permite crear y gestionar más de 10 tareas."
         },
         "rewards": {
-          "title": "Recompensas",
-          "description": "Habilita recompensas y gestión de XP."
+          "title": "Recompensas avanzadas",
+          "description": "Habilita la gestión de recompensas con más de 10 recompensas, la visualización de recompensas usadas y límites de uso superiores a 1 por ciclo."
         },
         "profiles": {
           "title": "Perfiles",
@@ -231,6 +231,8 @@
   },
   "tasks": {
     "title": "Tareas",
+    "limitTitle": "Límite de tareas",
+    "limitMessage": "Has alcanzado el límite de {{ count }} tareas de este plan.",
     "date": "Fecha",
     "today": "Hoy",
     "prevDay": "Día anterior",
@@ -254,6 +256,9 @@
     "placeholder": "Noche de película",
     "cost": "Costo en XP",
     "limitPerCycle": "Límite por ciclo",
+    "limitTitle": "Límite de recompensas",
+    "limitMessage": "Has alcanzado el límite de {{ count }} recompensas de este plan.",
+    "limitReachedTooltip": "Límite de {{ count }} recompensas alcanzado.",
     "add": "Agregar recompensa",
     "empty": "Aún no hay recompensas.",
     "availableWithCount": "Disponibles ({{ count }} restantes)",
@@ -271,6 +276,13 @@
   },
   "settingsDialog": {
     "title": "Configuración",
+    "planLabel": "Plan",
+    "plan": {
+      "free": "Free",
+      "beta": "Beta",
+      "pro": "Pro",
+      "dev": "Dev"
+    },
     "languageSection": "Idioma",
     "cycleSection": "Ciclo",
     "levelupSection": "Subir de nivel",

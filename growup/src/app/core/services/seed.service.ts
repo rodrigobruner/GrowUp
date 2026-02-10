@@ -134,6 +134,8 @@ export class SeedService {
 
   async seedDefaultRewards(profileId: string): Promise<Reward[]> {
     const language = this.seedLanguage();
+    const plan = await this.resolvePlan();
+    const limitOverride = plan === 'FREE' ? 1 : null;
     const defaults = this.seedDefaults<Array<{ title: string; cost: number; limitPerCycle: number }>>(
       'seed.defaultRewards'
     );
@@ -142,7 +144,7 @@ export class SeedService {
       profileId,
       title: entry.title,
       cost: entry.cost,
-      limitPerCycle: entry.limitPerCycle,
+      limitPerCycle: limitOverride ?? entry.limitPerCycle,
       createdAt: Date.now()
     }));
     await Promise.all(seeded.map((reward) => this.db.addReward(reward)));
@@ -197,6 +199,11 @@ export class SeedService {
   private seedDefaults<T extends unknown[]>(key: string): T {
     const defaults = this.translate.instant(key);
     return Array.isArray(defaults) ? (defaults as T) : ([] as unknown as T);
+  }
+
+  private async resolvePlan(): Promise<AccountSettings['plan'] | null> {
+    const settings = await this.db.getAccountSettings();
+    return settings?.plan ?? null;
   }
 
   private uuidFromString(value: string): string {

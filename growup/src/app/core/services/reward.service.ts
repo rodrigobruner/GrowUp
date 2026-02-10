@@ -7,6 +7,7 @@ import { GrowUpDbService } from './growup-db.service';
 import { ProfileService } from './profile.service';
 import { SessionStateService } from './session-state.service';
 import { SyncService } from './sync.service';
+import { UiDialogsService } from './ui-dialogs.service';
 
 @Injectable({ providedIn: 'root' })
 export class RewardService {
@@ -14,6 +15,7 @@ export class RewardService {
   private readonly profileService = inject(ProfileService);
   private readonly state = inject(SessionStateService);
   private readonly sync = inject(SyncService);
+  private readonly dialogs = inject(UiDialogsService);
 
   async addFromDialog(result: RewardDialogResult): Promise<Reward | null> {
     const rawTitle = result.title.trim();
@@ -24,12 +26,20 @@ export class RewardService {
     if (!profileId) {
       return null;
     }
+    const maxRewards = this.resolveMaxRewards();
+    if (maxRewards !== null) {
+      const profileRewards = this.state.rewards().filter((reward) => reward.profileId === profileId).length;
+      if (profileRewards >= maxRewards) {
+        await this.dialogs.informRewardLimit(maxRewards);
+        return null;
+      }
+    }
     const reward: Reward = {
       id: this.db.createId(),
       profileId,
       title: rawTitle,
       cost: Number(result.cost),
-      limitPerCycle: Number(result.limitPerCycle),
+      limitPerCycle: this.resolveLimitPerCycle(Number(result.limitPerCycle)),
       createdAt: Date.now()
     };
     await this.db.addReward(reward);
@@ -46,7 +56,7 @@ export class RewardService {
       (redemption) =>
         redemption.rewardId === reward.id && redemption.date >= range.start && redemption.date <= range.end
     ).length;
-    const limit = reward.limitPerCycle ?? 1;
+    const limit = this.resolveLimitPerCycle(reward.limitPerCycle ?? 1);
     if (redeemedInCycle >= limit) {
       return false;
     }
@@ -106,7 +116,47 @@ export class RewardService {
 
   private sortRewards(items: Reward[]): Reward[] {
     return [...items]
-      .map((reward) => ({ ...reward, limitPerCycle: reward.limitPerCycle ?? 1 }))
+      .map((reward) => ({ ...reward, limitPerCycle: this.resolveLimitPerCycle(reward.limitPerCycle ?? 1) }))
       .sort((a, b) => a.cost - b.cost);
+  }
+
+  private resolveLimitPerCycle(value: number): number {
+    if (!this.isAdvancedEnabled()) {
+      return 1;
+    }
+    return Number.isFinite(value) && value > 0 ? value : 1;
+  }
+
+  private resolveMaxRewards(): number | null {
+    return this.isAdvancedEnabled() ? null : 10;
+  }
+
+  private isAdvancedEnabled(): boolean {
+    const flag = this.state.accountSettings().flags?.['rewards'];
+    return this.resolveBooleanFlag(flag, false);
+  }
+
+  private resolveBooleanFlag(value: unknown, fallback: boolean): boolean {
+    if (typeof value === 'boolean') {
+      return value;
+    }
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'true') {
+        return true;
+      }
+      if (normalized === 'false') {
+        return false;
+      }
+    }
+    if (typeof value === 'number') {
+      if (value === 1) {
+        return true;
+      }
+      if (value === 0) {
+        return false;
+      }
+    }
+    return fallback;
   }
 }

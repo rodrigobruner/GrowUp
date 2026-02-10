@@ -5,7 +5,6 @@ import { SyncService } from './sync.service';
 import { TermsService } from './terms.service';
 import { LoggerService } from './logger.service';
 import { AccountSettings } from '../models/account-settings';
-import { AccessTrackingService } from './access-tracking.service';
 
 const SESSION_TERMS_KEY = 'growup.lastTermsVersion';
 
@@ -18,7 +17,6 @@ export class SessionManagerService {
   private readonly sync = inject(SyncService);
   private readonly terms = inject(TermsService);
   private readonly logger = inject(LoggerService);
-  private readonly accessTracking = inject(AccessTrackingService);
 
   constructor() {
     const stored = localStorage.getItem(SESSION_TERMS_KEY);
@@ -65,7 +63,6 @@ export class SessionManagerService {
     }
 
     await this.sync.start();
-    void this.accessTracking.trackDailyAccess(userId);
     this.logger.info('session.change.done', { userId });
     return true;
   }

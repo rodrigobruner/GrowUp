@@ -28,6 +28,22 @@
   margin-top: 0.25rem;
 }
 
+.plan-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--dialog-border-cool);
+  background: #fff7d1;
+  color: #7a4c00;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  width: fit-content;
+}
+
 .log-toggle {
   display: flex;
   align-items: center;

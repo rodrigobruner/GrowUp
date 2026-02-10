@@ -20,6 +20,13 @@
         </mat-form-field>
       </section>
 
+      <section class="settings-section" *ngIf="accountSettings">
+        <div class="section-title">{{ 'settingsDialog.planLabel' | translate }}</div>
+        <div class="plan-pill">
+          {{ ('settingsDialog.plan.' + accountSettings.plan.toLowerCase()) | translate }}
+        </div>
+      </section>
+
       <section class="settings-section" *ngIf="profiles.length">
         <div class="section-title">{{ 'profiles.listTitle' | translate }}</div>
         <div class="profiles-grid">

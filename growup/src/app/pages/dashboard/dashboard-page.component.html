@@ -47,6 +47,7 @@
       [avatarSrc]="avatarSrc()"
       [profiles]="profiles()"
       [activeProfileId]="activeProfileId()"
+      [maxProfiles]="maxProfiles()"
       [showLanguageSelect]="false"
       (settingsClick)="openSettings()"
       (profileCreate)="openCreateProfile()"
@@ -87,7 +88,7 @@
         (createProfile)="openCreateProfile()"
       />
 
-      <section class="grid" *ngIf="showDashboard()">
+      <section class="grid" *ngIf="showDashboard()" [class.grid--single]="!showRewardsPanel()">
         <app-tasks-panel
           [tasks]="tasks()"
           [todayDoneIds]="todayDoneIds()"
@@ -101,6 +102,7 @@
         />
 
         <app-rewards-panel
+          *ngIf="showRewardsPanel()"
           [rewards]="rewards()"
           [balance]="balance()"
           [redemptions]="redemptions()"
@@ -108,6 +110,9 @@
           [cycleStart]="currentCycleRange().start"
           [cycleEnd]="currentCycleRange().end"
           [loading]="appStatus.isSyncing()"
+          [advancedEnabled]="rewardsAdvancedEnabled()"
+          [maxRewards]="rewardsAdvancedEnabled() ? null : 10"
+          [showUsedTab]="rewardsAdvancedEnabled()"
           (addReward)="openRewardDialog()"
           (redeemReward)="redeemReward($event)"
           (consumeReward)="consumeReward($event)"

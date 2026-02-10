@@ -6,6 +6,7 @@ import { GrowUpDbService } from './growup-db.service';
 import { ProfileService } from './profile.service';
 import { SessionStateService } from './session-state.service';
 import { SyncService } from './sync.service';
+import { UiDialogsService } from './ui-dialogs.service';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
@@ -13,6 +14,7 @@ export class TaskService {
   private readonly profileService = inject(ProfileService);
   private readonly state = inject(SessionStateService);
   private readonly sync = inject(SyncService);
+  private readonly dialogs = inject(UiDialogsService);
 
   async addFromDialog(result: TaskDialogResult): Promise<Task | null> {
     const rawTitle = result.title.trim();
@@ -22,6 +24,14 @@ export class TaskService {
     const profileId = this.profileService.activeProfileId();
     if (!profileId) {
       return null;
+    }
+    const maxTasks = this.resolveMaxTasks();
+    if (maxTasks !== null) {
+      const profileTasks = this.state.tasks().filter((task) => task.profileId === profileId).length;
+      if (profileTasks >= maxTasks) {
+        await this.dialogs.informTaskLimit(maxTasks);
+        return null;
+      }
     }
     const task: Task = {
       id: this.db.createId(),
@@ -75,5 +85,38 @@ export class TaskService {
 
   private sortTasks(items: Task[]): Task[] {
     return [...items].sort((a, b) => b.points - a.points);
+  }
+
+  private resolveMaxTasks(): number | null {
+    return this.isAdvancedEnabled() ? null : 10;
+  }
+
+  private isAdvancedEnabled(): boolean {
+    const flag = this.state.accountSettings().flags?.['tasks'];
+    return this.resolveBooleanFlag(flag, false);
+  }
+
+  private resolveBooleanFlag(value: unknown, fallback: boolean): boolean {
+    if (typeof value === 'boolean') {
+      return value;
+    }
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'true') {
+        return true;
+      }
+      if (normalized === 'false') {
+        return false;
+      }
+    }
+    if (typeof value === 'number') {
+      if (value === 1) {
+        return true;
+      }
+      if (value === 0) {
+        return false;
+      }
+    }
+    return fallback;
   }
 }

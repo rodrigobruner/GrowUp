@@ -5,6 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -18,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatIconModule,
     MatListModule,
     MatMenuModule,
+    MatTooltipModule,
     RouterModule,
     TranslateModule
   ],
@@ -28,6 +30,7 @@ export class UserMenuComponent {
   @Input({ required: true }) isLoggedIn = false;
   @Input() avatarSrc = '';
   @Input() userAvatarUrl: string | null = null;
+  @Input() userDisplayName: string | null = null;
   @Input() avatarLoadFailed = false;
   @Input() authProvider: string | null = null;
   @Input() showSettings = true;

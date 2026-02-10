@@ -5,7 +5,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="confirm-actions ds-scope">
-  <button mat-button [mat-dialog-close]="false">{{ data.cancelLabel }}</button>
+  <button *ngIf="data.cancelLabel" mat-button [mat-dialog-close]="false">{{ data.cancelLabel }}</button>
   <button
     mat-flat-button
     color="warn"

@@ -42,12 +42,12 @@
       },
       "items": {
         "tasks": {
-          "title": "Tarefas",
-          "description": "Permite criar e gerenciar tarefas no app."
+          "title": "Tarefas avançadas",
+          "description": "Permite criar e gerenciar mais de 10 tarefas no app."
         },
         "rewards": {
-          "title": "Recompensas",
-          "description": "Libera a gestão de recompensas e XP."
+          "title": "Recompensas avançadas",
+          "description": "Libera a gestão de recompensas para mais de 10 recompensas, visualização de recompensas usadas e limites superiores de uso a 1 por ciclo."
         },
         "profiles": {
           "title": "Perfis",
@@ -231,6 +231,8 @@
   },
   "tasks": {
     "title": "Tarefas",
+    "limitTitle": "Limite de tarefas",
+    "limitMessage": "Você atingiu o limite de {{ count }} tarefas deste plano.",
     "date": "Data",
     "today": "Hoje",
     "prevDay": "Dia anterior",
@@ -254,6 +256,9 @@
     "placeholder": "Cinema",
     "cost": "Custo em XP",
     "limitPerCycle": "Limite por ciclo",
+    "limitTitle": "Limite de recompensas",
+    "limitMessage": "Você atingiu o limite de {{ count }} recompensas deste plano.",
+    "limitReachedTooltip": "Limite de {{ count }} recompensas atingido.",
     "add": "Adicionar recompensa",
     "empty": "Nenhuma recompensa cadastrada ainda.",
     "availableWithCount": "Disponível ({{ count }} restantes)",
@@ -271,6 +276,13 @@
   },
   "settingsDialog": {
     "title": "Configurações",
+    "planLabel": "Plano",
+    "plan": {
+      "free": "Free",
+      "beta": "Beta",
+      "pro": "Pro",
+      "dev": "Dev"
+    },
     "languageSection": "Idioma",
     "cycleSection": "Ciclo",
     "levelupSection": "Level-up",

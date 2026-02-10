@@ -118,6 +118,10 @@ h1 {
   margin-bottom: 3rem;
 }
 
+.grid--single {
+  grid-template-columns: 1fr;
+}
+
 @media (max-width: 960px) {
   .hero {
     grid-template-columns: 1fr;

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,6 +16,7 @@ import { RewardUse } from '../../../core/models/reward-use';
   selector: 'app-rewards-panel',
   standalone: true,
   imports: [
+    CommonModule,
     DatePipe,
     MatCardModule,
     MatButtonModule,
@@ -35,6 +37,9 @@ export class RewardsPanelComponent {
   @Input() loading = false;
   @Input({ required: true }) cycleStart = '';
   @Input({ required: true }) cycleEnd = '';
+  @Input() advancedEnabled = true;
+  @Input() maxRewards: number | null = null;
+  @Input() showUsedTab: boolean | null = null;
   @Output() addReward = new EventEmitter<void>();
   @Output() redeemReward = new EventEmitter<Reward>();
   @Output() consumeReward = new EventEmitter<RewardRedemption>();
@@ -50,6 +55,17 @@ export class RewardsPanelComponent {
   pageIndex = 0;
   pageSize = 10;
   pageSizeOptions = [10, 20, 50];
+
+  get reachedRewardLimit(): boolean {
+    if (this.maxRewards === null) {
+      return false;
+    }
+    return this.rewards.length >= this.maxRewards;
+  }
+
+  get shouldShowUsedTab(): boolean {
+    return this.showUsedTab ?? this.advancedEnabled;
+  }
 
   get availableRewards(): Reward[] {
     return this.rewards.filter((reward) => {
@@ -131,7 +147,7 @@ export class RewardsPanelComponent {
         redemption.date >= this.cycleStart &&
         redemption.date <= this.cycleEnd
     ).length;
-    const limit = reward.limitPerCycle ?? 1;
+    const limit = this.resolveLimitPerCycle(reward.limitPerCycle ?? 1);
     return Math.max(limit - redeemedInCycle, 0);
   }
 
@@ -141,6 +157,13 @@ export class RewardsPanelComponent {
 
   private get usedRedemptionIds(): Set<string> {
     return new Set(this.rewardUses.map((use) => use.redemptionId));
+  }
+
+  private resolveLimitPerCycle(value: number): number {
+    if (!this.advancedEnabled) {
+      return 1;
+    }
+    return Number.isFinite(value) && value > 0 ? value : 1;
   }
 
   private setSwipeOffset(rewardId: string, offset: number): void {

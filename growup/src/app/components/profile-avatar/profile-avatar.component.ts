@@ -24,6 +24,10 @@ export class ProfileAvatarComponent {
     return this.profiles.length >= this.maxProfiles;
   }
 
+  get shouldShowAddButton(): boolean {
+    return this.profiles.length < this.maxProfiles;
+  }
+
   onCreateProfile(): void {
     if (this.reachedLimit) {
       return;

@@ -125,8 +125,32 @@ export class ProfileManagementService {
 
   private resolveMaxProfiles(): number {
     const flag = this.state.accountSettings().flags?.['profiles'];
-    const enabled = typeof flag === 'boolean' ? flag : true;
+    const enabled = this.resolveBooleanFlag(flag, true);
     return enabled ? 5 : 1;
+  }
+
+  private resolveBooleanFlag(value: unknown, fallback: boolean): boolean {
+    if (typeof value === 'boolean') {
+      return value;
+    }
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'true') {
+        return true;
+      }
+      if (normalized === 'false') {
+        return false;
+      }
+    }
+    if (typeof value === 'number') {
+      if (value === 1) {
+        return true;
+      }
+      if (value === 0) {
+        return false;
+      }
+    }
+    return fallback;
   }
 
   async selectProfile(profileId: string): Promise<void> {

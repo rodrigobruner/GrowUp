@@ -16,8 +16,10 @@ export class UiDialogsService {
     return firstValueFrom<TaskDialogResult | undefined>(dialogRef.afterClosed());
   }
 
-  async openRewardDialog(): Promise<RewardDialogResult | undefined> {
-    const dialogRef = this.dialog.open(RewardDialogComponent);
+  async openRewardDialog(options?: { maxLimitPerCycle?: number | null }): Promise<RewardDialogResult | undefined> {
+    const dialogRef = this.dialog.open(RewardDialogComponent, {
+      data: options ?? null
+    });
     return firstValueFrom<RewardDialogResult | undefined>(dialogRef.afterClosed());
   }
 
@@ -66,6 +68,26 @@ export class UiDialogsService {
       data: {
         title: this.translate.instant('profiles.limitTitle'),
         message: this.translate.instant('profiles.limitMessage', { count: maxProfiles }),
+        confirmLabel: this.translate.instant('profiles.ok')
+      }
+    });
+  }
+
+  async informRewardLimit(maxRewards: number): Promise<void> {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.translate.instant('rewards.limitTitle'),
+        message: this.translate.instant('rewards.limitMessage', { count: maxRewards }),
+        confirmLabel: this.translate.instant('profiles.ok')
+      }
+    });
+  }
+
+  async informTaskLimit(maxTasks: number): Promise<void> {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.translate.instant('tasks.limitTitle'),
+        message: this.translate.instant('tasks.limitMessage', { count: maxTasks }),
         confirmLabel: this.translate.instant('profiles.ok')
       }
     });

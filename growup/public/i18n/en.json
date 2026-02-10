@@ -42,12 +42,12 @@
       },
       "items": {
         "tasks": {
-          "title": "Tasks",
-          "description": "Allows creating and managing tasks."
+          "title": "Advanced tasks",
+          "description": "Allows creating and managing more than 10 tasks."
         },
         "rewards": {
-          "title": "Rewards",
-          "description": "Unlocks rewards and XP management."
+          "title": "Advanced rewards",
+          "description": "Unlocks reward management beyond 10 rewards, viewing used rewards, and usage limits above 1 per cycle."
         },
         "profiles": {
           "title": "Profiles",
@@ -231,6 +231,8 @@
   },
   "tasks": {
     "title": "Tasks",
+    "limitTitle": "Tasks limit",
+    "limitMessage": "You have reached the limit of {{ count }} tasks for this plan.",
     "date": "Date",
     "today": "Today",
     "prevDay": "Previous day",
@@ -254,6 +256,9 @@
     "placeholder": "Movie night",
     "cost": "Cost in XP",
     "limitPerCycle": "Limit per cycle",
+    "limitTitle": "Rewards limit",
+    "limitMessage": "You have reached the limit of {{ count }} rewards for this plan.",
+    "limitReachedTooltip": "Reward limit of {{ count }} reached.",
     "add": "Add reward",
     "empty": "No rewards yet.",
     "availableWithCount": "Available ({{ count }} left)",
@@ -271,6 +276,13 @@
   },
   "settingsDialog": {
     "title": "Settings",
+    "planLabel": "Plan",
+    "plan": {
+      "free": "Free",
+      "beta": "Beta",
+      "pro": "Pro",
+      "dev": "Dev"
+    },
     "languageSection": "Language",
     "cycleSection": "Cycle",
     "levelupSection": "Level-up",
