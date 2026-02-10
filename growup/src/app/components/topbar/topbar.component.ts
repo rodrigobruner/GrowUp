@@ -16,6 +16,7 @@ import { UserMenuComponent } from '../user-menu/user-menu.component';
 import { ProfileAvatarComponent } from '../profile-avatar/profile-avatar.component';
 import { AccountSettingsService } from '../../core/services/account-settings.service';
 import { SessionStateService } from '../../core/services/session-state.service';
+import { AvatarCacheService } from '../../core/services/avatar-cache.service';
 
 @Component({
   selector: 'app-topbar',
@@ -58,9 +59,12 @@ export class TopbarComponent {
   private readonly router = inject(Router);
   private readonly accountSettingsService = inject(AccountSettingsService);
   private readonly state = inject(SessionStateService);
+  private readonly avatarCache = inject(AvatarCacheService);
   readonly isLoggedIn = computed(() => this.auth.isLoggedIn());
   readonly avatarLoadFailed = signal(false);
   private readonly lastAvatarUrl = signal<string | null>(null);
+  private readonly cachedAvatarUrl = signal<string | null>(null);
+  private readonly cachedAvatarObjectUrl = signal<string | null>(null);
   readonly language = computed(() => this.state.accountSettings().language ?? 'en');
   readonly languageOptions: Array<{ value: AccountSettings['language']; flag: string }> = [
     { value: 'en', flag: '🇺🇸' },
@@ -82,6 +86,7 @@ export class TopbarComponent {
     }
     return null;
   });
+  readonly cachedUserAvatarUrl = computed(() => this.cachedAvatarUrl());
   readonly userDisplayName = computed(() => {
     const user = this.auth.user();
     if (!user) {
@@ -99,12 +104,45 @@ export class TopbarComponent {
   }
 
   constructor() {
-    effect(() => {
+    effect((onCleanup) => {
       const url = this.userAvatarUrl();
       if (this.lastAvatarUrl() !== url) {
         this.lastAvatarUrl.set(url);
         this.avatarLoadFailed.set(false);
       }
+
+      const previousObjectUrl = this.cachedAvatarObjectUrl();
+      if (previousObjectUrl && previousObjectUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previousObjectUrl);
+      }
+      this.cachedAvatarObjectUrl.set(null);
+      this.cachedAvatarUrl.set(null);
+
+      if (!url) {
+        return;
+      }
+
+      let cancelled = false;
+      onCleanup(() => {
+        cancelled = true;
+      });
+
+      void this.avatarCache.getCachedUrl(url).then((cached) => {
+        if (cancelled) {
+          if (cached && cached.startsWith('blob:')) {
+            URL.revokeObjectURL(cached);
+          }
+          return;
+        }
+        if (!cached) {
+          this.avatarLoadFailed.set(true);
+          return;
+        }
+        this.cachedAvatarUrl.set(cached);
+        if (cached.startsWith('blob:')) {
+          this.cachedAvatarObjectUrl.set(cached);
+        }
+      });
     });
   }
 

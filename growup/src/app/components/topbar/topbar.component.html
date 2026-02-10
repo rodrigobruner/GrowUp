@@ -29,7 +29,7 @@
   <app-user-menu
     [isLoggedIn]="isLoggedIn()"
     [avatarSrc]="avatarSrc"
-    [userAvatarUrl]="userAvatarUrl()"
+    [userAvatarUrl]="cachedUserAvatarUrl()"
     [userDisplayName]="userDisplayName()"
     [avatarLoadFailed]="avatarLoadFailed()"
     [authProvider]="authProvider()"
