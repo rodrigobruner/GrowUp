@@ -16,6 +16,8 @@ describe('supabase validators', () => {
         owner_id: '1',
         language: 'en',
         role: 'USER',
+        plan: 'FREE',
+        flags: {},
         terms_version: null,
         terms_accepted_at: null
       })

@@ -29,22 +29,77 @@
     },
     "features": {
       "title": "Fonctionnalités",
-      "body": "Consultez l'état de livraison et la priorisation des fonctionnalités."
+      "body": "Activez ou désactivez les fonctionnalités par plan et suivez la disponibilité.",
+      "loading": "Chargement des toggles...",
+      "empty": "Aucune fonctionnalité configurée.",
+      "table": {
+        "feature": "Fonctionnalité",
+        "free": "Free",
+        "beta": "Beta",
+        "pro": "Pro"
+      },
+      "items": {
+        "tasks": {
+          "title": "Tâches",
+          "description": "Permet de créer et de gérer des tâches."
+        },
+        "rewards": {
+          "title": "Récompenses",
+          "description": "Active les récompenses et la gestion d'XP."
+        },
+        "profiles": {
+          "title": "Profils",
+          "description": "Active plusieurs profils par compte."
+        }
+      }
     },
     "users": {
       "title": "Utilisateurs",
       "body": "Consultez les détails et les métriques liés aux utilisateurs inscrits.",
+      "searchPlaceholder": "Rechercher par ID utilisateur",
       "loading": "Chargement des utilisateurs...",
       "empty": "Aucun utilisateur trouvé.",
       "columns": {
+        "title": "Colonnes",
         "userId": "ID utilisateur",
         "role": "Rôle",
-        "createdAt": "Créé le"
+        "plan": "Plan",
+        "createdAt": "Créé le",
+        "lastAccessedAt": "Dernier accès"
+      },
+      "actions": {
+        "copy": "Copier CSV",
+        "export": "Exporter CSV"
+      },
+      "pagination": {
+        "prev": "Précédent",
+        "next": "Suivant",
+        "page": "Page",
+        "of": "sur {{ total }}"
+      },
+      "status": {
+        "total": "Total : {{ count }} utilisateurs"
       }
     },
     "logs": {
       "title": "Logs",
-      "body": "Centralisez les événements critiques et les audits du système."
+      "body": "Centralisez les événements critiques et les audits du système.",
+      "actions": {
+        "refresh": "Actualiser",
+        "clear": "Effacer",
+        "export": "Exporter",
+        "enable": "Activer les logs",
+        "disable": "Désactiver les logs"
+      },
+      "filter": {
+        "label": "Niveau",
+        "all": "Tous",
+        "debug": "Debug",
+        "info": "Info",
+        "warn": "Warn",
+        "error": "Error"
+      },
+      "empty": "Aucun log enregistré."
     }
   },
   "landing": {

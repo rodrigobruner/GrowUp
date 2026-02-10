@@ -17,7 +17,9 @@ export interface AdminChartData {
 export interface AdminUserRecord {
   ownerId: string;
   role: 'USER' | 'ADMIN';
+  plan: 'FREE' | 'BETA' | 'PRO';
   createdAt: string | null;
+  lastAccessedAt: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -62,7 +64,7 @@ export class AdminMetricsService {
     const { data, error } = await this.auth
       .getClient()
       .from('account_settings')
-      .select('owner_id,role,created_at')
+      .select('owner_id,role,plan,created_at')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -70,10 +72,15 @@ export class AdminMetricsService {
       return [];
     }
 
+    const owners = (data ?? []).map((row) => row.owner_id);
+    const lastAccessMap = await this.loadLastAccessByOwner(owners);
+
     return (data ?? []).map((row) => ({
       ownerId: row.owner_id,
       role: row.role,
-      createdAt: typeof row.created_at === 'string' ? row.created_at : null
+      plan: row.plan ?? 'FREE',
+      createdAt: typeof row.created_at === 'string' ? row.created_at : null,
+      lastAccessedAt: lastAccessMap.get(row.owner_id) ?? null
     }));
   }
 
@@ -104,6 +111,34 @@ export class AdminMetricsService {
     return (data ?? [])
       .map((row) => (typeof row.accessed_at === 'string' ? row.accessed_at : null))
       .filter((value): value is string => Boolean(value));
+  }
+
+  private async loadLastAccessByOwner(ownerIds: string[]): Promise<Map<string, string>> {
+    if (!ownerIds.length) {
+      return new Map();
+    }
+    const { data, error } = await this.auth
+      .getClient()
+      .from('daily_access_events')
+      .select('owner_id,last_accessed_at')
+      .in('owner_id', ownerIds);
+
+    if (error) {
+      this.logger.warn('admin.metrics.lastAccess.failed', { message: error.message });
+      return new Map();
+    }
+
+    const map = new Map<string, string>();
+    (data ?? []).forEach((row) => {
+      if (!row.last_accessed_at) {
+        return;
+      }
+      const current = map.get(row.owner_id);
+      if (!current || row.last_accessed_at > current) {
+        map.set(row.owner_id, row.last_accessed_at);
+      }
+    });
+    return map;
   }
 
   private buildDateRange(rangeDays: number): string[] {

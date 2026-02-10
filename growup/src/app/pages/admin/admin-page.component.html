@@ -67,37 +67,223 @@
 
       <div class="tab-body" *ngIf="activeTab() === 'users'">
         <h2>{{ 'admin.users.title' | translate }}</h2>
-        <p>{{ 'admin.users.body' | translate }}</p>
-        <div class="users-list" *ngIf="!usersLoading(); else usersLoadingState">
-          <div class="users-empty" *ngIf="users().length === 0">
-            {{ 'admin.users.empty' | translate }}
+        <div class="users-toolbar">
+          <label class="users-search" for="users-search">
+            <span class="material-icons" aria-hidden="true">search</span>
+            <input
+              id="users-search"
+              type="search"
+              [placeholder]="'admin.users.searchPlaceholder' | translate"
+              (input)="onUsersSearch($event)"
+            />
+          </label>
+          <div class="users-actions">
+            <button type="button" class="users-action" (click)="copyUsersCsv()">
+              {{ 'admin.users.actions.copy' | translate }}
+            </button>
+            <button type="button" class="users-action" (click)="exportUsersCsv()">
+              {{ 'admin.users.actions.export' | translate }}
+            </button>
           </div>
-          <div class="users-table" *ngIf="users().length > 0">
-            <div class="users-row users-row--header">
-              <span>{{ 'admin.users.columns.userId' | translate }}</span>
-              <span>{{ 'admin.users.columns.role' | translate }}</span>
-              <span>{{ 'admin.users.columns.createdAt' | translate }}</span>
-            </div>
-            <div class="users-row" *ngFor="let user of users()">
-              <span class="users-cell users-cell--mono">{{ user.ownerId }}</span>
-              <span class="users-role">{{ user.role }}</span>
-              <span>{{ user.createdAt | date:'shortDate' }}</span>
-            </div>
+          <div class="users-columns">
+            <span class="users-columns__label">{{ 'admin.users.columns.title' | translate }}</span>
+            <label class="users-columns__option">
+              <input
+                type="checkbox"
+                [checked]="usersColumnVisibility()['ownerId']"
+                (change)="toggleUsersColumn('ownerId')"
+              />
+              {{ 'admin.users.columns.userId' | translate }}
+            </label>
+            <label class="users-columns__option">
+              <input
+                type="checkbox"
+                [checked]="usersColumnVisibility()['role']"
+                (change)="toggleUsersColumn('role')"
+              />
+              {{ 'admin.users.columns.role' | translate }}
+            </label>
+            <label class="users-columns__option">
+              <input
+                type="checkbox"
+                [checked]="usersColumnVisibility()['plan']"
+                (change)="toggleUsersColumn('plan')"
+              />
+              {{ 'admin.users.columns.plan' | translate }}
+            </label>
+            <label class="users-columns__option">
+              <input
+                type="checkbox"
+                [checked]="usersColumnVisibility()['createdAt']"
+                (change)="toggleUsersColumn('createdAt')"
+              />
+              {{ 'admin.users.columns.createdAt' | translate }}
+            </label>
+            <label class="users-columns__option">
+              <input
+                type="checkbox"
+                [checked]="usersColumnVisibility()['lastAccessedAt']"
+                (change)="toggleUsersColumn('lastAccessedAt')"
+              />
+              {{ 'admin.users.columns.lastAccessedAt' | translate }}
+            </label>
           </div>
         </div>
-        <ng-template #usersLoadingState>
-          <div class="users-loading">{{ 'admin.users.loading' | translate }}</div>
-        </ng-template>
+        <div class="users-grid">
+          <ag-grid-angular
+            class="ag-theme-alpine"
+            [rowData]="users()"
+            [columnDefs]="usersColumns()"
+            [animateRows]="true"
+            [gridOptions]="usersGridOptions"
+            [domLayout]="'normal'"
+            [style.height.px]="360"
+            (gridReady)="onUsersGridReady($event)"
+          ></ag-grid-angular>
+        </div>
+        <div class="users-status">
+          <span>{{ 'admin.users.status.total' | translate:{ count: usersTotalCount() } }}</span>
+          <div class="users-pagination">
+            <button type="button" class="users-page-btn" (click)="previousUsersPage()">
+              {{ 'admin.users.pagination.prev' | translate }}
+            </button>
+            <label class="users-page-input">
+              <span>{{ 'admin.users.pagination.page' | translate }}</span>
+              <input
+                type="number"
+                [value]="usersPage()"
+                (change)="goToUsersPage($any($event.target).value)"
+                [min]="1"
+                [max]="usersTotalPages()"
+              />
+              <span>{{ 'admin.users.pagination.of' | translate:{ total: usersTotalPages() } }}</span>
+            </label>
+            <button type="button" class="users-page-btn" (click)="nextUsersPage()">
+              {{ 'admin.users.pagination.next' | translate }}
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="tab-body" *ngIf="activeTab() === 'features'">
-        <h2>{{ 'admin.features.title' | translate }}</h2>
-        <p>{{ 'admin.features.body' | translate }}</p>
+        <div class="tab-header">
+          <div>
+            <h2>{{ 'admin.features.title' | translate }}</h2>
+            <p>{{ 'admin.features.body' | translate }}</p>
+          </div>
+          <span class="tab-range" *ngIf="featuresLoading()">
+            {{ 'admin.features.loading' | translate }}
+          </span>
+        </div>
+        <div class="features-table" *ngIf="!featuresLoading() && featureFlags().length > 0">
+          <div class="features-row features-row--head">
+            <div class="features-cell features-cell--feature">
+              {{ 'admin.features.table.feature' | translate }}
+            </div>
+            <div class="features-cell">{{ 'admin.features.table.free' | translate }}</div>
+            <div class="features-cell">{{ 'admin.features.table.beta' | translate }}</div>
+            <div class="features-cell">{{ 'admin.features.table.pro' | translate }}</div>
+          </div>
+          <div class="features-row" *ngFor="let feature of featureFlags(); trackBy: trackByFeatureKey">
+            <div class="features-cell features-cell--feature">
+              <span class="features-name">
+                {{ ('admin.features.items.' + feature.key + '.title') | translate }}
+              </span>
+              <span class="features-desc">
+                {{ ('admin.features.items.' + feature.key + '.description') | translate }}
+              </span>
+            </div>
+            <div class="features-cell">
+              <span class="features-plan-label">{{ 'admin.features.table.free' | translate }}</span>
+              <label class="feature-toggle">
+                <input
+                  type="checkbox"
+                  [checked]="isFeatureEnabled('FREE', feature.key)"
+                  [disabled]="featuresLoading() || isFeatureSaving('FREE', feature.key)"
+                  (change)="toggleFeature('FREE', feature.key, $any($event.target).checked)"
+                />
+                <span class="feature-toggle__ui" aria-hidden="true"></span>
+              </label>
+            </div>
+            <div class="features-cell">
+              <span class="features-plan-label">{{ 'admin.features.table.beta' | translate }}</span>
+              <label class="feature-toggle">
+                <input
+                  type="checkbox"
+                  [checked]="isFeatureEnabled('BETA', feature.key)"
+                  [disabled]="featuresLoading() || isFeatureSaving('BETA', feature.key)"
+                  (change)="toggleFeature('BETA', feature.key, $any($event.target).checked)"
+                />
+                <span class="feature-toggle__ui" aria-hidden="true"></span>
+              </label>
+            </div>
+            <div class="features-cell">
+              <span class="features-plan-label">{{ 'admin.features.table.pro' | translate }}</span>
+              <label class="feature-toggle">
+                <input
+                  type="checkbox"
+                  [checked]="isFeatureEnabled('PRO', feature.key)"
+                  [disabled]="featuresLoading() || isFeatureSaving('PRO', feature.key)"
+                  (change)="toggleFeature('PRO', feature.key, $any($event.target).checked)"
+                />
+                <span class="feature-toggle__ui" aria-hidden="true"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <p class="features-empty" *ngIf="!featuresLoading() && featureFlags().length === 0">
+          {{ 'admin.features.empty' | translate }}
+        </p>
       </div>
 
       <div class="tab-body" *ngIf="activeTab() === 'logs'">
-        <h2>{{ 'admin.logs.title' | translate }}</h2>
-        <p>{{ 'admin.logs.body' | translate }}</p>
+        <div class="tab-header">
+          <div>
+            <h2>{{ 'admin.logs.title' | translate }}</h2>
+            <p>{{ 'admin.logs.body' | translate }}</p>
+          </div>
+        </div>
+        <div class="logs-toolbar">
+          <div class="logs-actions">
+            <button type="button" class="users-action" (click)="refreshLogs()">
+              {{ 'admin.logs.actions.refresh' | translate }}
+            </button>
+            <button type="button" class="users-action" (click)="clearLogs()">
+              {{ 'admin.logs.actions.clear' | translate }}
+            </button>
+            <button type="button" class="users-action" (click)="exportLogs()">
+              {{ 'admin.logs.actions.export' | translate }}
+            </button>
+            <button type="button" class="users-action" (click)="toggleLogging()">
+              {{
+                loggingEnabled()
+                  ? ('admin.logs.actions.disable' | translate)
+                  : ('admin.logs.actions.enable' | translate)
+              }}
+            </button>
+          </div>
+          <label class="logs-filter">
+            <span>{{ 'admin.logs.filter.label' | translate }}</span>
+            <select [value]="logLevelFilter()" (change)="onLogFilterChange($any($event.target).value)">
+              <option value="all">{{ 'admin.logs.filter.all' | translate }}</option>
+              <option value="debug">{{ 'admin.logs.filter.debug' | translate }}</option>
+              <option value="info">{{ 'admin.logs.filter.info' | translate }}</option>
+              <option value="warn">{{ 'admin.logs.filter.warn' | translate }}</option>
+              <option value="error">{{ 'admin.logs.filter.error' | translate }}</option>
+            </select>
+          </label>
+        </div>
+        <div class="debug-log" *ngIf="logEntriesView().length; else noLogs">
+          <div class="debug-log-item" *ngFor="let entry of logEntriesView()">
+            <span class="debug-log-time">{{ entry.timestamp | date:'short' }}</span>
+            <span class="debug-log-level">{{ entry.level }}</span>
+            <span class="debug-log-message">{{ entry.message }}</span>
+            <span class="debug-log-context" *ngIf="entry.context">{{ entry.context | json }}</span>
+          </div>
+        </div>
+        <ng-template #noLogs>
+          <p class="logs-empty">{{ 'admin.logs.empty' | translate }}</p>
+        </ng-template>
       </div>
     </section>
 
